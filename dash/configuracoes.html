@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Configurações - CredPositivo Premium">
+    <title>CredPositivo Premium | Configurações</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .sidebar-logo img {
+            height: 36px;
+            width: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 400px;
+                background: rgba(20, 20, 20, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 50px;
+                padding: 12px 30px;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 1000;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            .mobile-nav-item {
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 24px;
+                padding: 10px;
+                display: flex;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--color-primary);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a href=".."" class=" sidebar-logo">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" class="nav-link"><i class="ph ph-squares-four"></i> Visão Geral</a></li>
+                <li><a href="servicos.html" class="nav-link"><i class="ph ph-file-text"></i> Meus Serviços</a></li>
+                <li><a href="financeiro.html" class="nav-link"><i class="ph ph-wallet"></i> Financeiro</a></li>
+                <li><a href="loja.html" class="nav-link"><i class="ph ph-storefront"></i> Loja</a></li>
+            </ul>
+
+            <div class="nav-title"
+                style="margin-top: 30px; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;">
+                SISTEMA</div>
+            <ul>
+                <li><a href="suporte.html" class="nav-link"><i class="ph ph-headset"></i> Suporte</a></li>
+                <li><a href="configuracoes.html" class="nav-link active"><i class="ph ph-gear"></i> Configurações</a>
+                </li>
+                <li><a href="#" class="nav-link" onclick="logout()"><i class="ph ph-sign-out"></i> Sair</a></li>
+            </ul>
+        </nav>
+
+        <footer class="sidebar-footer">
+            <div class="credit-label" style="font-size: 12px; color: var(--color-text-muted);">Saldo Disponível</div>
+            <div class="credit-amount" style="font-size: 24px; font-weight: 700; margin: 4px 0;">R$ 0,00</div>
+            <button class="btn-link-action"
+                style="font-size: 13px; color: var(--color-primary); background: none; border: none; cursor: pointer;"
+                onclick="window.open('https://wa.me/5571936180654?text=Olá,%20gostaria%20de%20adicionar%20créditos.', '_blank')"><i
+                    class="ph ph-plus-circle"></i> Adicionar Crédito</button>
+        </footer>
+    </aside>
+
+    <main class="dashboard-container">
+
+        <header class="top-bar"
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div class="greeting">
+                <h1>Configurações de <span style="color: var(--color-primary);">Perfil</span></h1>
+                <p style="color: var(--color-text-muted); font-size: 14px;">Mantenha seus dados atualizados e sua conta
+                    segura.</p>
+            </div>
+
+            <div class="user-actions" style="display: flex; align-items: center; gap: 16px;">
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img id="userAvatar" src="https://ui-avatars.com/api/?name=C&background=181B21&color=fff"
+                        alt="Perfil" style="width: 100%; height: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <!-- Sistema de Abas -->
+        <div class="glass-card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+            <div
+                style="display: flex; border-bottom: 1px solid var(--color-border-glass); background: rgba(255,255,255,0.02);">
+                <button class="tab-btn active" onclick="showTab('perfil')"
+                    style="flex: 1; padding: 16px; background: none; border: none; color: #fff; font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--color-primary); transition: 0.3s;"><i
+                        class="ph ph-user"></i> Perfil</button>
+                <button class="tab-btn" onclick="showTab('seguranca')"
+                    style="flex: 1; padding: 16px; background: none; border: none; color: var(--color-text-muted); font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s;"><i
+                        class="ph ph-lock"></i> Segurança</button>
+                <button class="tab-btn" onclick="showTab('financeiro')"
+                    style="flex: 1; padding: 16px; background: none; border: none; color: var(--color-text-muted); font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s;"><i
+                        class="ph ph-wallet"></i> Financeiro</button>
+                <button class="tab-btn" onclick="showTab('documentos')"
+                    style="flex: 1; padding: 16px; background: none; border: none; color: var(--color-text-muted); font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s;"><i
+                        class="ph ph-files"></i> Documentos</button>
+            </div>
+
+            <!-- Conteúdo das Abas -->
+            <div style="padding: 32px;">
+
+                <!-- Aba Perfil -->
+                <div id="tab-perfil" class="tab-content">
+                    <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;">Dados do Perfil</h2>
+                    <form onsubmit="return saveProfile(event)">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group"><label>Nome Completo</label><input type="text" id="p_nome" value="">
+                            </div>
+                            <div class="form-group"><label>CPF</label><input type="text" id="p_cpf" value="" disabled>
+                            </div>
+                            <div class="form-group"><label>Email</label><input type="email" id="p_email" value=""></div>
+                            <div class="form-group"><label>Telefone</label><input type="tel" id="p_tel" value=""></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 10px;">
+                            <div class="form-group"><label>Endereço Completo</label><input type="text" id="p_addr"
+                                    value=""></div>
+                            <div class="form-group"><label>Renda Mensal</label><input type="text" id="p_renda"
+                                    placeholder="R$ 0.000,00"></div>
+                        </div>
+
+                        <h3
+                            style="font-size: 14px; font-weight: 600; margin: 24px 0 16px; color: var(--color-primary);">
+                            Dados Bancários</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                            <div class="form-group"><label>Banco</label><input type="text" id="p_banco"
+                                    placeholder="Ex: Itaú"></div>
+                            <div class="form-group"><label>Agência</label><input type="text" id="p_agencia"
+                                    placeholder="0000"></div>
+                            <div class="form-group"><label>Conta</label><input type="text" id="p_conta"
+                                    placeholder="00000-0"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 24px;">Salvar
+                            Alterações</button>
+                    </form>
+                </div>
+
+                <!-- Aba Segurança -->
+                <div id="tab-seguranca" class="tab-content" style="display: none;">
+                    <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;">Segurança da Conta</h2>
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div>
+                            <h3 style="font-size: 14px; margin-bottom: 16px;">Alterar Senha</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group"><label>Nova Senha</label><input type="password"
+                                        placeholder="••••••••"></div>
+                                <div class="form-group"><label>Confirmar Senha</label><input type="password"
+                                        placeholder="••••••••"></div>
+                            </div>
+                            <button class="btn btn-primary">Atualizar Senha</button>
+                        </div>
+                        <div style="height: 1px; background: var(--color-border-glass);"></div>
+                        <div>
+                            <h3 style="font-size: 14px; margin-bottom: 16px;">Sessões Ativas</h3>
+                            <div
+                                style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <i class="ph ph-desktop" style="font-size: 24px; color: var(--color-primary);"></i>
+                                    <div>
+                                        <p style="font-size: 14px; font-weight: 500;">MacBook Pro • São Paulo, BR</p>
+                                        <span style="font-size: 11px; color: var(--color-success);">Sessão atual
+                                            (Online)</span>
+                                    </div>
+                                </div>
+                                <button class="btn-link"
+                                    style="color: var(--color-danger); background: none; border: none; cursor: pointer; font-size: 13px;">Encerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba Financeiro -->
+                <div id="tab-financeiro" class="tab-content" style="display: none;">
+                    <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;">Histórico Financeiro</h2>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                        <thead>
+                            <tr
+                                style="text-align: left; border-bottom: 1px solid var(--color-border-glass); color: var(--color-text-muted);">
+                                <th style="padding: 12px 8px;">Descrição</th>
+                                <th style="padding: 12px 8px;">Data</th>
+                                <th style="padding: 12px 8px;">Valor</th>
+                                <th style="padding: 12px 8px;">Status</th>
+                                <th style="padding: 12px 8px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5"
+                                    style="padding: 32px; text-align: center; color: var(--color-text-muted);">
+                                    Nenhuma transação financeira encontrada.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Aba Documentos -->
+                <div id="tab-documentos" class="tab-content" style="display: none;">
+                    <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;">Central de Arquivos</h2>
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div
+                            style="padding: 40px; text-align: center; border: 2px dashed var(--color-border-glass); border-radius: 12px; color: var(--color-text-muted);">
+                            <i class="ph ph-files" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>
+                            Nenhum documento anexado ainda.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script>
+        (function () {
+            const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || 'null');
+            if (sessao) {
+                // Basic info
+                document.getElementById('p_nome').value = sessao.nome || '';
+                document.getElementById('p_cpf').value = sessao.cpf || '';
+                document.getElementById('p_email').value = sessao.email || '';
+                document.getElementById('p_tel').value = sessao.telefone || '';
+
+                // Advanced info (from sessao or cp_profiles)
+                document.getElementById('p_addr').value = sessao.endereco || '';
+                document.getElementById('p_renda').value = sessao.renda || '';
+                document.getElementById('p_banco').value = sessao.banco || '';
+                document.getElementById('p_agencia').value = sessao.agencia || '';
+                document.getElementById('p_conta').value = sessao.conta || '';
+
+                document.getElementById('userAvatar').src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(sessao.nome) + '&background=181B21&color=fff';
+            }
+        })();
+
+        function logout() {
+            localStorage.removeItem('credpositivo_sessao');
+            window.location.href = '../login';
+        }
+
+        function showTab(id) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.color = 'var(--color-text-muted)';
+                btn.style.fontWeight = '500';
+                btn.style.borderBottomColor = 'transparent';
+            });
+
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.add('active');
+            activeBtn.style.color = '#fff';
+            activeBtn.style.fontWeight = '600';
+            activeBtn.style.borderBottomColor = 'var(--color-primary)';
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById('tab-' + id).style.display = 'block';
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || '{}');
+
+            // Map values
+            sessao.nome = document.getElementById('p_nome').value;
+            sessao.email = document.getElementById('p_email').value;
+            sessao.telefone = document.getElementById('p_tel').value;
+            sessao.endereco = document.getElementById('p_addr').value;
+            sessao.renda = document.getElementById('p_renda').value;
+            sessao.banco = document.getElementById('p_banco').value;
+            sessao.agencia = document.getElementById('p_agencia').value;
+            sessao.conta = document.getElementById('p_conta').value;
+
+            // Update Session
+            localStorage.setItem('credpositivo_sessao', JSON.stringify(sessao));
+
+            // Sync with cp_users DB simulation
+            const cpUsers = JSON.parse(localStorage.getItem('cp_users') || '[]');
+            const index = cpUsers.findIndex(u => u.id === sessao.id);
+            if (index !== -1) {
+                cpUsers[index] = { ...cpUsers[index], ...sessao };
+                localStorage.setItem('cp_users', JSON.stringify(cpUsers));
+            }
+
+            alert('Perfil atualizado com sucesso!');
+            return false;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo | Login Admin</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Custom Layout -->
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #050505;
+        }
+
+        .badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+            letter-spacing: 1px;
+            position: absolute;
+            transform: translate(84px, 8px);
+        }
+
+        .secure-badge {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .login-logo {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .login-logo img {
+            height: 50px;
+            width: auto;
+            filter: brightness(1.1);
+        }
+
+        .login-error {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* 2FA Styles */
+        .step { display: none; }
+        .step.active { display: block; }
+
+        .totp-input {
+            font-size: 28px;
+            letter-spacing: 12px;
+            text-align: center;
+            font-family: 'Outfit', monospace;
+            font-weight: 600;
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .totp-input:focus {
+            border-color: var(--color-primary, #3B82F6);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .qr-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            display: inline-block;
+            margin: 16px 0;
+        }
+
+        .qr-container img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .secret-key {
+            font-family: monospace;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #aaa;
+            word-break: break-all;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .secret-key:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .setup-instruction {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.6;
+            margin: 12px 0;
+        }
+
+        .setup-instruction strong {
+            color: #ccc;
+        }
+
+        .shield-icon {
+            font-size: 40px;
+            color: var(--color-primary, #3B82F6);
+            margin-bottom: 8px;
+        }
+
+        .back-link {
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-card" style="width: 100%; max-width: 400px; padding: 40px; text-align: center;">
+        <div class="login-logo">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="badge">ADMIN</span>
+        </div>
+
+        <!-- STEP 1: Email + Password -->
+        <div id="stepLogin" class="step active">
+            <p style="color: var(--color-text-muted); font-size: 13px; margin-bottom: 30px;">Acesso restrito à equipe interna.</p>
+
+            <form id="adminLoginForm" onsubmit="return handleAdminLogin(event)">
+                <div class="form-group">
+                    <input type="email" id="adminEmail" placeholder="Email Administrativo" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="adminPass" placeholder="Senha" required>
+                </div>
+
+                <button type="submit" id="loginBtn" class="btn btn-primary btn-block">Entrar no Sistema</button>
+                <div class="login-error" id="loginError"></div>
+            </form>
+        </div>
+
+        <!-- STEP 2: 2FA Setup (first time — QR code) -->
+        <div id="stepSetup" class="step">
+            <div class="shield-icon"><i class="ph ph-shield-check"></i></div>
+            <h3 style="color: #fff; margin-bottom: 4px; font-size: 18px;">Configurar Autenticador</h3>
+            <p class="setup-instruction">
+                Escaneie o QR code abaixo com o <strong>Google Authenticator</strong>, <strong>Authy</strong> ou outro app TOTP.
+            </p>
+
+            <div class="qr-container">
+                <img id="qrCodeImg" src="" alt="QR Code">
+            </div>
+
+            <p style="font-size: 11px; color: #666; margin-bottom: 8px;">Ou insira manualmente:</p>
+            <div class="secret-key" id="secretKey" onclick="copySecret()" title="Clique para copiar">—</div>
+
+            <p class="setup-instruction" style="margin-top: 20px;">
+                Depois de adicionar, digite o <strong>código de 6 dígitos</strong> exibido no app:
+            </p>
+
+            <form onsubmit="return handleVerify2FA(event)">
+                <div class="form-group">
+                    <input type="text" id="setupCode" class="totp-input" maxlength="6" pattern="[0-9]{6}"
+                        placeholder="000000" autocomplete="one-time-code" inputmode="numeric" required>
+                </div>
+                <button type="submit" id="setupBtn" class="btn btn-primary btn-block">Verificar e Ativar</button>
+                <div class="login-error" id="setupError"></div>
+            </form>
+
+            <span class="back-link" onclick="backToLogin()">Voltar ao login</span>
+        </div>
+
+        <!-- STEP 3: 2FA Verify (returning login) -->
+        <div id="stepVerify" class="step">
+            <div class="shield-icon"><i class="ph ph-lock-key"></i></div>
+            <h3 style="color: #fff; margin-bottom: 4px; font-size: 18px;">Verificação em 2 Etapas</h3>
+            <p class="setup-instruction">
+                Digite o <strong>código de 6 dígitos</strong> do seu autenticador.
+            </p>
+
+            <form onsubmit="return handleVerify2FA(event)">
+                <div class="form-group" style="margin-top: 20px;">
+                    <input type="text" id="verifyCode" class="totp-input" maxlength="6" pattern="[0-9]{6}"
+                        placeholder="000000" autocomplete="one-time-code" inputmode="numeric" required>
+                </div>
+                <button type="submit" id="verifyBtn" class="btn btn-primary btn-block">Verificar</button>
+                <div class="login-error" id="verifyError"></div>
+            </form>
+
+            <span class="back-link" onclick="backToLogin()">Voltar ao login</span>
+        </div>
+
+        <div class="secure-badge"><i class="ph ph-lock-key"></i> Conexão Segura SSL</div>
+    </div>
+
+    <script>
+        var tempToken = null;
+
+        // Auto-redirect if already logged in with valid token
+        (function() {
+            var admin = JSON.parse(localStorage.getItem('credpositivo_admin') || 'null');
+            var token = localStorage.getItem('credpositivo_admin_token');
+            if (admin && admin.loggedIn && token) {
+                try {
+                    var payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.exp * 1000 > Date.now() && !payload.purpose) {
+                        window.location.href = 'dashboard.html';
+                        return;
+                    }
+                } catch(e) {}
+                localStorage.removeItem('credpositivo_admin');
+                localStorage.removeItem('credpositivo_admin_token');
+            }
+        })();
+
+        function showStep(stepId) {
+            document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById(stepId).classList.add('active');
+        }
+
+        function backToLogin() {
+            tempToken = null;
+            showStep('stepLogin');
+        }
+
+        function copySecret() {
+            var text = document.getElementById('secretKey').textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                var el = document.getElementById('secretKey');
+                var orig = el.textContent;
+                el.textContent = 'Copiado!';
+                setTimeout(function() { el.textContent = orig; }, 1500);
+            });
+        }
+
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            var email = document.getElementById('adminEmail').value;
+            var pass = document.getElementById('adminPass').value;
+            var btn = document.getElementById('loginBtn');
+            var errorEl = document.getElementById('loginError');
+
+            btn.disabled = true;
+            btn.textContent = 'Autenticando...';
+            errorEl.style.display = 'none';
+
+            try {
+                var res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, senha: pass })
+                });
+
+                var data = await res.json();
+
+                if (data.success && data.requiresSetup) {
+                    // First time: need to setup 2FA
+                    tempToken = data.tempToken;
+                    await setup2FA();
+                    return;
+                }
+
+                if (data.success && data.requires2FA) {
+                    // Returning login: verify code
+                    tempToken = data.tempToken;
+                    showStep('stepVerify');
+                    setTimeout(function() { document.getElementById('verifyCode').focus(); }, 100);
+                    btn.disabled = false;
+                    btn.textContent = 'Entrar no Sistema';
+                    return;
+                }
+
+                if (data.success && data.token) {
+                    // Normal login (non-2FA managers)
+                    localStorage.setItem('credpositivo_admin', JSON.stringify(data.session));
+                    localStorage.setItem('credpositivo_admin_token', data.token);
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+
+                errorEl.textContent = data.error || 'Credenciais inválidas.';
+                errorEl.style.display = 'block';
+            } catch (err) {
+                errorEl.textContent = 'Erro de conexão. Tente novamente.';
+                errorEl.style.display = 'block';
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Entrar no Sistema';
+            return false;
+        }
+
+        async function setup2FA() {
+            var btn = document.getElementById('loginBtn');
+            try {
+                var res = await fetch('/api/admin/2fa/setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + tempToken
+                    }
+                });
+
+                var data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('qrCodeImg').src = data.qrCode;
+                    document.getElementById('secretKey').textContent = data.secret;
+                    showStep('stepSetup');
+                    setTimeout(function() { document.getElementById('setupCode').focus(); }, 100);
+                } else {
+                    var errorEl = document.getElementById('loginError');
+                    errorEl.textContent = data.error || 'Erro ao configurar 2FA.';
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                var errorEl = document.getElementById('loginError');
+                errorEl.textContent = 'Erro de conexão ao configurar 2FA.';
+                errorEl.style.display = 'block';
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Entrar no Sistema';
+        }
+
+        async function handleVerify2FA(e) {
+            e.preventDefault();
+
+            // Determine which step we're on
+            var isSetup = document.getElementById('stepSetup').classList.contains('active');
+            var codeInput = isSetup ? document.getElementById('setupCode') : document.getElementById('verifyCode');
+            var btn = isSetup ? document.getElementById('setupBtn') : document.getElementById('verifyBtn');
+            var errorEl = isSetup ? document.getElementById('setupError') : document.getElementById('verifyError');
+
+            var code = codeInput.value.trim();
+
+            if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+                errorEl.textContent = 'Digite um código de 6 dígitos.';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Verificando...';
+            errorEl.style.display = 'none';
+
+            try {
+                var res = await fetch('/api/admin/2fa/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + tempToken
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+
+                var data = await res.json();
+
+                if (data.success && data.token) {
+                    localStorage.setItem('credpositivo_admin', JSON.stringify(data.session));
+                    localStorage.setItem('credpositivo_admin_token', data.token);
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+
+                errorEl.textContent = data.error || 'Código inválido.';
+                errorEl.style.display = 'block';
+                codeInput.value = '';
+                codeInput.focus();
+            } catch (err) {
+                errorEl.textContent = 'Erro de conexão. Tente novamente.';
+                errorEl.style.display = 'block';
+            }
+
+            btn.disabled = false;
+            btn.textContent = isSetup ? 'Verificar e Ativar' : 'Verificar';
+            return false;
+        }
+
+        // Auto-advance TOTP input: submit when 6 digits entered
+        document.querySelectorAll('.totp-input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length === 6) {
+                    this.closest('form').dispatchEvent(new Event('submit', { cancelable: true }));
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

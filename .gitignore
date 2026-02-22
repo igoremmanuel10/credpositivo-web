@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Claude / Agent
+.claude/
+.agent/
+
+# Dependencies
+node_modules/
+
+# Database dumps
+*.sql
+
+# Utility scripts
+generate_pdf*.mjs
+generate-pdf.js
+screenshot-pages.js
+upload-to-figma.js
+figma-upload.js
+
+# Figma plugin
+figma-plugin/

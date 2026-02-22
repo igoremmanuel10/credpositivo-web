@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Descubra seu Rating Bancário e entenda por que seu Score alto não aprova crédito. Diagnóstico financeiro completo." />
+  <title>CredPositivo - Seu Diagnóstico de Crédito Real</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="v2-assets/src/style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container flex justify-between items-center" style="height: var(--header-height);">
+      <div class="logo">
+        <a href="./" class="flex items-center gap-2">
+          <!-- TODO: Update logo to a variant that pops on dark mode if needed -->
+          <img src="v2-assets/assets/images/logo.png" alt="CredPositivo"
+            style="height: 40px; width: auto; filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));">
+        </a>
+      </div>
+      <nav class="desktop-nav hidden-mobile">
+        <ul class="flex gap-8">
+          <li><a href="#funciona">Como Funciona</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#faq">Dúvidas</a></li>
+        </ul>
+      </nav>
+      <div class="cta-header hidden-mobile">
+        <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
+          target="_blank" class="btn btn-outline"
+          style="border-image: linear-gradient(45deg, var(--primary-brand), var(--accent-green)) 1; border-radius: 0;">Falar
+          com Especialista</a>
+      </div>
+      <button class="mobile-menu-btn hidden-desktop"
+        style="background: none; border: none; font-size: 1.5rem; color: var(--text-main);">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu hidden"
+      style="position: absolute; top: 80px; left: 0; width: 100%; padding: 20px; z-index: 100;">
+      <ul class="flex flex-col gap-4 text-center">
+        <li><a href="#funciona">Como Funciona</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+        <li><a href="#faq">Dúvidas</a></li>
+        <li><a
+            href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
+            target="_blank" class="btn btn-primary" style="margin-top: 10px;">Falar com Especialista</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 80px 0 60px; position: relative; overflow: hidden;">
+      <!-- Subtle glow orbs behind hero -->
+      <div
+        style="position: absolute; top: -10%; left: 10%; width: 400px; height: 400px; background: rgba(14, 165, 233, 0.15); filter: blur(100px); border-radius: 50%; z-index: -1;">
+      </div>
+      <div
+        style="position: absolute; bottom: 10%; right: 10%; width: 300px; height: 300px; background: rgba(16, 185, 129, 0.15); filter: blur(80px); border-radius: 50%; z-index: -1;">
+      </div>
+
+      <div class="container grid"
+        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
+        <div class="hero-header fade-up">
+          <div class="badge"
+            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 6px 16px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; margin-bottom: 24px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fas fa-bolt glow-text"></i> Análise Bancária Oficial
+          </div>
+          <h1 style="margin-bottom: 24px; font-weight: 800;">O banco já decidiu quanto crédito você merece. <br /><span
+              class="gradient-text glow-text">Você sabe qual foi a decisão?</span></h1>
+        </div>
+
+        <div class="hero-image glass-card fade-up glow-box" style="padding: 20px; position: relative;">
+          <div
+            style="border-radius: 12px; height: 400px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+            <img src="v2-assets/assets/images/hero-woman.jpg" alt="Conquista financeira"
+              style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: contrast(1.1) brightness(0.9);">
+
+            <!-- Dark Mode Floating Cards -->
+            <div class="floating-card glass-card"
+              style="position: absolute; bottom: 30px; left: -10px; padding: 16px; display: flex; align-items: center; gap: 12px; max-width: 220px; z-index: 2;">
+              <div
+                style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);">
+                <i class="fas fa-shield-check"></i>
+              </div>
+              <div>
+                <div
+                  style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
+                  Seu Rating 3.0</div>
+                <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;" class="glow-text">
+                  Classificação "A"</div>
+              </div>
+            </div>
+
+            <div class="floating-card glass-card"
+              style="position: absolute; top: 30px; right: -10px; padding: 12px 20px; min-width: 160px; z-index: 2; border-right: 2px solid var(--primary-brand);">
+              <div style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase;">Limite Aprovado
+              </div>
+              <div
+                style="font-weight: 800; color: #fff; white-space: nowrap; font-size: 1.2rem; text-shadow: 0 0 10px var(--primary-brand);">
+                R$ 52.000,00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-body fade-up">
+          <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 32px; max-width: 500px;">
+            Enquanto você se preocupa com o Score, os bancos olham para o seu <strong>Rating Bancário Interno</strong>.
+            É isso que define seus limites, financiamentos e cartões de alta renda. Pare de jogar no escuro.
+          </p>
+          <div class="flex gap-4 flex-wrap">
+            <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
+              target="_blank" class="btn btn-primary flex items-center gap-2">
+              FALAR COM ESPECIALISTA <i class="fab fa-whatsapp"></i>
+            </a>
+            <div class="security-badge flex items-center gap-2"
+              style="font-size: 0.875rem; color: var(--text-light); background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+              <i class="fas fa-lock glow-text"></i> 100% Criptografado
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="funciona"
+      style="padding: 100px 0; background: rgba(2, 6, 23, 0.4); border-top: 1px solid rgba(255,255,255,0.05); position: relative;">
+      <div class="container">
+        <div class="text-center fade-up" style="margin-bottom: 60px;">
+          <p
+            style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.875rem; color: var(--primary-brand); font-weight: 700;">
+            Entenda a Diferença Real</p>
+          <h2 style="margin-top: 10px; max-width: 700px; margin-left: auto; margin-right: auto;">Por que seu Score alto
+            <span style="color: #ef4444; position: relative; display: inline-block;">não aprova <svg width="100%"
+                height="10" style="position: absolute; bottom: 0; left: 0;">
+                <path d="M0 5 Q 50 10 100 5" stroke="#ef4444" fill="transparent" stroke-width="2"
+                  filter="drop-shadow(0 0 5px rgba(239, 68, 68, 0.5))" />
+              </svg></span> crédito?
+          </h2>
+          <p style="color: var(--text-light); margin-top: 20px;">A maior ilusão do mercado financeiro é fazer você
+            acreditar que pagar contas em dia garante crédito. O sistema bancário utiliza uma métrica muito mais
+            agressiva e profunda.</p>
+        </div>
+
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
+          <!-- Bad Card (Score) -->
+          <div class="card fade-up glass-card"
+            style="padding: 40px; border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(15, 23, 42, 0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div class="flex items-center gap-4" style="margin-bottom: 30px; opacity: 0.8;">
+              <div
+                style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-times" style="font-size: 1.5rem; color: #ef4444;"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.25rem;">O Score Comum</h3>
+                <p style="font-size: 0.875rem; color: var(--text-light);">Métrica pública superficial</p>
+              </div>
+            </div>
+            <ul style="display: flex; flex-direction: column; gap: 20px;">
+              <li class="flex items-start gap-3" style="color: var(--text-light);">
+                <i class="fas fa-times-circle"
+                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
+                <span>Olha apenas para o seu <strong style="color: #fff;">passado</strong> de pagamentos, ignorando o
+                  contexto atual.</span>
+              </li>
+              <li class="flex items-start gap-3" style="color: var(--text-light);">
+                <i class="fas fa-times-circle"
+                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
+                <span>Ignora completamente sua <strong style="color: #fff;">capacidade real</strong> de renda ou
+                  evolução financeira.</span>
+              </li>
+              <li class="flex items-start gap-3" style="color: var(--text-light);">
+                <i class="fas fa-times-circle"
+                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
+                <span>Qualquer loja e bureau pode consultar e vender seus dados.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Good Card (Rating) -->
+          <div class="card fade-up glass-card glow-box"
+            style="padding: 40px; border-color: rgba(16, 185, 129, 0.3); background: rgba(2, 6, 23, 0.6);">
+            <div
+              style="position: absolute; top: 20px; right: 20px; background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);">
+              RECOMENDADO</div>
+            <div class="flex items-center gap-4" style="margin-bottom: 30px;">
+              <div
+                style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);">
+                <i class="fas fa-check" style="font-size: 1.5rem; color: var(--accent-green);"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.25rem; color: white;">Rating Bancário</h3>
+                <p style="font-size: 0.875rem; color: var(--accent-green); opacity: 0.9;">Métrica interna e sigilosa</p>
+              </div>
+            </div>
+            <ul style="display: flex; flex-direction: column; gap: 20px;">
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
+                <span style="color: var(--text-light);">Analisa seu <strong style="color: #fff;">potencial
+                    futuro</strong> de pagamento e acúmulo de riqueza.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
+                <span style="color: var(--text-light);">Cruza dados precisos: veículos, profissão, imposto e
+                  movimentações reais.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
+                <span style="color: var(--text-light);">Atualização de score em tempo real direto pela infraestrutura
+                  SCR.</span>
+              </li>
+            </ul>
+            <div style="margin-top: 32px;">
+              <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20saber%20meu%20rating%20banc%C3%A1rio."
+                target="_blank" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">QUERO
+                SABER MEU RATING <i class="fab fa-whatsapp ml-2"></i></a>
+              <p
+                style="text-align: center; font-size: 0.75rem; margin-top: 16px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
+                <i class="fas fa-lock glow-text" style="margin-right: 4px;"></i> Análise 100% segura
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authority Section -->
+    <section style="padding: 100px 0; position: relative;">
+      <!-- Subtle highlight -->
+      <div
+        style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: radial-gradient(circle at right, rgba(14, 165, 233, 0.05) 0%, transparent 70%); z-index: -1;">
+      </div>
+
+      <div class="container grid"
+        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; align-items: center;">
+        <div class="image-wrapper fade-up" style="position: relative;">
+          <!-- Glow behind image -->
+          <div
+            style="position: absolute; top: 10%; right: -5%; width: 100%; height: 80%; background: var(--primary-brand); filter: blur(120px); opacity: 0.2; border-radius: 50%; z-index: -1;">
+          </div>
+
+          <div class="glass-card" style="border-radius: 20px; height: 500px; overflow: hidden; padding: 0;">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600"
+              alt="Especialista"
+              style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85; filter: grayscale(20%) contrast(1.1);">
+          </div>
+          <div class="glass-card glow-box"
+            style="position: absolute; bottom: -20px; right: -20px; padding: 24px; max-width: 280px; z-index: 2;">
+            <p style="font-size: 0.9rem; color: #fff; font-style: italic; line-height: 1.5;">"Não existe mágica para
+              conseguir
+              crédito. Existe <span class="gradient-text" style="font-weight: 700;">informação privilegiada</span> que
+              os bancos não querem que você saiba."</p>
+            <div
+              style="margin-top: 12px; font-weight: 800; font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
+              - ESPECIALISTA CREDPOSITIVO
+            </div>
+          </div>
+        </div>
+        <div class="content fade-up">
+          <h2 style="margin-bottom: 24px; font-size: 2.5rem;">Quem vai te guiar nessa jornada <span
+              class="gradient-text">financeira</span></h2>
+          <p style="margin-bottom: 24px; color: var(--text-light); font-size: 1.1rem; line-height: 1.7;">
+            Muito prazer, a CredPositivo nasceu da necessidade iminente de transparência no mercado financeiro
+            brasileiro.
+          </p>
+          <p style="margin-bottom: 40px; color: var(--text-light); font-size: 1.1rem; line-height: 1.7;">
+            Ao contrário das empresas de score que ganham dinheiro revendendo seus dados, nós trabalhamos
+            <strong>exclusivamente para você</strong>. Nossa
+            missão é democratizar o acesso ao crédito justo, revelando as métricas ocultas que gerentes de banco
+            utilizam para aprovar ou negar seus sonhos.
+          </p>
+
+          <div class="flex gap-12 border-t pt-6">
+            <div>
+              <div style="font-size: 3rem; font-weight: 800; line-height: 1;" class="gradient-text glow-text">15k<span
+                  style="font-size: 1.5rem; vertical-align: super;">+</span></div>
+              <div
+                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-top: 8px;">
+                Clientes Atendidos</div>
+            </div>
+            <div>
+              <div style="font-size: 3rem; font-weight: 800; line-height: 1;" class="gradient-text glow-text"><span
+                  style="font-size: 1.5rem; vertical-align: super; margin-right: 4px;">R$</span>20<span
+                  style="font-size: 1.5rem; vertical-align: super;">Mi</span></div>
+              <div
+                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-top: 8px;">
+                Crédito Liberado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="depoimentos"
+      style="padding: 100px 0; background: rgba(15, 23, 42, 0.3); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+      <div class="container">
+        <h2 class="text-center fade-up" style="margin-bottom: 60px;">O que a verdade revela, <span
+            class="gradient-text">o crédito aprova.</span></h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card fade-up">
+            <div class="t-head">
+              <img class="t-avatar"
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100"
+                alt="Mariana Costa">
+              <div class="t-meta">
+                <div class="t-name">Mariana Costa</div>
+                <div class="t-sub">São Paulo &bull; Verificado</div>
+              </div>
+              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <p class="t-text">
+              "Eu tinha score 850 e nenhum cartão de alta renda me aprova. Descobri aqui que meu rating estava 'C' por
+              uma dívida antiga
+              prescrita escondida no registrato. Limpei e consegui meu Black."
+            </p>
+          </div>
+          <div class="testimonial-card fade-up">
+            <div class="t-head">
+              <img class="t-avatar"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100"
+                alt="Ricardo Mendes">
+              <div class="t-meta">
+                <div class="t-name">Ricardo Mendes</div>
+                <div class="t-sub">Rio de Janeiro &bull; Verificado</div>
+              </div>
+              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <p class="t-text">
+              "Financiamento da casa negado 3 vezes. Fiz o Raio-X da CredPositivo, ajustei a movimentação
+              conforme a orientação criptografada deles e o gerente ligou na mesma semana aprovando."
+            </p>
+          </div>
+          <div class="testimonial-card fade-up">
+            <div class="t-head">
+              <img class="t-avatar"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
+                alt="João V. Piza">
+              <div class="t-meta">
+                <div class="t-name">João V. Piza</div>
+                <div class="t-sub">Belo Horizonte &bull; Verificado</div>
+              </div>
+              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <p class="t-text">
+              "Achei que era mais um curso, mas é um diagnóstico real, puro dado cru. O gerente da minha conta ficou em
+              choque quando usei os mesmos termos que ele utiliza internamente."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" style="padding: 100px 0;">
+      <div class="container" style="max-width: 800px;">
+        <h2 class="text-center fade-up" style="margin-bottom: 50px;">Perguntas Frequentes</h2>
+
+        <div class="faq-list fade-up">
+          <div class="faq-item">
+            <button class="faq-question w-100 flex justify-between items-center"
+              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
+              <span>1. É seguro colocar meus dados sensíveis?</span>
+              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
+            </button>
+            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
+              <div style="padding: 0 24px 24px;">
+                Sim. Empregamos criptografia AES-256 (padrão militar e bancário) e operamos sob os ditames da LGPD. Seus
+                dados são extraídos do ecossistema unicamente para materializar o diagnóstico que você solicitou.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question w-100 flex justify-between items-center"
+              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
+              <span>2. Como acesso meu diagnóstico após pagar?</span>
+              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
+            </button>
+            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
+              <div style="padding: 0 24px 24px;">
+                A liberação ocorre em milissegundos após a confirmação via PIX ou cartão. O relatório completo com seu
+                Rating Interno e o passo a passo da reversão ficam disponíveis em nossa dashboard ultra-rápida.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question w-100 flex justify-between items-center"
+              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
+              <span>3. Isso garante que meu crédito será aprovado amanhã?</span>
+              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
+            </button>
+            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
+              <div style="padding: 0 24px 24px;">
+                Nós garantimos a <strong>Visão de Raio-X</strong>. Removemos a venda nos seus olhos e expomos a métrica
+                exata do bloqueio. A aprovação é consequência direta das ações que você tomará dentro do sistema após
+                descobrir onde estava falhando.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section style="padding: 120px 0; position: relative;">
+      <div class="container text-center fade-up glass-card glow-box"
+        style="padding: 80px 40px; border-color: rgba(16, 185, 129, 0.4); background: rgba(2, 6, 23, 0.8);">
+        <h2 style="color: white; margin-bottom: 24px; font-size: 3rem;">Pare de ser reprovado sem <span
+            class="gradient-text">saber o motivo.</span></h2>
+        <p
+          style="color: var(--text-light); font-size: 1.125rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+          Milhares de brasileiros já recuperaram seu poder de compra descobrindo o algoritmo do Rating. Sua vez chegou
+          de virar e dominar o jogo.
+        </p>
+        <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20descobrir%20meu%20rating%20banc%C3%A1rio."
+          target="_blank" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.125rem;">INICIAR DIAGNÓSTICO
+          AGORA <i class="fab fa-whatsapp ml-2"></i></a>
+        <p
+          style="font-size: 0.8rem; margin-top: 24px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
+          <i class="fas fa-shield-check glow-text" style="color: var(--accent-green); margin-right: 4px;"></i> Garantia
+          blindada de 7 dias úteis
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: rgba(2, 6, 23, 0.95); padding: 80px 0 30px; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="container">
+      <div class="grid"
+        style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
+        <div>
+          <div class="flex items-center gap-2" style="margin-bottom: 24px;">
+            <img src="v2-assets/assets/images/logo.png" alt="CredPositivo"
+              style="height: 32px; width: auto; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));">
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-light); line-height: 1.7;">A chave para seu crédito hackeada.
+            Transparência extrema e tecnologia financeira de ponta.</p>
+        </div>
+        <div>
+          <h4 style="color: white; margin-bottom: 24px; font-size: 1.1rem; letter-spacing: 1px;">Legal</h4>
+          <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.9rem;">
+            <li><a href="terms.html" style="color: var(--text-light);">Termos de Serviço</a></li>
+            <li><a href="privacy.html" style="color: var(--text-light);">Privacidade & LGPD</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; margin-bottom: 24px; font-size: 1.1rem; letter-spacing: 1px;">Conexões</h4>
+          <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.9rem;">
+            <li><a href="contact.html" style="color: var(--text-light);">Suporte Premium</a></li>
+            <li><a href="#faq" style="color: var(--text-light);">Central de Ajuda</a></li>
+          </ul>
+        </div>
+      </div>
+      <div
+        style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; text-align: center; font-size: 0.8rem; color: var(--text-light);">
+        &copy; 2025 CredPositivo Technology Ltd. CNPJ: 35.030.967/0001-09. Todos os sistemas operantes.
+      </div>
+    </div>
+  </footer>
+  <script type="module" src="v2-assets/src/main.js"></script>
+</body>
+
+</html>

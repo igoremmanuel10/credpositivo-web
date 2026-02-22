@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="O CredPositivo é seu despachante financeiro digital. A gente analisa, resolve e evolui o seu perfil de crédito — pra você parar de ouvir 'não' e começar a conquistar." />
+  <title>CredPositivo — Seu crédito travou. A gente destrava.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Design system - Dark Mode Fintech/Gaming Theme */
+      --bg-base: #020617;
+      --bg-surface: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.6);
+      --bg-card-solid: #1e293b;
+      --bg-card-hover: rgba(30, 41, 59, 0.8);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(14, 165, 233, 0.5);
+
+      --blue: #0ea5e9;
+      --blue-light: #38bdf8;
+      --blue-dim: rgba(14, 165, 233, 0.15);
+      --blue-glow: rgba(14, 165, 233, 0.6);
+      --green: #10b981;
+      --green-dim: rgba(16, 185, 129, 0.15);
+      --green-glow: rgba(16, 185, 129, 0.6);
+      --promo-green: #10b981;
+      --promo-green2: #059669;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --danger: #ef4444;
+      --warning: #f59e0b;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-pill: 100px;
+
+      --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --shadow-blue: 0 0 20px rgba(14, 165, 233, 0.5);
+      --shadow-green: 0 0 20px rgba(16, 185, 129, 0.4);
+
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(circle at 0% 0%, rgba(14, 165, 233, 0.25), transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.25), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(2, 6, 23, 1) 0%, rgba(2, 6, 23, 1) 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+
+    /* =============================================
+       TYPOGRAPHY UTILITIES
+    ============================================= */
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    .label--blue {
+      color: var(--blue);
+    }
+
+    .label--blue::before {
+      background: var(--blue);
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .section-subtitle {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* =============================================
+       TEXT & BOX FX UTILITIES
+    ============================================= */
+    .gradient-text {
+      background: linear-gradient(to right, var(--blue), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+    }
+
+    .glow-text-blue {
+      text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+    }
+
+    .highlight-blue {
+      color: var(--blue);
+    }
+
+    .highlight-green {
+      color: var(--green);
+    }
+
+    .glow-box {
+      box-shadow: 0 0 40px rgba(14, 165, 233, 0.15);
+      border-color: rgba(14, 165, 233, 0.3) !important;
+    }
+
+    .glow-box-green {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3) !important;
+    }
+
+    /* =============================================
+       LAYOUT
+    ============================================= */
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 96px 0;
+    }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), #0284c7);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(14, 165, 233, 0.6);
+      border: 1px solid rgba(14, 165, 233, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(14, 165, 233, 0.8);
+      background: linear-gradient(135deg, var(--blue-light), var(--blue));
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #020617;
+      font-weight: 800;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      border: 1px solid rgba(16, 185, 129, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-green:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.8);
+      background: linear-gradient(135deg, #34d399, var(--green));
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5);
+      background: #20bd5a;
+    }
+
+    .btn-promo {
+      background: linear-gradient(135deg, var(--promo-green), var(--promo-green2));
+      color: #0a1628;
+      font-weight: 700;
+      box-shadow: 0 4px 24px rgba(0, 212, 170, 0.35);
+    }
+
+    .btn-promo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 212, 170, 0.55);
+    }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .nav--scrolled {
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      gap: 32px;
+    }
+
+    .nav__logo {
+      flex-shrink: 0;
+    }
+
+    .nav__logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav__links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .nav__links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav__login {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav__login:hover {
+      color: var(--text-primary);
+      background: var(--bg-card);
+    }
+
+    .nav__cta {
+      font-size: 14px;
+      padding: 10px 20px;
+    }
+
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .nav__hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .nav__mobile {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: rgba(2, 6, 23, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 99;
+    }
+
+    .nav__mobile.open {
+      display: flex;
+    }
+
+    .nav__mobile a {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav__mobile a:last-child {
+      border-bottom: none;
+    }
+
+    .nav__mobile a:hover {
+      color: var(--text-primary);
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      padding-top: 120px;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(59, 130, 246, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(34, 197, 94, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "text-top  visual"
+        "bottom    visual";
+      gap: 0 64px;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero__text-top {
+      grid-area: text-top;
+      align-self: end;
+    }
+
+    .hero__bottom {
+      grid-area: bottom;
+      align-self: start;
+    }
+
+    .hero__visual {
+      grid-area: visual;
+      position: relative;
+      align-self: center;
+      max-width: 420px;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-light);
+      margin-bottom: 24px;
+    }
+
+    .hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.6;
+        transform: scale(0.8);
+      }
+    }
+
+    .hero__headline {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero__headline em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue-light), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4));
+    }
+
+    .hero__sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero__actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+
+    .hero__stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat__value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .stat__label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 36px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* Hero Image Column */
+
+    .hero__image-wrap {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--bg-base);
+    }
+
+    .hero__image-wrap::before {
+      display: none;
+    }
+
+    .hero__image-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero__image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
+    .hero__glow {
+      position: absolute;
+      inset: -2px;
+      border-radius: calc(var(--radius-xl) + 2px);
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      z-index: -1;
+      opacity: 0.25;
+    }
+
+    /* Floating Cards */
+    .floating-card {
+      position: absolute;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      z-index: 2;
+      animation: float 4s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
+    }
+
+    .floating-card:nth-child(2) {
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .floating-card--left {
+      left: -48px;
+      bottom: 20%;
+    }
+
+    .floating-card--right {
+      right: -32px;
+      top: 22%;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .card-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green-dim);
+      border: 1px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 10px;
+      color: var(--green);
+    }
+
+    .card-star {
+      color: #fbbf24;
+      font-size: 13px;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* =============================================
+       PROBLEMA SECTION
+    ============================================= */
+    .problema {
+      background: var(--bg-surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problema::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+    }
+
+    .problema__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .problema__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pain-card {
+      background: rgba(2, 6, 23, 0.7);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .pain-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      opacity: 0.8;
+      transition: var(--transition);
+    }
+
+    .pain-card:hover {
+      border-color: rgba(14, 165, 233, 0.8);
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(14, 165, 233, 0.4);
+    }
+
+    .pain-card:hover::before {
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+    }
+
+    .pain-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .pain-icon--red {
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .pain-icon--amber {
+      background: rgba(245, 158, 11, 0.12);
+    }
+
+    .pain-icon--blue {
+      background: var(--blue-dim);
+    }
+
+    .pain-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .pain-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       COMO FUNCIONA
+    ============================================= */
+    .como-funciona {
+      position: relative;
+    }
+
+    .como-funciona__header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(16.66% + 36px);
+      right: calc(16.66% + 36px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      opacity: 0.4;
+    }
+
+    .step {
+      text-align: center;
+      padding: 0 32px;
+      position: relative;
+    }
+
+    .step__number {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-accent);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--blue);
+      margin: 0 auto 28px;
+      position: relative;
+      z-index: 1;
+      transition: var(--transition);
+    }
+
+    .step:hover .step__number {
+      background: var(--blue-dim);
+      border-color: var(--blue);
+      box-shadow: var(--shadow-blue);
+    }
+
+    .step__title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .step__text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       TRILHAS
+    ============================================= */
+    .trilhas {
+      background: var(--bg-surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trilhas::before,
+    .trilhas::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .trilhas::before {
+      top: 0;
+    }
+
+    .trilhas::after {
+      bottom: 0;
+    }
+
+    .trilhas__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .trilhas__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .trilha-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .trilha-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .trilha-card--reg::after {
+      background: radial-gradient(ellipse at top left, rgba(239, 68, 68, 0.15) 0%, transparent 60%);
+    }
+
+    .trilha-card--opt::after {
+      background: radial-gradient(ellipse at top left, rgba(14, 165, 233, 0.2) 0%, transparent 60%);
+    }
+
+    .trilha-card--exp::after {
+      background: radial-gradient(ellipse at top left, rgba(16, 185, 129, 0.2) 0%, transparent 60%);
+    }
+
+    .trilha-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(14, 165, 233, 0.25);
+    }
+
+    .trilha-card:hover::after {
+      opacity: 1;
+    }
+
+    .trilha-card--featured {
+      border-color: var(--blue-glow);
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.15);
+    }
+
+    .trilha-emoji {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .trilha-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+
+    .trilha-tag--reg {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .trilha-tag--opt {
+      background: var(--blue-dim);
+      color: var(--blue-light);
+      border: 1px solid var(--border-accent);
+    }
+
+    .trilha-tag--exp {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .trilha-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .trilha-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .trilha-services {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .trilha-service {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .trilha-service::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .trilha-bonus {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--promo-green);
+      background: rgba(0, 212, 170, 0.08);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 20px;
+    }
+
+    .trilha-bonus i {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       PROMO BANNER
+    ============================================= */
+    .promo-banner {
+      padding: 0 0 0;
+      position: relative;
+    }
+
+    .promo-banner__inner {
+      background: linear-gradient(100deg, #0a0f1c, #0d1a2d, #0a1628, #081020);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      border-radius: var(--radius-lg);
+      padding: 56px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Grid pattern overlay */
+    .promo-banner__inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 212, 170, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 170, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Glow effect */
+    .promo-banner__inner::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Corner decorations */
+    .promo-banner__corner {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+    }
+
+    .promo-banner__corner--tl {
+      top: 16px;
+      left: 16px;
+      border-top: 2px solid rgba(0, 212, 170, 0.4);
+      border-left: 2px solid rgba(0, 212, 170, 0.4);
+    }
+
+    .promo-banner__corner--tr {
+      top: 16px;
+      right: 16px;
+      border-top: 2px solid rgba(0, 212, 170, 0.4);
+      border-right: 2px solid rgba(0, 212, 170, 0.4);
+    }
+
+    .promo-banner__corner--bl {
+      bottom: 16px;
+      left: 16px;
+      border-bottom: 2px solid rgba(0, 212, 170, 0.4);
+      border-left: 2px solid rgba(0, 212, 170, 0.4);
+    }
+
+    .promo-banner__corner--br {
+      bottom: 16px;
+      right: 16px;
+      border-bottom: 2px solid rgba(0, 212, 170, 0.4);
+      border-right: 2px solid rgba(0, 212, 170, 0.4);
+    }
+
+    .promo-banner__layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .promo-banner__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 212, 170, 0.12);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: var(--radius-pill);
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--promo-green);
+      margin-bottom: 20px;
+    }
+
+    .promo-banner__badge-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--promo-green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .promo-banner__title {
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .promo-banner__title span {
+      background: linear-gradient(135deg, var(--promo-green), var(--promo-green2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .promo-banner__sub {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      max-width: 520px;
+    }
+
+    .promo-banner__highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+    }
+
+    .promo-banner__highlight i {
+      color: var(--promo-green);
+      font-size: 16px;
+    }
+
+    .promo-banner__cta-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .promo-banner__cta-note {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+    }
+
+    /* =============================================
+       SERVICOS
+    ============================================= */
+    .servicos {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .servicos__bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .servicos__header {
+      margin-bottom: 52px;
+    }
+
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      max-width: 780px;
+      margin: 0 auto 32px;
+    }
+
+    .service-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      transition: var(--transition);
+      cursor: default;
+      backdrop-filter: blur(12px);
+    }
+
+    .service-tag:hover {
+      border-color: var(--border-accent);
+      color: var(--blue-light);
+      background: var(--blue-dim);
+      transform: translateY(-2px);
+    }
+
+    .servicos__footer {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* =============================================
+       DEPOIMENTOS
+    ============================================= */
+    .depoimentos {
+      background: var(--bg-surface);
+      position: relative;
+    }
+
+    .depoimentos::before,
+    .depoimentos::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .depoimentos::before {
+      top: 0;
+    }
+
+    .depoimentos::after {
+      bottom: 0;
+    }
+
+    .depoimentos__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .depoimentos__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+      position: relative;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(16, 185, 129, 0.6);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(16, 185, 129, 0.25);
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 72px;
+      font-weight: 700;
+      color: var(--blue-dim);
+      line-height: 1;
+      font-family: Georgia, serif;
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+      color: #fbbf24;
+      font-size: 14px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .author-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* =============================================
+       AFILIADOS
+    ============================================= */
+    .afiliados {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .afiliados__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 50%, rgba(34, 197, 94, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .afiliados__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .afiliados__benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 36px;
+    }
+
+    .benefit-item {
+      display: flex;
+      gap: 18px;
+    }
+
+    .benefit-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      backdrop-filter: blur(12px);
+    }
+
+    .benefit-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .benefit-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .afiliados__visual {
+      position: relative;
+    }
+
+    .afiliados__card {
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid rgba(14, 165, 233, 0.5);
+      border-radius: var(--radius-xl);
+      padding: 48px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 0 50px rgba(14, 165, 233, 0.2);
+    }
+
+    .afiliados__card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+    }
+
+    .afiliados__card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .commission-value {
+      font-size: 72px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+
+    .commission-label {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .commission-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0;
+    }
+
+    .commission-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .commission-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .commission-feature svg {
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       FAQ
+    ============================================= */
+    .faq {
+      background: var(--bg-surface);
+      position: relative;
+    }
+
+    .faq::before,
+    .faq::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .faq::before {
+      top: 0;
+    }
+
+    .faq::after {
+      bottom: 0;
+    }
+
+    .faq__header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .faq__list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+      backdrop-filter: blur(12px);
+    }
+
+    .faq-item.open {
+      border-color: var(--border-accent);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 24px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: var(--transition);
+      background: none;
+      font-family: 'Outfit', sans-serif;
+      gap: 16px;
+    }
+
+    .faq-question:hover {
+      color: var(--blue-light);
+    }
+
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .faq-item.open .faq-icon {
+      background: var(--blue-dim);
+      border-color: var(--border-accent);
+      color: var(--blue-light);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 22px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    /* =============================================
+       CTA FINAL
+    ============================================= */
+    .cta-final {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-final__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(34, 197, 94, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-final__inner {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .cta-final__headline {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-final__sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 44px;
+    }
+
+    .cta-final__actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .trust-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .trust-item svg {
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .trust-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    .footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding-top: 72px;
+    }
+
+    .footer__main {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    .footer__brand img {
+      height: 32px;
+      width: auto;
+      margin-bottom: 16px;
+    }
+
+    .footer__tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 260px;
+      margin-bottom: 24px;
+    }
+
+    .footer__social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: var(--transition);
+      font-size: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .social-link:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .footer__col-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .footer__links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .footer__links a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer__bottom {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer__copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer__cnpj {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* =============================================
+       WHATSAPP FLOAT
+    ============================================= */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      animation: float-wpp 3s ease-in-out infinite;
+    }
+
+    @keyframes float-wpp {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .whatsapp-float a {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.45);
+      transition: var(--transition);
+    }
+
+    .whatsapp-float a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
+    }
+
+    .whatsapp-float svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    /* =============================================
+       SCROLL REVEAL ANIMATIONS
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .reveal-delay-5 {
+      transition-delay: 0.5s;
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    /* =============================================
+       TABLET (max 1024px)
+    ============================================= */
+    @media (max-width: 1024px) {
+      .hero__grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text-top"
+          "visual"
+          "bottom";
+        gap: 32px;
+      }
+
+      .hero__visual {
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      .hero__image-wrap {
+        max-height: 340px;
+      }
+
+      .hero__bottom {
+        text-align: center;
+      }
+
+      .hero__actions {
+        justify-content: center;
+      }
+
+      .hero__stats {
+        justify-content: center;
+      }
+
+      .floating-card--left {
+        left: -12px;
+      }
+
+      .floating-card--right {
+        right: -12px;
+      }
+
+      .footer__main {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .footer__brand {
+        grid-column: 1 / -1;
+      }
+
+      .afiliados__grid {
+        grid-template-columns: 1fr;
+        gap: 52px;
+      }
+
+      .promo-banner__layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .promo-banner__cta-col {
+        align-items: flex-start;
+      }
+
+      .promo-banner__inner {
+        padding: 44px 40px;
+      }
+
+      .cta-final__inner img {
+        max-width: 400px;
+      }
+    }
+
+    /* =============================================
+       MOBILE (max 768px)
+    ============================================= */
+    @media (max-width: 768px) {
+      section {
+        padding: 64px 0;
+      }
+
+      .nav__links {
+        display: none;
+      }
+
+      .nav__cta {
+        display: none;
+      }
+
+      .nav__hamburger {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 84px;
+        padding-bottom: 20px;
+      }
+
+      .hero__badge {
+        display: none;
+      }
+
+      .hero__grid {
+        gap: 14px;
+      }
+
+      .hero__headline {
+        font-size: clamp(28px, 7vw, 40px);
+        margin-bottom: 4px;
+      }
+
+      .hero__sub {
+        font-size: 14px;
+        margin-bottom: 0;
+        line-height: 1.5;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 0;
+      }
+
+      .hero__actions .btn {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+      }
+
+      .hero__visual {
+        max-width: 80%;
+        margin: 0 auto;
+      }
+
+      .hero__image-wrap {
+        aspect-ratio: 4/5;
+        max-height: 310px;
+      }
+
+      .hero__stats {
+        display: none;
+      }
+
+      .stat-divider {
+        display: none;
+      }
+
+      .problema__header {
+        margin-bottom: 40px;
+      }
+
+      .problema__grid,
+      .trilhas__grid,
+      .depoimentos__grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .pain-card {
+        padding: 24px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .step {
+        padding: 0;
+      }
+
+      .como-funciona__header {
+        margin-bottom: 48px;
+      }
+
+      .section-title {
+        font-size: clamp(24px, 6vw, 36px);
+      }
+
+      .section-subtitle {
+        font-size: 15px;
+      }
+
+      .trilha-card {
+        padding: 28px 24px;
+      }
+
+      .promo-banner__inner {
+        padding: 32px 24px;
+      }
+
+      .promo-banner__layout {
+        gap: 24px;
+      }
+
+      .promo-banner__title {
+        font-size: clamp(20px, 5vw, 28px);
+      }
+
+      .promo-banner__cta-col {
+        align-items: stretch;
+      }
+
+      .promo-banner__cta-col .btn {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+      }
+
+      .tags-cloud {
+        gap: 8px;
+      }
+
+      .service-tag {
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+
+      .testimonial-card {
+        padding: 28px 24px;
+      }
+
+      .cta-final__inner img {
+        max-width: 100%;
+      }
+
+      .cta-final__headline {
+        font-size: clamp(24px, 6vw, 36px);
+      }
+
+      .cta-final__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .cta-final__actions .btn {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+      }
+
+      .footer__main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+      }
+
+      .footer__brand {
+        grid-column: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer__brand p {
+        text-align: center;
+      }
+
+      .footer__social {
+        justify-content: center;
+      }
+
+      .footer__col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer__bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+      }
+
+      .trust-line {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .trust-dot {
+        display: none;
+      }
+
+      .afiliados__card {
+        padding: 36px 24px;
+      }
+    }
+
+    /* =============================================
+       SMALL MOBILE (max 480px)
+    ============================================= */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .hero {
+        padding-top: 80px;
+        padding-bottom: 20px;
+      }
+
+      .hero__headline {
+        font-size: 26px;
+        letter-spacing: -0.02em;
+      }
+
+      .hero__visual {
+        max-width: 75%;
+      }
+
+      .hero__image-wrap {
+        max-height: 300px;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      .pain-card {
+        padding: 20px;
+      }
+
+      .step__number {
+        width: 56px;
+        height: 56px;
+        font-size: 18px;
+      }
+
+      .trilha-card {
+        padding: 24px 20px;
+      }
+
+      .promo-banner__inner {
+        padding: 24px 16px;
+      }
+
+      .promo-banner__highlight {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+
+      .commission-value {
+        font-size: 48px;
+      }
+
+      .afiliados__card {
+        padding: 28px 20px;
+      }
+
+      .cta-final__sub {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+  ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="#" class="nav__logo" aria-label="CredPositivo">
+          <img src="v2-assets/assets/images/logo.png" alt="CredPositivo" />
+        </a>
+
+        <div class="nav__links">
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#trilhas">Trilhas</a>
+          <a href="#depoimentos">Depoimentos</a>
+          <a href="#afiliados">Afiliados</a>
+          <a href="#faq">FAQ</a>
+        </div>
+
+        <div class="nav__actions">
+          <a href="https://www.credpositivo.com/login" class="nav__login">Entrar</a>
+          <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary nav__cta">Cadastre-se</a>
+        </div>
+
+        <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="nav__mobile" id="navMobile">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#trilhas">Trilhas</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#afiliados">Afiliados</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://www.credpositivo.com/login">Entrar</a>
+      <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary"
+        style="text-align:center;justify-content:center;">Cadastre-se</a>
+    </div>
+  </nav>
+
+  <!-- ==============================
+       HERO
+  ============================== -->
+  <section class="hero" id="hero">
+    <div class="hero__bg"></div>
+    <div class="container">
+      <div class="hero__grid">
+
+        <!-- Text Top -->
+        <div class="hero__text-top">
+          <div class="hero__badge reveal">
+            <span class="hero__badge-dot"></span>
+            +30 serviços especializados
+          </div>
+
+          <h1 class="hero__headline reveal reveal-delay-1">
+            Seu crédito travou.<br /><em>A gente destrava.</em>
+          </h1>
+
+          <p class="hero__sub reveal reveal-delay-2">
+            O CredPositivo é seu despachante financeiro digital. A gente analisa, resolve e evolui o seu perfil de
+            crédito — pra você parar de ouvir "não" e começar a conquistar.
+          </p>
+        </div>
+
+        <!-- Visual Column -->
+        <div class="hero__visual reveal reveal-delay-2">
+          <div class="hero__glow"></div>
+
+          <!-- Main hero: mulher com polo CredPositivo -->
+          <div class="hero__image-wrap">
+            <img src="v2-assets/assets/images/credpositivo-polo-woman.png" alt="Especialista CredPositivo" />
+          </div>
+
+          <!-- Phone mockup with card approval -->
+          <div class="floating-card floating-card--left" style="max-width:180px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div
+                style="width:32px;height:32px;background:rgba(34,197,94,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                <i class="ph-fill ph-credit-card" style="color:#22C55E;font-size:16px;"></i>
+              </div>
+              <div>
+                <div class="card-label" style="margin:0;">Cartão Aprovado</div>
+                <div class="card-sub" style="margin:0;color:#22C55E;">Sem anuidade</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Card 2 -->
+          <div class="floating-card floating-card--right">
+            <div class="card-label">Avaliação</div>
+            <div class="card-value">
+              <span class="card-star">★</span>
+              Perfil de crédito
+            </div>
+            <div class="card-sub">Análise real</div>
+          </div>
+        </div>
+
+        <!-- Actions + Stats (below image on mobile) -->
+        <div class="hero__bottom">
+          <div class="hero__actions reveal reveal-delay-3">
+            <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary">
+              Fazer meu diagnóstico
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </a>
+            <a href="#como-funciona" class="btn btn-secondary">Como funciona</a>
+          </div>
+
+          <div class="hero__stats reveal reveal-delay-4">
+            <div class="stat">
+              <span class="stat__value">+30</span>
+              <span class="stat__label">serviços especializados</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat__value">3</span>
+              <span class="stat__label">trilhas personalizadas</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat__value">48h</span>
+              <span class="stat__label">diagnóstico pronto</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       PROBLEMA
+  ============================== -->
+  <section class="problema" id="problema">
+    <div class="container">
+      <div class="problema__header">
+        <div class="label reveal">O problema</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Você não é seu score.<br />Mas seu score <span class="highlight-blue">tá te definindo.</span>
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="margin: 16px auto 0;">
+          A maioria das pessoas não entende por que o crédito é negado. Acham que é só o score. Mas os bancos olham
+          muito mais que isso — e ninguém te conta.
+        </p>
+      </div>
+
+      <div class="problema__grid">
+
+        <div class="pain-card reveal reveal-delay-1">
+          <div class="pain-icon pain-icon--red">
+            <i class="ph-bold ph-warning-circle" style="color:#f87171;"></i>
+          </div>
+          <div class="pain-title">Nome sujo te travando</div>
+          <p class="pain-text">Pendências, restrições, negativações que você às vezes nem sabe que existem. Cada dia que
+            passa, mais difícil resolver — e mais caro fica.</p>
+        </div>
+
+        <div class="pain-card reveal reveal-delay-2">
+          <div class="pain-icon pain-icon--amber">
+            <i class="ph-bold ph-trend-up" style="color:#f59e0b;"></i>
+          </div>
+          <div class="pain-title">Score alto, crédito negado</div>
+          <p class="pain-text">Seu score pode estar 700 e o banco ainda negar. Porque score é só um número. O que pesa é
+            o perfil completo — e poucos sabem como melhorar.</p>
+        </div>
+
+        <div class="pain-card reveal reveal-delay-3">
+          <div class="pain-icon pain-icon--blue">
+            <i class="ph-bold ph-credit-card" style="color:var(--blue-light);"></i>
+          </div>
+          <div class="pain-title">Limite ridículo, sem evolução</div>
+          <p class="pain-text">Cartão aprovado com R$200 de limite. Financiamento negado. Você sabe que merece mais, mas
+            não sabe o caminho. A gente sabe.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       COMO FUNCIONA
+  ============================== -->
+  <section class="como-funciona" id="como-funciona">
+    <div class="container">
+      <div class="como-funciona__header">
+        <div class="label label--blue reveal">Como funciona</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Três passos pra <span class="highlight-green">destravar seu crédito</span>
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="margin: 16px auto 0;">
+          Simples, direto e personalizado pro seu caso. Sem burocracia, sem enrolação.
+        </p>
+      </div>
+
+      <div class="steps">
+
+        <div class="step reveal reveal-delay-1">
+          <div class="step__number">01</div>
+          <h3 class="step__title">Diagnóstico</h3>
+          <p class="step__text">Um raio-x completo do seu CPF. Mostra tudo que os bancos veem sobre você — inclusive o
+            que você não sabia. Pronto em até 48 horas.</p>
+        </div>
+
+        <div class="step reveal reveal-delay-2">
+          <div class="step__number">02</div>
+          <h3 class="step__title">Plano personalizado</h3>
+          <p class="step__text">Com base no diagnóstico, montamos a trilha certa pro seu caso: regularizar, otimizar ou
+            expandir. Cada situação tem seu caminho.</p>
+        </div>
+
+        <div class="step reveal reveal-delay-3">
+          <div class="step__number">03</div>
+          <h3 class="step__title">Resultado</h3>
+          <p class="step__text">Você evolui seu perfil de crédito de verdade. Nome limpo, perfil forte, mais limite,
+            aprovação. Crédito que funciona pra você.</p>
+        </div>
+
+      </div>
+
+      <div style="text-align:center; margin-top: 56px;" class="reveal reveal-delay-4">
+        <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary">
+          Começar agora
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       TRILHAS
+  ============================== -->
+  <section class="trilhas" id="trilhas">
+    <div class="container">
+      <div class="trilhas__header">
+        <div class="label reveal">Nossas trilhas</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Qual é a <span class="highlight-blue">sua situação</span> hoje?
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="margin: 16px auto 0;">
+          Cada caso é um caso. Por isso organizamos nossos serviços em 3 trilhas — pra você ir direto ao que precisa.
+        </p>
+      </div>
+
+      <div class="trilhas__grid">
+
+        <!-- Trilha Regularização -->
+        <div class="trilha-card trilha-card--reg reveal reveal-delay-1">
+          <div class="trilha-emoji">🔥</div>
+          <div class="trilha-tag trilha-tag--reg">Regularização</div>
+          <h3 class="trilha-title">Apagar o incêndio</h3>
+          <p class="trilha-desc">Pra quem tá com nome sujo, pendências ou restrições. O primeiro passo pra sair do
+            vermelho e recomeçar.</p>
+          <ul class="trilha-services">
+            <li class="trilha-service">Limpeza de nome</li>
+            <li class="trilha-service">Negociação de pendências</li>
+            <li class="trilha-service">Remoção de apontamentos</li>
+            <li class="trilha-service">Orientação de quitação</li>
+          </ul>
+          <div class="trilha-bonus">
+            <i class="ph-fill ph-credit-card"></i>
+            Bônus: Cartão de crédito de parceiro ao concluir
+          </div>
+          <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary">
+            Começar regularização
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Trilha Otimização -->
+        <div class="trilha-card trilha-card--opt trilha-card--featured reveal reveal-delay-2">
+          <div class="trilha-emoji">🛠️</div>
+          <div class="trilha-tag trilha-tag--opt">Otimização</div>
+          <h3 class="trilha-title">Arrumar a casa</h3>
+          <p class="trilha-desc">Nome limpo, mas crédito travado? Limite baixo? A gente mostra o que os bancos realmente
+            olham — e como melhorar.</p>
+          <ul class="trilha-services">
+            <li class="trilha-service">Rating bancário</li>
+            <li class="trilha-service">Ajuste cadastral</li>
+            <li class="trilha-service">Estratégia de movimentação</li>
+            <li class="trilha-service">Perfil de crédito completo</li>
+          </ul>
+          <div class="trilha-bonus">
+            <i class="ph-fill ph-credit-card"></i>
+            Bônus: Cartão de crédito via parceria com banco ao concluir
+          </div>
+          <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary">
+            Otimizar meu perfil
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Trilha Expansão -->
+        <div class="trilha-card trilha-card--exp reveal reveal-delay-3">
+          <div class="trilha-emoji">🚀</div>
+          <div class="trilha-tag trilha-tag--exp">Expansão</div>
+          <h3 class="trilha-title">Subir de nível</h3>
+          <p class="trilha-desc">Perfil ok, quer mais? Limite maior, financiamento aprovado, cartão premium. O próximo
+            nível do seu crédito.</p>
+          <ul class="trilha-services">
+            <li class="trilha-service">Aumento de limite</li>
+            <li class="trilha-service">Aprovação de crédito</li>
+            <li class="trilha-service">Preparação pra financiamento</li>
+            <li class="trilha-service">Plano de evolução 30/60/90 dias</li>
+          </ul>
+          <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary" style="margin-top: auto;">
+            Expandir meu crédito
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       PROMO BANNER
+  ============================== -->
+  <section style="padding: 64px 0;" id="promo">
+    <div class="container">
+      <div class="promo-banner__inner reveal">
+        <!-- Corner decorations -->
+        <div class="promo-banner__corner promo-banner__corner--tl"></div>
+        <div class="promo-banner__corner promo-banner__corner--tr"></div>
+        <div class="promo-banner__corner promo-banner__corner--bl"></div>
+        <div class="promo-banner__corner promo-banner__corner--br"></div>
+
+        <div class="promo-banner__layout">
+          <div>
+            <div class="promo-banner__badge">
+              <span class="promo-banner__badge-dot"></span>
+              Oferta Especial
+            </div>
+            <h2 class="promo-banner__title">
+              Limpou o nome? Ganhe um <span>cartão de crédito.</span>
+            </h2>
+            <p class="promo-banner__sub">
+              Ao concluir a regularização ou o rating bancário, você ganha acesso a um cartão de crédito através da
+              nossa parceria exclusiva com banco. Sem anuidade no primeiro ano.
+            </p>
+            <div class="promo-banner__highlight">
+              <i class="ph-fill ph-gift"></i>
+              Comprando <strong style="color:#fff;">&nbsp;Rating Bancário</strong>, você leva o <strong
+                style="color:#fff;">&nbsp;Limpa Nome Grátis</strong>
+            </div>
+          </div>
+
+          <div class="promo-banner__cta-col" style="display:flex;flex-direction:column;align-items:center;gap:20px;">
+            <!-- Mockup celular Cartão Aprovado -->
+            <div style="max-width:200px;">
+              <img src="https://i.ibb.co/21s5z7yF/mockup-cartao.png" alt="Cartão Aprovado no celular"
+                style="width:100%;height:auto;display:block;filter:drop-shadow(0 12px 30px rgba(59,130,246,0.25));border-radius:20px;">
+            </div>
+            <a href="https://www.credpositivo.com/cadastro" class="btn btn-promo"
+              style="font-size:15px;padding:16px 32px;white-space:nowrap;">
+              <i class="ph-bold ph-rocket-launch" style="font-size:17px;"></i>
+              Aproveitar
+            </a>
+            <p class="promo-banner__cta-note">Sem compromisso</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       SERVICOS
+  ============================== -->
+  <section class="servicos" id="servicos">
+    <div class="servicos__bg"></div>
+    <div class="container">
+      <div class="servicos__header reveal">
+        <div class="label label--blue">Serviços</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Tudo que você precisa.<br /><span class="highlight-green">Em um só lugar.</span>
+        </h2>
+      </div>
+
+      <div class="tags-cloud reveal reveal-delay-2">
+        <span class="service-tag">Diagnóstico de Crédito</span>
+        <span class="service-tag">Limpa Nome</span>
+        <span class="service-tag">Rating Bancário</span>
+        <span class="service-tag">Aumento de Limite</span>
+        <span class="service-tag">Ajuste Cadastral</span>
+        <span class="service-tag">Negociação de Dívidas</span>
+        <span class="service-tag">Perfil de Crédito</span>
+        <span class="service-tag">Aprovação de Crédito</span>
+        <span class="service-tag">Consultoria Financeira</span>
+        <span class="service-tag">Remoção de Restrições</span>
+        <span class="service-tag">Estratégia Bancária</span>
+        <span class="service-tag">Preparação p/ Financiamento</span>
+      </div>
+
+      <p class="servicos__footer reveal reveal-delay-3">
+        E mais +18 outros serviços especializados dentro das trilhas.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==============================
+       DEPOIMENTOS
+  ============================== -->
+  <section class="depoimentos" id="depoimentos">
+    <div class="container">
+      <div class="depoimentos__header">
+        <div class="label reveal">Depoimentos</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Quem já passou por aqui<br /><span class="highlight-blue">conta como foi</span>
+        </h2>
+      </div>
+
+      <div class="depoimentos__grid">
+
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Tinha o nome sujo há 3 anos e não sabia nem por onde começar. O diagnóstico
+            mostrou tudo que tava pesando. Em 40 dias, nome limpo e já consegui um cartão."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rafael C."></div>
+            <div>
+              <div class="author-name">Rafael C.</div>
+              <div class="author-info">Trilha Regularização</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Meu nome tava limpo, mas não aprovavam nada. Descobri que meu perfil bancário era
+            fraco. Com o rating, meu limite saiu de R$500 pra R$4.000 em 2 meses."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Amanda M.">
+            </div>
+            <div>
+              <div class="author-name">Amanda M.</div>
+              <div class="author-info">Trilha Otimização</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Queria financiar meu apartamento e o banco disse que meu perfil não era
+            suficiente. Em 90 dias de plano, consegui a aprovação. Valeu cada centavo."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Lucas S."></div>
+            <div>
+              <div class="author-name">Lucas S.</div>
+              <div class="author-info">Trilha Expansão</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       AFILIADOS
+  ============================== -->
+  <section class="afiliados" id="afiliados">
+    <div class="afiliados__bg"></div>
+    <div class="container">
+      <div class="afiliados__grid">
+
+        <div class="afiliados__content">
+          <div class="label reveal">Programa de afiliados</div>
+          <h2 class="section-title reveal reveal-delay-1">
+            Indique. Ajude. <span class="highlight-green">Ganhe.</span>
+          </h2>
+          <p class="section-subtitle reveal reveal-delay-2">
+            Conhece alguém que precisa destravar o crédito? Indique o CredPositivo e ganhe comissões reais por cada
+            venda.
+          </p>
+
+          <div class="afiliados__benefits">
+
+            <div class="benefit-item reveal reveal-delay-2">
+              <div class="benefit-icon">
+                <i class="ph-bold ph-currency-dollar" style="color:var(--green);font-size:20px;"></i>
+              </div>
+              <div>
+                <div class="benefit-title">Comissões de 30% a 50%</div>
+                <p class="benefit-text">Quanto mais indicações, maior sua comissão. Ganhos reais, pagamentos pontuais.
+                </p>
+              </div>
+            </div>
+
+            <div class="benefit-item reveal reveal-delay-3">
+              <div class="benefit-icon">
+                <i class="ph-bold ph-link" style="color:var(--blue-light);font-size:20px;"></i>
+              </div>
+              <div>
+                <div class="benefit-title">Link personalizado</div>
+                <p class="benefit-text">Receba seu link exclusivo e acompanhe cada indicação no painel do afiliado.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item reveal reveal-delay-4">
+              <div class="benefit-icon">
+                <i class="ph-bold ph-target" style="color:var(--warning);font-size:20px;"></i>
+              </div>
+              <div>
+                <div class="benefit-title">Suporte e materiais</div>
+                <p class="benefit-text">A gente te dá tudo que precisa: copy pronta, artes e suporte dedicado.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 40px;" class="reveal reveal-delay-5">
+            <a href="https://www.credpositivo.com/cadastro" class="btn btn-green">
+              Quero ser afiliado
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="afiliados__visual reveal reveal-delay-2">
+          <div class="afiliados__card">
+            <div class="commission-value">30–50%</div>
+            <div class="commission-label">por cada cliente que você indicar</div>
+            <div class="commission-divider"></div>
+            <div class="commission-features">
+              <div class="commission-feature">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                Pagamentos pontuais
+              </div>
+              <div class="commission-feature">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                Painel de acompanhamento
+              </div>
+              <div class="commission-feature">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                Materiais prontos pra usar
+              </div>
+              <div class="commission-feature">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                Suporte dedicado
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       FAQ
+  ============================== -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="faq__header">
+        <div class="label reveal">Dúvidas frequentes</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Tudo que você precisa saber<br /><span class="highlight-blue">antes de começar</span>
+        </h2>
+      </div>
+
+      <div class="faq__list">
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            O que é o diagnóstico de crédito?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">É um raio-x completo do seu CPF. A gente analisa tudo que os bancos veem sobre
+              você: pendências, restrições, perfil bancário, histórico de crédito. Em até 48 horas, você recebe um
+              relatório detalhado com plano de ação personalizado.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal reveal-delay-1">
+          <button class="faq-question" aria-expanded="false">
+            Vocês garantem aprovação de crédito?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">Não prometemos resultado específico — cada caso é único. O que garantimos é uma
+              análise profissional e completa, com um plano claro e personalizado pro seu caso. A maioria dos nossos
+              clientes vê resultados concretos seguindo o plano.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal reveal-delay-2">
+          <button class="faq-question" aria-expanded="false">
+            Quanto tempo leva pra limpar o nome?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">Depende de cada caso. Em geral, o processo leva de 30 a 90 dias. O diagnóstico
+              mostra exatamente o que precisa ser feito e qual o prazo estimado pro seu caso específico.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal reveal-delay-3">
+          <button class="faq-question" aria-expanded="false">
+            Preciso de muitos documentos?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">Não. É bem simples: CPF e alguns dados básicos. Sem papelada, sem cartório, sem
+              fila. Tudo 100% online — você faz pelo celular mesmo.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal reveal-delay-4">
+          <button class="faq-question" aria-expanded="false">
+            É confiável? Como sei que não é golpe?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">Entendemos a preocupação. O CredPositivo é empresa registrada — CNPJ
+              35.030.967/0001-09. Você pode pesquisar, ver avaliações de clientes e tirar todas as dúvidas antes de
+              qualquer decisão. Trabalhamos com total transparência.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal reveal-delay-5">
+          <button class="faq-question" aria-expanded="false">
+            Qual a diferença do CredPositivo pro Serasa?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">O Serasa te mostra o score e as dívidas. A gente vai além: analisa o que os
+              bancos realmente olham quando você pede crédito. Score alto nem sempre significa aprovação. O CredPositivo
+              mostra o porquê e resolve de verdade.</p>
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Como funciona o programa de afiliados?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p class="faq-answer-inner">Você se cadastra, recebe seu link exclusivo e indica o CredPositivo. Cada venda
+              feita pela sua indicação gera uma comissão de 30% a 50%. Você acompanha tudo pelo painel do afiliado e
+              recebe pagamentos pontuais.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       CTA FINAL
+  ============================== -->
+  <section class="cta-final" id="cta-final">
+    <div class="cta-final__bg"></div>
+    <div class="container">
+      <div class="cta-final__inner">
+        <div class="label label--blue reveal" style="justify-content:center;">Comece agora</div>
+        <h2 class="cta-final__headline reveal reveal-delay-1">
+          Seu crédito não vai<br /><span class="highlight-green">se destravar sozinho.</span>
+        </h2>
+        <p class="cta-final__sub reveal reveal-delay-2">
+          O diagnóstico é o primeiro passo. Em 48 horas, você descobre tudo que tá pesando e recebe um plano feito pro
+          seu caso.
+        </p>
+
+        <!-- Mulher com cartão JC Digital -->
+        <div class="reveal reveal-delay-2 cta-final__image"
+          style="margin:32px auto 40px;max-width:520px;border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.6),0 0 40px rgba(59,130,246,0.15);">
+          <img src="https://i.ibb.co/JWhbzB0g/Captura-de-Tela-2026-02-17-a-s-12-23-53.png"
+            alt="Mulher com cartão de crédito CredPositivo" style="width:100%;height:auto;display:block;">
+        </div>
+
+        <div class="cta-final__actions reveal reveal-delay-3">
+          <a href="https://www.credpositivo.com/cadastro" class="btn btn-primary"
+            style="font-size:16px;padding:16px 32px;">
+            Fazer meu diagnóstico
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="https://api.whatsapp.com/send/?phone=5571936180654&text=Ol%C3%A1,+quero+saber+mais+sobre+o+CredPositivo"
+            target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"
+            style="font-size:16px;padding:16px 32px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Falar com especialista
+          </a>
+        </div>
+
+        <div class="trust-line reveal reveal-delay-4">
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            CNPJ 35.030.967/0001-09
+          </div>
+          <div class="trust-dot"></div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            100% online
+          </div>
+          <div class="trust-dot"></div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            Sem burocracia
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       FOOTER
+  ============================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__main">
+
+        <div class="footer__brand">
+          <img src="v2-assets/assets/images/logo.png" alt="CredPositivo" />
+          <p class="footer__tagline">Seu despachante financeiro digital. A gente resolve, otimiza e evolui o seu crédito
+            — pra você conquistar o que merece.</p>
+          <div class="footer__social">
+            <a href="https://instagram.com/_credpositivo.com" target="_blank" rel="noopener noreferrer"
+              class="social-link" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
+            <a href="https://api.whatsapp.com/send/?phone=5571936180654&text=Ol%C3%A1,+quero+saber+mais+sobre+o+CredPositivo"
+              target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Trilhas</h4>
+          <ul class="footer__links">
+            <li><a href="https://www.credpositivo.com/cadastro">Regularização</a></li>
+            <li><a href="https://www.credpositivo.com/cadastro">Otimização</a></li>
+            <li><a href="https://www.credpositivo.com/cadastro">Expansão</a></li>
+            <li><a href="https://www.credpositivo.com/cadastro">Diagnóstico</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Empresa</h4>
+          <ul class="footer__links">
+            <li><a href="#como-funciona">Como funciona</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#afiliados">Afiliados</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__col-title">Acesso</h4>
+          <ul class="footer__links">
+            <li><a href="https://www.credpositivo.com/cadastro">Cadastre-se</a></li>
+            <li><a href="https://www.credpositivo.com/login">Login</a></li>
+            <li><a href="/terms.html">Termos de uso</a></li>
+            <li><a href="/privacy.html">Privacidade</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 CredPositivo. Todos os direitos reservados.</p>
+        <p class="footer__cnpj">CNPJ 35.030.967/0001-09</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==============================
+       WHATSAPP FLOAT
+  ============================== -->
+  <div class="whatsapp-float" aria-label="Falar via WhatsApp">
+    <a href="https://api.whatsapp.com/send/?phone=5571936180654&text=Ol%C3%A1,+quero+saber+mais+sobre+o+CredPositivo"
+      target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- ==============================
+       JAVASCRIPT
+  ============================== -->
+  <script>
+    // -----------------------------------------------
+    // NAV: scroll state + mobile toggle
+    // -----------------------------------------------
+    (function () {
+      var nav = document.getElementById('nav');
+      var hamburger = document.getElementById('hamburger');
+      var navMobile = document.getElementById('navMobile');
+      var isOpen = false;
+
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 24) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
+        }
+      }, { passive: true });
+
+      hamburger.addEventListener('click', function () {
+        isOpen = !isOpen;
+        navMobile.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      // Close mobile nav when clicking a link
+      navMobile.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          isOpen = false;
+          navMobile.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }());
+
+    // -----------------------------------------------
+    // SCROLL REVEAL
+    // -----------------------------------------------
+    (function () {
+      var reveals = document.querySelectorAll('.reveal');
+
+      if (!('IntersectionObserver' in window)) {
+        reveals.forEach(function (el) { el.classList.add('visible'); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
+      );
+
+      reveals.forEach(function (el) { observer.observe(el); });
+    }());
+
+    // -----------------------------------------------
+    // FAQ ACCORDION
+    // -----------------------------------------------
+    (function () {
+      var items = document.querySelectorAll('.faq-item');
+
+      items.forEach(function (item) {
+        var btn = item.querySelector('.faq-question');
+
+        btn.addEventListener('click', function () {
+          var isOpen = item.classList.contains('open');
+
+          // Close all
+          items.forEach(function (i) {
+            i.classList.remove('open');
+            i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          });
+
+          // Open clicked (if it was closed)
+          if (!isOpen) {
+            item.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    }());
+
+    // -----------------------------------------------
+    // SMOOTH SCROLL for anchor links
+    // -----------------------------------------------
+    (function () {
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          var target = document.querySelector(anchor.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            var navHeight = document.getElementById('nav').offsetHeight;
+            var top = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          }
+        });
+      });
+    }());
+  </script>
+
+</body>
+
+</html>

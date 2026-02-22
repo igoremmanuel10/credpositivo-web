@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato - CredPositivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container flex justify-between items-center" style="height: var(--header-height);">
+            <div class="logo">
+                <a href="./" class="flex items-center gap-2">
+                    <img src="assets/images/logo.png" alt="CredPositivo" style="height: 40px; width: auto;">
+                </a>
+            </div>
+            <nav class="desktop-nav hidden-mobile">
+                <ul class="flex gap-8">
+                    <li><a href="./">Voltar para Home</a></li>
+                </ul>
+            </nav>
+            <div class="cta-header hidden-mobile">
+                <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
+                    target="_blank" class="btn btn-primary">Falar com Especialista</a>
+            </div>
+            <button class="mobile-menu-btn hidden-desktop" style="background: none; border: none; font-size: 1.5rem;">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="mobile-menu hidden"
+            style="position: absolute; top: 80px; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100;">
+            <ul class="flex flex-col gap-4 text-center">
+                <li><a href="./">Voltar para Home</a></li>
+                <li><a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
+                        target="_blank" class="btn btn-primary">Falar com Especialista</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section style="background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%); padding: 60px 0;">
+            <div class="container text-center fade-up">
+                <h1 style="font-size: 2.5rem; margin-bottom: 16px;">Estamos aqui para ajudar</h1>
+                <p style="font-size: 1.125rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                    Fale com nossa equipe sempre que precisar de suporte ou tiver dúvidas sobre sua análise.
+                </p>
+            </div>
+        </section>
+
+        <section style="padding: 60px 0; background: white;">
+            <div class="container grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div class="glass-card fade-up text-center"
+                    style="padding: 30px; background: white; border: 1px solid #E2E8F0;">
+                    <div
+                        style="width: 60px; height: 60px; background: #DCFCE7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #16A34A;">
+                        <i class="fab fa-whatsapp" style="font-size: 2rem;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">WhatsApp</h3>
+                    <p style="color: var(--text-light); margin-bottom: 16px;">Atendimento em horário comercial.</p>
+                    <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20preciso%20de%20ajuda." target="_blank"
+                        style="color: var(--primary-brand); font-weight: 600;">Iniciar conversa</a>
+                </div>
+                <div class="glass-card fade-up text-center"
+                    style="padding: 30px; background: white; border: 1px solid #E2E8F0;">
+                    <div
+                        style="width: 60px; height: 60px; background: #DBEAFE; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary-brand);">
+                        <i class="fas fa-envelope" style="font-size: 2rem;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">E-mail</h3>
+                    <p style="color: var(--text-light); margin-bottom: 16px;">Resposta em até 24 horas.</p>
+                    <a href="mailto:suporte@credpositivo.com"
+                        style="color: var(--primary-brand); font-weight: 600;">suporte@credpositivo.com</a>
+                </div>
+                <div class="glass-card fade-up text-center"
+                    style="padding: 30px; background: white; border: 1px solid #E2E8F0;">
+                    <div
+                        style="width: 60px; height: 60px; background: #F3E8FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #9333EA;">
+                        <i class="fas fa-headset" style="font-size: 2rem;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Suporte</h3>
+                    <p style="color: var(--text-light); margin-bottom: 16px;">Dúvidas sobre sua análise.</p>
+                    <a href="mailto:suporte@credpositivo.com"
+                        style="color: var(--primary-brand); font-weight: 600;">suporte@credpositivo.com</a>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 60px 0; background: #F8FAFC;">
+            <div class="container" style="max-width: 700px;">
+                <div class="glass-card fade-up" style="padding: 40px; background: white;">
+                    <h2 style="margin-bottom: 30px; text-align: center;">Envie uma mensagem</h2>
+                    <form class="flex flex-col gap-4">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Nome Completo</label>
+                            <input type="text" placeholder="Seu nome"
+                                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">E-mail</label>
+                            <input type="email" placeholder="seu@email.com"
+                                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Assunto</label>
+                            <select
+                                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; background: white;">
+                                <option>Dúvidas sobre o Relatório</option>
+                                <option>Problemas de Acesso</option>
+                                <option>Pagamento/Reembolso</option>
+                                <option>Outros</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Mensagem</label>
+                            <textarea rows="4" placeholder="Como podemos ajudar?"
+                                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;"></textarea>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: #F8FAFC; padding: 40px 0; text-align: center; border-top: 1px solid #E2E8F0;">
+            <a href="./" class="btn btn-outline">Voltar para Home</a>
+        </section>
+    </main>
+
+    <footer style="background: #0F172A; color: #94A3B8; padding: 60px 0 20px; border-top: 1px solid #1E293B;">
+        <div class="container">
+            <div class="grid"
+                style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <div class="flex items-center gap-2" style="margin-bottom: 20px;">
+                        <img src="assets/images/logo.png" alt="CredPositivo" style="height: 32px; width: auto;">
+                    </div>
+                </div>
+                <div>
+                    <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 0.875rem;">
+                        <li><a href="terms.html">Termos de Uso</a></li>
+                        <li><a href="privacy.html">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul style="display: flex; flex-direction: column; gap: 12px; font-size: 0.875rem;">
+                        <li><a href="contact.html" style="color: white; font-weight: 700;">Contato</a></li>
+                        <li><a href="./#faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #1E293B; padding-top: 20px; text-align: center; font-size: 0.75rem;">
+                &copy; 2025 CredPositivo Soluções Digitais. CNPJ: 35.030.967/0001-09. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="src/main.js"></script>
+</body>
+
+</html>

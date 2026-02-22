@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termos de Uso | CredPositivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="v2-assets/src/style.css">
+    <style>
+        .legal-header {
+            padding: 100px 0 60px;
+            position: relative;
+            text-align: center;
+        }
+
+        .legal-header::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: var(--primary-brand);
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .legal-content {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .section-card {
+            padding: 40px;
+            margin-bottom: 32px;
+        }
+
+        .section-card h2 {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-top: 0;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .list-items li {
+            display: flex;
+            gap: 16px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .list-items li i {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+            filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.4));
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .warning-box h3 {
+            color: #ef4444;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="./" class="back-btn btn-outline glass-card">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+
+    <header class="legal-header fade-up">
+        <div class="container">
+            <h1 class="gradient-text glow-text" style="margin-bottom: 16px; font-size: 3rem;">Termos de Uso</h1>
+            <p style="color: var(--text-light); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Transparência e
+                segurança de ponta a ponta em cada etapa do seu diagnóstico financeiro.</p>
+        </div>
+    </header>
+
+    <main class="legal-content">
+        <div class="section-card glass-card fade-up">
+            <h2><i class="fas fa-info-circle" style="color: var(--primary-brand);"></i> 1. Sobre o Serviço</h2>
+            <p>A CredPositivo é uma plataforma de tecnologia de dados voltada para diagnóstico profundo e análise de
+                perfil de mercado financeiro. É fundamental esclarecer os limites matemáticos da nossa atuação:</p>
+            <ul class="list-items">
+                <li><i class="fas fa-university"></i> <span>A CredPositivo <strong>não é uma instituição
+                            financeira</strong>, banco, correspondente bancário ou cooperativa.</span></li>
+                <li><i class="fas fa-credit-card"></i> <span>Não concedemos, não aprovamos e nem garantimos empréstimos,
+                        cartões de crédito de alta renda ou financiamentos diretamente.</span></li>
+                <li><i class="fas fa-microchip"></i> <span>Somos um ecossistema de análise algorítmica baseada em
+                        metadados públicos, SCR e cruzamento com bureaus.</span></li>
+                <li><i class="fas fa-file-alt"></i> <span>Entregamos relatórios analíticos focados na identificação das
+                        suas travas em sistemas de crédito convencionais e Ratings Internos.</span></li>
+            </ul>
+        </div>
+
+        <div class="section-card glass-card fade-up">
+            <h2><i class="fas fa-briefcase" style="color: var(--primary-brand);"></i> 2. Objeto da Contratação</h2>
+            <p>Ao adquirir o seu diagnóstico, o sistema concederá acesso irrestrito aos seguintes módulos:</p>
+            <ul class="list-items">
+                <li><i class="fas fa-check-circle"></i> <span><strong>Diagnóstico Financeiro Profundo:</strong>
+                        Relatório consolidado apontando pendências ocultas e dívidas prescritas.</span></li>
+                <li><i class="fas fa-chart-line"></i> <span><strong>Rating Bancário:</strong> Estimativa real da sua
+                        pontuação oculta para os bancos.</span></li>
+                <li><i class="fas fa-map"></i> <span><strong>Plano de Ação Corretivo:</strong> Roadmap passo a passo do
+                        que precisa ser resolvido no mercado financeiro para escalar seu Score e Rating.</span></li>
+            </ul>
+        </div>
+
+        <div class="section-card glass-card fade-up">
+            <h2><i class="fas fa-exclamation-triangle" style="color: var(--primary-brand);"></i> 3. Limitações Críticas
+            </h2>
+            <p>Para assegurar que as expectativas estejam alinhadas à realidade matemática da inteligência financeira,
+                declaramos que:</p>
+            <div class="warning-box">
+                <h3><i class="fas fa-shield-alt"></i> Aviso Criptográfico</h3>
+                <ul class="list-items" style="gap: 12px;">
+                    <li><i class="fas fa-times"
+                            style="color: #ef4444; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.4));"></i> <span
+                            style="color: rgba(255,255,255,0.8);">A CredPositivo <strong>não altera seu Score</strong>
+                            magicamente nos bureaus públicos (Serasa, SPC, Boa Vista).</span></li>
+                    <li><i class="fas fa-times"
+                            style="color: #ef4444; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.4));"></i> <span
+                            style="color: rgba(255,255,255,0.8);"><strong>Não excluímos dívidas</strong> ou apontamentos
+                            internos do Sisbacen ou Registrato por você. Você fará isso seguindo o plano de ação.</span>
+                    </li>
+                    <li><i class="fas fa-times"
+                            style="color: #ef4444; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.4));"></i> <span
+                            style="color: rgba(255,255,255,0.8);">O relatório é preventivo e educativo, não um
+                            passaporte garantido para cartões sem limites. O algoritmo final de aprovação é do
+                            banco.</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card glass-card fade-up">
+            <h2><i class="fas fa-coins" style="color: var(--primary-brand);"></i> 4. Termos de Pagamento e Devolução
+            </h2>
+            <p>O serviço CredPositivo é liberado instantaneamente na nuvem após a confirmação do pagamento via PIX ou
+                Cartão.</p>
+            <ul class="list-items">
+                <li><i class="fas fa-shield-check"></i> <span><strong>Garantia Incondicional de 7 dias:</strong> Você
+                        está integralmente coberto pelo direito de arrependimento (Art. 49 do CDC).</span></li>
+                <li><i class="fas fa-clock"></i> <span>As solicitações de reembolso são automatizadas, bastando contatar
+                        o suporte oficial via WhatsApp ou e-mail dentro da janela de 7 dias úteis.</span></li>
+            </ul>
+        </div>
+
+        <footer
+            style="text-align: center; color: var(--text-light); font-size: 0.8rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+            &copy; 2025 CredPositivo Technology Ltd. CNPJ: 35.030.967/0001-09.<br>
+            A chave para o desbloqueio do limite alto, na palma da sua mão.
+        </footer>
+    </main>
+
+    <script>
+        // Simple fade-up animation logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>

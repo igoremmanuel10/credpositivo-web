@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Admin | Configurações</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="scripts/admin-auth.js?v=20260216"></script>
+    <script src="scripts/permissions.js?v=20260216"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .admin-badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+        }
+
+        .settings-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .settings-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-section-desc {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        .input-group input,
+        .input-group select {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            align-items: center;
+            padding: 0 32px;
+            background: var(--color-glass-header);
+            backdrop-filter: blur(10px);
+        }
+
+        .content-scroll {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Sidebar list styling - CRITICAL FIX */
+        .sidebar nav ul,
+        .sidebar .nav-links {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .sidebar .nav-item {
+            position: relative;
+            list-style-type: none !important;
+        }
+
+        .sidebar li {
+            list-style-type: none !important;
+        }
+
+        .sidebar .nav-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .settings-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <h4>Geral</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i>
+                            Dashboard</a></li>
+                    <li class="nav-item"><a href="clientes.html" class="nav-link"><i class="ph ph-users"></i>
+                            Clientes</a></li>
+                    <li class="nav-item"><a href="operacional.html" class="nav-link"><i class="ph ph-kanban"></i>
+                            Operacional</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Financeiro</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="transacoes.html" class="nav-link"><i class="ph ph-wallet"></i>
+                            Transações</a></li>
+                    <li class="nav-item"><a href="cupons.html" class="nav-link"><i class="ph ph-ticket"></i>
+                            Cupons</a></li>
+                    <li class="nav-item"><a href="notas.html" class="nav-link"><i class="ph ph-receipt"></i> Notas
+                            Fiscais</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Sistema</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="auditoria.html" class="nav-link"><i class="ph ph-shield-check"></i>
+                            Auditoria</a></li>
+                    <li class="nav-item"><a href="config.html" class="nav-link active"><i class="ph ph-gear"></i>
+                            Configurações</a></li>
+                    <li class="nav-item"><a href="gerentes.html" class="nav-link"><i class="ph ph-user-gear"></i>
+                            Gerentes</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="adminLogout()"><i
+                                class="ph ph-sign-out"></i> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div style="flex: 1;"></div>
+            <div class="admin-profile" style="display: flex; align-items: center; gap: 16px;">
+                <div
+                    style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer;">
+                    <i class="ph ph-bell"></i>
+                </div>
+                <div style="text-align: right; margin-right: 10px;">
+                    <div style="font-size: 13px; font-weight: 600; color: #fff;" id="adminNameLabel">Admin Master</div>
+                    <div style="font-size: 11px; color: var(--color-text-muted);" id="adminRoleLabel">Superusuário</div>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: #333; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Master&background=random" alt="Admin"
+                        style="width: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-scroll">
+            <div style="margin-bottom: 32px;">
+                <h2 style="font-size: 24px; font-weight: 700; color: #fff;">Configurações do Sistema</h2>
+                <p style="font-size: 14px; color: var(--color-text-muted);">Ajuste os parâmetros globais e regras de
+                    negócio da plataforma.</p>
+            </div>
+
+            <form id="settingsForm" onsubmit="saveSettings(event)">
+
+                <div class="settings-card">
+                    <div class="settings-section-title">
+                        <i class="ph ph-globe" style="color: var(--color-primary);"></i> Informações Gerais
+                    </div>
+                    <p class="settings-section-desc">Dados básicos da empresa e canais de atendimento.</p>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Nome da Plataforma</label>
+                            <input type="text" value="CredPositivo" id="sName">
+                        </div>
+                        <div class="input-group">
+                            <label>Email de Suporte</label>
+                            <input type="email" value="suporte@credpositivo.com" id="sEmail">
+                        </div>
+                        <div class="input-group">
+                            <label>WhatsApp de Atendimento</label>
+                            <input type="text" value="+55 71 93618-0654" id="sWhatsapp">
+                        </div>
+                        <div class="input-group">
+                            <label>URL Principal</label>
+                            <input type="text" value="https://credpositivo.com" id="sUrl">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="settings-section-title">
+                        <i class="ph ph-scales" style="color: #60A5FA;"></i> Regras de Negócio
+                    </div>
+                    <p class="settings-section-desc">Valores e parâmetros para serviços e automações.</p>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Taxa Padrão Diagnóstico de Crédito (R$)</label>
+                            <input type="number" value="47.00" id="sPriceDiagnostico">
+                        </div>
+                        <div class="input-group">
+                            <label>Taxa Padrão Rating Bancário (R$)</label>
+                            <input type="number" value="97.00" id="sPriceRating">
+                        </div>
+                        <div class="input-group">
+                            <label>Taxa Padrão Limpa Nome (R$)</label>
+                            <input type="number" value="147.00" id="sPriceLimpa">
+                        </div>
+                        <div class="input-group">
+                            <label>Status Inicial para Novos Cadastros</label>
+                            <select id="sInitialStatus">
+                                <option value="pendente">Pendente de Verificação</option>
+                                <option value="ativo">Ativo Imediatamente</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Notificar Admin sobre novas compras?</label>
+                            <select id="sNotify">
+                                <option value="sim">Sim, via Email/Push</option>
+                                <option value="nao">Não, apenas Dashboard</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="settings-section-title">
+                        <i class="ph ph-credit-card" style="color: #34D399;"></i> Gateway de Pagamento
+                    </div>
+                    <p class="settings-section-desc">Configurações de integração com Mercado Pago e Apiful.</p>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Token Mercado Pago (Access Token)</label>
+                            <input type="password" placeholder="APP_USR-..." id="sMercadoPagoToken"
+                                value="APP_USR-6390628027714742-121123-a64b065d62f5dd979f71b687f9c2c721-198801373">
+                        </div>
+                        <div class="input-group">
+                            <label>Public Key Mercado Pago</label>
+                            <input type="text" placeholder="APP_USR-..." id="sMercadoPagoPublicKey"
+                                value="APP_USR-95fde8aa-46f5-4b07-8750-10140660c874">
+                        </div>
+                        <div class="input-group">
+                            <label>Token Apiful (API Key)</label>
+                            <input type="password" placeholder="eyJ..." id="sApifulToken">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 16px;">
+                    <button type="reset" class="btn"
+                        style="background: rgba(255,255,255,0.05); color: #fff; padding: 12px 24px;">Descartar
+                        Alterações</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 12px 40px; font-weight: 700;">Salvar
+                        Configurações</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script src="scripts/admin-main.js"></script>
+    <script>
+        // Load admin name
+        const adminSessao = JSON.parse(localStorage.getItem('credpositivo_admin') || '{}');
+        if (adminSessao.nome) {
+            document.getElementById('adminNameLabel').textContent = adminSessao.nome;
+        }
+
+        // Load existing gateway settings from localStorage
+        const existingSettings = JSON.parse(localStorage.getItem('cp_settings') || '{}');
+        if (existingSettings.gateway) {
+            if (existingSettings.gateway.mercadoPago) {
+                document.getElementById('sMercadoPagoToken').value = existingSettings.gateway.mercadoPago;
+            }
+            if (existingSettings.gateway.apiful) {
+                document.getElementById('sApifulToken').value = existingSettings.gateway.apiful;
+            }
+        }
+
+        // Load service prices from server API
+        (async function loadPricesFromServer() {
+            try {
+                const res = await fetch('/api/services');
+                const data = await res.json();
+                if (data.services) {
+                    data.services.forEach(svc => {
+                        if (svc.slug === 'diagnostico-credito') document.getElementById('sPriceDiagnostico').value = parseFloat(svc.price);
+                        if (svc.slug === 'rating-bancario') document.getElementById('sPriceRating').value = parseFloat(svc.price);
+                        if (svc.slug === 'limpa-nome') document.getElementById('sPriceLimpa').value = parseFloat(svc.price);
+                    });
+                }
+            } catch (err) {
+                console.error('Erro ao carregar preços do servidor:', err);
+            }
+        })();
+
+        async function saveSettings(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Salvando...';
+            btn.disabled = true;
+
+            try {
+                // Save prices to server via API
+                const servicesPayload = {
+                    services: [
+                        { slug: 'diagnostico-credito', price: parseFloat(document.getElementById('sPriceDiagnostico').value) },
+                        { slug: 'rating-bancario', price: parseFloat(document.getElementById('sPriceRating').value) },
+                        { slug: 'limpa-nome', price: parseFloat(document.getElementById('sPriceLimpa').value) }
+                    ]
+                };
+
+                const res = await adminFetch('/api/admin/services', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(servicesPayload)
+                });
+                if (!res) return;
+
+                if (!res.ok) throw new Error('Erro ao salvar no servidor');
+
+                // Also save gateway settings to localStorage
+                const settings = {
+                    name: document.getElementById('sName').value,
+                    email: document.getElementById('sEmail').value,
+                    whatsapp: document.getElementById('sWhatsapp').value,
+                    gateway: {
+                        mercadoPago: document.getElementById('sMercadoPagoToken').value,
+                        apiful: document.getElementById('sApifulToken').value
+                    }
+                };
+                localStorage.setItem('cp_settings', JSON.stringify(settings));
+
+                alert('Configurações salvas com sucesso!');
+            } catch (err) {
+                console.error('Erro ao salvar:', err);
+                alert('Erro ao salvar configurações. Verifique a conexão.');
+            }
+
+            btn.textContent = 'Salvar Configurações';
+            btn.disabled = false;
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('credpositivo_admin');
+            window.location.href = './';
+        }
+    </script>
+</body>
+
+</html>

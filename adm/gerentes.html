@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Admin | Gerentes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="scripts/admin-auth.js?v=20260216"></script>
+    <script src="scripts/permissions.js?v=20260216"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .admin-badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            align-items: center;
+            padding: 0 32px;
+            background: var(--color-glass-header);
+            backdrop-filter: blur(10px);
+        }
+
+        .content-scroll {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .sidebar nav ul,
+        .sidebar .nav-links {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .sidebar .nav-item {
+            position: relative;
+            list-style-type: none !important;
+        }
+
+        .sidebar li {
+            list-style-type: none !important;
+        }
+
+        .sidebar .nav-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+
+        .managers-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .managers-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .managers-table th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .managers-table td {
+            padding: 16px;
+            border-top: 1px solid var(--color-border-glass);
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .managers-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-master {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FCD34D;
+        }
+
+        .badge-gerente {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60A5FA;
+        }
+
+        .badge-operacional {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ADE80;
+        }
+
+        .badge-ativo {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ADE80;
+        }
+
+        .badge-inativo {
+            background: rgba(239, 68, 68, 0.2);
+            color: #F87171;
+        }
+
+        .badge-2fa-ativo {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ADE80;
+        }
+
+        .badge-2fa-pendente {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FCD34D;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .action-btn.danger {
+            color: var(--color-danger);
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1a1d24;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--color-border-glass);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #ddd;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .permissions-tree {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .permission-section {
+            margin-bottom: 20px;
+        }
+
+        .permission-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            padding-left: 24px;
+        }
+
+        .permission-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .permission-item label {
+            margin: 0;
+            cursor: pointer;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #2563EB;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <h4>Geral</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i>
+                            Dashboard</a></li>
+                    <li class="nav-item"><a href="clientes.html" class="nav-link"><i class="ph ph-users"></i>
+                            Clientes</a></li>
+                    <li class="nav-item"><a href="operacional.html" class="nav-link"><i class="ph ph-kanban"></i>
+                            Operacional</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Financeiro</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="transacoes.html" class="nav-link"><i class="ph ph-wallet"></i>
+                            Transações</a></li>
+                    <li class="nav-item"><a href="cupons.html" class="nav-link"><i class="ph ph-ticket"></i>
+                            Cupons</a></li>
+                    <li class="nav-item"><a href="notas.html" class="nav-link"><i class="ph ph-receipt"></i> Notas
+                            Fiscais</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Sistema</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="auditoria.html" class="nav-link"><i class="ph ph-shield-check"></i>
+                            Auditoria</a></li>
+                    <li class="nav-item"><a href="config.html" class="nav-link"><i class="ph ph-gear"></i>
+                            Configurações</a></li>
+                    <li class="nav-item"><a href="gerentes.html" class="nav-link active"><i class="ph ph-user-gear"></i>
+                            Gerentes</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="adminLogout()"><i
+                                class="ph ph-sign-out"></i> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div style="flex: 1;"></div>
+            <div class="admin-profile" style="display: flex; align-items: center; gap: 16px;">
+                <div
+                    style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer;">
+                    <i class="ph ph-bell"></i>
+                </div>
+                <div style="text-align: right; margin-right: 10px;">
+                    <div style="font-size: 13px; font-weight: 600; color: #fff;" id="adminNameLabel">Admin Master</div>
+                    <div style="font-size: 11px; color: var(--color-text-muted);" id="adminRoleLabel">Superusuário</div>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: #333; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Master&background=random" alt="Admin"
+                        style="width: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-scroll">
+            <div style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 8px;">Gerenciamento de
+                        Gerentes</h2>
+                    <p style="font-size: 14px; color: var(--color-text-muted);">Controle de acesso e permissões de
+                        usuários internos.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openNewManagerModal()">
+                    <i class="ph ph-plus"></i> Novo Gerente
+                </button>
+            </div>
+
+            <div class="managers-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th>2FA</th>
+                            <th>Permissões</th>
+                            <th>Criado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="managersTableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Novo/Editar Gerente -->
+    <div id="managerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Novo Gerente</h3>
+                <button onclick="closeModal()"
+                    style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer;">×</button>
+            </div>
+            <form id="managerForm" onsubmit="saveManager(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nome Completo</label>
+                        <input type="text" id="managerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email (usado como login)</label>
+                        <input type="email" id="managerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" id="managerPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Senha</label>
+                        <input type="password" id="managerPasswordConfirm" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="managerTipo">
+                            <option value="Admin">Admin</option>
+                            <option value="Gerente" selected>Gerente</option>
+                            <option value="Operacional">Operacional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Permissões</label>
+                        <div class="permissions-tree" id="permissionsTree">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Gerente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script src="scripts/admin-main.js"></script>
+    <script>
+        const adminSessao = JSON.parse(localStorage.getItem('credpositivo_admin') || '{}');
+        if (adminSessao.nome) {
+            document.getElementById('adminNameLabel').textContent = adminSessao.nome;
+        }
+
+        let editingManagerId = null;
+        let allManagers = [];
+
+        loadManagers();
+
+        async function loadManagers() {
+            const tbody = document.getElementById('managersTableBody');
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px; color: var(--color-text-muted);">Carregando...</td></tr>';
+
+            try {
+                const res = await adminFetch('/api/admin/managers');
+                if (!res) return;
+                const data = await res.json();
+                allManagers = data.managers || [];
+            } catch (err) {
+                console.error('Erro ao carregar gerentes:', err);
+                allManagers = [];
+            }
+
+            if (allManagers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px; color: var(--color-text-muted);">Nenhum gerente cadastrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = allManagers.map(manager => {
+                const permissoes = typeof manager.permissoes === 'string' ? JSON.parse(manager.permissoes || '{}') : (manager.permissoes || {});
+                const twoFaBadge = manager.totp_enabled
+                    ? '<span class="badge badge-2fa-ativo"><i class="ph ph-shield-check"></i> Ativo</span>'
+                    : '<span class="badge badge-2fa-pendente"><i class="ph ph-shield-warning"></i> Pendente</span>';
+                const tipoLower = (manager.tipo || 'gerente').toLowerCase();
+                const tipoBadgeClass = tipoLower.includes('master') ? 'master' : tipoLower.includes('operacional') ? 'operacional' : tipoLower.includes('admin') ? 'master' : 'gerente';
+                const createdAt = manager.created_at ? new Date(manager.created_at).toLocaleDateString('pt-BR') : '—';
+                return `
+                <tr>
+                    <td>${manager.nome}</td>
+                    <td>${manager.email}</td>
+                    <td><span class="badge badge-${tipoBadgeClass}">${manager.tipo}</span></td>
+                    <td><span class="badge badge-${manager.ativo ? 'ativo' : 'inativo'}">${manager.ativo ? 'Ativo' : 'Inativo'}</span></td>
+                    <td>${twoFaBadge}</td>
+                    <td>${getPermissionsSummary(permissoes)}</td>
+                    <td style="font-size: 12px; color: var(--color-text-muted);">${createdAt}</td>
+                    <td>
+                        <button class="action-btn" onclick="editManager(${manager.id})" title="Editar">
+                            <i class="ph ph-pencil-simple"></i>
+                        </button>
+                        <button class="action-btn" onclick="toggleManagerStatus(${manager.id}, ${manager.ativo})" title="${manager.ativo ? 'Desativar' : 'Ativar'}">
+                            <i class="ph ph-${manager.ativo ? 'lock' : 'lock-open'}"></i>
+                        </button>
+                        <button class="action-btn danger" onclick="deleteManager(${manager.id})" title="Excluir">
+                            <i class="ph ph-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        function getPermissionsSummary(permissoes) {
+            if (!permissoes || typeof permissoes !== 'object') return '<span style="color: var(--color-text-muted);">Nenhuma</span>';
+            let count = 0;
+            for (const sessao in permissoes) {
+                if (Array.isArray(permissoes[sessao])) count += permissoes[sessao].length;
+            }
+            return `<span style="color: var(--color-primary);">${count} permiss${count !== 1 ? 'ões' : 'ão'}</span>`;
+        }
+
+        function openNewManagerModal() {
+            editingManagerId = null;
+            document.getElementById('modalTitle').textContent = 'Novo Gerente';
+            document.getElementById('managerForm').reset();
+            document.getElementById('managerPassword').required = true;
+            document.getElementById('managerPasswordConfirm').required = true;
+            renderPermissionsTree();
+            document.getElementById('managerModal').style.display = 'flex';
+        }
+
+        function editManager(id) {
+            const manager = allManagers.find(m => m.id === id);
+            if (!manager) return;
+
+            editingManagerId = id;
+            document.getElementById('modalTitle').textContent = 'Editar Gerente';
+            document.getElementById('managerName').value = manager.nome;
+            document.getElementById('managerEmail').value = manager.email;
+            document.getElementById('managerPassword').value = '';
+            document.getElementById('managerPassword').required = false;
+            document.getElementById('managerPasswordConfirm').value = '';
+            document.getElementById('managerPasswordConfirm').required = false;
+            document.getElementById('managerTipo').value = manager.tipo || 'Gerente';
+            const permissoes = typeof manager.permissoes === 'string' ? JSON.parse(manager.permissoes || '{}') : (manager.permissoes || {});
+            renderPermissionsTree(permissoes);
+            document.getElementById('managerModal').style.display = 'flex';
+        }
+
+        function renderPermissionsTree(selectedPermissions = {}) {
+            const tree = document.getElementById('permissionsTree');
+            const permissions = {
+                geral: { label: 'Geral', subsections: { dashboard: 'Dashboard', clientes: 'Clientes', operacional: 'Operacional' } },
+                financeiro: { label: 'Financeiro', subsections: { transacoes: 'Transações', cupons: 'Cupons', notas: 'Notas Fiscais' } },
+                sistema: { label: 'Sistema', subsections: { auditoria: 'Auditoria', configuracoes: 'Configurações', gerentes: 'Gerentes' } },
+                produtos: { label: 'Produtos', subsections: { diagnostico: 'Diagnóstico de Crédito', rating: 'Rating Bancário', limpa: 'Limpa Nome' } }
+            };
+
+            let html = '';
+            for (const [sessao, data] of Object.entries(permissions)) {
+                html += `<div class="permission-section"><div class="permission-section-title"><i class="ph ph-folder"></i> ${data.label}</div>`;
+                for (const [subsessao, label] of Object.entries(data.subsections)) {
+                    const checked = selectedPermissions[sessao]?.includes(subsessao) ? 'checked' : '';
+                    html += `<div class="permission-item"><input type="checkbox" id="perm_${sessao}_${subsessao}" data-sessao="${sessao}" data-subsessao="${subsessao}" ${checked}><label for="perm_${sessao}_${subsessao}">${label}</label></div>`;
+                }
+                html += `</div>`;
+            }
+            tree.innerHTML = html;
+        }
+
+        async function saveManager(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('managerPassword').value;
+            const passwordConfirm = document.getElementById('managerPasswordConfirm').value;
+
+            if (password && password !== passwordConfirm) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+
+            const permissoes = {};
+            document.querySelectorAll('#permissionsTree input[type="checkbox"]:checked').forEach(cb => {
+                const sessao = cb.dataset.sessao;
+                const subsessao = cb.dataset.subsessao;
+                if (!permissoes[sessao]) permissoes[sessao] = [];
+                permissoes[sessao].push(subsessao);
+            });
+
+            const payload = {
+                nome: document.getElementById('managerName').value,
+                email: document.getElementById('managerEmail').value,
+                tipo: document.getElementById('managerTipo').value,
+                permissoes: permissoes
+            };
+
+            if (password) payload.senha = password;
+
+            try {
+                let res;
+                if (editingManagerId) {
+                    res = await adminFetch('/api/admin/managers/' + editingManagerId, {
+                        method: 'PUT',
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    if (!password) {
+                        alert('Senha obrigatória para novo gerente.');
+                        return;
+                    }
+                    payload.senha = password;
+                    res = await adminFetch('/api/admin/managers', {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+                }
+                if (!res) return;
+                const data = await res.json();
+                if (!data.success) {
+                    alert(data.error || 'Erro ao salvar gerente.');
+                    return;
+                }
+                alert(editingManagerId ? 'Gerente atualizado!' : 'Gerente cadastrado!');
+                closeModal();
+                loadManagers();
+            } catch (err) {
+                alert('Erro ao salvar gerente.');
+            }
+        }
+
+        async function toggleManagerStatus(id, currentActive) {
+            try {
+                const res = await adminFetch('/api/admin/managers/' + id, {
+                    method: 'PUT',
+                    body: JSON.stringify({ ativo: !currentActive })
+                });
+                if (!res) return;
+                loadManagers();
+            } catch (err) {
+                alert('Erro ao alterar status.');
+            }
+        }
+
+        async function deleteManager(id) {
+            if (!confirm('Tem certeza que deseja excluir este gerente?')) return;
+            try {
+                const res = await adminFetch('/api/admin/managers/' + id, { method: 'DELETE' });
+                if (!res) return;
+                alert('Gerente excluído!');
+                loadManagers();
+            } catch (err) {
+                alert('Erro ao excluir gerente.');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('managerModal').style.display = 'none';
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('credpositivo_admin');
+            localStorage.removeItem('credpositivo_admin_token');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

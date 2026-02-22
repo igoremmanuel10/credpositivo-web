@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=390, initial-scale=1.0">
+  <title>O Código do Crédito - CredPositivo (iPhone)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+  <style>
+    /* ============================================
+       CSS VARIABLES & RESET
+       ============================================ */
+    :root {
+      --bg-primary: #0F1115;
+      --bg-secondary: #13161b;
+      --bg-tertiary: #1a1d24;
+      --blue-primary: #3B82F6;
+      --blue-light: #60a5fa;
+      --blue-dark: #2563eb;
+      --green-accent: #22C55E;
+      --green-dark: #16a34a;
+      --green-promo-start: #00d4aa;
+      --green-promo-end: #00f0c8;
+      --glass-bg: rgba(255,255,255,0.02);
+      --glass-bg-hover: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-border-hover: rgba(255,255,255,0.15);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.85);
+      --text-muted: rgba(255,255,255,0.6);
+      --text-dim: rgba(255,255,255,0.4);
+      --gold: #f59e0b;
+      --red-risk: #ef4444;
+      --orange-risk: #f97316;
+      --yellow-risk: #eab308;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --shadow-card: 0 6px 24px rgba(0,0,0,0.3);
+      --shadow-glow-blue: 0 0 30px rgba(59,130,246,0.15);
+      --shadow-glow-green: 0 4px 12px rgba(0,230,118,0.4);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #1a1a1a;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* ============================================
+       EBOOK CONTAINER - FIXED 390px
+       ============================================ */
+    .ebook {
+      width: 390px;
+      max-width: 390px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ============================================
+       PAGE STRUCTURE - FIXED 844px
+       ============================================ */
+    .page {
+      width: 390px;
+      height: 844px;
+      min-height: 844px;
+      max-height: 844px;
+      overflow: hidden;
+      position: relative;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-primary);
+    }
+
+    .page--cover {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 1rem;
+      right: 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================
+       COVER PAGE
+       ============================================ */
+    .cover {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover__bg-art {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cover__orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.6;
+    }
+
+    .cover__orb--blue {
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(59,130,246,0.3), transparent 70%);
+      top: -8%; right: -8%;
+    }
+
+    .cover__orb--green {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(34,197,94,0.2), transparent 70%);
+      bottom: 12%; left: -5%;
+    }
+
+    .cover__orb--accent {
+      width: 140px; height: 140px;
+      background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
+      top: 40%; left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .cover__grid-lines {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+      background-size: 45px 45px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    }
+
+    .cover__content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 1rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--green-accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .cover__title {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.03em;
+    }
+
+    .cover__title span {
+      background: linear-gradient(135deg, var(--blue-primary), var(--green-promo-start));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover__subtitle {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .cover__line {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--blue-primary), var(--green-accent));
+      border-radius: 2px;
+      margin: 0 auto 2rem;
+    }
+
+    .cover__brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .cover__corner-mark {
+      position: absolute;
+      width: 36px; height: 36px;
+      border-color: rgba(59,130,246,0.15);
+      border-style: solid;
+    }
+    .cover__corner-mark--tl { top: 1.25rem; left: 1.25rem; border-width: 2px 0 0 2px; }
+    .cover__corner-mark--tr { top: 1.25rem; right: 1.25rem; border-width: 2px 2px 0 0; }
+    .cover__corner-mark--bl { bottom: 1.25rem; left: 1.25rem; border-width: 0 0 2px 2px; }
+    .cover__corner-mark--br { bottom: 1.25rem; right: 1.25rem; border-width: 0 2px 2px 0; }
+
+    /* ============================================
+       COVER HERO BACKGROUND
+       ============================================ */
+    .cover-hero-bg {
+      position: absolute;
+      inset: 0; z-index: 0; overflow: hidden;
+    }
+    .cover-hero-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.2) saturate(1.3) contrast(1.1);
+    }
+    .cover-hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at center, rgba(15,17,21,0.3) 0%, rgba(15,17,21,0.85) 70%),
+        linear-gradient(180deg, rgba(15,17,21,0.4) 0%, rgba(15,17,21,0.9) 100%);
+    }
+
+    /* ============================================
+       HERO IMAGES
+       ============================================ */
+    .hero-img-section {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+    .hero-img-section img {
+      width: 100%; height: 130px;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      filter: brightness(0.65) saturate(1.1);
+    }
+    .hero-img-section::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(15,17,21,0.1) 0%, rgba(15,17,21,0.6) 100%);
+      pointer-events: none;
+    }
+    .hero-img-section .hero-img-label {
+      position: absolute;
+      bottom: 0.75rem; left: 1rem;
+      z-index: 2;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .inline-img {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      margin: 0.75rem 0;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .inline-img img {
+      width: 100%; height: 110px;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      filter: brightness(0.65) saturate(1.2);
+    }
+    .inline-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(15,17,21,0.35));
+      pointer-events: none;
+    }
+
+    /* ============================================
+       CHAPTER HEADERS
+       ============================================ */
+    .chapter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 100px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--blue-light);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .chapter-pill--green {
+      background: rgba(34,197,94,0.1);
+      border-color: rgba(34,197,94,0.2);
+      color: var(--green-accent);
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+
+    .section-title span { color: var(--blue-primary); }
+    .section-title .green { color: var(--green-accent); }
+
+    .section-lead {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       BODY TEXT
+       ============================================ */
+    .text-block {
+      flex-shrink: 0;
+    }
+
+    .text-block p {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 0.7rem;
+    }
+    .text-block p:last-child { margin-bottom: 0; }
+
+    .text-highlight { color: var(--text-primary); font-weight: 600; }
+    .text-blue { color: var(--blue-primary); font-weight: 600; }
+    .text-green { color: var(--green-accent); font-weight: 600; }
+
+    /* ============================================
+       STAT CARDS
+       ============================================ */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin: 0.75rem 0;
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 0.6rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .stat-card__number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.03em;
+    }
+
+    .stat-card__number--blue {
+      background: linear-gradient(135deg, var(--blue-primary), var(--blue-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-card__number--red {
+      background: linear-gradient(135deg, var(--red-risk), var(--orange-risk));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-card__number--green {
+      background: linear-gradient(135deg, var(--green-accent), var(--green-promo-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card__label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .stat-card__icon {
+      font-size: 1rem;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ============================================
+       GLASS CARDS
+       ============================================ */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .glass-card__header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .glass-card__icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .glass-card__icon--blue {
+      background: rgba(59,130,246,0.12);
+      color: var(--blue-primary);
+      border: 1px solid rgba(59,130,246,0.2);
+    }
+    .glass-card__icon--green {
+      background: rgba(34,197,94,0.12);
+      color: var(--green-accent);
+      border: 1px solid rgba(34,197,94,0.2);
+    }
+    .glass-card__icon--gold {
+      background: rgba(245,158,11,0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245,158,11,0.2);
+    }
+
+    .glass-card__title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .glass-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       QUOTE BLOCK
+       ============================================ */
+    .quote-block {
+      position: relative;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-left: 3px solid var(--blue-primary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1rem 1rem 1rem 1.25rem;
+      margin: 0.75rem 0;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+    .quote-block::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -3px; bottom: -1px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--blue-primary), var(--green-accent));
+      border-radius: 3px;
+    }
+    .quote-block__icon {
+      font-size: 1.25rem;
+      color: rgba(59,130,246,0.3);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .quote-block p {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .quote-block__source {
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      font-style: normal;
+    }
+
+    /* ============================================
+       RATING TABLE
+       ============================================ */
+    .rating-table {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      flex-shrink: 0;
+    }
+
+    .rating-table__header {
+      display: grid;
+      grid-template-columns: 110px 1fr 60px;
+      padding: 0.6rem 0.85rem;
+      background: rgba(59,130,246,0.08);
+      border-bottom: 1px solid var(--glass-border);
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--blue-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .rating-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 60px;
+      padding: 0.7rem 0.85rem;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .rating-row:last-child { border-bottom: none; }
+
+    .rating-row__grade {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .rating-row__desc {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      padding-right: 0.5rem;
+    }
+    .rating-row__level { display: flex; justify-content: flex-end; }
+    .rating-bar { height: 5px; border-radius: 3px; width: 50px; }
+
+    .rating--investment .rating-row__grade { color: var(--green-accent); }
+    .rating--investment .rating-bar { background: linear-gradient(90deg, var(--green-accent), var(--green-promo-end)); }
+    .rating--speculative .rating-row__grade { color: var(--yellow-risk); }
+    .rating--speculative .rating-bar { background: linear-gradient(90deg, var(--yellow-risk), var(--orange-risk)); width: 35px; }
+    .rating--high-risk .rating-row__grade { color: var(--orange-risk); }
+    .rating--high-risk .rating-bar { background: linear-gradient(90deg, var(--orange-risk), var(--red-risk)); width: 22px; }
+    .rating--default .rating-row__grade { color: var(--red-risk); }
+    .rating--default .rating-bar { background: var(--red-risk); width: 10px; }
+
+    /* ============================================
+       FEATURE LIST
+       ============================================ */
+    .feature-list {
+      list-style: none;
+      margin: 0.5rem 0;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .feature-list li i {
+      color: var(--green-accent);
+      font-size: 0.9rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+    .feature-list li strong { color: var(--text-primary); font-weight: 600; }
+
+    /* ============================================
+       RIGHTS LIST
+       ============================================ */
+    .rights-list {
+      list-style: none;
+      margin: 0.5rem 0;
+      counter-reset: rights;
+    }
+    .rights-list li {
+      counter-increment: rights;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .rights-list li:last-child { border-bottom: none; }
+    .rights-list li::before {
+      content: counter(rights);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: var(--blue-primary);
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .rights-list li span {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .rights-list li strong { color: var(--text-primary); }
+
+    /* ============================================
+       PROMO CARD
+       ============================================ */
+    .promo-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(34,197,94,0.05));
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .promo-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,212,170,0.1), transparent 70%);
+      pointer-events: none;
+    }
+    .promo-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.7rem;
+      background: rgba(0,212,170,0.15);
+      border: 1px solid rgba(0,212,170,0.3);
+      border-radius: 100px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--green-promo-end);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .promo-card__title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .promo-card__desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .promo-card__highlight {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      background: rgba(0,240,200,0.12);
+      border-radius: 4px;
+      color: var(--green-promo-end);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       CTA BUTTON
+       ============================================ */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--green-accent);
+      color: #0f172a;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-glow-green);
+      letter-spacing: 0.01em;
+    }
+    .btn-cta i { font-size: 1.1rem; }
+
+    /* ============================================
+       BACK COVER
+       ============================================ */
+    .back-cover {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    .back-cover__contacts {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .contact-link i { font-size: 0.95rem; color: var(--blue-primary); }
+    .legal-text {
+      margin-top: 1.5rem;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       TABLE OF CONTENTS
+       ============================================ */
+    .toc { margin: 0.75rem 0; }
+    .toc__item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0.85rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+    }
+    .toc__number {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--blue-primary);
+      width: 24px; height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.15);
+      flex-shrink: 0;
+    }
+    .toc__title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .toc__dots {
+      flex: 1;
+      border-bottom: 1px dotted rgba(255,255,255,0.1);
+      min-width: 20px;
+    }
+    .toc__page {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-dim);
+    }
+
+    /* ============================================
+       SECTION ICON HEADER
+       ============================================ */
+    .section-icon-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+    }
+    .section-icon-header__icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .section-icon-header__icon--blue {
+      background: rgba(59,130,246,0.1);
+      color: var(--blue-primary);
+      border: 1px solid rgba(59,130,246,0.15);
+    }
+    .section-icon-header__icon--green {
+      background: rgba(34,197,94,0.1);
+      color: var(--green-accent);
+      border: 1px solid rgba(34,197,94,0.15);
+    }
+    .section-icon-header__icon--gold {
+      background: rgba(245,158,11,0.1);
+      color: var(--gold);
+      border: 1px solid rgba(245,158,11,0.15);
+    }
+
+    /* ============================================
+       SCORE vs RATING COMPARISON
+       ============================================ */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin: 0.75rem 0;
+      flex-shrink: 0;
+    }
+    .comparison-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .comparison-card--dim { opacity: 0.7; }
+    .comparison-card--highlight {
+      border-color: rgba(59,130,246,0.3);
+      box-shadow: var(--shadow-glow-blue);
+    }
+    .comparison-card__label {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+    .comparison-card__title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+    .comparison-card__desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* ============================================
+       GAUGE / VELOCIMETRO
+       ============================================ */
+    .gauge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0.5rem 0;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .gauge {
+      width: 200px; height: 108px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gauge__body {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 180deg,
+        var(--red-risk) 0deg,
+        var(--orange-risk) 45deg,
+        var(--yellow-risk) 90deg,
+        var(--green-accent) 135deg,
+        var(--green-promo-end) 180deg
+      );
+      position: absolute;
+      top: 0; left: 0;
+    }
+    .gauge__inner {
+      width: 154px; height: 154px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      position: absolute;
+      top: 23px; left: 23px;
+    }
+    .gauge__needle {
+      width: 3px; height: 76px;
+      background: linear-gradient(180deg, var(--text-primary), transparent);
+      position: absolute;
+      bottom: 0; left: 99px;
+      transform-origin: bottom center;
+      transform: rotate(55deg);
+      border-radius: 3px;
+      z-index: 2;
+    }
+    .gauge__center-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      position: absolute;
+      bottom: -6px; left: 94px;
+      z-index: 3;
+      box-shadow: 0 0 8px rgba(255,255,255,0.3);
+    }
+    .gauge__labels {
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+      margin-top: 0.35rem;
+    }
+    .gauge__labels span {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+    .gauge__value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--green-accent);
+      margin-top: 0.25rem;
+      line-height: 1;
+    }
+    .gauge__subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ============================================
+       ANIMATED BAR CHART
+       ============================================ */
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      flex-shrink: 0;
+    }
+    .bar-chart__item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .bar-chart__label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 70px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .bar-chart__track {
+      flex: 1;
+      height: 22px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .bar-chart__fill {
+      height: 100%;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      animation: bar-grow 1.5s ease-out forwards;
+      width: 0;
+    }
+    .bar-chart__fill--red { background: linear-gradient(90deg, rgba(239,68,68,0.3), var(--red-risk)); }
+    .bar-chart__fill--orange { background: linear-gradient(90deg, rgba(249,115,22,0.3), var(--orange-risk)); }
+    .bar-chart__fill--blue { background: linear-gradient(90deg, rgba(59,130,246,0.3), var(--blue-primary)); }
+    @keyframes bar-grow {
+      from { width: 0; }
+      to { width: var(--bar-width); }
+    }
+
+    /* ============================================
+       DONUT CHART
+       ============================================ */
+    .donut-chart-container {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-shrink: 0;
+      justify-content: center;
+    }
+    .donut-chart {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--blue-primary) 0deg 120deg,
+        var(--green-accent) 120deg 230deg,
+        var(--gold) 230deg 360deg
+      );
+      position: relative;
+      flex-shrink: 0;
+    }
+    .donut-chart__inner {
+      position: absolute;
+      top: 25px; left: 25px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .donut-chart__inner span:first-child {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .donut-chart__inner span:last-child {
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .donut-chart__legend {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .donut-chart__legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .donut-chart__legend-dot {
+      width: 9px; height: 9px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .donut-chart__legend-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .donut-chart__legend-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       RATING PYRAMID
+       ============================================ */
+    .pyramid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .pyramid__level {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    .pyramid__level--aaa { width: 40%; background: linear-gradient(90deg, rgba(0,212,170,0.2), rgba(34,197,94,0.3)); border: 1px solid rgba(34,197,94,0.3); }
+    .pyramid__level--aa  { width: 50%; background: linear-gradient(90deg, rgba(34,197,94,0.15), rgba(34,197,94,0.25)); border: 1px solid rgba(34,197,94,0.2); }
+    .pyramid__level--a   { width: 58%; background: linear-gradient(90deg, rgba(59,130,246,0.15), rgba(59,130,246,0.25)); border: 1px solid rgba(59,130,246,0.2); }
+    .pyramid__level--bbb { width: 66%; background: linear-gradient(90deg, rgba(59,130,246,0.1), rgba(59,130,246,0.2)); border: 1px solid rgba(59,130,246,0.15); }
+    .pyramid__level--bb  { width: 74%; background: linear-gradient(90deg, rgba(234,179,8,0.1), rgba(234,179,8,0.2)); border: 1px solid rgba(234,179,8,0.2); }
+    .pyramid__level--b   { width: 82%; background: linear-gradient(90deg, rgba(249,115,22,0.1), rgba(249,115,22,0.2)); border: 1px solid rgba(249,115,22,0.2); }
+    .pyramid__level--ccc { width: 90%; background: linear-gradient(90deg, rgba(239,68,68,0.1), rgba(239,68,68,0.2)); border: 1px solid rgba(239,68,68,0.15); }
+    .pyramid__level--d   { width: 100%; background: linear-gradient(90deg, rgba(239,68,68,0.15), rgba(239,68,68,0.3)); border: 1px solid rgba(239,68,68,0.25); }
+
+    /* ============================================
+       TIMELINE
+       ============================================ */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      flex-shrink: 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 9px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--green-accent), var(--blue-primary), var(--green-promo-start));
+    }
+    .timeline__item {
+      position: relative;
+      padding-bottom: 1.1rem;
+    }
+    .timeline__item:last-child { padding-bottom: 0; }
+    .timeline__dot {
+      position: absolute;
+      left: -2rem; top: 0.1rem;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .timeline__dot--green { background: rgba(34,197,94,0.15); border: 2px solid var(--green-accent); }
+    .timeline__dot--blue  { background: rgba(59,130,246,0.15); border: 2px solid var(--blue-primary); }
+    .timeline__dot-inner { width: 6px; height: 6px; border-radius: 50%; }
+    .timeline__dot--green .timeline__dot-inner { background: var(--green-accent); }
+    .timeline__dot--blue  .timeline__dot-inner { background: var(--blue-primary); }
+    .timeline__year {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 0.1rem;
+    }
+    .timeline__title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.1rem;
+    }
+    .timeline__desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* ============================================
+       CREDIT CARD MOCKUP
+       ============================================ */
+    .card-mockup {
+      width: 280px;
+      height: 165px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 30px rgba(59,130,246,0.1);
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+    .card-mockup::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -20%;
+      width: 190px; height: 190px;
+      background: radial-gradient(circle, rgba(59,130,246,0.15), transparent 70%);
+    }
+    .card-mockup__chip {
+      width: 34px; height: 26px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #d4a853, #c29440, #d4a853);
+      margin-bottom: 1rem;
+    }
+    .card-mockup__number {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.75rem;
+    }
+    .card-mockup__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .card-mockup__name {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .card-mockup__brand {
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--green-accent), var(--green-promo-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-mockup__contactless {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ============================================
+       SERVICE CARD
+       ============================================ */
+    .service-card {
+      position: relative;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1rem 1rem 0.9rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-primary), var(--green-accent));
+      border-radius: 2px 2px 0 0;
+    }
+    .service-card__icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      background: rgba(59,130,246,0.08);
+      color: var(--blue-primary);
+      border: 1px solid rgba(59,130,246,0.12);
+    }
+    .service-card__icon-wrap--green {
+      background: rgba(34,197,94,0.08);
+      color: var(--green-accent);
+      border-color: rgba(34,197,94,0.12);
+    }
+    .service-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+    .service-card__desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ============================================
+       BEFORE/AFTER
+       ============================================ */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      align-items: stretch;
+      flex-shrink: 0;
+    }
+    .before-after__card {
+      border-radius: var(--radius-md);
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .before-after__card--before {
+      background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03));
+      border: 1px solid rgba(239,68,68,0.15);
+    }
+    .before-after__card--after {
+      background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.03));
+      border: 1px solid rgba(34,197,94,0.15);
+    }
+    .before-after__icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .before-after__card--before .before-after__icon { background: rgba(239,68,68,0.12); color: var(--red-risk); border: 1px solid rgba(239,68,68,0.2); }
+    .before-after__card--after  .before-after__icon { background: rgba(34,197,94,0.12);  color: var(--green-accent); border: 1px solid rgba(34,197,94,0.2); }
+    .before-after__label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    .before-after__card--before .before-after__label { color: var(--red-risk); }
+    .before-after__card--after  .before-after__label { color: var(--green-accent); }
+    .before-after__title { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); }
+    .before-after__items { list-style: none; text-align: left; width: 100%; }
+    .before-after__items li {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      padding: 0.2rem 0;
+    }
+    .before-after__items li i { font-size: 0.75rem; flex-shrink: 0; }
+    .before-after__card--before .before-after__items li i { color: var(--red-risk); }
+    .before-after__card--after  .before-after__items li i { color: var(--green-accent); }
+    .before-after__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--text-dim);
+    }
+
+    /* ============================================
+       UTILITIES
+       ============================================ */
+    .gradient-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue-primary), var(--green-accent), transparent);
+      border-radius: 1px;
+      margin: 0.75rem 0;
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    .watermark-number {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-size: 7rem;
+      font-weight: 900;
+      color: rgba(59,130,246,0.03);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .section-subtitle {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      margin-bottom: 0;
+    }
+
+    .bg-decoration {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="ebook">
+
+  <!-- ============================================
+       PAGE 01 — CAPA
+       ============================================ -->
+  <section class="page page--cover cover" id="p01">
+    <div class="cover-hero-bg">
+      <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-1.jpg" alt="" loading="eager">
+    </div>
+    <div class="cover__bg-art">
+      <div class="cover__orb cover__orb--blue"></div>
+      <div class="cover__orb cover__orb--green"></div>
+      <div class="cover__orb cover__orb--accent"></div>
+      <div class="cover__grid-lines"></div>
+    </div>
+    <div class="cover__corner-mark cover__corner-mark--tl"></div>
+    <div class="cover__corner-mark cover__corner-mark--tr"></div>
+    <div class="cover__corner-mark cover__corner-mark--bl"></div>
+    <div class="cover__corner-mark cover__corner-mark--br"></div>
+
+    <div class="cover__content">
+      <div class="cover__badge">
+        <i class="ph ph-lock-key-open"></i>
+        Guia Exclusivo CredPositivo
+      </div>
+      <h1 class="cover__title">
+        O <span>Código</span><br>do Crédito
+      </h1>
+      <p class="cover__subtitle">O que os bancos não te contam</p>
+      <div class="cover__line"></div>
+      <div class="cover__brand">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/v2-assets/assets/images/logo.png" alt="CredPositivo" style="width: 130px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 16px rgba(0, 255, 136, 0.2));">
+      </div>
+    </div>
+    <span class="page-number">01</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 02 — SUMARIO
+       ============================================ -->
+  <section class="page" id="p02" style="background: var(--bg-primary); overflow: hidden;">
+    <div class="bg-decoration" style="top: 0; right: 0; width: 50%; height: 100%; opacity: 0.04; overflow: hidden;">
+      <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-2.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; mask-image: linear-gradient(to left, black, transparent); -webkit-mask-image: linear-gradient(to left, black, transparent);">
+    </div>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-list-bullets"></i>
+        Sumário
+      </div>
+      <h2 class="section-title">Navegue pelo <span>conteúdo</span></h2>
+
+      <!-- TOC as vertical list -->
+      <div style="display: flex; flex-direction: column; gap: 0.42rem; margin: 0.4rem 0 0.6rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(255,255,255,0.015); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.05);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--blue-primary); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15); flex-shrink: 0;">1</span>
+          <span style="font-size: 0.88rem; font-weight: 500; color: var(--text-primary); flex: 1;">O Labirinto do Crédito no Brasil</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-dim); flex-shrink: 0;">03</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(255,255,255,0.015); border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.05);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--blue-primary); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15); flex-shrink: 0;">2</span>
+          <span style="font-size: 0.88rem; font-weight: 500; color: var(--text-primary); flex: 1;">O Mito do Score</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-dim); flex-shrink: 0;">05</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(59,130,246,0.04); border-radius: var(--radius-md); border: 1px solid rgba(59,130,246,0.1);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--blue-primary); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.2); flex-shrink: 0;">3</span>
+          <span style="font-size: 0.88rem; font-weight: 500; color: var(--text-primary); flex: 1;">Rating Bancário: O Critério</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--blue-light); flex-shrink: 0;">07</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(34,197,94,0.04); border-radius: var(--radius-md); border: 1px solid rgba(34,197,94,0.1);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--green-accent); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.18); flex-shrink: 0;">4</span>
+          <span style="font-size: 0.88rem; font-weight: 500; color: var(--text-primary); flex: 1;">Seus Direitos: A Lei a Seu Favor</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--green-accent); flex-shrink: 0;">09</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(34,197,94,0.04); border-radius: var(--radius-md); border: 1px solid rgba(34,197,94,0.1);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--green-accent); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.18); flex-shrink: 0;">5</span>
+          <span style="font-size: 0.88rem; font-weight: 500; color: var(--text-primary); flex: 1;">Soluções CredPositivo</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--green-accent); flex-shrink: 0;">11</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.82rem 0.85rem; background: rgba(34,197,94,0.06); border-radius: var(--radius-md); border: 1px solid rgba(34,197,94,0.14);">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--green-accent); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(34,197,94,0.18); border: 1px solid rgba(34,197,94,0.25); flex-shrink: 0;">6</span>
+          <span style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); flex: 1;">Recupere Sua Dignidade</span>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--green-accent); flex-shrink: 0;">13</span>
+        </div>
+      </div>
+
+      <!-- Decorative stats section -->
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0.85rem 0;">
+        <p style="font-size: 0.6rem; font-weight: 600; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem;">O que você vai descobrir</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <div style="padding: 0.75rem; background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.1); border-radius: var(--radius-md); text-align: center;">
+            <i class="ph ph-map-trifold" style="font-size: 1.25rem; color: var(--blue-primary); display: block; margin-bottom: 0.35rem;"></i>
+            <div style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); line-height: 1.3;">Por que te recusam crédito</div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.1); border-radius: var(--radius-md); text-align: center;">
+            <i class="ph ph-shield-star" style="font-size: 1.25rem; color: var(--blue-primary); display: block; margin-bottom: 0.35rem;"></i>
+            <div style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); line-height: 1.3;">O que é o Rating Bancário</div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(34,197,94,0.04); border: 1px solid rgba(34,197,94,0.1); border-radius: var(--radius-md); text-align: center;">
+            <i class="ph ph-gavel" style="font-size: 1.25rem; color: var(--green-accent); display: block; margin-bottom: 0.35rem;"></i>
+            <div style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); line-height: 1.3;">Seus direitos perante os bancos</div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(34,197,94,0.04); border: 1px solid rgba(34,197,94,0.1); border-radius: var(--radius-md); text-align: center;">
+            <i class="ph ph-rocket-launch" style="font-size: 1.25rem; color: var(--green-accent); display: block; margin-bottom: 0.35rem;"></i>
+            <div style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); line-height: 1.3;">Como elevar seu perfil de crédito</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1rem; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.1); border-radius: var(--radius-md);">
+          <i class="ph ph-info" style="color: var(--blue-primary); font-size: 1rem; flex-shrink: 0;"></i>
+          <p style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.45;">
+            Este guia revela os segredos do sistema bancário que afetam sua aprovação de crédito — e como mudar isso.
+          </p>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">02</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 03 — CAP 1 PART 1: Labirinto Stats + Chart
+       ============================================ -->
+  <section class="page" id="p03" style="position: relative;">
+    <span class="watermark-number">01</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-compass"></i>
+        Introdução
+      </div>
+
+      <div class="hero-img-section">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/v2-assets/assets/images/hero-woman.jpg" alt="Conquista financeira" loading="eager" style="object-position: center 30%;">
+        <span class="hero-img-label"><i class="ph ph-camera" style="margin-right: 0.3rem;"></i> O cenário financeiro brasileiro</span>
+      </div>
+
+      <div class="section-icon-header">
+        <div class="section-icon-header__icon section-icon-header__icon--blue">
+          <i class="ph ph-map-trifold"></i>
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-bottom: 0; font-size: 1.45rem;">O Labirinto do <span>Crédito</span></h2>
+          <p class="section-subtitle">no Brasil</p>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card__icon"><i class="ph ph-users-three"></i></div>
+          <div class="stat-card__number stat-card__number--red">70M+</div>
+          <div class="stat-card__label">Brasileiros<br>inadimplentes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon"><i class="ph ph-percent"></i></div>
+          <div class="stat-card__number stat-card__number--red">70,6%</div>
+          <div class="stat-card__label">Taxa média de juros ao ano</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__icon"><i class="ph ph-x-circle"></i></div>
+          <div class="stat-card__number stat-card__number--blue">89%</div>
+          <div class="stat-card__label">Pedidos negados sem explicação</div>
+        </div>
+      </div>
+
+      <h4 style="font-size: 0.65rem; font-weight: 600; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; flex-shrink: 0;">
+        <i class="ph ph-chart-bar" style="color: var(--blue-primary); margin-right: 0.3rem;"></i>
+        Crescimento da inadimplência
+      </h4>
+      <div class="bar-chart">
+        <div class="bar-chart__item">
+          <span class="bar-chart__label">2019</span>
+          <div class="bar-chart__track">
+            <div class="bar-chart__fill bar-chart__fill--blue" style="--bar-width: 55%; width: 55%;">63M</div>
+          </div>
+        </div>
+        <div class="bar-chart__item">
+          <span class="bar-chart__label">2021</span>
+          <div class="bar-chart__track">
+            <div class="bar-chart__fill bar-chart__fill--orange" style="--bar-width: 68%; width: 68%;">66M</div>
+          </div>
+        </div>
+        <div class="bar-chart__item">
+          <span class="bar-chart__label">2023</span>
+          <div class="bar-chart__track">
+            <div class="bar-chart__fill bar-chart__fill--red" style="--bar-width: 82%; width: 82%;">70M+</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: auto; flex-shrink: 0; padding-top: 0.85rem;">
+        <div style="padding: 0.85rem 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md);">
+          <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6;">
+            <strong style="color: var(--text-primary);">O problema é sistêmico.</strong> Você não está sozinho — e a boa notícia é que existe uma saída. A seguir, vamos revelar os critérios ocultos que os bancos usam para decidir seu crédito.
+          </p>
+        </div>
+        <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+          <div style="flex: 1; padding: 0.6rem 0.75rem; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12); border-radius: var(--radius-md);">
+            <div style="font-size: 0.72rem; font-weight: 700; color: var(--red-risk);">R$ 4 trilhões</div>
+            <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.1rem;">Em dívidas ativas no Brasil</div>
+          </div>
+          <div style="flex: 1; padding: 0.6rem 0.75rem; background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.12); border-radius: var(--radius-md);">
+            <div style="font-size: 0.72rem; font-weight: 700; color: var(--blue-light);">1 em cada 3</div>
+            <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.1rem;">Brasileiros adultos inadimplente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">03</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 04 — CAP 1 PART 2: Body text + Missão
+       ============================================ -->
+  <section class="page" id="p04" style="position: relative;">
+    <span class="watermark-number">01</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-compass"></i>
+        Introdução — continuação
+      </div>
+
+      <div class="text-block" style="margin-bottom: 0.6rem;">
+        <p>
+          Para a maioria, o sistema parece trabalhar <span class="text-highlight">contra o cidadão</span>, transformando o sonho da casa própria em um objetivo inalcançável.
+        </p>
+        <p>
+          Como estrategista de recuperação financeira, vejo diariamente a mesma cena: você organiza sua vida, mantém suas contas o mais próximo possível do dia e, ao preencher um formulário de solicitação, recebe um <span class="text-blue">"não"</span> automático. Não há justificativa, não há transparência.
+        </p>
+        <p>
+          Essa frustração é o resultado de <span class="text-highlight">critérios ocultos</span> que o Sistema Financeiro Nacional (SFN), regulado pelo Banco Central, permite que as instituições mantenham em sigilo.
+        </p>
+      </div>
+
+      <div class="gradient-line"></div>
+
+      <div class="glass-card">
+        <div class="glass-card__header">
+          <div class="glass-card__icon glass-card__icon--green">
+            <i class="ph ph-key"></i>
+          </div>
+          <span class="glass-card__title">A Missão CredPositivo</span>
+        </div>
+        <p>
+          A CredPositivo foi fundada para ser o seu <strong style="color: var(--green-accent);">"insider"</strong>. Nós deciframos os algoritmos bancários e entregamos a chave para que você saia desse labirinto. Nossa missão é converter o "não" em aprovação, garantindo a sua verdadeira <strong style="color: var(--text-primary);">Liberdade Financeira</strong>.
+        </p>
+      </div>
+
+      <div style="margin-top: auto; flex-shrink: 0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.6rem;">
+          <div style="padding: 0.75rem; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.12); border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: 1.4rem; font-weight: 800; color: var(--blue-primary);">+5.000</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.2rem;">Clientes atendidos</div>
+          </div>
+          <div style="padding: 0.75rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: 1.4rem; font-weight: 800; color: var(--green-accent);">97%</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 0.2rem;">Taxa de sucesso</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <div style="flex: 1; padding: 0.65rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ph ph-clock" style="color: var(--blue-light); font-size: 1rem; flex-shrink: 0;"></i>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 600; color: var(--text-primary);">Diagnóstico em 24h</div>
+              <div style="font-size: 0.6rem; color: var(--text-dim);">Análise completa do seu perfil</div>
+            </div>
+          </div>
+          <div style="flex: 1; padding: 0.65rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ph ph-shield-check" style="color: var(--green-accent); font-size: 1rem; flex-shrink: 0;"></i>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 600; color: var(--text-primary);">100% Legal</div>
+              <div style="font-size: 0.6rem; color: var(--text-dim);">Dentro das normas do BC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">04</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 05 — CAP 2 PART 1: O Mito do Score + Gauge + Comparison
+       ============================================ -->
+  <section class="page" id="p05" style="position: relative;">
+    <span class="watermark-number">02</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-chart-line-up"></i>
+        Capítulo 1
+      </div>
+
+      <div class="section-icon-header">
+        <div class="section-icon-header__icon section-icon-header__icon--gold">
+          <i class="ph ph-target"></i>
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-bottom: 0; font-size: 1.5rem;">O Mito do <span>Score</span></h2>
+          <p class="section-subtitle">Por que 1000 pontos não garantem tudo</p>
+        </div>
+      </div>
+
+      <div class="gauge-container">
+        <div class="gauge">
+          <div class="gauge__body"></div>
+          <div class="gauge__inner"></div>
+          <div class="gauge__needle"></div>
+          <div class="gauge__center-dot"></div>
+        </div>
+        <div class="gauge__labels">
+          <span>0</span>
+          <span>300</span>
+          <span>500</span>
+          <span>700</span>
+          <span>1000</span>
+        </div>
+        <div class="gauge__value">832</div>
+        <div class="gauge__subtitle">Score alto... mas crédito negado?</div>
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--dim">
+          <div class="comparison-card__label">O que você conhece</div>
+          <div style="font-size: 1.75rem; margin-bottom: 0.4rem;"><i class="ph ph-chart-bar" style="color: var(--gold);"></i></div>
+          <div class="comparison-card__title">Score</div>
+          <div class="comparison-card__desc">
+            Nota pública (0-1000) baseada em pagamentos. Visível para você.
+          </div>
+        </div>
+        <div class="comparison-card comparison-card--highlight">
+          <div class="comparison-card__label">O que realmente decide</div>
+          <div style="font-size: 1.75rem; margin-bottom: 0.4rem;"><i class="ph ph-shield-star" style="color: var(--blue-primary);"></i></div>
+          <div class="comparison-card__title">Rating Bancário</div>
+          <div class="comparison-card__desc">
+            Classificação <strong>interna</strong> de cada banco. Invisível para você. Determina limites e aprovações.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: auto; flex-shrink: 0;">
+        <div style="padding: 0.85rem 1rem; background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-md);">
+          <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6;">
+            <strong style="color: var(--gold);">O Score</strong> diz ao banco se você paga. O <strong style="color: var(--blue-light);">Rating Bancário</strong> diz se você é lucrativo para manter como cliente — e é esse segundo critério que determina limites, taxas e aprovações finais.
+          </p>
+        </div>
+        <div style="margin-top: 0.55rem; display: flex; gap: 0.5rem;">
+          <div style="flex: 1; padding: 0.6rem; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.1); border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: 0.68rem; font-weight: 700; color: var(--blue-primary);">Score Alto</div>
+            <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.1rem;">Necessário, mas insuficiente</div>
+          </div>
+          <div style="flex: 1; padding: 0.6rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.1); border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: 0.68rem; font-weight: 700; color: var(--green-accent);">Rating Elevado</div>
+            <div style="font-size: 0.6rem; color: var(--text-dim); margin-top: 0.1rem;">A chave que abre as portas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">05</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 06 — CAP 2 PART 2: Quote + O Problema Real
+       ============================================ -->
+  <section class="page" id="p06" style="position: relative;">
+    <span class="watermark-number">02</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-chart-line-up"></i>
+        Capítulo 1 — continuação
+      </div>
+
+      <div class="inline-img" style="margin-top: 0;">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-3.jpg" alt="Financas pessoais" loading="eager">
+      </div>
+
+      <div class="text-block" style="margin-bottom: 0.6rem;">
+        <p>
+          O Score de Crédito é frequentemente vendido como a <span class="text-highlight">solução definitiva</span>, mas ele é apenas o "termômetro da saúde financeira". Gerido pelos grandes birôs de crédito, o score é apenas <span class="text-blue">UMA</span> das variáveis que os bancos analisam.
+        </p>
+        <p>
+          Pense no score como a nota de uma única matéria na escola. Ter 10 em matemática não garante aprovação se os outros critérios são diferentes e ocultos.
+        </p>
+      </div>
+
+      <div class="quote-block">
+        <i class="ph ph-quotes quote-block__icon"></i>
+        <p>
+          Muitos clientes chegam até nós com score acima de 800 e, ainda assim, não conseguem crédito. Os bancos usam uma camada de análise muito mais profunda: o Rating.
+        </p>
+        <div class="quote-block__source">— Equipe CredPositivo</div>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-card__header">
+          <div class="glass-card__icon glass-card__icon--blue">
+            <i class="ph ph-warning-circle"></i>
+          </div>
+          <span class="glass-card__title">O Problema Real</span>
+        </div>
+        <p>
+          O score avalia apenas o histórico de <strong style="color: var(--text-primary);">pagamentos registrados</strong> nos birôs. Ele não considera seu relacionamento bancário, padrões de consumo ou estabilidade profissional. Focar apenas no score é como tentar abrir uma porta de sete trancas com uma única chave.
+        </p>
+      </div>
+    </div>
+    <span class="page-number">06</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 07 — CAP 3 PART 1: Rating Bancário + Hero + Donut + 3 Pillars
+       ============================================ -->
+  <section class="page" id="p07" style="position: relative;">
+    <span class="watermark-number">03</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-shield-star"></i>
+        Capítulo 2
+      </div>
+
+      <div class="hero-img-section">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-4.jpg" alt="Instituição financeira" loading="eager">
+        <span class="hero-img-label"><i class="ph ph-bank" style="margin-right: 0.3rem;"></i> O sistema bancário por dentro</span>
+      </div>
+
+      <div class="section-icon-header">
+        <div class="section-icon-header__icon section-icon-header__icon--blue">
+          <i class="ph ph-bank"></i>
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-bottom: 0; font-size: 1.5rem;"><span>Rating</span> Bancário</h2>
+          <p class="section-subtitle">O critério que realmente importa</p>
+        </div>
+      </div>
+
+      <div class="donut-chart-container" style="margin: 0.5rem 0 0.75rem;">
+        <div class="donut-chart">
+          <div class="donut-chart__inner">
+            <span>3</span>
+            <span>Dimensoes</span>
+          </div>
+        </div>
+        <div class="donut-chart__legend">
+          <div class="donut-chart__legend-item">
+            <div class="donut-chart__legend-dot" style="background: var(--blue-primary);"></div>
+            <div class="donut-chart__legend-text"><strong>33%</strong> Padrões de Consumo</div>
+          </div>
+          <div class="donut-chart__legend-item">
+            <div class="donut-chart__legend-dot" style="background: var(--green-accent);"></div>
+            <div class="donut-chart__legend-text"><strong>36%</strong> Relacionamento Interno</div>
+          </div>
+          <div class="donut-chart__legend-item">
+            <div class="donut-chart__legend-dot" style="background: var(--gold);"></div>
+            <div class="donut-chart__legend-text"><strong>31%</strong> Classificação de Risco</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0.75rem; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.12); border-radius: var(--radius-md);">
+          <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(59,130,246,0.12); color: var(--blue-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="ph ph-shopping-cart" style="font-size: 0.85rem;"></i></div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.1rem;">Padrões de Consumo</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">Onde e como você gasta revela seu perfil de risco para os algoritmos bancários.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0.75rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); border-radius: var(--radius-md);">
+          <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(34,197,94,0.12); color: var(--green-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="ph ph-handshake" style="font-size: 0.85rem;"></i></div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.1rem;">Relacionamento Interno</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">Uso de produtos, tempo de conta e fidelidade ao banco aumentam seu rating.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0.75rem; background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.12); border-radius: var(--radius-md);">
+          <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(245,158,11,0.12); color: var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="ph ph-star-half" style="font-size: 0.85rem;"></i></div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.1rem;">Classificação de Risco</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">Notas de agências como S&P, Moody's e Fitch influenciam sua classificação global.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: auto; flex-shrink: 0; padding-top: 0.75rem;">
+        <div style="padding: 0.8rem 0.9rem; background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(34,197,94,0.03)); border: 1px solid rgba(59,130,246,0.1); border-radius: var(--radius-md);">
+          <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.55; text-align: center;">
+            <strong style="color: var(--blue-light);">Essas 3 dimensões</strong> determinam se você chega ao <strong style="color: var(--green-accent);">grau de investimento</strong> — ou fica preso no grau especulativo. A próxima página mostra a hierarquia completa.
+          </p>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">07</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 08 — CAP 3 PART 2: Hierarquia do Rating (Pyramid)
+       ============================================ -->
+  <section class="page" id="p08" style="position: relative;">
+    <span class="watermark-number">03</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-shield-star"></i>
+        Capítulo 2 — Hierarquia
+      </div>
+
+      <h2 class="section-title" style="font-size: 1.5rem;">Hierarquia do <span>Rating</span></h2>
+      <p style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 1rem; flex-shrink: 0;">Do topo (melhor) para a base (pior desempenho)</p>
+
+      <div class="pyramid">
+        <div class="pyramid__level pyramid__level--aaa">AAA — Excelente</div>
+        <div class="pyramid__level pyramid__level--aa">AA — Muito Bom</div>
+        <div class="pyramid__level pyramid__level--a">A — Bom</div>
+        <div class="pyramid__level pyramid__level--bbb">BBB — Adequado</div>
+        <div class="pyramid__level pyramid__level--bb">BB — Especulativo</div>
+        <div class="pyramid__level pyramid__level--b">B — Altamente Especulativo</div>
+        <div class="pyramid__level pyramid__level--ccc">CCC/CC/C — Alto Risco</div>
+        <div class="pyramid__level pyramid__level--d">D — Inadimplente</div>
+      </div>
+
+      <div class="gradient-line"></div>
+
+      <div class="quote-block" style="margin-top: 0;">
+        <i class="ph ph-quotes quote-block__icon"></i>
+        <p>
+          É por este motivo que um cliente pode ter o crédito negado em um grande banco e aprovado em outro, mesmo apresentando exatamente o mesmo Score. Cada instituição calibra sua régua de Rating de acordo com sua experiência prévia com o perfil do consumidor.
+        </p>
+      </div>
+
+      <div style="margin-top: auto; display: flex; gap: 0.5rem;">
+        <div style="flex: 1; padding: 0.65rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.15); border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--green-accent);">AAA a BBB</div>
+          <div style="font-size: 0.62rem; color: var(--text-muted); margin-top: 0.1rem;">Grau Investimento</div>
+        </div>
+        <div style="flex: 1; padding: 0.65rem; background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.15); border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--yellow-risk);">BB a B</div>
+          <div style="font-size: 0.62rem; color: var(--text-muted); margin-top: 0.1rem;">Especulativo</div>
+        </div>
+        <div style="flex: 1; padding: 0.65rem; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15); border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--red-risk);">CCC a D</div>
+          <div style="font-size: 0.62rem; color: var(--text-muted); margin-top: 0.1rem;">Alto Risco</div>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">08</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 09 — CAP 3 PART 3: Escala Internacional (Table)
+       ============================================ -->
+  <section class="page" id="p09" style="position: relative;">
+    <span class="watermark-number">03</span>
+    <div class="page-content">
+      <div class="chapter-pill">
+        <i class="ph ph-shield-star"></i>
+        Capítulo 2 — Escala Internacional
+      </div>
+
+      <h2 class="section-title" style="font-size: 1.45rem;"><span>Escala</span> Internacional de Rating</h2>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.85rem; flex-shrink: 0;">Padrão S&P · Moody's · Fitch — como os bancos classificam você</p>
+
+      <div class="rating-table">
+        <div class="rating-table__header">
+          <span>Classificação</span>
+          <span>Descrição</span>
+          <span>Nível</span>
+        </div>
+        <div class="rating-row rating--investment">
+          <div class="rating-row__grade">AAA a BBB-</div>
+          <div class="rating-row__desc">
+            <strong style="color: var(--green-accent);">Grau de Investimento.</strong> Capacidade de pagamento forte e adequada. Você é o cliente que os bancos disputam.
+          </div>
+          <div class="rating-row__level"><div class="rating-bar"></div></div>
+        </div>
+        <div class="rating-row rating--speculative">
+          <div class="rating-row__grade">BB+ a B-</div>
+          <div class="rating-row__desc">
+            <strong style="color: var(--yellow-risk);">Grau Especulativo.</strong> Capacidade de pagamento suscetível a condições adversas. Crédito caro e restrito.
+          </div>
+          <div class="rating-row__level"><div class="rating-bar"></div></div>
+        </div>
+        <div class="rating-row rating--high-risk">
+          <div class="rating-row__grade">CCC+ a C</div>
+          <div class="rating-row__desc">
+            <strong style="color: var(--orange-risk);">Alto Risco.</strong> Risco de inadimplência considerável. Acesso ao crédito praticamente inexistente.
+          </div>
+          <div class="rating-row__level"><div class="rating-bar"></div></div>
+        </div>
+        <div class="rating-row rating--default">
+          <div class="rating-row__grade">D</div>
+          <div class="rating-row__desc">
+            <strong style="color: var(--red-risk);">Inadimplência.</strong> Entidade ou indivíduo já em situação de calote. Portas fechadas.
+          </div>
+          <div class="rating-row__level"><div class="rating-bar"></div></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 0.85rem; padding: 0.85rem 1rem; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.12); border-radius: var(--radius-md); flex-shrink: 0;">
+        <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.55;">
+          <strong style="color: var(--blue-primary);">Objetivo:</strong> Elevar seu rating para o <strong style="color: var(--green-accent);">grau de investimento (BBB ou superior)</strong> — e isso é exatamente o que a CredPositivo faz por você.
+        </p>
+      </div>
+
+      <div style="margin-top: auto; padding-top: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 0.85rem; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.15); border-radius: var(--radius-md);">
+          <i class="ph ph-arrow-right" style="color: var(--green-accent); font-size: 0.95rem; flex-shrink: 0;"></i>
+          <p style="font-size: 0.72rem; color: var(--text-muted);">
+            <strong style="color: var(--green-accent);">Próximo:</strong> Conheça seus direitos legais e como usá-los a seu favor.
+          </p>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">09</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 10 — CAP 4 PART 1: Seus Direitos + Hero + Timeline
+       ============================================ -->
+  <section class="page" id="p10" style="position: relative;">
+    <span class="watermark-number">04</span>
+    <div class="page-content">
+      <div class="chapter-pill chapter-pill--green">
+        <i class="ph ph-scales"></i>
+        Capítulo 3
+      </div>
+
+      <div class="hero-img-section">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-5.jpg" alt="Justiça e direitos" loading="eager">
+        <span class="hero-img-label"><i class="ph ph-scales" style="margin-right: 0.3rem;"></i> A lei protege o consumidor</span>
+      </div>
+
+      <div class="section-icon-header">
+        <div class="section-icon-header__icon section-icon-header__icon--green">
+          <i class="ph ph-gavel"></i>
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-bottom: 0; font-size: 1.5rem;">Seus <span class="green">Direitos</span></h2>
+          <p class="section-subtitle">A lei a seu favor</p>
+        </div>
+      </div>
+
+      <h4 style="font-size: 0.62rem; font-weight: 600; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; flex-shrink: 0;">
+        <i class="ph ph-clock-countdown" style="color: var(--green-accent); margin-right: 0.3rem;"></i>
+        Evolução dos direitos do consumidor
+      </h4>
+
+      <div class="timeline">
+        <div class="timeline__item">
+          <div class="timeline__dot timeline__dot--green"><div class="timeline__dot-inner"></div></div>
+          <div class="timeline__year">1990</div>
+          <div class="timeline__title">Código de Defesa do Consumidor</div>
+          <div class="timeline__desc">CDC — Lei 8.078/90, garantindo direitos básicos de proteção ao consumidor.</div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__dot timeline__dot--blue"><div class="timeline__dot-inner"></div></div>
+          <div class="timeline__year">2011</div>
+          <div class="timeline__title">Lei do Cadastro Positivo</div>
+          <div class="timeline__desc">Lei 12.414/2011 — histórico de bom pagador começa a contar.</div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__dot timeline__dot--green"><div class="timeline__dot-inner"></div></div>
+          <div class="timeline__year">2018</div>
+          <div class="timeline__title">LGPD — Proteção de Dados</div>
+          <div class="timeline__desc">Seus dados financeiros ganham proteção redobrada por lei.</div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__dot timeline__dot--blue"><div class="timeline__dot-inner"></div></div>
+          <div class="timeline__year">2019</div>
+          <div class="timeline__title">Cadastro Positivo Automático</div>
+          <div class="timeline__desc">LC 166 — contas de luz, água e telefone contam a seu favor.</div>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">10</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 11 — CAP 4 PART 2: CDC + Rights + Você Sabia?
+       ============================================ -->
+  <section class="page" id="p11" style="position: relative;">
+    <span class="watermark-number">04</span>
+    <div class="page-content">
+      <div class="chapter-pill chapter-pill--green">
+        <i class="ph ph-scales"></i>
+        Capítulo 3 — continuação
+      </div>
+
+      <h2 class="section-title" style="font-size: 1.45rem;">
+        <i class="ph ph-shield-check" style="color: var(--green-accent); margin-right: 0.4rem; font-size: 1.3rem;"></i>
+        Código de Defesa do Consumidor
+      </h2>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem; flex-shrink: 0;">3 pilares inegociáveis garantidos por lei:</p>
+
+      <ol class="rights-list">
+        <li>
+          <span>
+            <strong>Direito à informação transparente</strong><br>
+            Você tem o direito de saber por que seu crédito foi negado e quais critérios foram utilizados.
+          </span>
+        </li>
+        <li>
+          <span>
+            <strong>Direito à correção de dados</strong><br>
+            Dados incorretos no Serasa, SPC ou Boa Vista devem ser corrigidos imediatamente e de forma gratuita.
+          </span>
+        </li>
+        <li>
+          <span>
+            <strong>Direito à privacidade dos dados</strong><br>
+            Suas informações financeiras são protegidas. Nenhuma instituição pode compartilhá-las sem seu consentimento explícito.
+          </span>
+        </li>
+      </ol>
+
+      <div class="glass-card" style="margin-top: 0.5rem;">
+        <div class="glass-card__header">
+          <div class="glass-card__icon glass-card__icon--blue">
+            <i class="ph ph-lightbulb"></i>
+          </div>
+          <span class="glass-card__title">Você Sabia?</span>
+        </div>
+        <p>
+          Muitas negativações nos birôs são <strong style="color: var(--text-primary);">ilegais ou prescritas</strong>. Dívidas acima de 5 anos não podem mais constar no seu nome. A CredPositivo analisa cada caso para identificar oportunidades de limpar seu nome de forma rápida e legal.
+        </p>
+      </div>
+    </div>
+    <span class="page-number">11</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 12 — CAP 5 PART 1: Soluções + Hero + Card Mockup + Service Card
+       ============================================ -->
+  <section class="page" id="p12" style="position: relative;">
+    <span class="watermark-number">05</span>
+    <div class="page-content">
+      <div class="chapter-pill chapter-pill--green">
+        <i class="ph ph-rocket-launch"></i>
+        Capítulo 4
+      </div>
+
+      <div class="section-icon-header">
+        <div class="section-icon-header__icon section-icon-header__icon--green">
+          <i class="ph ph-lightning"></i>
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-bottom: 0; font-size: 1.5rem;">Soluções <span class="green">CredPositivo</span></h2>
+          <p class="section-subtitle">Ferramentas reais para reconstruir seu crédito</p>
+        </div>
+      </div>
+
+      <div class="hero-img-section">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-6.jpg" alt="Compras com cartao" loading="eager">
+      </div>
+
+      <div class="card-mockup" style="margin: 0.6rem auto;">
+        <div class="card-mockup__contactless">
+          <i class="ph ph-contactless-payment"></i>
+        </div>
+        <div class="card-mockup__chip"></div>
+        <div class="card-mockup__number">**** **** **** 4829</div>
+        <div class="card-mockup__bottom">
+          <div>
+            <div style="font-size: 0.55rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.15rem;">Titular</div>
+            <div class="card-mockup__name">SEU NOME AQUI</div>
+          </div>
+          <div class="card-mockup__brand">JC DIGITAL</div>
+        </div>
+      </div>
+
+      <div class="service-card" style="padding: 0.75rem 0.9rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
+          <div class="service-card__icon-wrap service-card__icon-wrap--green" style="width: 36px; height: 36px; border-radius: 10px; font-size: 1.1rem; margin-bottom: 0;">
+            <i class="ph ph-credit-card"></i>
+          </div>
+          <h3 class="service-card__title" style="font-size: 0.92rem; margin-bottom: 0;">Cartão de Crédito Exclusivo JC Digital</h3>
+        </div>
+        <ul class="feature-list" style="margin: 0;">
+          <li><i class="ph ph-check-circle"></i><span><strong>Sem anuidade</strong> e com aprovação facilitada</span></li>
+          <li><i class="ph ph-check-circle"></i><span><strong>Disponibilidade imediata</strong> como cartão virtual</span></li>
+          <li><i class="ph ph-check-circle"></i><span>Ideal para <strong>recomeçar</strong> sem burocracia</span></li>
+        </ul>
+      </div>
+    </div>
+    <span class="page-number">12</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 13 — CAP 5 PART 2: Promo Card Oferta Especial
+       ============================================ -->
+  <section class="page" id="p13" style="position: relative; background: var(--bg-primary);">
+    <span class="watermark-number">05</span>
+    <div class="page-content">
+      <div class="chapter-pill chapter-pill--green">
+        <i class="ph ph-star-four"></i>
+        Oferta Especial
+      </div>
+
+      <div style="margin-bottom: 0.75rem; flex-shrink: 0;">
+        <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 0.4rem;">Aumento de Rating + <span class="green">Limpa Nome</span></h2>
+        <p style="font-size: 0.82rem; color: var(--text-muted);">A combinação que transforma seu perfil financeiro</p>
+      </div>
+
+      <div class="promo-card" style="margin-bottom: 0.75rem;">
+        <div class="promo-card__badge">
+          <i class="ph ph-star-four"></i>
+          Oferta Especial Limitada
+        </div>
+        <h3 class="promo-card__title">
+          Aumento de Rating + Limpa Nome <span class="promo-card__highlight">GRATIS</span>
+        </h3>
+        <p class="promo-card__desc">
+          Contrate hoje o nosso serviço de <strong style="color: var(--text-primary);">Aumento de Rating Bancário</strong> e <strong style="color: var(--green-promo-end);">GANHE</strong> o serviço de Limpa Nome inteiramente grátis. Plano de ação personalizado e regularização total de pendências com <strong style="color: var(--text-primary);">economia máxima</strong>.
+        </p>
+        <a href="https://www.credpositivo.com/cadastro" class="btn-cta">
+          <i class="ph ph-arrow-right"></i>
+          Quero Essa Oferta
+        </a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.55rem; flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.85rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); border-radius: var(--radius-md);">
+          <i class="ph ph-check-fat" style="color: var(--green-accent); font-size: 1rem; flex-shrink: 0;"></i>
+          <span style="font-size: 0.78rem; color: var(--text-secondary);">Diagnóstico financeiro <strong style="color: var(--text-primary);">100% gratuito</strong></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.85rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); border-radius: var(--radius-md);">
+          <i class="ph ph-check-fat" style="color: var(--green-accent); font-size: 1rem; flex-shrink: 0;"></i>
+          <span style="font-size: 0.78rem; color: var(--text-secondary);">Limpa Nome em até <strong style="color: var(--text-primary);">15 dias úteis</strong></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.85rem; background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); border-radius: var(--radius-md);">
+          <i class="ph ph-check-fat" style="color: var(--green-accent); font-size: 1rem; flex-shrink: 0;"></i>
+          <span style="font-size: 0.78rem; color: var(--text-secondary);">Aumento de Rating em até <strong style="color: var(--text-primary);">20 dias úteis</strong></span>
+        </div>
+      </div>
+    </div>
+    <span class="page-number">13</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 14 — CTA FINAL: Recupere Sua Dignidade
+       ============================================ -->
+  <section class="page" id="p14" style="position: relative;">
+    <span class="watermark-number">06</span>
+    <div class="page-content">
+      <div class="chapter-pill chapter-pill--green">
+        <i class="ph ph-flag-banner"></i>
+        Conclusão
+      </div>
+
+      <div class="hero-img-section">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-7.jpg" alt="Liberdade financeira" loading="eager">
+        <span class="hero-img-label"><i class="ph ph-sun-horizon" style="margin-right: 0.3rem;"></i> Seu futuro financeiro começa agora</span>
+      </div>
+
+      <h2 class="section-title" style="font-size: 1.5rem; margin-bottom: 0.4rem;">
+        Recupere Sua <span class="green">Dignidade</span> Financeira
+      </h2>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem; flex-shrink: 0; line-height: 1.5;">
+        Não aceite o "não" como resposta definitiva. Assuma o controle da sua jornada hoje mesmo.
+      </p>
+
+      <div class="before-after" style="margin-bottom: 0.75rem;">
+        <div class="before-after__card before-after__card--before">
+          <div class="before-after__icon"><i class="ph ph-lock-simple"></i></div>
+          <div class="before-after__label">Antes</div>
+          <div class="before-after__title">Portas Fechadas</div>
+          <ul class="before-after__items">
+            <li><i class="ph ph-x-circle"></i> Nome negativado</li>
+            <li><i class="ph ph-x-circle"></i> Crédito negado</li>
+            <li><i class="ph ph-x-circle"></i> Juros abusivos</li>
+            <li><i class="ph ph-x-circle"></i> Sem poder de compra</li>
+          </ul>
+        </div>
+        <div class="before-after__arrow">
+          <i class="ph ph-arrow-right-bold"></i>
+        </div>
+        <div class="before-after__card before-after__card--after">
+          <div class="before-after__icon"><i class="ph ph-lock-key-open"></i></div>
+          <div class="before-after__label">Depois</div>
+          <div class="before-after__title">Crédito Aprovado</div>
+          <ul class="before-after__items">
+            <li><i class="ph ph-check-circle"></i> Nome limpo</li>
+            <li><i class="ph ph-check-circle"></i> Rating elevado</li>
+            <li><i class="ph ph-check-circle"></i> Taxas competitivas</li>
+            <li><i class="ph ph-check-circle"></i> Liberdade financeira</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center; flex-shrink: 0;">
+        <p style="font-size: 0.62rem; color: var(--text-dim); font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem;">Próximo Passo</p>
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; line-height: 1.4;">
+          Seu crédito travou.<br>
+          <span style="background: linear-gradient(135deg, var(--green-accent), var(--green-promo-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">A gente destrava.</span>
+        </p>
+        <a href="https://www.credpositivo.com/cadastro" class="btn-cta" style="width: 100%; justify-content: center;">
+          <i class="ph ph-arrow-circle-right"></i>
+          Fazer Meu Diagnóstico Agora
+        </a>
+        <p style="font-size: 0.65rem; color: var(--text-dim); margin-top: 0.4rem;">Gratuito e sem compromisso</p>
+      </div>
+    </div>
+    <span class="page-number">14</span>
+  </section>
+
+  <!-- ============================================
+       PAGE 15 — CONTRACAPA
+       ============================================ -->
+  <section class="page page--cover" id="p15" style="overflow: hidden;">
+    <div class="cover-hero-bg" style="opacity: 0.5;">
+      <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/ebook-images/unsplash-8.jpg" alt="" loading="eager" style="filter: brightness(0.15) saturate(1.2) hue-rotate(10deg);">
+    </div>
+    <div class="cover__bg-art">
+      <div class="cover__orb cover__orb--green" style="bottom: 25%; left: 25%; width: 180px; height: 180px;"></div>
+      <div class="cover__orb cover__orb--blue" style="top: 20%; right: 15%; width: 150px; height: 150px;"></div>
+    </div>
+    <div class="cover__corner-mark cover__corner-mark--tl"></div>
+    <div class="cover__corner-mark cover__corner-mark--tr"></div>
+    <div class="cover__corner-mark cover__corner-mark--bl"></div>
+    <div class="cover__corner-mark cover__corner-mark--br"></div>
+
+    <div class="cover__content" style="position: relative; z-index: 2; width: 100%;">
+      <div style="margin-bottom: 1.5rem;">
+        <img src="file:///Users/igoremmanuel/Downloads/CredPositivo/v2-assets/assets/images/logo.png" alt="CredPositivo" style="width: 120px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 16px rgba(0,255,136,0.3));">
+      </div>
+
+      <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.1em; margin-bottom: 0.4rem;">O Código do Crédito</p>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2rem;">O que os bancos não te contam</p>
+
+      <div style="width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--green-accent), transparent); margin: 0 auto 1.5rem;"></div>
+
+      <div class="back-cover">
+        <div class="back-cover__contacts">
+          <a href="https://www.credpositivo.com" class="contact-link" target="_blank">
+            <i class="ph ph-globe"></i>
+            www.credpositivo.com
+          </a>
+          <a href="https://instagram.com/_credpositivo" class="contact-link" target="_blank">
+            <i class="ph ph-instagram-logo"></i>
+            @_credpositivo
+          </a>
+        </div>
+        <p class="legal-text">
+          &copy; 2026 CredPositivo. Todos os direitos reservados.<br>
+          Este material é de uso exclusivo e não deve ser reproduzido sem autorização.
+        </p>
+      </div>
+    </div>
+    <span class="page-number">15</span>
+  </section>
+
+</div>
+
+</body>
+</html>

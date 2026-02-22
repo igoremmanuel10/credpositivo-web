@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Admin | Operacional</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="scripts/admin-auth.js?v=20260216"></script>
+    <script src="scripts/permissions.js?v=20260216"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .brand .admin-badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        .nav-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: rgba(107, 114, 128, 1);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-item a:hover,
+        .nav-item a.active {
+            background: var(--color-glass);
+            color: #fff;
+        }
+
+        .nav-item a.active {
+            border-left: 3px solid var(--color-primary);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            background: var(--color-glass-header);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-glass);
+            width: 350px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13px;
+            width: 100%;
+            height: auto;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .content-scroll {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .construction-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+        }
+
+        .construction-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .construction-icon i {
+            font-size: 42px;
+            color: var(--color-primary);
+        }
+
+        .construction-container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .construction-container p {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .construction-badge {
+            margin-top: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <h4>Geral</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i>
+                            Dashboard</a></li>
+                    <li class="nav-item"><a href="clientes.html" class="nav-link"><i class="ph ph-users"></i>
+                            Clientes</a></li>
+                    <li class="nav-item"><a href="operacional.html" class="nav-link active"><i class="ph ph-kanban"></i>
+                            Operacional</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Financeiro</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="transacoes.html" class="nav-link"><i class="ph ph-wallet"></i>
+                            Transações</a></li>
+                    <li class="nav-item"><a href="cupons.html" class="nav-link"><i class="ph ph-ticket"></i>
+                            Cupons</a></li>
+                    <li class="nav-item"><a href="notas.html" class="nav-link"><i class="ph ph-receipt"></i> Notas
+                            Fiscais</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Sistema</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="auditoria.html" class="nav-link"><i class="ph ph-shield-check"></i>
+                            Auditoria</a></li>
+                    <li class="nav-item"><a href="config.html" class="nav-link"><i class="ph ph-gear"></i>
+                            Configurações</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="adminLogout()"><i
+                                class="ph ph-sign-out"></i> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div class="search-bar" style="margin-right: auto;">
+                <i class="ph ph-magnifying-glass" style="color: var(--color-text-muted);"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+
+            <div class="admin-profile">
+                <div
+                    style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; cursor: pointer;">
+                    <i class="ph ph-bell"></i>
+                    <div
+                        style="width: 8px; height: 8px; background: var(--color-danger); border-radius: 50%; position: absolute; top: 6px; right: 6px; border: 2px solid var(--color-bg-body);">
+                    </div>
+                </div>
+                <div style="text-align: right; margin-right: 10px;">
+                    <div style="font-size: 13px; font-weight: 600;">Admin Master</div>
+                    <div style="font-size: 11px; color: var(--color-text-muted);">Superusuário</div>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: #333; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Master&background=random" alt="Admin"
+                        style="width: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-scroll" style="display: flex; flex-direction: column; gap: 24px; padding-bottom: 50px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="font-size: 24px; font-weight: 700; color: #fff;">Fluxo Operacional</h2>
+                    <p style="font-size: 14px; color: var(--color-text-muted);">Gerencie as etapas de todos os processos
+                        ativos.</p>
+                </div>
+                <button class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;"
+                    onclick="openNewTaskModal()">
+                    <i class="ph ph-plus-circle"></i> Nova Tarefa
+                </button>
+            </div>
+
+            <!-- Kanban Board -->
+            <div
+                style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; min-height: 600px; -ms-overflow-style: none; scrollbar-width: none;">
+
+                <!-- Coluna: Novos Pedidos -->
+                <div style="flex: 0 0 300px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                        <h3
+                            style="font-size: 14px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Novos Pedidos <span id="countNew"
+                                style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px;">0</span>
+                        </h3>
+                        <i class="ph ph-dots-three-outline-vertical"
+                            style="color: var(--color-text-muted); cursor: pointer;"></i>
+                    </div>
+                    <div id="columnNew" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <!-- Coluna: Análise Jurídica -->
+                <div style="flex: 0 0 300px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                        <h3
+                            style="font-size: 14px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Análise Jurídica <span
+                                style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px;">1</span>
+                        </h3>
+                    </div>
+                    <div id="columnJuridica" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div
+                            style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">
+                            Nenhum processo
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna: Em Processamento -->
+                <div style="flex: 0 0 300px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                        <h3
+                            style="font-size: 14px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Em Processamento <span
+                                style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px;">0</span>
+                        </h3>
+                    </div>
+                    <div
+                        style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">
+                        Arraste aqui
+                    </div>
+                </div>
+
+                <!-- Coluna: Concluído -->
+                <div style="flex: 0 0 300px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                        <h3
+                            style="font-size: 14px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Concluído <span
+                                style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 6px;">1</span>
+                        </h3>
+                    </div>
+                    <div id="columnConcluido" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div
+                            style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">
+                            Nenhum registro
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script src="scripts/admin-main.js"></script>
+    <script>
+        let opUsers = [];
+        let opOrders = [];
+
+        async function loadOperational() {
+            const colNew = document.getElementById('columnNew');
+            const colJuridica = document.getElementById('columnJuridica');
+            const colConcluido = document.getElementById('columnConcluido');
+
+            colNew.innerHTML = '<div style="text-align:center; padding:20px; color: var(--color-text-muted); font-size:12px;">Carregando...</div>';
+            colJuridica.innerHTML = '';
+            colConcluido.innerHTML = '';
+
+            try {
+                const [usersRes, ordersRes] = await Promise.all([
+                    adminFetch('/api/admin/users'),
+                    adminFetch('/api/admin/orders')
+                ]);
+                if (!usersRes || !ordersRes) return;
+
+                const usersData = await usersRes.json();
+                const ordersData = await ordersRes.json();
+                opUsers = usersData.users || [];
+                opOrders = ordersData.orders || [];
+            } catch (err) {
+                console.error('Erro ao carregar operacional:', err);
+                opUsers = [];
+                opOrders = [];
+            }
+
+            colNew.innerHTML = '';
+            colJuridica.innerHTML = '';
+            colConcluido.innerHTML = '';
+
+            const pendingStatuses = ['Aguardando Pagamento', 'pending'];
+            const wipStatuses = ['Em Análise', 'Em Analise', 'processing', 'paid'];
+            const doneStatuses = ['Concluído', 'Concluido', 'completed', 'approved'];
+
+            // Filter by allowed products if gerente
+            const allowedProducts = typeof getAllowedProducts === 'function' ? getAllowedProducts() : ['rating','limpa','diagnostico'];
+            const filteredOrders = opOrders.filter(o => {
+                const svc = (o.service || '').toLowerCase();
+                if (svc.includes('rating')) return allowedProducts.includes('rating');
+                if (svc.includes('limpa')) return allowedProducts.includes('limpa');
+                if (svc.includes('diagn')) return allowedProducts.includes('diagnostico');
+                return true;
+            });
+
+            filteredOrders.forEach(o => {
+                const user = opUsers.find(u => u.id === o.user_id) || { nome: o.customer_name || 'Usuário' };
+                const card = document.createElement('article');
+                card.className = 'glass-card';
+                card.style.cssText = 'padding: 16px; cursor: pointer; margin-bottom: 12px;';
+                card.draggable = true;
+                card.ondragstart = (e) => e.dataTransfer.setData('orderId', o.id);
+                card.onclick = () => showOperationalDetails(o.id);
+
+                card.innerHTML = `
+                    <div style="font-size: 11px; color: var(--color-primary); font-weight: 600; margin-bottom: 8px;">#${o.id}</div>
+                    <h4 style="font-size: 14px; color: #fff; margin-bottom: 4px;">${user.nome}</h4>
+                    <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px;">Serviço: ${o.service}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.nome)}&background=random" style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-bg-body);" alt="Icon">
+                        <span style="font-size: 10px; color: var(--color-text-muted);"><i class="ph ph-clock"></i> ${new Date(o.created_at || o.date).toLocaleDateString('pt-BR')}</span>
+                    </div>
+                `;
+
+                if (pendingStatuses.includes(o.status)) colNew.appendChild(card);
+                else if (wipStatuses.includes(o.status)) colJuridica.appendChild(card);
+                else if (doneStatuses.includes(o.status)) colConcluido.appendChild(card);
+                else colNew.appendChild(card);
+            });
+
+            // Empty states
+            if (!colNew.children.length) colNew.innerHTML = '<div style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">Nenhum pedido</div>';
+            if (!colJuridica.children.length) colJuridica.innerHTML = '<div style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">Nenhum processo</div>';
+            if (!colConcluido.children.length) colConcluido.innerHTML = '<div style="height: 100px; border: 2px dashed rgba(255,255,255,0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 12px;">Nenhum registro</div>';
+
+            // Drop zones
+            [colNew, colJuridica, colConcluido].forEach(col => {
+                col.ondragover = (e) => e.preventDefault();
+                col.ondrop = async (e) => {
+                    const orderId = e.dataTransfer.getData('orderId');
+                    let status = 'Aguardando Pagamento';
+                    if (col === colJuridica) status = 'Em Análise';
+                    else if (col === colConcluido) status = 'Concluído';
+                    await updateOrderStatus(parseInt(orderId), status);
+                };
+            });
+
+            document.getElementById('countNew').textContent = opOrders.filter(o => pendingStatuses.includes(o.status)).length;
+        }
+
+        async function updateOrderStatus(id, newStatus) {
+            try {
+                const res = await adminFetch('/api/admin/orders/' + id, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if (!res) return;
+                loadOperational();
+            } catch (err) {
+                alert('Erro ao atualizar status.');
+            }
+        }
+
+        window.openNewTaskModal = function () {
+            const userOptions = opUsers.map(u => `<option value="${u.id}">${u.nome} (${u.cpf})</option>`).join('');
+
+            showModal('Nova Tarefa Operacional', `
+                <form onsubmit="handleCreateTask(event)">
+                    <div class="input-group" style="margin-bottom: 16px;">
+                        <label style="display:block; margin-bottom:8px; color: var(--color-text-muted); font-size:13px;">Selecionar Cliente</label>
+                        <select id="taskUserId" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border-glass); border-radius: 8px; color: #fff;">
+                            <option value="">-- Escolha um cliente --</option>
+                            ${userOptions}
+                        </select>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 16px;">
+                        <label style="display:block; margin-bottom:8px; color: var(--color-text-muted); font-size:13px;">Serviço</label>
+                        <select id="taskService" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border-glass); border-radius: 8px; color: #fff;">
+                            <option value="Rating Bancário">Rating Bancário</option>
+                            <option value="Limpa Nome">Limpa Nome</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Criar e Iniciar</button>
+                </form>
+            `);
+        };
+
+        window.handleCreateTask = async function (e) {
+            e.preventDefault();
+            const userId = document.getElementById('taskUserId').value;
+            const service = document.getElementById('taskService').value;
+
+            try {
+                const res = await adminFetch('/api/admin/orders', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        user_id: parseInt(userId),
+                        service: service,
+                        price: service === 'Limpa Nome' ? 147 : 97,
+                        status: 'Aguardando Pagamento'
+                    })
+                });
+                if (!res) return;
+                alert('Tarefa criada com sucesso!');
+                closeModal();
+                loadOperational();
+            } catch (err) {
+                alert('Erro ao criar tarefa.');
+            }
+        };
+
+        window.showOperationalDetails = function(orderId) {
+            const order = opOrders.find(o => o.id === orderId);
+            if (!order) return;
+            const user = opUsers.find(u => u.id === order.user_id) || { nome: order.customer_name || 'Desconhecido', cpf: order.cpf || '---', email: order.user_email || '---', id: order.user_id };
+
+            const svc = (order.service || '').toLowerCase();
+            const tabName = svc.includes('rating') ? 'Formulario Rating' : svc.includes('diagn') ? 'Resultado' : svc.includes('limpa') ? 'Progresso' : 'Detalhes';
+            const canDelete = typeof canPerformAction === 'function' ? canPerformAction('excluir') : true;
+            const tbs = 'padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;transition:0.2s;';
+
+            showModal('Pedido #' + order.id + ' — ' + (user.nome || 'Cliente'), `
+                <div style="color:#fff;">
+                    <div style="display:flex;gap:4px;margin-bottom:0;border-bottom:1px solid var(--color-border-glass);">
+                        <button id="tab-info-btn" onclick="opSwitchTab('info')" style="${tbs}background:rgba(59,130,246,0.15);color:#60A5FA;">Informacoes</button>
+                        <button id="tab-product-btn" onclick="opSwitchTab('product')" style="${tbs}background:transparent;color:var(--color-text-muted);">${tabName}</button>
+                        <button id="tab-docs-btn" onclick="opSwitchTab('docs')" style="${tbs}background:transparent;color:var(--color-text-muted);">Documentos</button>
+                    </div>
+                    <div id="tab-info" style="padding:16px 0;">
+                        <div style="margin-bottom:16px;padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
+                            <h4 style="margin:0 0 10px 0;color:var(--color-primary);font-size:14px;">Cliente</h4>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Nome:</strong> ${user.nome}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>CPF:</strong> ${user.cpf || order.cpf || '—'}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Email:</strong> ${user.email || order.user_email || '—'}</p>
+                        </div>
+                        <div style="margin-bottom:16px;padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
+                            <h4 style="margin:0 0 10px 0;color:var(--color-primary);font-size:14px;">Pedido</h4>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Servico:</strong> ${order.service}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Valor:</strong> R$ ${order.price}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Status:</strong> <span class="tag">${order.status}</span></p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Data:</strong> ${new Date(order.created_at).toLocaleString('pt-BR')}</p>
+                        </div>
+                        <div style="display:flex;gap:10px;">
+                            <button style="flex:1;background:rgba(59,130,246,0.1);color:#60A5FA;padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:600;" onclick="closeModal();setTimeout(()=>{opChangeStatus(${order.id},'${order.status}')},100);">Alterar Status</button>
+                            ${canDelete ? '<button style="flex:1;background:rgba(239,68,68,0.1);color:#F87171;padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:600;" onclick="opDeleteOrder(' + order.id + ')">Excluir</button>' : ''}
+                        </div>
+                    </div>
+                    <div id="tab-product" style="display:none;padding:16px 0;">
+                        <div id="tab-product-content" style="text-align:center;padding:30px;color:var(--color-text-muted);">Carregando...</div>
+                    </div>
+                    <div id="tab-docs" style="display:none;padding:16px 0;">
+                        <div id="tab-docs-content" style="text-align:center;padding:30px;color:var(--color-text-muted);">Carregando documentos...</div>
+                    </div>
+                </div>
+            `, '900px');
+
+            // Load product tab
+            loadOpProductTab(order, user);
+            loadOpDocsTab(order, user);
+        };
+
+        window.opSwitchTab = function(tab) {
+            ['info','product','docs'].forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                const btn = document.getElementById('tab-' + t + '-btn');
+                if (el) el.style.display = t === tab ? 'block' : 'none';
+                if (btn) { btn.style.background = t === tab ? 'rgba(59,130,246,0.15)' : 'transparent'; btn.style.color = t === tab ? '#60A5FA' : 'var(--color-text-muted)'; }
+            });
+        };
+
+        async function loadOpProductTab(order, user) {
+            const container = document.getElementById('tab-product-content');
+            if (!container) return;
+            const svc = (order.service || '').toLowerCase();
+            try {
+                if (svc.includes('rating')) {
+                    const res = await adminFetch('/api/rating-form/' + order.id);
+                    if (!res) { container.innerHTML = '<p>Erro ao carregar</p>'; return; }
+                    const data = await res.json();
+                    const form = data.form;
+                    if (!form) { container.innerHTML = '<p style="color:var(--color-text-muted);">Formulario nao iniciado.</p>'; return; }
+                    const steps = ['Dados Pessoais','Endereco','Financeiro','Bancario','Patrimonial','Documentos','Confirmacao'];
+                    const currentStep = form.current_step || 1;
+                    const pct = Math.round(((currentStep - 1) / 7) * 100);
+                    const formData = form.data || {};
+                    let html = '<div style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-muted);margin-bottom:6px;"><span>Progresso</span><span>' + pct + '%</span></div><div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--color-primary);border-radius:3px;"></div></div></div>';
+                    steps.forEach((name, i) => {
+                        const done = currentStep > (i + 1);
+                        const icon = done ? '<i class="ph ph-check-circle" style="color:#22C55E;"></i>' : '<i class="ph ph-circle" style="color:var(--color-text-muted);"></i>';
+                        const stepData = (formData['step' + (i+1)]);
+                        html += '<div style="padding:10px;margin-bottom:8px;background:rgba(255,255,255,0.02);border:1px solid var(--color-border-glass);border-radius:8px;">';
+                        html += '<div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;">' + icon + ' Etapa ' + (i+1) + ': ' + name + '</div>';
+                        if (stepData && typeof stepData === 'object') { html += '<div style="margin-top:8px;padding-left:28px;font-size:12px;color:var(--color-text-muted);">'; Object.entries(stepData).forEach(([k, v]) => { if (k !== 'files' && v) html += '<div><strong>' + k + ':</strong> ' + v + '</div>'; }); html += '</div>'; }
+                        html += '</div>';
+                    });
+                    container.innerHTML = html;
+                } else if (svc.includes('diagn')) {
+                    const res = await adminFetch('/api/admin/diagnosticos/' + order.id);
+                    if (!res) { container.innerHTML = '<p>Erro</p>'; return; }
+                    const data = await res.json();
+                    const diag = data.diagnostico;
+                    if (!diag || !diag.pdf_path) {
+                        container.innerHTML = '<p style="color:var(--color-text-muted);">Diagnostico nao disponivel.</p>';
+                    } else {
+                        container.innerHTML = '<div style="text-align:center;"><a href="/api/admin/diagnosticos/' + diag.id + '/pdf" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--color-primary);color:#000;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;"><i class="ph ph-file-pdf"></i> Ver PDF</a></div>';
+                    }
+                } else if (svc.includes('limpa')) {
+                    const statusMap = {'Aguardando Pagamento':0,'pending':0,'Em Analise':1,'Em Análise':1,'processing':1,'paid':1,'Concluido':2,'Concluído':2,'completed':2,'approved':2};
+                    const steps = ['Pagamento','Analise Juridica','Negociacao','Conclusao'];
+                    const idx = statusMap[order.status] !== undefined ? statusMap[order.status] : 0;
+                    let html = '';
+                    steps.forEach((name, i) => {
+                        const done = i <= idx;
+                        html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><div style="width:20px;height:20px;border-radius:50%;background:' + (done ? '#22C55E' : 'rgba(255,255,255,0.1)') + ';display:flex;align-items:center;justify-content:center;">' + (done ? '<i class="ph ph-check" style="font-size:10px;color:#000;"></i>' : '') + '</div><span style="font-size:13px;color:' + (done ? '#fff' : 'var(--color-text-muted)') + ';">' + name + '</span></div>';
+                    });
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<p style="color:var(--color-text-muted);">Sem detalhes.</p>';
+                }
+            } catch (err) { container.innerHTML = '<p style="color:#F87171;">Erro.</p>'; }
+        }
+
+        async function loadOpDocsTab(order, user) {
+            const container = document.getElementById('tab-docs-content');
+            if (!container) return;
+            let docs = [];
+            try {
+                if ((order.service || '').toLowerCase().includes('rating')) {
+                    const res = await adminFetch('/api/rating-form/' + order.id);
+                    if (res) { const d = await res.json(); if (d.form && d.form.data && d.form.data.files) { Object.entries(d.form.data.files).forEach(([k, f]) => { docs.push({ nome: f.originalName || k, url: f.path }); }); } }
+                }
+                if (user.id) {
+                    const res = await adminFetch('/api/documents?user_id=' + user.id);
+                    if (res) { const d = await res.json(); (d.documents || []).forEach(doc => { docs.push({ nome: doc.original_name || doc.nome, url: '/api/documents/' + doc.id + '/file?user_id=' + user.id }); }); }
+                }
+                if (docs.length === 0) { container.innerHTML = '<p style="color:var(--color-text-muted);">Nenhum documento.</p>'; return; }
+                container.innerHTML = docs.map(d => '<div style="display:flex;align-items:center;gap:12px;padding:10px;margin-bottom:6px;background:rgba(255,255,255,0.02);border:1px solid var(--color-border-glass);border-radius:8px;"><i class="ph ph-file-pdf" style="font-size:20px;color:var(--color-primary);"></i><span style="flex:1;font-size:13px;">' + d.nome + '</span><a href="' + d.url + '" target="_blank" style="color:#60A5FA;"><i class="ph ph-eye"></i></a></div>').join('');
+            } catch (err) { container.innerHTML = '<p style="color:#F87171;">Erro.</p>'; }
+        }
+
+        window.opChangeStatus = function(orderId, currentStatus) {
+            showModal('Alterar Status', `
+                <form onsubmit="opSaveStatus(event, ${orderId})">
+                    <select id="opNewStatus" style="width:100%;padding:10px;background:rgba(0,0,0,0.2);border:1px solid var(--color-border-glass);border-radius:8px;color:#fff;margin-bottom:16px;">
+                        <option value="Aguardando Pagamento" ${currentStatus === 'Aguardando Pagamento' ? 'selected' : ''}>Aguardando Pagamento</option>
+                        <option value="Em Análise" ${currentStatus === 'Em Análise' ? 'selected' : ''}>Em Analise</option>
+                        <option value="Concluído" ${currentStatus === 'Concluído' ? 'selected' : ''}>Concluido</option>
+                    </select>
+                    <button type="submit" style="width:100%;background:var(--color-primary);color:#000;border:none;padding:12px;border-radius:8px;font-weight:600;cursor:pointer;">Salvar</button>
+                </form>
+            `);
+        };
+
+        window.opSaveStatus = async function(e, orderId) {
+            e.preventDefault();
+            await updateOrderStatus(orderId, document.getElementById('opNewStatus').value);
+            closeModal();
+        };
+
+        window.opDeleteOrder = async function(id) {
+            if (!confirm('Excluir este pedido?')) return;
+            try {
+                const res = await adminFetch('/api/admin/orders/' + id, { method: 'DELETE' });
+                if (res) { alert('Excluido!'); closeModal(); loadOperational(); }
+            } catch (err) { alert('Erro.'); }
+        };
+
+        loadOperational();
+    </script>
+
+</body>
+
+</html>

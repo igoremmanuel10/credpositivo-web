@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Admin | Gestão de Clientes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="scripts/admin-auth.js?v=20260216"></script>
+    <script src="scripts/permissions.js?v=20260216"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .brand .admin-badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        .nav-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: rgba(107, 114, 128, 1);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-item a:hover,
+        .nav-item a.active {
+            background: var(--color-glass);
+            color: #fff;
+        }
+
+        .nav-item a.active {
+            border-left: 3px solid var(--color-primary);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            background: var(--color-glass-header);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-glass);
+            width: 350px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13px;
+            width: 100%;
+            height: auto;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .content-scroll {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Page-specific styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .page-header .client-count {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-glass);
+        }
+
+        .table-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .clients-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .clients-table thead {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .clients-table th {
+            padding: 14px 20px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--color-border-glass);
+        }
+
+        .clients-table td {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: #ddd;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .clients-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .clients-table tbody tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .clients-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.rating {
+            background: rgba(204, 255, 0, 0.1);
+            color: var(--color-primary);
+        }
+
+        .tag.limpa {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60A5FA;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .status-badge.pendente {
+            background: rgba(245, 158, 11, 0.15);
+            color: #F59E0B;
+        }
+
+        .status-badge.ativo {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+        }
+
+        .status-badge.concluido {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60A5FA;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .table-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--color-border-glass);
+            background: transparent;
+            color: var(--color-text-muted);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: #000;
+            border-color: var(--color-primary);
+        }
+
+        .id-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <h4>Geral</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i>
+                            Dashboard</a></li>
+                    <li class="nav-item"><a href="clientes.html" class="nav-link active"><i class="ph ph-users"></i>
+                            Clientes</a></li>
+                    <li class="nav-item"><a href="operacional.html" class="nav-link"><i class="ph ph-kanban"></i>
+                            Operacional</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Financeiro</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="transacoes.html" class="nav-link"><i class="ph ph-wallet"></i>
+                            Transações</a></li>
+                    <li class="nav-item"><a href="cupons.html" class="nav-link"><i class="ph ph-ticket"></i>
+                            Cupons</a></li>
+                    <li class="nav-item"><a href="notas.html" class="nav-link"><i class="ph ph-receipt"></i> Notas
+                            Fiscais</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Sistema</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="auditoria.html" class="nav-link"><i class="ph ph-shield-check"></i>
+                            Auditoria</a></li>
+                    <li class="nav-item"><a href="config.html" class="nav-link"><i class="ph ph-gear"></i>
+                            Configurações</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="adminLogout()"><i
+                                class="ph ph-sign-out"></i> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div class="search-bar" style="margin-right: auto;">
+                <i class="ph ph-magnifying-glass" style="color: var(--color-text-muted);"></i>
+                <input type="text" placeholder="Buscar por nome, CPF ou email..." id="searchInput"
+                    oninput="filterTable()">
+            </div>
+
+            <div class="admin-profile">
+                <div
+                    style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; cursor: pointer;">
+                    <i class="ph ph-bell"></i>
+                    <div
+                        style="width: 8px; height: 8px; background: var(--color-danger); border-radius: 50%; position: absolute; top: 6px; right: 6px; border: 2px solid var(--color-bg-body);">
+                    </div>
+                </div>
+                <div style="text-align: right; margin-right: 10px;">
+                    <div style="font-size: 13px; font-weight: 600;">Admin Master</div>
+                    <div style="font-size: 11px; color: var(--color-text-muted);">Superusuário</div>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: #333; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Master&background=random" alt="Admin"
+                        style="width: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-scroll">
+
+            <div class="page-header">
+                <h2><i class="ph ph-users" style="margin-right: 10px; color: var(--color-primary);"></i>Gestão de
+                    Clientes</h2>
+                <span class="client-count" id="clientCount">0 clientes cadastrados</span>
+            </div>
+
+            <div class="table-filter">
+                <button class="filter-btn active" onclick="setFilter('todos')">Todos</button>
+                <button class="filter-btn" onclick="setFilter('rating')">Rating</button>
+                <button class="filter-btn" onclick="setFilter('limpa-nome')">Limpa Nome</button>
+                <button class="filter-btn" onclick="setFilter('pendente')">Pendentes</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="clients-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientsBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="ph ph-users-three"></i>
+                    <p>Nenhum cliente cadastrado ainda.<br>Os cadastros realizados no site aparecerao aqui
+                        automaticamente.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script src="scripts/admin-main.js"></script>
+    <script>
+        let currentFilter = 'todos';
+        let allClients = [];
+        let allOrders = [];
+
+        async function loadClients() {
+            const tbody = document.getElementById('clientsBody');
+            const emptyState = document.getElementById('emptyState');
+            tbody.innerHTML = '';
+            emptyState.style.display = 'none';
+            document.getElementById('clientCount').textContent = 'Carregando...';
+
+            try {
+                const [usersRes, ordersRes] = await Promise.all([
+                    adminFetch('/api/admin/users'),
+                    adminFetch('/api/admin/orders')
+                ]);
+                if (!usersRes) return;
+                const usersData = await usersRes.json();
+                allClients = usersData.users || [];
+                if (ordersRes) {
+                    const ordersData = await ordersRes.json();
+                    allOrders = ordersData.orders || [];
+                }
+                renderTable(allClients);
+            } catch (err) {
+                console.error('Erro ao carregar clientes:', err);
+                document.getElementById('clientCount').textContent = 'Erro ao carregar';
+                emptyState.style.display = 'block';
+            }
+        }
+
+        function renderTable(clients) {
+            const tbody = document.getElementById('clientsBody');
+            const emptyState = document.getElementById('emptyState');
+            const countEl = document.getElementById('clientCount');
+
+            let filtered = clients;
+            if (currentFilter === 'rating') {
+                filtered = clients.filter(c => (c.tipo || '').toLowerCase().includes('rating'));
+            } else if (currentFilter === 'limpa-nome') {
+                filtered = clients.filter(c => (c.tipo || '').toLowerCase().includes('limpa'));
+            } else if (currentFilter === 'pendente') {
+                filtered = clients.filter(c => (c.status || '').toLowerCase() === 'pendente');
+            }
+
+            const search = (document.getElementById('searchInput').value || '').toLowerCase();
+            if (search) {
+                filtered = filtered.filter(c =>
+                    (c.nome || '').toLowerCase().includes(search) ||
+                    (c.cpf || '').includes(search) ||
+                    (c.email || '').toLowerCase().includes(search)
+                );
+            }
+
+            countEl.textContent = filtered.length + ' cliente' + (filtered.length !== 1 ? 's' : '') + ' encontrado' + (filtered.length !== 1 ? 's' : '');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            tbody.innerHTML = '';
+
+            filtered.forEach(c => {
+                const tr = document.createElement('tr');
+
+                const tipoClass = (c.tipo || '').toLowerCase().includes('limpa') ? 'limpa' : 'rating';
+                const tipoLabel = c.tipo || 'N/A';
+
+                const statusClass = (c.status || 'pendente').toLowerCase();
+                const statusLabel = statusClass.charAt(0).toUpperCase() + statusClass.slice(1);
+
+                let dataFormatted = '—';
+                const dateVal = c.created_at || c.data;
+                if (dateVal) {
+                    const d = new Date(dateVal);
+                    dataFormatted = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+                        ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                }
+
+                tr.innerHTML = `
+                    <td class="id-cell">${c.id || '—'}</td>
+                    <td style="font-weight: 600; color: #fff;">${c.nome || '—'}</td>
+                    <td style="font-family: 'JetBrains Mono', monospace;">${c.cpf || '—'}</td>
+                    <td>${c.email || '—'}</td>
+                    <td><span class="tag ${tipoClass}">${tipoLabel}</span></td>
+                    <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+                    <td style="font-size: 12px; color: var(--color-text-muted);">${dataFormatted}</td>
+                `;
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => showClientDetails(c.id);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function showClientDetails(clientId) {
+            const client = allClients.find(c => c.id === clientId);
+            if (!client) return;
+
+            // Get orders for this client, filtered by allowed products
+            const allowedProducts = typeof getAllowedProducts === 'function' ? getAllowedProducts() : ['rating','limpa','diagnostico'];
+            const clientOrders = allOrders.filter(o => {
+                if (o.user_id !== client.id) return false;
+                const svc = (o.service || '').toLowerCase();
+                if (svc.includes('rating')) return allowedProducts.includes('rating');
+                if (svc.includes('limpa')) return allowedProducts.includes('limpa');
+                if (svc.includes('diagn')) return allowedProducts.includes('diagnostico');
+                return true;
+            });
+
+            let ordersHtml = '';
+            if (clientOrders.length > 0) {
+                ordersHtml = clientOrders.map(o => {
+                    const tagClass = (o.service || '').toLowerCase().includes('limpa') ? 'limpa' : 'rating';
+                    return `<div style="display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:8px;background:rgba(255,255,255,0.02);border:1px solid var(--color-border-glass);border-radius:8px;cursor:pointer;" onclick="window.location.href='dashboard.html'">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--color-text-muted);">#${o.id}</div>
+                        <div style="flex:1;"><span class="tag ${tagClass}" style="font-size:10px;padding:2px 8px;border-radius:4px;">${o.service}</span></div>
+                        <div style="font-size:12px;color:var(--color-text-muted);">R$ ${o.price}</div>
+                        <span class="status-badge ${(o.status || '').toLowerCase().includes('conclu') || o.status === 'completed' ? 'concluido' : (o.status || '').toLowerCase().includes('anali') || o.status === 'processing' ? 'ativo' : 'pendente'}" style="font-size:10px;padding:3px 8px;">${o.status}</span>
+                    </div>`;
+                }).join('');
+            } else {
+                ordersHtml = '<p style="color:var(--color-text-muted);font-size:13px;text-align:center;padding:16px;">Nenhum pedido encontrado.</p>';
+            }
+
+            showModal('Cliente: ' + client.nome, `
+                <div style="color:#fff;">
+                    <div style="display:flex;gap:4px;margin-bottom:0;border-bottom:1px solid var(--color-border-glass);">
+                        <button id="ctab-info-btn" onclick="clientSwitchTab('info')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:rgba(59,130,246,0.15);color:#60A5FA;">Dados</button>
+                        <button id="ctab-orders-btn" onclick="clientSwitchTab('orders')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:transparent;color:var(--color-text-muted);">Pedidos (${clientOrders.length})</button>
+                        <button id="ctab-docs-btn" onclick="clientSwitchTab('docs')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:transparent;color:var(--color-text-muted);">Documentos</button>
+                    </div>
+                    <div id="ctab-info" style="padding:16px 0;">
+                        <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
+                            <p style="margin:5px 0;font-size:13px;"><strong>ID:</strong> ${client.id}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Nome:</strong> ${client.nome}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>CPF:</strong> ${client.cpf}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Email:</strong> ${client.email}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Telefone:</strong> ${client.telefone || 'Nao informado'}</p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Status:</strong> <span class="status-badge ${(client.status || '').toLowerCase()}">${client.status || 'N/A'}</span></p>
+                            <p style="margin:5px 0;font-size:13px;"><strong>Cadastro:</strong> ${client.created_at ? new Date(client.created_at).toLocaleString('pt-BR') : '—'}</p>
+                        </div>
+                    </div>
+                    <div id="ctab-orders" style="display:none;padding:16px 0;">
+                        ${ordersHtml}
+                    </div>
+                    <div id="ctab-docs" style="display:none;padding:16px 0;">
+                        <div id="client-docs-content" style="text-align:center;padding:20px;color:var(--color-text-muted);">Carregando...</div>
+                    </div>
+                </div>
+            `, '800px');
+
+            // Load docs
+            loadClientDocs(client.id);
+        }
+
+        window.clientSwitchTab = function(tab) {
+            ['info','orders','docs'].forEach(t => {
+                const el = document.getElementById('ctab-' + t);
+                const btn = document.getElementById('ctab-' + t + '-btn');
+                if (el) el.style.display = t === tab ? 'block' : 'none';
+                if (btn) { btn.style.background = t === tab ? 'rgba(59,130,246,0.15)' : 'transparent'; btn.style.color = t === tab ? '#60A5FA' : 'var(--color-text-muted)'; }
+            });
+        };
+
+        async function loadClientDocs(userId) {
+            const container = document.getElementById('client-docs-content');
+            if (!container) return;
+            try {
+                const res = await adminFetch('/api/documents?user_id=' + userId);
+                if (!res) { container.innerHTML = '<p>Erro ao carregar.</p>'; return; }
+                const data = await res.json();
+                const docs = data.documents || [];
+                if (docs.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;"><i class="ph ph-folder-open" style="font-size:40px;opacity:0.2;display:block;margin-bottom:8px;"></i><p>Nenhum documento.</p></div>';
+                    return;
+                }
+                container.innerHTML = docs.map(doc => {
+                    const sizeStr = doc.size ? (doc.size > 1024*1024 ? (doc.size/1024/1024).toFixed(1) + ' MB' : (doc.size/1024).toFixed(0) + ' KB') : '—';
+                    return '<div style="display:flex;align-items:center;gap:12px;padding:10px;margin-bottom:6px;background:rgba(255,255,255,0.02);border:1px solid var(--color-border-glass);border-radius:8px;"><i class="ph ph-file" style="font-size:20px;color:var(--color-primary);"></i><div style="flex:1;"><div style="font-size:13px;">' + (doc.original_name || doc.nome) + '</div><div style="font-size:11px;color:var(--color-text-muted);">' + (doc.tipo || '') + ' | ' + sizeStr + '</div></div><a href="/api/documents/' + doc.id + '/file?user_id=' + userId + '" target="_blank" style="color:#60A5FA;font-size:18px;"><i class="ph ph-eye"></i></a></div>';
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<p style="color:#F87171;">Erro ao carregar documentos.</p>';
+            }
+        }
+
+        function filterTable() {
+            renderTable(allClients);
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable(allClients);
+        }
+
+        loadClients();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Admin | Auditoria</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="scripts/admin-auth.js?v=20260216"></script>
+    <script src="scripts/permissions.js?v=20260216"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .brand .admin-badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        .nav-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: rgba(107, 114, 128, 1);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-item a:hover,
+        .nav-item a.active {
+            background: var(--color-glass);
+            color: #fff;
+        }
+
+        .nav-item a.active {
+            border-left: 3px solid var(--color-primary);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
+            height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        header {
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            background: var(--color-glass-header);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-glass);
+            width: 350px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13px;
+            width: 100%;
+            height: auto;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .content-scroll {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .construction-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+        }
+
+        .construction-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .construction-icon i {
+            font-size: 42px;
+            color: var(--color-primary);
+        }
+
+        .construction-container h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .construction-container p {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .construction-badge {
+            margin-top: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="../v2-assets/assets/images/logo.png" alt="CredPositivo">
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <h4>Geral</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i>
+                            Dashboard</a></li>
+                    <li class="nav-item"><a href="clientes.html" class="nav-link"><i class="ph ph-users"></i>
+                            Clientes</a></li>
+                    <li class="nav-item"><a href="operacional.html" class="nav-link"><i class="ph ph-kanban"></i>
+                            Operacional</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Financeiro</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="transacoes.html" class="nav-link"><i class="ph ph-wallet"></i>
+                            Transações</a></li>
+                    <li class="nav-item"><a href="cupons.html" class="nav-link"><i class="ph ph-ticket"></i>
+                            Cupons</a></li>
+                    <li class="nav-item"><a href="notas.html" class="nav-link"><i class="ph ph-receipt"></i> Notas
+                            Fiscais</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section" style="margin-top: 24px;">
+                <h4>Sistema</h4>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="auditoria.html" class="nav-link active"><i
+                                class="ph ph-shield-check"></i> Auditoria</a></li>
+                    <li class="nav-item"><a href="config.html" class="nav-link"><i class="ph ph-gear"></i>
+                            Configurações</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="adminLogout()"><i
+                                class="ph ph-sign-out"></i> Sair</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <button class="mobile-menu-toggle">
+                <i class="ph ph-list"></i>
+            </button>
+            <div class="search-bar" style="margin-right: auto;">
+                <i class="ph ph-magnifying-glass" style="color: var(--color-text-muted);"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+
+            <div class="admin-profile">
+                <div
+                    style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; color: #fff; cursor: pointer;">
+                    <i class="ph ph-bell"></i>
+                    <div
+                        style="width: 8px; height: 8px; background: var(--color-danger); border-radius: 50%; position: absolute; top: 6px; right: 6px; border: 2px solid var(--color-bg-body);">
+                    </div>
+                </div>
+                <div style="text-align: right; margin-right: 10px;">
+                    <div style="font-size: 13px; font-weight: 600;">Admin Master</div>
+                    <div style="font-size: 11px; color: var(--color-text-muted);">Superusuário</div>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: #333; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img src="https://ui-avatars.com/api/?name=Admin+Master&background=random" alt="Admin"
+                        style="width: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-scroll" style="display: flex; flex-direction: column; gap: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="font-size: 24px; font-weight: 700; color: #fff;">Logs de Auditoria</h2>
+                    <p style="font-size: 14px; color: var(--color-text-muted);">Rastreabilidade total de ações e acessos
+                        ao sistema.</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn"
+                        style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border-glass); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 14px; cursor: pointer;"
+                        onclick="openFilterModal()">
+                        Filtrar Período
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadLogs()">Download
+                        Logs</button>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--color-border-glass);">
+                        <tr>
+                            <th
+                                style="padding: 16px 24px; font-size: 11px; text-transform: uppercase; color: var(--color-text-muted);">
+                                Evento</th>
+                            <th
+                                style="padding: 16px 24px; font-size: 11px; text-transform: uppercase; color: var(--color-text-muted);">
+                                Usuário</th>
+                            <th
+                                style="padding: 16px 24px; font-size: 11px; text-transform: uppercase; color: var(--color-text-muted);">
+                                IP</th>
+                            <th
+                                style="padding: 16px 24px; font-size: 11px; text-transform: uppercase; color: var(--color-text-muted);">
+                                Ação</th>
+                            <th
+                                style="padding: 16px 24px; font-size: 11px; text-transform: uppercase; color: var(--color-text-muted);">
+                                Data/Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 16px 24px; font-size: 13px;"><span
+                                    style="color: var(--color-primary); font-weight: 700;">[LOGIN]</span> Sucesso</td>
+                            <td style="padding: 16px 24px; font-weight: 600; color: #fff;">Admin Master</td>
+                            <td style="padding: 16px 24px; font-family: 'JetBrains Mono'; font-size: 12px;">187.12.55.82
+                            </td>
+                            <td style="padding: 16px 24px; font-size: 13px;">Acesso ao painel administrativo</td>
+                            <td style="padding: 16px 24px; font-size: 12px; color: var(--color-text-muted);">12 Fev,
+                                10:15:22</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 16px 24px; font-size: 13px;"><span
+                                    style="color: var(--color-success); font-weight: 700;">[EDIT]</span> Cliente</td>
+                            <td style="padding: 16px 24px; font-weight: 600; color: #fff;">Admin Master</td>
+                            <td style="padding: 16px 24px; font-family: 'JetBrains Mono'; font-size: 12px;">187.12.55.82
+                            </td>
+                            <td style="padding: 16px 24px; font-size: 13px;">Atualização de dados cadastrais - ID #1024
+                            </td>
+                            <td style="padding: 16px 24px; font-size: 12px; color: var(--color-text-muted);">11 Fev,
+                                14:32:05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script src="scripts/admin-main.js"></script>
+    <script>
+        function openFilterModal() {
+            showModal('Filtrar Auditoria', `
+                <div style="color: #fff;">
+                    <p style="color: var(--color-text-muted); font-size: 13px; margin-bottom: 16px;">Selecione o intervalo de datas para auditar os logs.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display:block; font-size: 12px; margin-bottom: 4px;">Data Inicial</label>
+                            <input type="date" style="width: 100%; padding: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border-glass); border-radius: 6px; color: #fff;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size: 12px; margin-bottom: 4px;">Data Final</label>
+                            <input type="date" style="width: 100%; padding: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border-glass); border-radius: 6px; color: #fff;">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="alert('Filtro aplicado (Simulação)'); closeModal();">Aplicar Filtro</button>
+                </div>
+            `);
+        }
+
+        function downloadLogs() {
+            alert('Gerando arquivo de logs de auditoria...');
+            const rows = document.querySelectorAll('table tbody tr');
+            let content = "EVENTO,USUARIO,IP,ACAO,DATA\n";
+            rows.forEach(r => {
+                const cols = r.querySelectorAll('td');
+                content += Array.from(cols).map(c => c.textContent.trim().replace(/,/g, '')).join(',') + "\n";
+            });
+
+            const blob = new Blob([content], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `auditoria_logs_${new Date().getTime()}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('credpositivo_admin');
+            window.location.href = './';
+        }
+    </script>
+
+</body>
+
+</html>

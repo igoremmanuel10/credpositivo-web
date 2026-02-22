@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Política de Privacidade | CredPositivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="v2-assets/styles/layout.css">
+    <style>
+        body {
+            background: var(--color-bg-body);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .legal-header {
+            padding: 80px 0 40px;
+            background: radial-gradient(circle at top center, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .legal-header h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .legal-content {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        .section-card {
+            background: var(--color-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 32px;
+        }
+
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-card h3 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .section-card p {
+            color: var(--color-text-muted);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .grid-privacy {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .privacy-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .privacy-box:hover {
+            border-color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .privacy-box i {
+            color: var(--color-primary);
+            font-size: 24px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .privacy-box h4 {
+            margin: 0 0 8px 0;
+            font-size: 15px;
+            color: #fff;
+        }
+
+        .privacy-box p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            background: var(--color-glass);
+            border: 1px solid var(--color-border-glass);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--color-primary);
+            color: #000;
+        }
+
+        .shield-badge {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="./" class="back-btn">
+        <i class="ph ph-arrow-left"></i> Voltar para Home
+    </a>
+
+    <header class="legal-header">
+        <div class="container">
+            <div class="shield-badge"><i class="ph ph-shield-check"></i> 100% Protegido (LGPD)</div>
+            <h1>Sua privacidade é prioridade</h1>
+            <p style="color: var(--color-text-muted); font-size: 16px;">Seus dados são protegidos com tecnologia de
+                ponta e usados apenas para gerar sua análise financeira.</p>
+        </div>
+    </header>
+
+    <main class="legal-content">
+        <div class="section-card">
+            <h2><i class="ph ph-database"></i> Dados que Coletamos</h2>
+            <p>Para fornecer um diagnóstico preciso e seguro, processamos as seguintes informações:</p>
+            <div class="grid-privacy">
+                <div class="privacy-box">
+                    <i class="ph ph-identification-card"></i>
+                    <h4>Dados Pessoais</h4>
+                    <p>CPF, nome e nascimento para identificação.</p>
+                </div>
+                <div class="privacy-box">
+                    <i class="ph ph-envelope"></i>
+                    <h4>Contato</h4>
+                    <p>E-mail e telefone para suporte e login.</p>
+                </div>
+                <div class="privacy-box">
+                    <i class="ph ph-chart-pie"></i>
+                    <h4>Financeiro</h4>
+                    <p>Consultas públicas sobre registros financeiros.</p>
+                </div>
+                <div class="privacy-box">
+                    <i class="ph ph-browser"></i>
+                    <h4>Técnico</h4>
+                    <p>Endereço IP para auditoria de segurança.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2><i class="ph ph-eye"></i> Como usamos seus dados</h2>
+            <p>Seus dados têm uma finalidade estritamente técnica e orientativa:</p>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;">
+                <li style="display: flex; gap: 10px; font-size: 14px; color: var(--color-text-muted);">
+                    <i class="ph ph-check" style="color: #22c55e; font-size: 18px;"></i> Geração do diagnóstico
+                    financeiro personalizado.
+                </li>
+                <li style="display: flex; gap: 10px; font-size: 14px; color: var(--color-text-muted);">
+                    <i class="ph ph-check" style="color: #22c55e; font-size: 18px;"></i> Treinamento de algoritmos de
+                    análise interna.
+                </li>
+                <li style="display: flex; gap: 10px; font-size: 14px; color: var(--color-text-muted);">
+                    <i class="ph ph-check" style="color: #22c55e; font-size: 18px;"></i> Prevenção contra fraudes e
+                    ataques Cibernéticos.
+                </li>
+            </ul>
+            <div
+                style="margin-top: 24px; padding: 16px; background: rgba(34, 197, 94, 0.05); border-left: 4px solid #22c55e; color: #23c55e; font-size: 14px; font-weight: 600;">
+                <i class="ph ph-info"></i> Compromisso Final: NUNCA vendemos ou alugamos seus dados pessoais.
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2><i class="ph ph-lock-key"></i> Segurança Robusta</h2>
+            <p>Utilizamos criptografia SSL/TLS de 256 bits em todas as camadas. Seus dados são armazenados em servidores
+                seguros, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+        </div>
+
+        <div class="section-card">
+            <h2><i class="ph ph-fingerprint"></i> Seus Direitos</h2>
+            <p>Você tem total controle. A qualquer momento, através de nosso suporte, você pode solicitar:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div
+                    style="font-size: 13px; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-trash" style="color: var(--color-primary);"></i> Exclusão definitiva
+                </div>
+                <div
+                    style="font-size: 13px; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-download-simple" style="color: var(--color-primary);"></i> Cópia dos dados
+                </div>
+                <div
+                    style="font-size: 13px; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-pencil-simple" style="color: var(--color-primary);"></i> Atualização
+                </div>
+                <div
+                    style="font-size: 13px; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px;">
+                    <i class="ph ph-prohibit" style="color: var(--color-primary);"></i> Revogar acesso
+                </div>
+            </div>
+            <p
+                style="text-align: center; border-top: 1px solid var(--color-border-glass); padding-top: 24px; margin-top: 24px;">
+                Contato do DPO: <a href="mailto:suporte@credpositivo.com"
+                    style="color: var(--color-primary); text-decoration: none; font-weight: 600;">suporte@credpositivo.com</a>
+            </p>
+        </div>
+
+        <footer style="text-align: center; color: var(--color-text-muted); font-size: 12px; margin-top: 40px;">
+            &copy; 2025 CredPositivo. CNPJ: 35.030.967/0001-09. Sua segurança é o nosso alicerce.
+        </footer>
+    </main>
+</body>
+
+</html>
