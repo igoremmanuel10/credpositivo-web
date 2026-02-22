@@ -1,473 +1,956 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="Descubra seu Rating Bancário e entenda por que seu Score alto não aprova crédito. Diagnóstico financeiro completo." />
-  <title>CredPositivo - Seu Diagnóstico de Crédito Real</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="v2-assets/src/style.css">
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CredPositivo | Hub Autoridade Segmentada</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00FF66","primary-dark": "#00cc52",
+                        "accent-teal": "#00f0ff",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#0A0A0A","glass-border": "rgba(255, 255, 255, 0.08)",
+                        "glass-bg": "rgba(20, 20, 20, 0.4)",
+                        "card-bg": "#111111",
+                        "track-red": "#FF3B30",
+                        "track-yellow": "#FFCC00",
+                        "track-blue": "#007AFF"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "2.5rem", "full": "9999px"},
+                    boxShadow: {
+                        "glow-primary": "0 0 20px rgba(0, 255, 102, 0.3)",
+                        "glow-text": "0 0 10px rgba(0, 255, 102, 0.5)",
+                    },
+                    backgroundImage: {
+                        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+                        "mesh-gradient": "radial-gradient(at 0% 0%, hsla(153,100%,50%,0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, hsla(253,16%,7%,1) 0px, transparent 50%)"
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 40s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0A0A0A;
+            background-image: radial-gradient(circle at 50% -20%, #1a1a1a, #0A0A0A);
+        }
+        .glass-card {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(22, 22, 22, 0.8);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .grid-bg-pattern {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }#tab-regularizacao:checked ~ .tabs-container #content-regularizacao,
+        #tab-otimizacao:checked ~ .tabs-container #content-otimizacao,
+        #tab-expansao:checked ~ .tabs-container #content-expansao {
+            display: grid;
+        }
+        #tab-regularizacao:checked ~ .tabs-nav label[for="tab-regularizacao"] {
+             background-color: rgba(255, 59, 48, 0.1);
+             color: #FF3B30;
+             border-color: rgba(255, 59, 48, 0.4);
+             box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);
+        }
+        #tab-otimizacao:checked ~ .tabs-nav label[for="tab-otimizacao"] {
+             background-color: rgba(255, 204, 0, 0.1);
+             color: #FFCC00;
+             border-color: rgba(255, 204, 0, 0.4);
+             box-shadow: 0 0 15px rgba(255, 204, 0, 0.15);
+        }
+        #tab-expansao:checked ~ .tabs-nav label[for="tab-expansao"] {
+             background-color: rgba(0, 122, 255, 0.1);
+             color: #007AFF;
+             border-color: rgba(0, 122, 255, 0.4);
+             box-shadow: 0 0 15px rgba(0, 122, 255, 0.15);
+        }
+        .neon-border-hover:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2), inset 0 0 10px rgba(0, 255, 102, 0.1);
+            border-color: rgba(0, 255, 102, 0.5);
+        }.faq-item input {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+        }
+        .faq-item input:checked ~ .faq-content {
+            max-height: 500px;}
+        .faq-item input:checked ~ label .faq-icon {
+            transform: rotate(180deg);
+            color: #00FF66;
+        }
+        .faq-item input:checked ~ label {
+             color: #00FF66;
+        }
+        /* Hide scrollbar for tabs horizontal scroll on mobile */
+        .tabs-nav {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+        /* Safe area padding for mobile bottom elements */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .fixed.bottom-4, .fixed.bottom-6 {
+                bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
 </head>
+<body class="bg-background-dark text-slate-100 min-h-screen flex flex-col font-display overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-10%] left-[50%] -translate-x-1/2 w-[400px] sm:w-[800px] h-[300px] sm:h-[600px] bg-primary/5 rounded-full blur-[80px] sm:blur-[120px] opacity-60"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-blue-600/5 rounded-full blur-[100px] sm:blur-[150px] opacity-40"></div>
+<div class="absolute inset-0 grid-bg-pattern opacity-30"></div>
+</div>
+<header class="relative z-50 w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-12 backdrop-blur-sm border-b border-white/5">
+<nav class="mx-auto max-w-[1400px] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img src="positivo.png" alt="CredPositivo" class="h-8 sm:h-10 w-auto"/>
+</div>
+<div class="hidden md:flex items-center gap-8 bg-white/5 px-6 py-2.5 rounded-full border border-white/5 backdrop-blur-md">
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#trilhas">Trilhas</a>
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#solucoes">Soluções</a>
+<a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#faq">FAQ</a>
+</div>
+<div class="flex items-center gap-2 sm:gap-4">
+<!-- Mobile hamburger menu -->
+<button id="mobile-menu-btn" class="md:hidden size-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 transition-colors" aria-label="Menu">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<a class="hidden md:block text-sm font-bold text-gray-400 hover:text-white transition-colors" href="https://credpositivo.com/login" target="_blank">Login</a>
+<a href="https://credpositivo.com/cadastro" target="_blank" class="bg-primary hover:bg-[#00e65c] text-black text-xs sm:text-sm font-bold px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all shadow-glow-primary hover:shadow-lg flex items-center gap-2">
+<span>Cadastre-se</span>
+</a>
+</div>
+</nav>
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="md:hidden hidden fixed inset-0 top-[57px] bg-black/95 backdrop-blur-xl z-[100]">
+<div class="flex flex-col items-center gap-6 pt-12 px-6">
+<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#trilhas" onclick="closeMobileMenu()">Trilhas</a>
+<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#solucoes" onclick="closeMobileMenu()">Soluções</a>
+<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#faq" onclick="closeMobileMenu()">FAQ</a>
+<div class="w-16 h-px bg-white/10 my-2"></div>
+<a class="text-lg font-bold text-gray-400 hover:text-white transition-colors" href="https://credpositivo.com/login" target="_blank">Login</a>
+<a href="https://credpositivo.com/cadastro" target="_blank" class="bg-primary hover:bg-[#00e65c] text-black text-base font-bold px-8 py-3 rounded-full transition-all shadow-glow-primary mt-4 w-full text-center">
+Cadastre-se Grátis
+</a>
+</div>
+</div>
+</header>
+<script>
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuIcon = mobileMenuBtn.querySelector('.material-symbols-outlined');
+mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    menuIcon.textContent = mobileMenu.classList.contains('hidden') ? 'menu' : 'close';
+    document.body.style.overflow = mobileMenu.classList.contains('hidden') ? '' : 'hidden';
+});
+function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
+    menuIcon.textContent = 'menu';
+    document.body.style.overflow = '';
+}
+</script>
+<main class="relative z-10 flex-grow flex flex-col px-4 sm:px-6 lg:px-12 pb-12 sm:pb-20 pt-6 sm:pt-10">
+<div class="mx-auto max-w-[1400px] w-full">
+<div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 sm:gap-12 mb-16 sm:mb-32 lg:items-center">
+<!-- 1. Título + Subtítulo (mobile: order-1 / desktop: col 1-6, row 1) -->
+<div class="lg:col-span-6 lg:col-start-1 lg:row-start-1 relative z-10 order-1">
+<div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-md animate-fade-in mb-5">
+<span class="flex size-2 rounded-full bg-primary shadow-glow-primary animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-wider text-primary">Diagnóstico em 2 min</span>
+</div>
+<h1 class="text-3xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white">
+                        Seu crédito travou. <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-300 drop-shadow-[0_0_15px_rgba(0,255,102,0.3)]">A gente destrava.</span>
+</h1>
+<p class="text-base sm:text-lg text-gray-400 max-w-lg leading-relaxed mt-4">
+                        Somos seu despachante financeiro digital. Conecte-se com especialistas que resolvem burocracias e destravam limites em tempo recorde.
+                    </p>
+</div>
+<!-- 2. Imagem da mulher (mobile: order-2 / desktop: col 7-12, rows 1-3) -->
+<div class="lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-3 relative h-[380px] sm:h-[500px] lg:h-[660px] flex items-center justify-center order-2">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-blue-500/5 rounded-full blur-[100px] opacity-40 animate-pulse-slow"></div>
+<div class="relative w-full h-full max-w-[300px] sm:max-w-[380px] lg:max-w-[480px] mx-auto">
+<div class="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#0f0f0f] shadow-2xl shadow-black/80">
+<div class="absolute inset-0 z-0">
+<img alt="Professional finance expert" class="w-full h-full object-cover opacity-80" src="mulher.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-90"></div>
+</div>
+<div class="absolute top-8 sm:top-12 right-2 z-20 animate-fade-in" style="animation-delay: 0.3s">
+<div class="glass-card px-3 sm:px-5 py-2 sm:py-3 rounded-xl flex items-center gap-2 sm:gap-3 border-l-4 border-l-primary transform -rotate-3 hover:rotate-0 transition-transform">
+<div class="size-8 sm:size-10 rounded-full bg-green-500/10 flex items-center justify-center text-primary border border-primary/20">
+<span class="material-symbols-outlined text-sm sm:text-base">check</span>
+</div>
+<div>
+<p class="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase">Status</p>
+<p class="text-xs sm:text-sm font-bold text-white">Cartão Aprovado</p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-12 sm:bottom-20 left-3 right-3 sm:left-6 sm:right-6 z-20 animate-fade-in" style="animation-delay: 0.5s">
+<div class="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-xl bg-black/40">
+<div class="flex justify-between items-end mb-2">
+<div>
+<p class="text-gray-400 text-[10px] sm:text-xs font-bold uppercase mb-1">Score Atual</p>
+<h3 class="text-2xl sm:text-4xl font-bold text-white tracking-tight">850 <span class="text-sm sm:text-lg text-gray-500 font-normal">pts</span></h3>
+</div>
+<span class="text-black bg-primary text-xs font-bold px-2 py-1 rounded">+124 pts</span>
+</div>
+<div class="w-full bg-gray-800/50 rounded-full h-1.5 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-emerald-400 h-full rounded-full w-[85%] shadow-[0_0_10px_rgba(0,255,102,0.5)]"></div>
+</div>
+<p class="text-right text-[10px] text-gray-500 mt-2 font-mono">ÚLTIMA ATUALIZAÇÃO: HOJE</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Botões CTA (mobile: order-3 / desktop: col 1-6, row 2) -->
+<div class="lg:col-span-6 lg:col-start-1 lg:row-start-2 relative z-10 order-3">
+<div class="flex flex-wrap gap-4">
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito." target="_blank" class="bg-primary hover:bg-[#00e65c] text-black text-sm sm:text-base font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all shadow-glow-primary hover:shadow-lg hover:scale-105 flex items-center gap-2 group w-full sm:w-auto justify-center">
+<span>Análise Gratuita</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<a href="#como-funciona" class="glass-card hover:bg-white/10 text-white text-sm sm:text-base font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all flex items-center gap-2 border border-white/10 w-full sm:w-auto justify-center">
+<span class="material-symbols-outlined text-primary">play_circle</span>
+<span>Como funciona</span>
+</a>
+</div>
+</div>
+<!-- 4. Stats (mobile: order-4 / desktop: col 1-6, row 3) -->
+<div class="lg:col-span-6 lg:col-start-1 lg:row-start-3 relative z-10 order-4">
+<div class="flex items-center justify-center lg:justify-start gap-6 sm:gap-8 pt-4 sm:pt-6 border-t border-white/5">
+<div>
+<p class="text-2xl font-bold text-white flex items-center gap-1">
+                                30+ <span class="material-symbols-outlined text-primary text-sm">verified</span>
+</p>
+<p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Serviços Ativos</p>
+</div>
+<div class="w-px h-8 bg-white/10"></div>
+<div>
+<p class="text-2xl font-bold text-white flex items-center gap-1">
+                                48h <span class="material-symbols-outlined text-primary text-sm">timer</span>
+</p>
+<p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Diagnóstico</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Seção de vídeo removida temporariamente -->
+<div class="relative mb-16 sm:mb-32 w-full max-w-[1400px] mx-auto">
+<div class="text-center mb-8 sm:mb-12">
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-4">Você não é seu score. <br/><span class="text-gray-500">Mas seu score tá te definindo.</span></h2>
+</div>
+<!-- Imagem antes/depois -->
+<div class="w-[90%] mx-auto mb-12 sm:mb-16">
+<div class="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden group">
+<!-- Glow atrás -->
+<div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-primary/10 blur-[60px] scale-110 pointer-events-none"></div>
+<!-- Imagem -->
+<div class="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+<img src="meio2.png" alt="Antes e depois CredPositivo" class="w-full h-auto block"/>
+<!-- Overlay gradiente nas bordas -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/30 opacity-60 pointer-events-none"></div>
+<!-- Labels -->
+<div class="absolute bottom-3 sm:bottom-10 left-3 sm:left-10 z-10">
+<span class="glass-card px-2 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-sm font-bold text-red-400 border border-red-500/20 bg-red-500/10 backdrop-blur-md">Crédito Travado</span>
+</div>
+<div class="absolute bottom-3 sm:bottom-10 right-3 sm:right-10 z-10">
+<span class="glass-card px-2 sm:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-sm font-bold text-primary border border-primary/20 bg-primary/10 backdrop-blur-md">Crédito Destravado</span>
+</div>
+<!-- Linha divisória central -->
+<div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-white/20 z-10"></div>
 
-<body>
-  <!-- Header -->
-  <header class="header">
-    <div class="container flex justify-between items-center" style="height: var(--header-height);">
-      <div class="logo">
-        <a href="./" class="flex items-center gap-2">
-          <!-- TODO: Update logo to a variant that pops on dark mode if needed -->
-          <img src="v2-assets/assets/images/logo.png" alt="CredPositivo"
-            style="height: 40px; width: auto; filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));">
-        </a>
-      </div>
-      <nav class="desktop-nav hidden-mobile">
-        <ul class="flex gap-8">
-          <li><a href="#funciona">Como Funciona</a></li>
-          <li><a href="#depoimentos">Depoimentos</a></li>
-          <li><a href="#faq">Dúvidas</a></li>
-        </ul>
-      </nav>
-      <div class="cta-header hidden-mobile">
-        <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
-          target="_blank" class="btn btn-outline"
-          style="border-image: linear-gradient(45deg, var(--primary-brand), var(--accent-green)) 1; border-radius: 0;">Falar
-          com Especialista</a>
-      </div>
-      <button class="mobile-menu-btn hidden-desktop"
-        style="background: none; border: none; font-size: 1.5rem; color: var(--text-main);">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu hidden"
-      style="position: absolute; top: 80px; left: 0; width: 100%; padding: 20px; z-index: 100;">
-      <ul class="flex flex-col gap-4 text-center">
-        <li><a href="#funciona">Como Funciona</a></li>
-        <li><a href="#depoimentos">Depoimentos</a></li>
-        <li><a href="#faq">Dúvidas</a></li>
-        <li><a
-            href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
-            target="_blank" class="btn btn-primary" style="margin-top: 10px;">Falar com Especialista</a></li>
-      </ul>
-    </div>
-  </header>
+<!-- Elementos flutuantes estilo hero -->
+<!-- Score baixo (lado esquerdo) -->
+<div class="absolute top-4 sm:top-8 left-3 sm:left-8 z-20 animate-pulse">
+<div class="glass-card px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-red-500/20 bg-red-500/5 backdrop-blur-md flex items-center gap-2 sm:gap-3 shadow-lg shadow-red-500/10">
+<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-400 text-lg sm:text-xl">trending_down</span>
+</div>
+<div>
+<p class="text-[9px] sm:text-xs text-gray-400">Score Atual</p>
+<p class="text-sm sm:text-lg font-bold text-red-400">280</p>
+</div>
+</div>
+</div>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero" style="padding: 80px 0 60px; position: relative; overflow: hidden;">
-      <!-- Subtle glow orbs behind hero -->
-      <div
-        style="position: absolute; top: -10%; left: 10%; width: 400px; height: 400px; background: rgba(14, 165, 233, 0.15); filter: blur(100px); border-radius: 50%; z-index: -1;">
-      </div>
-      <div
-        style="position: absolute; bottom: 10%; right: 10%; width: 300px; height: 300px; background: rgba(16, 185, 129, 0.15); filter: blur(80px); border-radius: 50%; z-index: -1;">
-      </div>
+<!-- Score alto (lado direito) -->
+<div class="absolute top-4 sm:top-8 right-3 sm:right-8 z-20 animate-pulse" style="animation-delay: 0.5s;">
+<div class="glass-card px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-primary/20 bg-primary/5 backdrop-blur-md flex items-center gap-2 sm:gap-3 shadow-lg shadow-primary/10">
+<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg sm:text-xl">trending_up</span>
+</div>
+<div>
+<p class="text-[9px] sm:text-xs text-gray-400">Novo Score</p>
+<p class="text-sm sm:text-lg font-bold text-primary">820</p>
+</div>
+</div>
+</div>
 
-      <div class="container grid"
-        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
-        <div class="hero-header fade-up">
-          <div class="badge"
-            style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); color: var(--accent-green); padding: 6px 16px; border-radius: 20px; font-size: 0.875rem; font-weight: 600; margin-bottom: 24px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <i class="fas fa-bolt glow-text"></i> Análise Bancária Oficial
-          </div>
-          <h1 style="margin-bottom: 24px; font-weight: 800;">O banco já decidiu quanto crédito você merece. <br /><span
-              class="gradient-text glow-text">Você sabe qual foi a decisão?</span></h1>
-        </div>
+<!-- Badge "Cartão Aprovado" (centro-direita) -->
+<div class="absolute top-1/2 -translate-y-1/2 right-4 sm:right-12 z-20 hidden sm:block">
+<div class="glass-card px-4 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-md flex items-center gap-2 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-primary text-base">check_circle</span>
+<span class="text-xs font-bold text-primary">Cartão Aprovado</span>
+</div>
+</div>
 
-        <div class="hero-image glass-card fade-up glow-box" style="padding: 20px; position: relative;">
-          <div
-            style="border-radius: 12px; height: 400px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
-            <img src="v2-assets/assets/images/hero-woman.jpg" alt="Conquista financeira"
-              style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: contrast(1.1) brightness(0.9);">
+<!-- Badge "Negativação Removida" (centro-esquerda) -->
+<div class="absolute top-1/2 -translate-y-1/2 left-4 sm:left-12 z-20 hidden sm:block">
+<div class="glass-card px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 backdrop-blur-md flex items-center gap-2 shadow-lg shadow-yellow-500/10">
+<span class="material-symbols-outlined text-yellow-400 text-base">warning</span>
+<span class="text-xs font-bold text-yellow-400">3 Negativações</span>
+</div>
+</div>
 
-            <!-- Dark Mode Floating Cards -->
-            <div class="floating-card glass-card"
-              style="position: absolute; bottom: 30px; left: -10px; padding: 16px; display: flex; align-items: center; gap: 12px; max-width: 220px; z-index: 2;">
-              <div
-                style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);">
-                <i class="fas fa-shield-check"></i>
-              </div>
-              <div>
-                <div
-                  style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
-                  Seu Rating 3.0</div>
-                <div style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;" class="glow-text">
-                  Classificação "A"</div>
-              </div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+<div class="group glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-red-500/30">
+<div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 mb-6 border border-red-500/20 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">money_off</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Nome Sujo</h3>
+<p class="text-gray-400 text-sm leading-relaxed">Restrições no CPF travam sua vida. Aluguel, financiamento e cartões são negados automaticamente.</p>
+</div>
+<div class="group glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-yellow-500/30">
+<div class="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-14 h-14 rounded-2xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 mb-6 border border-yellow-500/20 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">trending_down</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">Score Alto, Crédito Negado</h3>
+<p class="text-gray-400 text-sm leading-relaxed">O mistério do mercado. Você paga em dia, tem score bom, mas o banco diz "não" sem explicar porquê.</p>
+</div>
+<div class="group glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/30">
+<div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 border border-blue-500/20 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">credit_card_off</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">Limite Ridículo</h3>
+<p class="text-gray-400 text-sm leading-relaxed">Cartão com 500 reais de limite não paga nem o mercado. Você precisa de poder de compra real.</p>
+</div>
+</div>
+</div>
+<div id="como-funciona" class="mb-16 sm:mb-32 max-w-[1400px] mx-auto scroll-mt-24">
+<div class="text-center mb-8 sm:mb-16">
+<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Como <span class="text-primary">funciona</span></h2>
+<p class="text-gray-400 mt-2 text-sm sm:text-base">Tecnologia e estratégia em 3 passos simples.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 relative">
+<div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent border-t border-dashed border-white/20 z-0"></div>
+<div class="glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative z-10 bg-[#111] text-center group border border-white/5 hover:border-primary/50 transition-all duration-300 flex flex-col h-full">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(0,255,102,0.2)] transition-all relative">
+<span class="text-2xl sm:text-3xl font-bold text-white group-hover:text-primary transition-colors font-display">01</span>
+<div class="absolute inset-0 rounded-full border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 transition-all"></div>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Diagnóstico</h3>
+<p class="text-gray-400 text-sm mb-6">IA varre 200+ pontos de dados do seu CPF em busca de travas ocultas.</p>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<div class="bg-gray-800/50 p-2 rounded-lg"><span class="material-symbols-outlined text-primary text-sm">search</span></div>
+<div class="bg-gray-800/50 p-2 rounded-lg"><span class="material-symbols-outlined text-primary text-sm">database</span></div>
+<div class="bg-gray-800/50 p-2 rounded-lg"><span class="material-symbols-outlined text-primary text-sm">analytics</span></div>
+</div>
+</div>
+<div class="glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative z-10 bg-[#111] text-center group border border-white/5 hover:border-primary/50 transition-all duration-300 flex flex-col h-full">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(0,255,102,0.2)] transition-all relative">
+<span class="text-2xl sm:text-3xl font-bold text-white group-hover:text-primary transition-colors font-display">02</span>
+<div class="absolute inset-0 rounded-full border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 transition-all"></div>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Plano</h3>
+<p class="text-gray-400 text-sm mb-6">Traçamos a rota exata: limpeza jurídica, ajuste cadastral ou expansão de relacionamento.</p>
+<div class="mt-auto pt-4 border-t border-white/5 w-full flex flex-col gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<div class="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<div class="flex justify-between text-[10px] text-gray-500 uppercase font-bold">
+<span>Estratégia</span>
+<span>Ação</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl relative z-10 bg-[#111] text-center group border border-white/5 hover:border-primary/50 transition-all duration-300 flex flex-col h-full">
+<div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-[#050505] border border-white/10 flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:shadow-[0_0_20px_rgba(0,255,102,0.2)] transition-all relative">
+<span class="text-2xl sm:text-3xl font-bold text-white group-hover:text-primary transition-colors font-display">03</span>
+<div class="absolute inset-0 rounded-full border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 transition-all"></div>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Resultado</h3>
+<p class="text-gray-400 text-sm mb-6">Execução assistida até a liberação do crédito desejado.</p>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-center items-center gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+<div class="glass-card px-3 py-1 rounded text-xs text-white font-bold bg-green-500/20 border border-green-500/30">Aprovado</div>
+<span class="material-symbols-outlined text-primary animate-pulse">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+<div id="solucoes" class="mb-16 sm:mb-32 w-full max-w-[1400px] mx-auto scroll-mt-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
+<div class="md:col-span-5 relative group">
+<div class="glass-card rounded-2xl sm:rounded-[2.5rem] p-1 sm:p-2 bg-[#111] border border-white/5 relative overflow-hidden">
+<div class="aspect-[4/5] sm:aspect-[3/4] rounded-xl sm:rounded-[2rem] overflow-hidden relative">
+<img alt="Especialista" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQXLe-aWMLn3h369iV3LybNe5wa7XwbnsYwcZc_exG9CCo9K6xtEP6k41acRCOeNL_69BuhCUHoTbAe9w9NgecMjA7alG4xqrjhqOHhQrDMyyyN4PdeqUI5hSg4E3ZHnjWuh3Rm7Bw_2CF3K2ce0BPp3w_718Bte7E5CUpwJYNKBuI1wb6bmJDFbBLNDkTQrpI2iUKYTXR3cxa5QtCQ_rlT2uAI5rfDDHvu3l7tV8f_W_iVydeI7aSiwtcVFPtPxsDvM03gok8_w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute top-6 left-6 z-20">
+<div class="glass-card size-12 rounded-full flex items-center justify-center bg-blue-500/20 border border-blue-500/30 text-blue-400 backdrop-blur-md">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20">
+<h3 class="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">Especialista<br/>Dedicado</h3>
+<p class="text-gray-300 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed">Atendimento humanizado com consultores de alta performance focados no seu sucesso.</p>
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20call%20com%20um%20especialista." target="_blank" class="w-full glass-card hover:bg-white/10 text-white font-bold py-4 rounded-full border border-white/20 transition-all hover:scale-[1.02] block text-center">
+                            Agendar Call
+                        </a>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] bg-blue-600/10 blur-[80px] -z-10 rounded-full pointer-events-none"></div>
+</div>
+<div class="md:col-span-7 md:pl-8 mt-2 sm:mt-0">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6">
+<span class="material-symbols-outlined text-sm">verified</span>
+                Serviços Premium
             </div>
-
-            <div class="floating-card glass-card"
-              style="position: absolute; top: 30px; right: -10px; padding: 12px 20px; min-width: 160px; z-index: 2; border-right: 2px solid var(--primary-brand);">
-              <div style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase;">Limite Aprovado
-              </div>
-              <div
-                style="font-weight: 800; color: #fff; white-space: nowrap; font-size: 1.2rem; text-shadow: 0 0 10px var(--primary-brand);">
-                R$ 52.000,00</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-body fade-up">
-          <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 32px; max-width: 500px;">
-            Enquanto você se preocupa com o Score, os bancos olham para o seu <strong>Rating Bancário Interno</strong>.
-            É isso que define seus limites, financiamentos e cartões de alta renda. Pare de jogar no escuro.
-          </p>
-          <div class="flex gap-4 flex-wrap">
-            <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito."
-              target="_blank" class="btn btn-primary flex items-center gap-2">
-              FALAR COM ESPECIALISTA <i class="fab fa-whatsapp"></i>
-            </a>
-            <div class="security-badge flex items-center gap-2"
-              style="font-size: 0.875rem; color: var(--text-light); background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-              <i class="fas fa-lock glow-text"></i> 100% Criptografado
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Comparison Section -->
-    <section id="funciona"
-      style="padding: 100px 0; background: rgba(2, 6, 23, 0.4); border-top: 1px solid rgba(255,255,255,0.05); position: relative;">
-      <div class="container">
-        <div class="text-center fade-up" style="margin-bottom: 60px;">
-          <p
-            style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.875rem; color: var(--primary-brand); font-weight: 700;">
-            Entenda a Diferença Real</p>
-          <h2 style="margin-top: 10px; max-width: 700px; margin-left: auto; margin-right: auto;">Por que seu Score alto
-            <span style="color: #ef4444; position: relative; display: inline-block;">não aprova <svg width="100%"
-                height="10" style="position: absolute; bottom: 0; left: 0;">
-                <path d="M0 5 Q 50 10 100 5" stroke="#ef4444" fill="transparent" stroke-width="2"
-                  filter="drop-shadow(0 0 5px rgba(239, 68, 68, 0.5))" />
-              </svg></span> crédito?
-          </h2>
-          <p style="color: var(--text-light); margin-top: 20px;">A maior ilusão do mercado financeiro é fazer você
-            acreditar que pagar contas em dia garante crédito. O sistema bancário utiliza uma métrica muito mais
-            agressiva e profunda.</p>
-        </div>
-
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
-          <!-- Bad Card (Score) -->
-          <div class="card fade-up glass-card"
-            style="padding: 40px; border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(15, 23, 42, 0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div class="flex items-center gap-4" style="margin-bottom: 30px; opacity: 0.8;">
-              <div
-                style="width: 50px; height: 50px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-times" style="font-size: 1.5rem; color: #ef4444;"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.25rem;">O Score Comum</h3>
-                <p style="font-size: 0.875rem; color: var(--text-light);">Métrica pública superficial</p>
-              </div>
-            </div>
-            <ul style="display: flex; flex-direction: column; gap: 20px;">
-              <li class="flex items-start gap-3" style="color: var(--text-light);">
-                <i class="fas fa-times-circle"
-                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
-                <span>Olha apenas para o seu <strong style="color: #fff;">passado</strong> de pagamentos, ignorando o
-                  contexto atual.</span>
-              </li>
-              <li class="flex items-start gap-3" style="color: var(--text-light);">
-                <i class="fas fa-times-circle"
-                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
-                <span>Ignora completamente sua <strong style="color: #fff;">capacidade real</strong> de renda ou
-                  evolução financeira.</span>
-              </li>
-              <li class="flex items-start gap-3" style="color: var(--text-light);">
-                <i class="fas fa-times-circle"
-                  style="color: #ef4444; margin-top: 4px; filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));"></i>
-                <span>Qualquer loja e bureau pode consultar e vender seus dados.</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Good Card (Rating) -->
-          <div class="card fade-up glass-card glow-box"
-            style="padding: 40px; border-color: rgba(16, 185, 129, 0.3); background: rgba(2, 6, 23, 0.6);">
-            <div
-              style="position: absolute; top: 20px; right: 20px; background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);">
-              RECOMENDADO</div>
-            <div class="flex items-center gap-4" style="margin-bottom: 30px;">
-              <div
-                style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);">
-                <i class="fas fa-check" style="font-size: 1.5rem; color: var(--accent-green);"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.25rem; color: white;">Rating Bancário</h3>
-                <p style="font-size: 0.875rem; color: var(--accent-green); opacity: 0.9;">Métrica interna e sigilosa</p>
-              </div>
-            </div>
-            <ul style="display: flex; flex-direction: column; gap: 20px;">
-              <li class="flex items-start gap-3">
-                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
-                <span style="color: var(--text-light);">Analisa seu <strong style="color: #fff;">potencial
-                    futuro</strong> de pagamento e acúmulo de riqueza.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
-                <span style="color: var(--text-light);">Cruza dados precisos: veículos, profissão, imposto e
-                  movimentações reais.</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <i class="fas fa-check-circle glow-text" style="color: var(--accent-green); margin-top: 4px;"></i>
-                <span style="color: var(--text-light);">Atualização de score em tempo real direto pela infraestrutura
-                  SCR.</span>
-              </li>
-            </ul>
-            <div style="margin-top: 32px;">
-              <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20saber%20meu%20rating%20banc%C3%A1rio."
-                target="_blank" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">QUERO
-                SABER MEU RATING <i class="fab fa-whatsapp ml-2"></i></a>
-              <p
-                style="text-align: center; font-size: 0.75rem; margin-top: 16px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
-                <i class="fas fa-lock glow-text" style="margin-right: 4px;"></i> Análise 100% segura
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Authority Section -->
-    <section style="padding: 100px 0; position: relative;">
-      <!-- Subtle highlight -->
-      <div
-        style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: radial-gradient(circle at right, rgba(14, 165, 233, 0.05) 0%, transparent 70%); z-index: -1;">
-      </div>
-
-      <div class="container grid"
-        style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; align-items: center;">
-        <div class="image-wrapper fade-up" style="position: relative;">
-          <!-- Glow behind image -->
-          <div
-            style="position: absolute; top: 10%; right: -5%; width: 100%; height: 80%; background: var(--primary-brand); filter: blur(120px); opacity: 0.2; border-radius: 50%; z-index: -1;">
-          </div>
-
-          <div class="glass-card" style="border-radius: 20px; height: 500px; overflow: hidden; padding: 0;">
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600"
-              alt="Especialista"
-              style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85; filter: grayscale(20%) contrast(1.1);">
-          </div>
-          <div class="glass-card glow-box"
-            style="position: absolute; bottom: -20px; right: -20px; padding: 24px; max-width: 280px; z-index: 2;">
-            <p style="font-size: 0.9rem; color: #fff; font-style: italic; line-height: 1.5;">"Não existe mágica para
-              conseguir
-              crédito. Existe <span class="gradient-text" style="font-weight: 700;">informação privilegiada</span> que
-              os bancos não querem que você saiba."</p>
-            <div
-              style="margin-top: 12px; font-weight: 800; font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
-              - ESPECIALISTA CREDPOSITIVO
-            </div>
-          </div>
-        </div>
-        <div class="content fade-up">
-          <h2 style="margin-bottom: 24px; font-size: 2.5rem;">Quem vai te guiar nessa jornada <span
-              class="gradient-text">financeira</span></h2>
-          <p style="margin-bottom: 24px; color: var(--text-light); font-size: 1.1rem; line-height: 1.7;">
-            Muito prazer, a CredPositivo nasceu da necessidade iminente de transparência no mercado financeiro
-            brasileiro.
-          </p>
-          <p style="margin-bottom: 40px; color: var(--text-light); font-size: 1.1rem; line-height: 1.7;">
-            Ao contrário das empresas de score que ganham dinheiro revendendo seus dados, nós trabalhamos
-            <strong>exclusivamente para você</strong>. Nossa
-            missão é democratizar o acesso ao crédito justo, revelando as métricas ocultas que gerentes de banco
-            utilizam para aprovar ou negar seus sonhos.
-          </p>
-
-          <div class="flex gap-12 border-t pt-6">
-            <div>
-              <div style="font-size: 3rem; font-weight: 800; line-height: 1;" class="gradient-text glow-text">15k<span
-                  style="font-size: 1.5rem; vertical-align: super;">+</span></div>
-              <div
-                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-top: 8px;">
-                Clientes Atendidos</div>
-            </div>
-            <div>
-              <div style="font-size: 3rem; font-weight: 800; line-height: 1;" class="gradient-text glow-text"><span
-                  style="font-size: 1.5rem; vertical-align: super; margin-right: 4px;">R$</span>20<span
-                  style="font-size: 1.5rem; vertical-align: super;">Mi</span></div>
-              <div
-                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-top: 8px;">
-                Crédito Liberado</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="depoimentos"
-      style="padding: 100px 0; background: rgba(15, 23, 42, 0.3); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
-      <div class="container">
-        <h2 class="text-center fade-up" style="margin-bottom: 60px;">O que a verdade revela, <span
-            class="gradient-text">o crédito aprova.</span></h2>
-        <div class="testimonials-grid">
-          <div class="testimonial-card fade-up">
-            <div class="t-head">
-              <img class="t-avatar"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100"
-                alt="Mariana Costa">
-              <div class="t-meta">
-                <div class="t-name">Mariana Costa</div>
-                <div class="t-sub">São Paulo &bull; Verificado</div>
-              </div>
-              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            </div>
-            <p class="t-text">
-              "Eu tinha score 850 e nenhum cartão de alta renda me aprova. Descobri aqui que meu rating estava 'C' por
-              uma dívida antiga
-              prescrita escondida no registrato. Limpei e consegui meu Black."
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Tudo que você precisa. <br/><span class="text-primary">Em um só lugar.</span></h2>
+<p class="text-gray-400 text-base sm:text-lg mb-6 sm:mb-10 max-w-xl">
+                Nossa plataforma conecta você a uma rede de soluções integradas. Esqueça a burocracia de lidar com múltiplos escritórios.
             </p>
-          </div>
-          <div class="testimonial-card fade-up">
-            <div class="t-head">
-              <img class="t-avatar"
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100"
-                alt="Ricardo Mendes">
-              <div class="t-meta">
-                <div class="t-name">Ricardo Mendes</div>
-                <div class="t-sub">Rio de Janeiro &bull; Verificado</div>
-              </div>
-              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            </div>
-            <p class="t-text">
-              "Financiamento da casa negado 3 vezes. Fiz o Raio-X da CredPositivo, ajustei a movimentação
-              conforme a orientação criptografada deles e o gerente ligou na mesma semana aprovando."
-            </p>
-          </div>
-          <div class="testimonial-card fade-up">
-            <div class="t-head">
-              <img class="t-avatar"
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
-                alt="João V. Piza">
-              <div class="t-meta">
-                <div class="t-name">João V. Piza</div>
-                <div class="t-sub">Belo Horizonte &bull; Verificado</div>
-              </div>
-              <div class="t-rating glow-text">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            </div>
-            <p class="t-text">
-              "Achei que era mais um curso, mas é um diagnóstico real, puro dado cru. O gerente da minha conta ficou em
-              choque quando usei os mesmos termos que ele utiliza internamente."
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+<div class="flex flex-wrap gap-2 sm:gap-3">
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Diagnóstico de Crédito</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Limpa Nome</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Rating Bancário</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Aumento de Limite</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Ajuste Cadastral</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Negociação de Dívidas</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Perfil de Crédito</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Aprovação de Crédito</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Consultoria Financeira</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Remoção de Restrições</span>
+<span class="px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-[#161616] border border-white/5 text-gray-300 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-white transition-colors cursor-default">Estratégia Bancária</span>
+</div>
+<p class="mt-6 text-gray-500 text-sm">E mais +18 outros serviços especializados dentro das trilhas.</p>
+</div>
+</div>
+</div>
+<div id="trilhas" class="relative mb-16 sm:mb-32 w-full max-w-[1400px] mx-auto scroll-mt-24">
+<div class="text-center mb-6 sm:mb-10">
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">Nossas <span class="text-primary">Trilhas</span></h2>
+<p class="text-gray-400 text-sm sm:text-lg">Escolha o caminho para sua liberdade financeira.</p>
+</div>
+<input checked="" class="hidden" id="tab-regularizacao" name="trilha_tabs" type="radio"/>
+<input class="hidden" id="tab-otimizacao" name="trilha_tabs" type="radio"/>
+<input class="hidden" id="tab-expansao" name="trilha_tabs" type="radio"/>
+<div class="tabs-nav flex flex-nowrap sm:flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-12 overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
+<label class="cursor-pointer glass-card px-4 sm:px-8 py-2.5 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium transition-all hover:bg-white/5 border border-transparent min-w-fit sm:min-w-[160px] text-center flex items-center gap-2 justify-center flex-shrink-0" for="tab-regularizacao">
+<div class="size-2 rounded-full bg-red-500"></div>
+<span>Regularização</span>
+</label>
+<label class="cursor-pointer glass-card px-4 sm:px-8 py-2.5 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium transition-all hover:bg-white/5 border border-transparent min-w-fit sm:min-w-[160px] text-center flex items-center gap-2 justify-center flex-shrink-0" for="tab-otimizacao">
+<div class="size-2 rounded-full bg-yellow-400"></div>
+<span>Otimização</span>
+</label>
+<label class="cursor-pointer glass-card px-4 sm:px-8 py-2.5 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium transition-all hover:bg-white/5 border border-transparent min-w-fit sm:min-w-[160px] text-center flex items-center gap-2 justify-center flex-shrink-0" for="tab-expansao">
+<div class="size-2 rounded-full bg-blue-500"></div>
+<span>Expansão</span>
+</label>
+</div>
+<div class="tabs-container relative w-full">
+<div class="tab-content w-full" id="content-regularizacao">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 auto-rows-min">
+<div class="md:col-span-7 glass-card rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-12 flex flex-col justify-center relative overflow-hidden group bg-[#111]">
+<div class="absolute right-[-50px] top-[-50px] w-[200px] h-[200px] bg-red-600/10 rounded-full blur-[60px] group-hover:bg-red-600/20 transition-colors"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="px-3 py-1 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 text-xs font-bold uppercase tracking-wide">Apagar o Incêndio</span>
+</div>
+<h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Limpa Nome 360°</h3>
+<p class="text-gray-400 text-base sm:text-lg mb-6 sm:mb-8 max-w-lg">Assessoria jurídica completa para remover apontamentos indevidos e renegociar dívidas reais com descontos agressivos (até 90%).</p>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 text-gray-300">
+<span class="material-symbols-outlined text-red-500">check_circle</span>
+                                        Blindagem contra cobranças abusivas
+                                    </li>
+<li class="flex items-center gap-3 text-gray-300">
+<span class="material-symbols-outlined text-red-500">check_circle</span>
+                                        Limpeza de histórico de consultas
+                                    </li>
+</ul>
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20trilha%20de%20Regulariza%C3%A7%C3%A3o." target="_blank" class="bg-white text-black hover:bg-gray-200 font-bold px-8 py-3 rounded-full transition-all flex items-center gap-2 w-fit">
+                                    Começar Agora
+                                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="md:col-span-5 glass-card rounded-2xl sm:rounded-[2rem] p-1 relative overflow-hidden min-h-[280px] sm:min-h-[400px] group bg-[#0A0A0A]">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+<img alt="JC Digital Card" class="w-full h-full object-cover rounded-[1.8rem] opacity-80 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYgIjs8m4f_ba-6pYEAUUZxnnwHsiT77hawgbbifluyP6bCylDi9P9dPh-UPU880FeNseO16iMAgHkbREJciLfZTG2yU31IR3P3iCdq10B6ZzrQ0GuCUtlxGMWqrDI3qg2kt4miSNbxLHRhPufBK10qESFhGlCDk2_3wU2SYMeDKB09OwkpJ2y8MissbYffuX_eaUxx5766IsSXxtc05wBPTiGdvNymcSFpNe-fAkq0o0N32BJ4EQBT1zPypZ_mxKYTFLQ2LF2Cg"/>
+<div class="absolute bottom-8 left-8 z-20">
+<div class="glass-card px-4 py-2 rounded-lg inline-flex items-center gap-2 mb-2">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-xs font-bold text-white uppercase">Recompensa</span>
+</div>
+<p class="text-white font-bold text-xl">Recupere seu crédito e ganhe acesso</p>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content w-full" id="content-otimizacao">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
+<div class="md:col-span-12 glass-card rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-12 relative overflow-hidden bg-[#111] border border-yellow-500/20">
+<div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-yellow-500/5 to-transparent"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center relative z-10">
+<div>
+<div class="flex items-center gap-3 mb-4 sm:mb-6">
+<span class="px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-xs font-bold uppercase tracking-wide">Construção de Autoridade</span>
+</div>
+<h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Score Booster Pro</h3>
+<p class="text-gray-400 text-base sm:text-lg mb-6 sm:mb-8">Não basta pagar em dia. Usamos inteligência de dados para corrigir seu cadastro nos birôs e "ensinar" o algoritmo a confiar em você.</p>
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20Score%20Booster%20Pro." target="_blank" class="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-8 py-3 rounded-full transition-all flex items-center gap-2 inline-flex">
+                                    Aumentar Score
+                                </a>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card p-6 rounded-2xl bg-black/40 text-center">
+<span class="material-symbols-outlined text-4xl text-yellow-400 mb-2">trending_up</span>
+<p class="text-white font-bold">Score +900</p>
+</div>
+<div class="glass-card p-6 rounded-2xl bg-black/40 text-center">
+<span class="material-symbols-outlined text-4xl text-yellow-400 mb-2">verified_user</span>
+<p class="text-white font-bold">Cadastro Positivo</p>
+</div>
+<div class="glass-card p-6 rounded-2xl bg-black/40 text-center col-span-2">
+<p class="text-gray-400 text-sm">Prazo Médio</p>
+<p class="text-2xl font-bold text-white">45 Dias</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content w-full" id="content-expansao">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
+<div class="md:col-span-8 glass-card rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-12 bg-[#0d1117] border border-blue-500/20 relative overflow-hidden">
+<div class="relative z-10">
+<span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 text-xs font-bold uppercase tracking-wide mb-6 inline-block">Alta Renda</span>
+<h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Infinite Credit Pass</h3>
+<p class="text-gray-400 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl">Acesso a cartões Black e Infinite sem anuidade. Conexão direta com gerentes parceiros.</p>
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20solicitar%20um%20convite%20para%20o%20Infinite%20Credit%20Pass." target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3 rounded-full transition-all inline-block">
+                                    Solicitar Convite
+                                </a>
+</div>
+<img src="select.svg" alt="Credit Card" class="hidden sm:block absolute right-0 bottom-0 w-[45%] md:w-[50%] h-auto object-contain drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]"/>
+</div>
+<div class="md:col-span-4 grid grid-cols-2 md:grid-cols-1 gap-4 sm:gap-6">
+<div class="glass-card p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] flex-1 flex flex-col justify-center items-center text-center bg-[#0f0f0f]">
+<span class="material-symbols-outlined text-5xl text-blue-500 mb-4">diamond</span>
+<h4 class="text-xl font-bold text-white">Black &amp; Infinite</h4>
+<p class="text-gray-500 text-sm mt-2">Acesso exclusivo</p>
+</div>
+<div class="glass-card p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] flex-1 flex flex-col justify-center items-center text-center bg-[#0f0f0f]">
+<span class="material-symbols-outlined text-4xl sm:text-5xl text-blue-500 mb-3 sm:mb-4">travel_explore</span>
+<h4 class="text-xl font-bold text-white">Sala VIP</h4>
+<p class="text-gray-500 text-sm mt-2">Benefícios globais</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="depoimentos" class="w-full overflow-hidden mb-16 sm:mb-32 max-w-[1400px] mx-auto scroll-mt-24">
+<div class="flex justify-between items-end mb-6 sm:mb-10 px-2 sm:px-4">
+<div>
+<h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white">Quem usou, <span class="text-primary">aprovou</span></h2>
+<p class="text-gray-500 text-xs sm:text-sm mt-1">Histórias reais de recuperação financeira.</p>
+</div>
+<div class="flex gap-2">
+<button class="size-8 sm:size-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/5"><span class="material-symbols-outlined text-sm sm:text-base">arrow_back</span></button>
+<button class="size-8 sm:size-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white/5"><span class="material-symbols-outlined text-sm sm:text-base">arrow_forward</span></button>
+</div>
+</div>
+<div class="relative flex overflow-x-hidden group mask-linear-fade">
+<div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background-dark to-transparent z-20 pointer-events-none"></div>
+<div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background-dark to-transparent z-20 pointer-events-none"></div>
+<div class="animate-infinite-scroll flex gap-6">
+<!-- Carlos M. -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Carlos M." class="size-12 rounded-full object-cover border-2 border-primary/20" src="h1.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Carlos M.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Meu score subiu de 450 para 820 em apenas 45 dias. O atendimento via especialista foi fundamental para entender o que estava errado."</p>
+</div>
+<!-- Fernanda L. -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Fernanda L." class="size-12 rounded-full object-cover border-2 border-purple-500/20" src="m1.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Fernanda L.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Consegui meu primeiro cartão Black sem anuidade graças a consultoria. A área do cliente é super moderna e fácil de usar."</p>
+</div>
+<!-- Roberto S. -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Roberto S." class="size-12 rounded-full object-cover border-2 border-blue-500/20" src="h2.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Roberto S.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Estava negativado há 3 anos. O plano Limpa Nome foi rápido e sem burocracia. Hoje durmo tranquilo sabendo que meu nome está limpo."</p>
+</div>
+<!-- Patrícia R. (NOVO) -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Patrícia R." class="size-12 rounded-full object-cover border-2 border-pink-500/20" src="m2.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Patrícia R.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Tinha dívidas de 2018 que nem lembrava mais. A equipe encontrou tudo, negociou e hoje estou com o nome limpo. Recomendo de olhos fechados."</p>
+</div>
+<!-- Lucas F. (NOVO) -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Lucas F." class="size-12 rounded-full object-cover border-2 border-amber-500/20" src="h3.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Lucas F.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Precisava financiar um carro e meu score estava em 280. Em 60 dias subiu para 720 e consegui a aprovação. Valeu cada centavo."</p>
+</div>
+<!-- Ana Clara D. (NOVO) -->
+<div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Ana Clara D." class="size-12 rounded-full object-cover border-2 border-emerald-500/20" src="m3.png"/>
+<div>
+<h4 class="text-white font-bold text-base">Ana Clara D.</h4>
+<div class="flex text-yellow-400 text-xs">★★★★★</div>
+</div>
+</div>
+<p class="text-gray-400 italic leading-relaxed">"Tentei resolver sozinha por meses e não saía do lugar. Com a consultoria, em menos de 30 dias já vi resultado no meu score."</p>
+</div>
+</div>
+</div>
+</div>
+<div id="faq" class="mb-16 sm:mb-32 w-full max-w-[1000px] mx-auto scroll-mt-24">
+<div class="text-center mb-8 sm:mb-12">
+<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Perguntas <span class="text-primary">Frequentes</span></h2>
+<p class="text-gray-400">Tire suas dúvidas antes de começar sua jornada.</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq1" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq1">
+                Quanto tempo demora para limpar o nome?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">O prazo médio para a baixa de apontamentos nos órgãos de proteção ao crédito (SPC/Serasa) é de 5 a 10 dias úteis após o início do processo jurídico ou pagamento do acordo negociado. Para o aumento de score, os resultados começam a aparecer entre 30 a 45 dias.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq2" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq2">
+                O aumento de score é garantido?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">Nenhum serviço pode garantir uma pontuação exata, pois os algoritmos dos birôs mudam constantemente. Porém, garantimos a execução de todas as técnicas (limpeza de histórico, cadastro positivo, correções cadastrais) que comprovadamente resultam no aumento da pontuação para 98% dos nossos clientes.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq3" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq3">
+                Preciso pagar as dívidas para limpar o nome?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">Depende do tipo de restrição. Dívidas prescritas (com mais de 5 anos) ou apontamentos indevidos podem ser removidos via judicial sem pagamento. Para dívidas legítimas e recentes, nossa equipe negocia descontos de até 90% para quitação.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq4" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq4">
+                Como funciona a garantia de satisfação?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">Se em até 30 dias não conseguirmos realizar nenhuma das etapas contratadas do seu plano (como a remoção de apontamentos indevidos ou o diagnóstico completo), devolvemos 100% do valor investido na consultoria.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq5" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq5">
+                Quais cartões Black posso conseguir?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">Trabalhamos com estratégias para alta renda que visam cartões como Mastercard Black, Visa Infinite e Elo Nanquim. O sucesso depende da construção do relacionamento bancário que orientamos, mas temos casos de aprovação no C6 Carbon, XP Visa Infinite, BTG Black e cartões de cooperativas (Sicredi/Sicoob).</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl border border-white/5 bg-[#111] overflow-hidden">
+<input id="faq6" type="checkbox"/>
+<label class="flex justify-between items-center w-full p-4 sm:p-6 cursor-pointer font-bold text-white text-sm sm:text-lg transition-colors hover:text-primary" for="faq6">
+                É seguro enviar meus dados?
+                <span class="material-symbols-outlined faq-icon transition-transform duration-300">expand_more</span>
+</label>
+<div class="faq-content px-4 sm:px-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+<p class="pb-6">Sim, absolutamente. Utilizamos criptografia de ponta a ponta (SSL) e seguimos rigorosamente a LGPD (Lei Geral de Proteção de Dados). Seus dados são utilizados exclusivamente para a análise de crédito e execução dos serviços contratados, jamais vendidos a terceiros.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-10 relative max-w-[1400px] mx-auto px-0 sm:px-6">
+<div class="glass-card rounded-2xl sm:rounded-[3rem] p-6 sm:p-8 md:p-12 text-center relative overflow-hidden bg-[#0d0d0d] border border-white/10 group">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-primary/20 transition-all duration-700"></div>
+<div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-8 sm:gap-10">
 
-    <!-- FAQ -->
-    <section id="faq" style="padding: 100px 0;">
-      <div class="container" style="max-width: 800px;">
-        <h2 class="text-center fade-up" style="margin-bottom: 50px;">Perguntas Frequentes</h2>
+<!-- 1. Título -->
+<div class="text-center flex flex-col items-center gap-4">
+<div class="p-4 rounded-full bg-primary/10 border border-primary/20 w-fit">
+<span class="material-symbols-outlined text-4xl text-primary animate-pulse-slow">rocket_launch</span>
+</div>
+<h2 class="text-2xl sm:text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+            Comece sua jornada <br/><span class="text-primary">agora</span>
+</h2>
+</div>
 
-        <div class="faq-list fade-up">
-          <div class="faq-item">
-            <button class="faq-question w-100 flex justify-between items-center"
-              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
-              <span>1. É seguro colocar meus dados sensíveis?</span>
-              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
-            </button>
-            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
-              <div style="padding: 0 24px 24px;">
-                Sim. Empregamos criptografia AES-256 (padrão militar e bancário) e operamos sob os ditames da LGPD. Seus
-                dados são extraídos do ecossistema unicamente para materializar o diagnóstico que você solicitou.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question w-100 flex justify-between items-center"
-              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
-              <span>2. Como acesso meu diagnóstico após pagar?</span>
-              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
-            </button>
-            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
-              <div style="padding: 0 24px 24px;">
-                A liberação ocorre em milissegundos após a confirmação via PIX ou cartão. O relatório completo com seu
-                Rating Interno e o passo a passo da reversão ficam disponíveis em nossa dashboard ultra-rápida.
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question w-100 flex justify-between items-center"
-              style="width: 100%; padding: 24px; border: none; background: none; text-align: left; font-weight: 600; font-size: 1.1rem; cursor: pointer;">
-              <span>3. Isso garante que meu crédito será aprovado amanhã?</span>
-              <i class="fas fa-chevron-down" style="color: var(--primary-brand); transition: transform 0.3s;"></i>
-            </button>
-            <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
-              <div style="padding: 0 24px 24px;">
-                Nós garantimos a <strong>Visão de Raio-X</strong>. Removemos a venda nos seus olhos e expomos a métrica
-                exata do bloqueio. A aprovação é consequência direta das ações que você tomará dentro do sistema após
-                descobrir onde estava falhando.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- 2. MacBook Mockup -->
+<div class="w-full max-w-[600px] mx-auto">
+<div class="relative">
+<!-- Glow behind laptop -->
+<div class="absolute inset-0 bg-primary/10 blur-[80px] rounded-full scale-125 pointer-events-none"></div>
+<!-- Laptop frame -->
+<div class="relative">
+<!-- Screen lid -->
+<div class="relative bg-gradient-to-b from-[#2a2a2a] to-[#1c1c1c] rounded-t-2xl sm:rounded-t-[1.2rem] p-[10px] sm:p-[12px] pb-[8px] sm:pb-[10px] border border-white/10 border-b-0 shadow-[0_-10px_40px_rgba(0,0,0,0.3)]">
+<!-- Camera -->
+<div class="flex items-center justify-center mb-[6px] sm:mb-[8px]">
+<div class="w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] bg-[#0a0a0a] rounded-full border border-white/10 shadow-inner"></div>
+</div>
+<!-- Screen -->
+<div class="rounded-lg sm:rounded-xl overflow-hidden bg-black relative cursor-pointer group/screen border border-black/50" onclick="document.getElementById('videoLightbox').classList.remove('hidden')">
+<img alt="CredPositivo Dashboard" class="w-full h-auto block" src="desktop.png"/>
+<!-- Overlay escuro + Play -->
+<div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-3 transition-all duration-300 group-hover/screen:bg-black/40">
+<div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(0,255,102,0.3)] animate-pulse">
+<span class="material-symbols-outlined text-primary text-3xl sm:text-5xl ml-1">play_arrow</span>
+</div>
+<span class="text-white text-xs sm:text-sm font-bold tracking-wide uppercase">Veja o sistema por dentro</span>
+</div>
+</div>
+</div>
+<!-- Hinge -->
+<div class="relative mx-[2px]">
+<div class="h-[4px] sm:h-[5px] bg-gradient-to-b from-[#3a3a3a] to-[#2a2a2a] rounded-[1px] border-x border-white/5"></div>
+</div>
+<!-- Base -->
+<div class="relative">
+<div class="h-[10px] sm:h-[14px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-b-xl border-x border-b border-white/10 mx-[-4px] sm:mx-[-6px]"></div>
+<div class="w-[20%] h-[3px] sm:h-[4px] mx-auto bg-[#333] rounded-b-lg -mt-[1px]"></div>
+</div>
+</div>
+<!-- Badge -->
+<div class="flex items-center justify-center gap-4 mt-4">
+<div class="glass-card inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border-white/10">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold text-white uppercase tracking-wider">Plataforma Web</span>
+</div>
+</div>
+</div>
+</div>
 
-    <!-- CTA Final -->
-    <section style="padding: 120px 0; position: relative;">
-      <div class="container text-center fade-up glass-card glow-box"
-        style="padding: 80px 40px; border-color: rgba(16, 185, 129, 0.4); background: rgba(2, 6, 23, 0.8);">
-        <h2 style="color: white; margin-bottom: 24px; font-size: 3rem;">Pare de ser reprovado sem <span
-            class="gradient-text">saber o motivo.</span></h2>
-        <p
-          style="color: var(--text-light); font-size: 1.125rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
-          Milhares de brasileiros já recuperaram seu poder de compra descobrindo o algoritmo do Rating. Sua vez chegou
-          de virar e dominar o jogo.
-        </p>
-        <a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20descobrir%20meu%20rating%20banc%C3%A1rio."
-          target="_blank" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.125rem;">INICIAR DIAGNÓSTICO
-          AGORA <i class="fab fa-whatsapp ml-2"></i></a>
-        <p
-          style="font-size: 0.8rem; margin-top: 24px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">
-          <i class="fas fa-shield-check glow-text" style="color: var(--accent-green); margin-right: 4px;"></i> Garantia
-          blindada de 7 dias úteis
-        </p>
-      </div>
-    </section>
-  </main>
+<!-- 3. Texto descritivo -->
+<p class="text-gray-400 text-base sm:text-lg max-w-lg text-center">
+            Acesse nossa plataforma exclusiva e tenha em mãos o poder de transformar sua vida financeira. Cadastro rápido e seguro.
+</p>
 
-  <!-- Footer -->
-  <footer style="background: rgba(2, 6, 23, 0.95); padding: 80px 0 30px; border-top: 1px solid rgba(255,255,255,0.05);">
-    <div class="container">
-      <div class="grid"
-        style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
-        <div>
-          <div class="flex items-center gap-2" style="margin-bottom: 24px;">
-            <img src="v2-assets/assets/images/logo.png" alt="CredPositivo"
-              style="height: 32px; width: auto; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));">
-          </div>
-          <p style="font-size: 0.9rem; color: var(--text-light); line-height: 1.7;">A chave para seu crédito hackeada.
-            Transparência extrema e tecnologia financeira de ponta.</p>
-        </div>
-        <div>
-          <h4 style="color: white; margin-bottom: 24px; font-size: 1.1rem; letter-spacing: 1px;">Legal</h4>
-          <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.9rem;">
-            <li><a href="terms.html" style="color: var(--text-light);">Termos de Serviço</a></li>
-            <li><a href="privacy.html" style="color: var(--text-light);">Privacidade & LGPD</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color: white; margin-bottom: 24px; font-size: 1.1rem; letter-spacing: 1px;">Conexões</h4>
-          <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.9rem;">
-            <li><a href="contact.html" style="color: var(--text-light);">Suporte Premium</a></li>
-            <li><a href="#faq" style="color: var(--text-light);">Central de Ajuda</a></li>
-          </ul>
-        </div>
-      </div>
-      <div
-        style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; text-align: center; font-size: 0.8rem; color: var(--text-light);">
-        &copy; 2025 CredPositivo Technology Ltd. CNPJ: 35.030.967/0001-09. Todos os sistemas operantes.
-      </div>
-    </div>
-  </footer>
-  <script type="module" src="v2-assets/src/main.js"></script>
-</body>
+<!-- 4. CTA -->
+<a href="https://credpositivo.com/cadastro" target="_blank" class="bg-primary hover:bg-[#00e65c] text-black font-bold text-base sm:text-lg rounded-full px-8 sm:px-10 py-3 sm:py-4 transition-all flex items-center justify-center gap-2 shadow-glow-primary hover:shadow-lg hover:scale-105 w-full sm:w-auto max-w-md">
+<span>Cadastre-se Gratuitamente</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</a>
 
-</html>
+<!-- 5. Selos de confiança -->
+<div class="flex flex-wrap gap-4 sm:gap-6 opacity-60 text-[9px] sm:text-[10px] tracking-[0.1em] uppercase font-bold justify-center">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-sm">lock</span>
+                Dados Criptografados
+</div>
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-sm">verified</span>
+                Plataforma Oficial
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div></main>
+<footer class="border-t border-white/5 bg-black py-10 sm:py-20 px-4 sm:px-6">
+<div class="max-w-[1400px] mx-auto">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16 text-center md:text-left">
+<div class="sm:col-span-2 md:col-span-1">
+<div class="flex items-center justify-center md:justify-start gap-2 mb-4 sm:mb-6">
+<img src="positivo.png" alt="CredPositivo" class="h-8 sm:h-10 w-auto"/>
+</div>
+<p class="text-gray-500 text-xs sm:text-sm leading-relaxed">
+                        Revolucionando o acesso ao crédito com tecnologia e transparência. Seu futuro financeiro começa aqui.
+                    </p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-3 sm:mb-6 text-xs sm:text-sm uppercase tracking-wider">Soluções</h4>
+<ul class="space-y-2 sm:space-y-4 text-xs sm:text-sm text-gray-500 font-medium">
+<li><a class="hover:text-primary transition-colors" href="#trilhas">Diagnóstico IA</a></li>
+<li><a class="hover:text-primary transition-colors" href="#trilhas">Limpa Nome</a></li>
+<li><a class="hover:text-primary transition-colors" href="#trilhas">Score Booster</a></li>
+<li><a class="hover:text-primary transition-colors" href="#trilhas">Cartões Black</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-3 sm:mb-6 text-xs sm:text-sm uppercase tracking-wider">Empresa</h4>
+<ul class="space-y-2 sm:space-y-4 text-xs sm:text-sm text-gray-500 font-medium">
+<li><a class="hover:text-primary transition-colors" href="#como-funciona">Sobre Nós</a></li>
+<li><a class="hover:text-primary transition-colors" href="#solucoes">Serviços</a></li>
+<li><a class="hover:text-primary transition-colors" href="#depoimentos">Depoimentos</a></li>
+<li><a class="hover:text-primary transition-colors" href="#faq">FAQ</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-3 sm:mb-6 text-xs sm:text-sm uppercase tracking-wider">Legal</h4>
+<ul class="space-y-2 sm:space-y-4 text-xs sm:text-sm text-gray-500 font-medium">
+<li><a class="hover:text-primary transition-colors" href="https://credpositivo.com/cadastro" target="_blank">Termos de Uso</a></li>
+<li><a class="hover:text-primary transition-colors" href="https://credpositivo.com/cadastro" target="_blank">Privacidade</a></li>
+<li><a class="hover:text-primary transition-colors" href="https://credpositivo.com/cadastro" target="_blank">Segurança</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/5 pt-6 sm:pt-10 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+<div class="text-gray-600 text-xs">
+                    © 2026 CredPositivo. Todos os direitos reservados.
+                </div>
+<div class="flex gap-4">
+<a class="size-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-black transition-all" href="https://www.instagram.com/credpositivo" target="_blank" title="Instagram">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</a>
+<a class="size-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-black transition-all" href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20vim%20pelo%20site%20da%20CredPositivo." target="_blank" title="WhatsApp">
+<span class="material-symbols-outlined text-sm">chat</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/5571936180654?text=Ol%C3%A1%2C%20quero%20entender%20minha%20situa%C3%A7%C3%A3o%20de%20cr%C3%A9dito." target="_blank" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] size-12 sm:size-16 bg-[#25D366] hover:bg-[#20bd5a] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] hover:shadow-[0_4px_30px_rgba(37,211,102,0.6)] hover:scale-110 transition-all duration-300 group" title="Fale conosco no WhatsApp">
+<svg class="size-6 sm:size-8 text-white fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+</svg>
+</a>
+
+<!-- Video Lightbox -->
+<div id="videoLightbox" class="hidden fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-md" onclick="if(event.target===this){closeLightbox();}">
+<!-- Glow central -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/8 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="relative w-[92vw] max-w-4xl animate-[fadeInScale_0.3s_ease-out]">
+<!-- Botão fechar -->
+<button onclick="closeLightbox()" class="absolute -top-12 right-0 flex items-center gap-2 text-white/50 hover:text-white transition-all duration-300 group">
+<span class="text-xs font-bold uppercase tracking-wider hidden sm:inline opacity-0 group-hover:opacity-100 transition-opacity">Fechar</span>
+<div class="w-8 h-8 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/40 group-hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined text-lg">close</span>
+</div>
+</button>
+<!-- Container do vídeo com glass effect -->
+<div class="rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,255,102,0.08),0_25px_50px_rgba(0,0,0,0.5)] bg-[#0A0A0A] p-[3px] sm:p-[4px]">
+<div class="rounded-xl sm:rounded-[1.3rem] overflow-hidden">
+<div style="position:relative; width:100%; height:0px; padding-bottom:54.717%">
+<iframe allow="fullscreen" allowfullscreen height="100%" src="https://streamable.com/e/i4cn50?" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+</div>
+</div>
+</div>
+<!-- Label abaixo -->
+<div class="flex items-center justify-center gap-3 mt-4">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] sm:text-xs font-bold text-white/40 uppercase tracking-[0.15em]">CredPositivo — Plataforma</span>
+</div>
+</div>
+</div>
+
+<style>
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<script>
+function closeLightbox() {
+  const lb = document.getElementById('videoLightbox');
+  lb.classList.add('hidden');
+  const f = lb.querySelector('iframe');
+  if (f) { const s = f.src; f.src = ''; f.src = s; }
+}
+</script>
+
+</body></html>
