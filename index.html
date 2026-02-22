@@ -3,9 +3,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>CredPositivo | Hub Autoridade Segmentada</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<script defer src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,400,0..1&amp;display=swap" rel="stylesheet"/>
 <script>
         tailwind.config = {
             darkMode: "class",
@@ -137,6 +139,11 @@
         .tabs-nav::-webkit-scrollbar {
             display: none;
         }
+        /* Reduce heavy effects on mobile for performance */
+        @media (max-width: 640px) {
+            .glass-card { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+            .animate-pulse-slow { animation: none; }
+        }
         /* Safe area padding for mobile bottom elements */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .fixed.bottom-4, .fixed.bottom-6 {
@@ -154,7 +161,7 @@
 <header class="relative z-50 w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-12 backdrop-blur-sm border-b border-white/5">
 <nav class="mx-auto max-w-[1400px] flex items-center justify-between">
 <div class="flex items-center gap-2">
-<img src="positivo.png" alt="CredPositivo" class="h-8 sm:h-10 w-auto"/>
+<img src="positivo.webp" alt="CredPositivo" class="h-8 sm:h-10 w-auto" width="100" height="40"/>
 </div>
 <div class="hidden md:flex items-center gap-8 bg-white/5 px-6 py-2.5 rounded-full border border-white/5 backdrop-blur-md">
 <a class="text-sm font-medium text-gray-300 hover:text-primary transition-colors" href="#trilhas">Trilhas</a>
@@ -222,12 +229,8 @@ function closeMobileMenu() {
 <div class="lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-3 relative h-[380px] sm:h-[500px] lg:h-[660px] flex items-center justify-center order-2">
 <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-blue-500/5 rounded-full blur-[100px] opacity-40 animate-pulse-slow"></div>
 <div class="relative w-full h-full max-w-[300px] sm:max-w-[380px] lg:max-w-[480px] mx-auto">
-<div class="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#0f0f0f] shadow-2xl shadow-black/80">
-<div class="absolute inset-0 z-0">
-<img alt="Professional finance expert" class="w-full h-full object-cover opacity-80" src="mulher.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-90"></div>
-</div>
-<div class="absolute top-8 sm:top-12 right-2 z-20 animate-fade-in" style="animation-delay: 0.3s">
+<!-- Card Cartão Aprovado (fora do overflow-hidden) -->
+<div class="absolute -top-2 sm:-top-3 -right-2 sm:right-0 z-30 animate-fade-in" style="animation-delay: 0.3s">
 <div class="glass-card px-3 sm:px-5 py-2 sm:py-3 rounded-xl flex items-center gap-2 sm:gap-3 border-l-4 border-l-primary transform -rotate-3 hover:rotate-0 transition-transform">
 <div class="size-8 sm:size-10 rounded-full bg-green-500/10 flex items-center justify-center text-primary border border-primary/20">
 <span class="material-symbols-outlined text-sm sm:text-base">check</span>
@@ -238,6 +241,12 @@ function closeMobileMenu() {
 </div>
 </div>
 </div>
+<div class="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#0f0f0f] shadow-2xl shadow-black/80">
+<div class="absolute inset-0 z-0">
+<img alt="Professional finance expert" class="w-full h-full object-cover opacity-80" src="mulher.webp" width="960" height="1280" fetchpriority="high"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-90"></div>
+</div>
+<!-- Card "Cartão Aprovado" movido para fora do overflow-hidden -->
 <div class="absolute bottom-12 sm:bottom-20 left-3 right-3 sm:left-6 sm:right-6 z-20 animate-fade-in" style="animation-delay: 0.5s">
 <div class="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/10 backdrop-blur-xl bg-black/40">
 <div class="flex justify-between items-end mb-2">
@@ -300,7 +309,7 @@ function closeMobileMenu() {
 <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-primary/10 blur-[60px] scale-110 pointer-events-none"></div>
 <!-- Imagem -->
 <div class="relative rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
-<img src="meio2.png" alt="Antes e depois CredPositivo" class="w-full h-auto block"/>
+<img src="meio2.webp" alt="Antes e depois CredPositivo" class="w-full h-auto block" loading="lazy" width="1400" height="788"/>
 <!-- Overlay gradiente nas bordas -->
 <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/30 opacity-60 pointer-events-none"></div>
 <!-- Labels -->
@@ -442,7 +451,7 @@ function closeMobileMenu() {
 <div class="md:col-span-5 relative group">
 <div class="glass-card rounded-2xl sm:rounded-[2.5rem] p-1 sm:p-2 bg-[#111] border border-white/5 relative overflow-hidden">
 <div class="aspect-[4/5] sm:aspect-[3/4] rounded-xl sm:rounded-[2rem] overflow-hidden relative">
-<img alt="Especialista" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQXLe-aWMLn3h369iV3LybNe5wa7XwbnsYwcZc_exG9CCo9K6xtEP6k41acRCOeNL_69BuhCUHoTbAe9w9NgecMjA7alG4xqrjhqOHhQrDMyyyN4PdeqUI5hSg4E3ZHnjWuh3Rm7Bw_2CF3K2ce0BPp3w_718Bte7E5CUpwJYNKBuI1wb6bmJDFbBLNDkTQrpI2iUKYTXR3cxa5QtCQ_rlT2uAI5rfDDHvu3l7tV8f_W_iVydeI7aSiwtcVFPtPxsDvM03gok8_w"/>
+<img alt="Especialista" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQXLe-aWMLn3h369iV3LybNe5wa7XwbnsYwcZc_exG9CCo9K6xtEP6k41acRCOeNL_69BuhCUHoTbAe9w9NgecMjA7alG4xqrjhqOHhQrDMyyyN4PdeqUI5hSg4E3ZHnjWuh3Rm7Bw_2CF3K2ce0BPp3w_718Bte7E5CUpwJYNKBuI1wb6bmJDFbBLNDkTQrpI2iUKYTXR3cxa5QtCQ_rlT2uAI5rfDDHvu3l7tV8f_W_iVydeI7aSiwtcVFPtPxsDvM03gok8_w"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 <div class="absolute top-6 left-6 z-20">
 <div class="glass-card size-12 rounded-full flex items-center justify-center bg-blue-500/20 border border-blue-500/30 text-blue-400 backdrop-blur-md">
@@ -537,7 +546,7 @@ function closeMobileMenu() {
 </div>
 <div class="md:col-span-5 glass-card rounded-2xl sm:rounded-[2rem] p-1 relative overflow-hidden min-h-[280px] sm:min-h-[400px] group bg-[#0A0A0A]">
 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
-<img alt="JC Digital Card" class="w-full h-full object-cover rounded-[1.8rem] opacity-80 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYgIjs8m4f_ba-6pYEAUUZxnnwHsiT77hawgbbifluyP6bCylDi9P9dPh-UPU880FeNseO16iMAgHkbREJciLfZTG2yU31IR3P3iCdq10B6ZzrQ0GuCUtlxGMWqrDI3qg2kt4miSNbxLHRhPufBK10qESFhGlCDk2_3wU2SYMeDKB09OwkpJ2y8MissbYffuX_eaUxx5766IsSXxtc05wBPTiGdvNymcSFpNe-fAkq0o0N32BJ4EQBT1zPypZ_mxKYTFLQ2LF2Cg"/>
+<img alt="JC Digital Card" class="w-full h-full object-cover rounded-[1.8rem] opacity-80 group-hover:scale-105 transition-transform duration-700" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYgIjs8m4f_ba-6pYEAUUZxnnwHsiT77hawgbbifluyP6bCylDi9P9dPh-UPU880FeNseO16iMAgHkbREJciLfZTG2yU31IR3P3iCdq10B6ZzrQ0GuCUtlxGMWqrDI3qg2kt4miSNbxLHRhPufBK10qESFhGlCDk2_3wU2SYMeDKB09OwkpJ2y8MissbYffuX_eaUxx5766IsSXxtc05wBPTiGdvNymcSFpNe-fAkq0o0N32BJ4EQBT1zPypZ_mxKYTFLQ2LF2Cg"/>
 <div class="absolute bottom-8 left-8 z-20">
 <div class="glass-card px-4 py-2 rounded-lg inline-flex items-center gap-2 mb-2">
 <span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -628,7 +637,7 @@ function closeMobileMenu() {
 <!-- Carlos M. -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Carlos M." class="size-12 rounded-full object-cover border-2 border-primary/20" src="h1.png"/>
+<img alt="Carlos M." class="size-12 rounded-full object-cover border-2 border-primary/20" src="h1.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Carlos M.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -639,7 +648,7 @@ function closeMobileMenu() {
 <!-- Fernanda L. -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Fernanda L." class="size-12 rounded-full object-cover border-2 border-purple-500/20" src="m1.png"/>
+<img alt="Fernanda L." class="size-12 rounded-full object-cover border-2 border-purple-500/20" src="m1.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Fernanda L.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -650,7 +659,7 @@ function closeMobileMenu() {
 <!-- Roberto S. -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Roberto S." class="size-12 rounded-full object-cover border-2 border-blue-500/20" src="h2.png"/>
+<img alt="Roberto S." class="size-12 rounded-full object-cover border-2 border-blue-500/20" src="h2.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Roberto S.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -661,7 +670,7 @@ function closeMobileMenu() {
 <!-- Patrícia R. (NOVO) -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Patrícia R." class="size-12 rounded-full object-cover border-2 border-pink-500/20" src="m2.png"/>
+<img alt="Patrícia R." class="size-12 rounded-full object-cover border-2 border-pink-500/20" src="m2.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Patrícia R.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -672,7 +681,7 @@ function closeMobileMenu() {
 <!-- Lucas F. (NOVO) -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Lucas F." class="size-12 rounded-full object-cover border-2 border-amber-500/20" src="h3.png"/>
+<img alt="Lucas F." class="size-12 rounded-full object-cover border-2 border-amber-500/20" src="h3.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Lucas F.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -683,7 +692,7 @@ function closeMobileMenu() {
 <!-- Ana Clara D. (NOVO) -->
 <div class="w-[300px] sm:w-[380px] flex-shrink-0 glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 bg-[#111]">
 <div class="flex items-center gap-4 mb-6">
-<img alt="Ana Clara D." class="size-12 rounded-full object-cover border-2 border-emerald-500/20" src="m3.png"/>
+<img alt="Ana Clara D." class="size-12 rounded-full object-cover border-2 border-emerald-500/20" src="m3.webp" loading="lazy" width="48" height="48"/>
 <div>
 <h4 class="text-white font-bold text-base">Ana Clara D.</h4>
 <div class="flex text-yellow-400 text-xs">★★★★★</div>
@@ -792,7 +801,7 @@ function closeMobileMenu() {
 </div>
 <!-- Screen -->
 <div class="rounded-lg sm:rounded-xl overflow-hidden bg-black relative cursor-pointer group/screen border border-black/50" onclick="document.getElementById('videoLightbox').classList.remove('hidden')">
-<img alt="CredPositivo Dashboard" class="w-full h-auto block" src="desktop.png"/>
+<img alt="CredPositivo Dashboard" class="w-full h-auto block" src="desktop.webp" loading="lazy" width="1200" height="665"/>
 <!-- Overlay escuro + Play -->
 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-3 transition-all duration-300 group-hover/screen:bg-black/40">
 <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(0,255,102,0.3)] animate-pulse">
@@ -854,7 +863,7 @@ function closeMobileMenu() {
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16 text-center md:text-left">
 <div class="sm:col-span-2 md:col-span-1">
 <div class="flex items-center justify-center md:justify-start gap-2 mb-4 sm:mb-6">
-<img src="positivo.png" alt="CredPositivo" class="h-8 sm:h-10 w-auto"/>
+<img src="positivo.webp" alt="CredPositivo" class="h-8 sm:h-10 w-auto" width="100" height="40"/>
 </div>
 <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">
                         Revolucionando o acesso ao crédito com tecnologia e transparência. Seu futuro financeiro começa aqui.
@@ -925,7 +934,7 @@ function closeMobileMenu() {
 <div class="rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,255,102,0.08),0_25px_50px_rgba(0,0,0,0.5)] bg-[#0A0A0A] p-[3px] sm:p-[4px]">
 <div class="rounded-xl sm:rounded-[1.3rem] overflow-hidden">
 <div style="position:relative; width:100%; height:0px; padding-bottom:54.717%">
-<iframe allow="fullscreen" allowfullscreen height="100%" src="https://streamable.com/e/i4cn50?" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+<iframe allow="fullscreen" allowfullscreen loading="lazy" height="100%" src="https://streamable.com/e/i4cn50?" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
 </div>
 </div>
 </div>
