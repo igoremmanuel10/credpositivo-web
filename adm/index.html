@@ -246,7 +246,7 @@
                 try {
                     var payload = JSON.parse(atob(token.split('.')[1]));
                     if (payload.exp * 1000 > Date.now() && !payload.purpose) {
-                        window.location.href = 'dashboard.html';
+                        window.location.href = '/adm/dashboard';
                         return;
                     }
                 } catch(e) {}
@@ -316,7 +316,7 @@
                     // Normal login (non-2FA managers)
                     localStorage.setItem('credpositivo_admin', JSON.stringify(data.session));
                     localStorage.setItem('credpositivo_admin_token', data.token);
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/adm/dashboard';
                     return;
                 }
 
@@ -401,7 +401,7 @@
                 if (data.success && data.token) {
                     localStorage.setItem('credpositivo_admin', JSON.stringify(data.session));
                     localStorage.setItem('credpositivo_admin_token', data.token);
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '/adm/dashboard';
                     return;
                 }
 
