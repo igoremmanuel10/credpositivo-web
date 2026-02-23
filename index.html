@@ -195,34 +195,30 @@
 </a>
 </div>
 </nav>
-<!-- Mobile menu overlay -->
-<div id="mobile-menu" class="md:hidden hidden fixed inset-0 top-[57px] bg-black/95 backdrop-blur-xl z-[100]">
-<div class="flex flex-col items-center gap-6 pt-12 px-6">
-<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#trilhas" onclick="closeMobileMenu()">Trilhas</a>
-<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#solucoes" onclick="closeMobileMenu()">Soluções</a>
-<a class="text-lg font-medium text-gray-300 hover:text-primary transition-colors" href="#faq" onclick="closeMobileMenu()">FAQ</a>
-<div class="w-16 h-px bg-white/10 my-2"></div>
-<a class="text-lg font-bold text-gray-400 hover:text-white transition-colors" href="https://credpositivo.com/login" target="_blank">Login</a>
-<a href="https://credpositivo.com/cadastro" target="_blank" class="bg-primary hover:bg-[#00e65c] text-black text-base font-bold px-8 py-3 rounded-full transition-all shadow-glow-primary mt-4 w-full text-center">
-Cadastre-se Grátis
-</a>
-</div>
-</div>
 </header>
+<!-- Mobile menu (fora do header, fundo solido) -->
+<div id="mobile-menu" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0A0A0A;z-index:9990;">
+<div style="display:flex;justify-content:flex-end;padding:16px 20px;">
+<button onclick="closeMobileMenu()" style="background:none;border:1px solid rgba(255,255,255,0.1);color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">&#10005;</button>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:32px 24px 24px;">
+<a href="#trilhas" onclick="closeMobileMenu()" style="font-size:18px;font-weight:500;color:#d1d5db;text-decoration:none;">Trilhas</a>
+<a href="#solucoes" onclick="closeMobileMenu()" style="font-size:18px;font-weight:500;color:#d1d5db;text-decoration:none;">Soluções</a>
+<a href="#faq" onclick="closeMobileMenu()" style="font-size:18px;font-weight:500;color:#d1d5db;text-decoration:none;">FAQ</a>
+<div style="width:64px;height:1px;background:rgba(255,255,255,0.1);margin:8px 0;"></div>
+<a href="https://credpositivo.com/login" target="_blank" style="font-size:18px;font-weight:700;color:#9ca3af;text-decoration:none;">Login</a>
+<a href="https://credpositivo.com/cadastro" target="_blank" style="background:#00FF66;color:#000;font-size:16px;font-weight:700;padding:12px 32px;border-radius:9999px;text-decoration:none;margin-top:16px;width:100%;max-width:300px;text-align:center;box-shadow:0 0 20px rgba(0,255,102,0.3);">Cadastre-se Grátis</a>
+</div>
+</div>
 <script>
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-const mobileMenu = document.getElementById('mobile-menu');
-const menuIcon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-    menuIcon.textContent = mobileMenu.classList.contains('hidden') ? 'menu' : 'close';
-    document.body.style.overflow = mobileMenu.classList.contains('hidden') ? '' : 'hidden';
-});
-function closeMobileMenu() {
-    mobileMenu.classList.add('hidden');
-    menuIcon.textContent = 'menu';
-    document.body.style.overflow = '';
-}
+var mobileMenuBtn=document.getElementById('mobile-menu-btn');
+var mobileMenu=document.getElementById('mobile-menu');
+var menuIcon=mobileMenuBtn?mobileMenuBtn.querySelector('.material-symbols-outlined'):null;
+var menuOpen=false;
+function openMobileMenu(){menuOpen=true;mobileMenu.style.display='block';if(menuIcon)menuIcon.textContent='close';document.body.style.overflow='hidden';}
+function closeMobileMenu(){menuOpen=false;mobileMenu.style.display='none';if(menuIcon)menuIcon.textContent='menu';document.body.style.overflow='';}
+if(mobileMenuBtn){mobileMenuBtn.addEventListener('click',function(e){e.stopPropagation();if(menuOpen){closeMobileMenu();}else{openMobileMenu();}});}
+document.addEventListener('click',function(e){if(menuOpen&&mobileMenu&&!mobileMenu.contains(e.target)&&!mobileMenuBtn.contains(e.target)){closeMobileMenu();}});
 </script>
 <main class="relative z-10 flex-grow flex flex-col px-4 sm:px-6 lg:px-12 pb-12 sm:pb-20 pt-6 sm:pt-10">
 <div class="mx-auto max-w-[1400px] w-full">
