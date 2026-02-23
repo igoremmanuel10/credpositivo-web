@@ -1,31 +1,6 @@
-# Unused large assets - exclude from Vercel deployment
-figma-pages/
+_unused/
 v2-assets/
 ebook-images/
+*.md
+*.backup
 O-Codigo-do-Credito-CredPositivo.pdf
-
-# Original PNGs (replaced by WebP)
-mulher.png
-meio2.png
-meio.png
-desktop.png
-banner-dash.png
-h1.png
-h2.png
-h3.png
-m1.png
-m2.png
-m3.png
-
-# Unused images
-hero-new-*.jpg
-mockup-cartao.png
-logo2.png
-new.png
-tela.png
-screen.png
-hero-new-11.jpg
-
-# Dev files
-.git
-node_modules
