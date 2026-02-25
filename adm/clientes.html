@@ -455,6 +455,23 @@
         let allClients = [];
         let allOrders = [];
 
+        async function fetchAllPages(baseUrl) {
+            let all = [];
+            let page = 1;
+            while (true) {
+                const sep = baseUrl.includes('?') ? '&' : '?';
+                const res = await adminFetch(baseUrl + sep + 'limit=500&page=' + page);
+                if (!res) break;
+                const data = await res.json();
+                const items = data.users || data.orders || [];
+                all = all.concat(items);
+                // Se retornou menos que o limit, não há mais páginas
+                if (items.length < 500 || !data.total || all.length >= data.total) break;
+                page++;
+            }
+            return all;
+        }
+
         async function loadClients() {
             const tbody = document.getElementById('clientsBody');
             const emptyState = document.getElementById('emptyState');
@@ -463,6 +480,7 @@
             document.getElementById('clientCount').textContent = 'Carregando...';
 
             try {
+                // Tenta buscar com limit alto primeiro
                 const [usersRes, ordersRes] = await Promise.all([
                     adminFetch('/api/admin/users?limit=10000'),
                     adminFetch('/api/admin/orders?limit=10000')
@@ -470,9 +488,19 @@
                 if (!usersRes) return;
                 const usersData = await usersRes.json();
                 allClients = usersData.users || [];
+
+                // Se o backend retornou menos que o total, busca as páginas restantes
+                if (usersData.total && allClients.length < usersData.total) {
+                    document.getElementById('clientCount').textContent = 'Carregando todos os clientes...';
+                    allClients = await fetchAllPages('/api/admin/users');
+                }
+
                 if (ordersRes) {
                     const ordersData = await ordersRes.json();
                     allOrders = ordersData.orders || [];
+                    if (ordersData.total && allOrders.length < ordersData.total) {
+                        allOrders = await fetchAllPages('/api/admin/orders');
+                    }
                 }
                 renderTable(allClients);
             } catch (err) {
@@ -596,6 +624,7 @@
                             <p style="margin:5px 0;font-size:13px;"><strong>Status:</strong> <span class="status-badge ${(client.status || '').toLowerCase()}">${client.status || 'N/A'}</span></p>
                             <p style="margin:5px 0;font-size:13px;"><strong>Cadastro:</strong> ${client.created_at ? new Date(client.created_at).toLocaleString('pt-BR') : '—'}</p>
                         </div>
+                        <button onclick="document.getElementById('ctab-senha').style.display='block';this.style.display='none';" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:8px;background:rgba(59,130,246,0.15);color:#60A5FA;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="ph ph-lock-key"></i> Alterar Senha</button>
                     </div>
                     <div id="ctab-senha" style="display:none;padding:16px 0;">
                         <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
@@ -682,7 +711,8 @@
                 const data = await res.json();
                 if (data.success) {
                     alert('Senha alterada com sucesso!');
-                    document.getElementById('changePassForm-' + clientId).style.display = 'none';
+                    document.getElementById('ctab-senha').style.display = 'none';
+                    clientSwitchTab('info');
                 } else {
                     alert(data.error || 'Erro ao alterar senha.');
                 }
