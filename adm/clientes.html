@@ -596,6 +596,7 @@
                             <p style="margin:5px 0;font-size:13px;"><strong>Status:</strong> <span class="status-badge ${(client.status || '').toLowerCase()}">${client.status || 'N/A'}</span></p>
                             <p style="margin:5px 0;font-size:13px;"><strong>Cadastro:</strong> ${client.created_at ? new Date(client.created_at).toLocaleString('pt-BR') : '—'}</p>
                         </div>
+                        <button onclick="document.getElementById('ctab-senha').style.display='block';this.style.display='none';" style="width:100%;margin-top:12px;padding:12px;border:none;border-radius:8px;background:rgba(59,130,246,0.15);color:#60A5FA;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;"><i class="ph ph-lock-key"></i> Alterar Senha</button>
                     </div>
                     <div id="ctab-senha" style="display:none;padding:16px 0;">
                         <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
