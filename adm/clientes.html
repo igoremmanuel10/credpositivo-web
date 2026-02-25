@@ -711,7 +711,8 @@
                 const data = await res.json();
                 if (data.success) {
                     alert('Senha alterada com sucesso!');
-                    document.getElementById('changePassForm-' + clientId).style.display = 'none';
+                    document.getElementById('ctab-senha').style.display = 'none';
+                    clientSwitchTab('info');
                 } else {
                     alert(data.error || 'Erro ao alterar senha.');
                 }
