@@ -559,6 +559,9 @@
                         <button class="action-btn" onclick="editManager(${manager.id})" title="Editar">
                             <i class="ph ph-pencil-simple"></i>
                         </button>
+                        <button class="action-btn" onclick="openChangePassword(${manager.id}, '${manager.nome.replace(/'/g, "\\'")}')" title="Alterar Senha">
+                            <i class="ph ph-key"></i>
+                        </button>
                         <button class="action-btn" onclick="toggleManagerStatus(${manager.id}, ${manager.ativo})" title="${manager.ativo ? 'Desativar' : 'Ativar'}">
                             <i class="ph ph-${manager.ativo ? 'lock' : 'lock-open'}"></i>
                         </button>
@@ -698,6 +701,54 @@
                 loadManagers();
             } catch (err) {
                 alert('Erro ao alterar status.');
+            }
+        }
+
+        function openChangePassword(id, nome) {
+            showModal('Alterar Senha: ' + nome, `
+                <div style="color:#fff;">
+                    <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
+                        <h4 style="margin:0 0 16px;font-size:14px;color:#fff;"><i class="ph ph-key" style="margin-right:6px;"></i>Nova Senha</h4>
+                        <input type="password" id="mgrNewPass-${id}" placeholder="Nova senha (min. 6 caracteres)" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:8px;">
+                        <input type="password" id="mgrConfirmPass-${id}" placeholder="Confirmar nova senha" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:12px;">
+                        <div style="display:flex;gap:8px;">
+                            <button onclick="submitManagerNewPassword(${id})" style="flex:1;padding:10px;border:none;border-radius:8px;background:var(--color-primary);color:#fff;font-weight:600;font-size:13px;cursor:pointer;">Salvar Senha</button>
+                            <button onclick="closeModal()" style="padding:10px 16px;border:1px solid var(--color-border-glass);border-radius:8px;background:transparent;color:var(--color-text-muted);font-size:13px;cursor:pointer;">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            `, '500px');
+        }
+
+        async function submitManagerNewPassword(id) {
+            const newPass = document.getElementById('mgrNewPass-' + id).value;
+            const confirmPass = document.getElementById('mgrConfirmPass-' + id).value;
+
+            if (!newPass || newPass.length < 6) {
+                alert('A senha deve ter no mínimo 6 caracteres.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                alert('As senhas não coincidem.');
+                return;
+            }
+
+            try {
+                const res = await adminFetch('/api/admin/managers/' + id, {
+                    method: 'PUT',
+                    body: JSON.stringify({ senha: newPass })
+                });
+                if (!res) return;
+                const data = await res.json();
+                if (data.success) {
+                    alert('Senha alterada com sucesso!');
+                    closeModal();
+                } else {
+                    alert(data.error || 'Erro ao alterar senha.');
+                }
+            } catch (err) {
+                console.error('Erro ao alterar senha:', err);
+                alert('Erro ao alterar senha.');
             }
         }
 

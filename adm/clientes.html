@@ -139,6 +139,30 @@
             padding: 32px;
             overflow-y: auto;
             flex: 1;
+            min-height: 0;
+        }
+
+        @media (max-width: 768px) {
+            .content-scroll {
+                padding: 16px;
+            }
+
+            .clients-table th,
+            .clients-table td {
+                padding: 10px 12px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .search-bar {
+                width: 200px !important;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
         }
 
         /* Page-specific styles */
@@ -168,7 +192,8 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--color-border-glass);
             border-radius: 16px;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: visible;
         }
 
         .clients-table {
@@ -439,8 +464,8 @@
 
             try {
                 const [usersRes, ordersRes] = await Promise.all([
-                    adminFetch('/api/admin/users'),
-                    adminFetch('/api/admin/orders')
+                    adminFetch('/api/admin/users?limit=10000'),
+                    adminFetch('/api/admin/orders?limit=10000')
                 ]);
                 if (!usersRes) return;
                 const usersData = await usersRes.json();
@@ -555,10 +580,11 @@
 
             showModal('Cliente: ' + client.nome, `
                 <div style="color:#fff;">
-                    <div style="display:flex;gap:4px;margin-bottom:0;border-bottom:1px solid var(--color-border-glass);">
+                    <div style="display:flex;gap:4px;margin-bottom:0;border-bottom:1px solid var(--color-border-glass);flex-wrap:wrap;">
                         <button id="ctab-info-btn" onclick="clientSwitchTab('info')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:rgba(59,130,246,0.15);color:#60A5FA;">Dados</button>
                         <button id="ctab-orders-btn" onclick="clientSwitchTab('orders')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:transparent;color:var(--color-text-muted);">Pedidos (${clientOrders.length})</button>
                         <button id="ctab-docs-btn" onclick="clientSwitchTab('docs')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:transparent;color:var(--color-text-muted);">Documentos</button>
+                        <button id="ctab-senha-btn" onclick="clientSwitchTab('senha')" style="padding:10px 20px;border:none;cursor:pointer;font-size:13px;font-weight:600;border-radius:8px 8px 0 0;background:transparent;color:var(--color-text-muted);"><i class="ph ph-lock-key" style="margin-right:4px;"></i>Senha</button>
                     </div>
                     <div id="ctab-info" style="padding:16px 0;">
                         <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
@@ -570,16 +596,14 @@
                             <p style="margin:5px 0;font-size:13px;"><strong>Status:</strong> <span class="status-badge ${(client.status || '').toLowerCase()}">${client.status || 'N/A'}</span></p>
                             <p style="margin:5px 0;font-size:13px;"><strong>Cadastro:</strong> ${client.created_at ? new Date(client.created_at).toLocaleString('pt-BR') : '—'}</p>
                         </div>
-                        <div id="changePassForm-${client.id}" style="margin-top:16px;padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);display:none;">
-                            <h4 style="margin:0 0 12px;font-size:14px;color:#fff;"><i class="ph ph-lock-key" style="margin-right:6px;"></i>Alterar Senha</h4>
-                            <input type="password" id="newPass-${client.id}" placeholder="Nova senha (min. 6 caracteres)" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:8px;">
-                            <input type="password" id="confirmPass-${client.id}" placeholder="Confirmar nova senha" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:12px;">
-                            <div style="display:flex;gap:8px;">
-                                <button onclick="submitNewPassword(${client.id})" style="flex:1;padding:10px;border:none;border-radius:8px;background:var(--color-primary);color:#000;font-weight:600;font-size:13px;cursor:pointer;">Salvar Senha</button>
-                                <button onclick="document.getElementById('changePassForm-${client.id}').style.display='none'" style="padding:10px 16px;border:1px solid var(--color-border-glass);border-radius:8px;background:transparent;color:var(--color-text-muted);font-size:13px;cursor:pointer;">Cancelar</button>
-                            </div>
+                    </div>
+                    <div id="ctab-senha" style="display:none;padding:16px 0;">
+                        <div style="padding:15px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--color-border-glass);">
+                            <h4 style="margin:0 0 16px;font-size:14px;color:#fff;"><i class="ph ph-lock-key" style="margin-right:6px;"></i>Alterar Senha do Cliente</h4>
+                            <input type="password" id="newPass-${client.id}" placeholder="Nova senha (min. 6 caracteres)" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:8px;height:auto;">
+                            <input type="password" id="confirmPass-${client.id}" placeholder="Confirmar nova senha" minlength="6" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--color-border-glass);background:rgba(0,0,0,0.3);color:#fff;font-size:13px;outline:none;box-sizing:border-box;margin-bottom:12px;height:auto;">
+                            <button onclick="submitNewPassword(${client.id})" style="width:100%;padding:10px;border:none;border-radius:8px;background:var(--color-primary);color:#000;font-weight:600;font-size:13px;cursor:pointer;">Salvar Nova Senha</button>
                         </div>
-                        <button onclick="document.getElementById('changePassForm-${client.id}').style.display='block';this.style.display='none'" style="margin-top:12px;padding:10px 20px;border:1px solid var(--color-border-glass);border-radius:8px;background:rgba(255,255,255,0.05);color:#fff;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ph ph-lock-key"></i> Alterar Senha</button>
                     </div>
                     <div id="ctab-orders" style="display:none;padding:16px 0;">
                         ${ordersHtml}
@@ -595,7 +619,7 @@
         }
 
         window.clientSwitchTab = function(tab) {
-            ['info','orders','docs'].forEach(t => {
+            ['info','orders','docs','senha'].forEach(t => {
                 const el = document.getElementById('ctab-' + t);
                 const btn = document.getElementById('ctab-' + t + '-btn');
                 if (el) el.style.display = t === tab ? 'block' : 'none';
