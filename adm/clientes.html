@@ -455,6 +455,23 @@
         let allClients = [];
         let allOrders = [];
 
+        async function fetchAllPages(baseUrl) {
+            let all = [];
+            let page = 1;
+            while (true) {
+                const sep = baseUrl.includes('?') ? '&' : '?';
+                const res = await adminFetch(baseUrl + sep + 'limit=500&page=' + page);
+                if (!res) break;
+                const data = await res.json();
+                const items = data.users || data.orders || [];
+                all = all.concat(items);
+                // Se retornou menos que o limit, não há mais páginas
+                if (items.length < 500 || !data.total || all.length >= data.total) break;
+                page++;
+            }
+            return all;
+        }
+
         async function loadClients() {
             const tbody = document.getElementById('clientsBody');
             const emptyState = document.getElementById('emptyState');
@@ -463,6 +480,7 @@
             document.getElementById('clientCount').textContent = 'Carregando...';
 
             try {
+                // Tenta buscar com limit alto primeiro
                 const [usersRes, ordersRes] = await Promise.all([
                     adminFetch('/api/admin/users?limit=10000'),
                     adminFetch('/api/admin/orders?limit=10000')
@@ -470,9 +488,19 @@
                 if (!usersRes) return;
                 const usersData = await usersRes.json();
                 allClients = usersData.users || [];
+
+                // Se o backend retornou menos que o total, busca as páginas restantes
+                if (usersData.total && allClients.length < usersData.total) {
+                    document.getElementById('clientCount').textContent = 'Carregando todos os clientes...';
+                    allClients = await fetchAllPages('/api/admin/users');
+                }
+
                 if (ordersRes) {
                     const ordersData = await ordersRes.json();
                     allOrders = ordersData.orders || [];
+                    if (ordersData.total && allOrders.length < ordersData.total) {
+                        allOrders = await fetchAllPages('/api/admin/orders');
+                    }
                 }
                 renderTable(allClients);
             } catch (err) {
