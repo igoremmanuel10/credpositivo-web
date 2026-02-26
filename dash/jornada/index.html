@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CredPositivo Premium | Jornada Premium</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../v2-assets/styles/layout.css">
+
+    <style>
+        /* Jornada Premium Color Overrides */
+        .dashboard-container {
+            --jp-primary: #00FF66;
+            --jp-primary-dark: #00cc52;
+            --jp-gold: #FFD700;
+            --jp-gold-dark: #B8860B;
+            --jp-blue: #007AFF;
+            --jp-bg: #050505;
+        }
+
+        .sidebar-logo { display: flex; align-items: center; text-decoration: none; }
+        .sidebar-logo img { height: 36px; width: auto; }
+
+        /* Jornada uses Space Grotesk */
+        .jp-content { font-family: 'Space Grotesk', 'Outfit', sans-serif; }
+
+        /* 3D Card Styles */
+        .perspective-container { perspective: 1000px; }
+        .card-mini {
+            width: 40px; height: 25px; border-radius: 4px;
+            transform: rotate(-15deg);
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            position: relative; overflow: hidden;
+        }
+        .card-mini::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%);
+        }
+
+        /* Trail Line */
+        .trail-line {
+            position: absolute; left: 50%; top: 4rem; bottom: 4rem; width: 2px;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, rgba(0,255,102,0.3) 25%, rgba(0,255,102,0.3) 45%, rgba(255,255,255,0.05) 100%);
+            z-index: 0;
+        }
+
+        /* Glass Card for Jornada */
+        .jp-glass {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+        }
+        @keyframes breathe {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,255,102,0.1); }
+            50% { box-shadow: 0 0 40px rgba(0,255,102,0.3); }
+        }
+        @keyframes pulseSlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-breathe { animation: breathe 4s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulseSlow 3s ease-in-out infinite; }
+
+        /* Card Shine */
+        .card-shine { background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.1) 25%, transparent 30%); }
+
+        /* Trail Node hover labels */
+        .trail-node-group:hover .trail-label { display: block !important; }
+        .trail-node-group { cursor: pointer; }
+
+        /* Grid layout */
+        .jp-grid { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 28px; align-items: start; }
+
+        @media (max-width: 1024px) {
+            .jp-grid { grid-template-columns: 1fr; }
+            .jp-trail-col { order: -1; }
+            #trailContainer { min-height: auto !important; padding: 12px 0 !important; }
+            /* Compact current node on mobile */
+            .jp-trail-current-wrap { transform: scale(0.82); margin: -10px 0; }
+            /* Compact locked/completed nodes */
+            .trail-node-group { transform: scale(0.8); margin: -6px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .jp-trail-info-card { display: none !important; }
+            .jp-trail-current-wrap { transform: scale(0.72); margin: -16px 0; }
+            .trail-node-group { transform: scale(0.7); margin: -10px 0; }
+        }
+
+        /* Hide mobile nav on desktop */
+        .mobile-nav { display: none; }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+                width: 92%; max-width: 420px; background: rgba(20,20,20,0.85);
+                backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.15); border-radius: 50px;
+                padding: 10px 20px; justify-content: space-between; align-items: center;
+                z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            }
+            .mobile-nav-item {
+                color: rgba(255,255,255,0.5); font-size: 24px; padding: 10px;
+                display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none;
+            }
+            .mobile-nav-item span { font-size: 10px; font-weight: 500; }
+            .mobile-nav-item.active { color: #00FF66; }
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            width: 100%; max-width: 480px; background: #141416; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px; padding: 32px; position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .modal-close:hover { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4); color: #ef4444; }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px;
+        }
+
+        /* Streak Calendar */
+        .streak-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .streak-day {
+            width: 100%; aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 600;
+        }
+        .streak-day.active { background: rgba(0,255,102,0.2); color: #00FF66; border: 1px solid rgba(0,255,102,0.3); }
+        .streak-day.inactive { background: rgba(255,255,255,0.03); color: #4B5563; }
+        .streak-day.today { background: rgba(0,255,102,0.4); color: #000; font-weight: 700; }
+        .streak-day.header { background: none; color: #6B7280; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+
+        /* Offline Banner */
+        #offlineBanner {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; padding: 10px;
+            background: rgba(239,68,68,0.9); color: #fff; text-align: center; font-size: 13px;
+            font-weight: 600; z-index: 10000;
+        }
+
+        /* Error State */
+        .error-state {
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 60px 20px; text-align: center; gap: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Offline Banner -->
+    <div id="offlineBanner">
+        <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">wifi_off</span>
+        Sem conexão. Dados em cache sendo exibidos.
+    </div>
+
+    <aside class="sidebar">
+        <a href="../.." class="sidebar-logo">
+            <img src="../../v2-assets/assets/images/logo.webp" alt="CredPositivo">
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="../" class="nav-link"><i class="ph ph-squares-four"></i> Visão Geral</a></li>
+                <li><a href="../servicos" class="nav-link"><i class="ph ph-file-text"></i> Meus Serviços</a></li>
+                <li><a href="../financeiro" class="nav-link"><i class="ph ph-wallet"></i> Financeiro</a></li>
+                <li><a href="../loja" class="nav-link"><i class="ph ph-storefront"></i> Loja</a></li>
+            </ul>
+
+            <div class="nav-title" style="margin-top: 30px; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;">EVOLUÇÃO</div>
+            <ul>
+                <li><a href="./" class="nav-link active"><i class="ph ph-rocket-launch"></i> Jornada Premium</a></li>
+            </ul>
+
+            <div class="nav-title" style="margin-top: 30px; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;">SISTEMA</div>
+            <ul>
+                <li><a href="../suporte" class="nav-link"><i class="ph ph-headset"></i> Suporte</a></li>
+                <li><a href="../configuracoes" class="nav-link"><i class="ph ph-gear"></i> Configurações</a></li>
+                <li><a href="#" class="nav-link" onclick="logout()"><i class="ph ph-sign-out"></i> Sair</a></li>
+            </ul>
+        </nav>
+
+        <footer class="sidebar-footer">
+            <div class="credit-label" style="font-size: 12px; color: var(--color-text-muted);">Saldo Disponível</div>
+            <div id="sidebarBalance" class="credit-amount" style="font-size: 24px; font-weight: 700; margin: 4px 0;">R$ 0,00</div>
+            <a href="../adicionar-credito" class="btn-link-action" style="font-size: 13px; color: var(--color-primary); background: none; border: none; cursor: pointer; text-decoration: none;">
+                <i class="ph ph-plus-circle"></i> Adicionar Saldo
+            </a>
+        </footer>
+    </aside>
+
+    <main class="dashboard-container jp-content" style="background-color: #050505; background-image: radial-gradient(circle at 10% 20%, rgba(0,255,102,0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0,122,255,0.05) 0%, transparent 40%);">
+
+        <!-- Header -->
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <button class="mobile-menu-toggle"><i class="ph ph-list"></i></button>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, #00FF66, #00cc52); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,255,102,0.2);">
+                    <span class="material-symbols-outlined" style="font-size: 20px; color: #000; font-weight: bold;">rocket_launch</span>
+                </div>
+                <div>
+                    <div style="font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px;">Jornada Premium</div>
+                    <div style="font-size: 10px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 2px;">CredPositivo</div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <!-- Points (clickable → modal) -->
+                <div onclick="openModal('pointsModal')" style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='rgba(255,215,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+                    <span class="material-symbols-outlined" style="font-size: 18px; color: #FFD700;">monetization_on</span>
+                    <span id="headerPts" style="font-size: 14px; font-weight: 700; color: #fff;">0 <span style="font-size: 11px; color: #6B7280; font-weight: 400;">pts</span></span>
+                </div>
+                <!-- User (clickable → profile) -->
+                <div onclick="window.location.href='../configuracoes'" style="display: flex; align-items: center; gap: 10px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    <div style="text-align: right;">
+                        <div id="headerUserName" style="font-size: 14px; font-weight: 700; color: #fff;">Olá, User</div>
+                        <div id="headerUserLevel" style="font-size: 10px; color: #00FF66;">Nível Iniciante</div>
+                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(0,255,102,0.3);">
+                        <img id="userAvatar" src="https://ui-avatars.com/api/?name=C&background=181B21&color=fff" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Loading Skeleton State -->
+        <div id="loadingSkeleton" style="display: none;">
+            <div class="jp-grid">
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div class="skeleton" style="height: 320px;"></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="skeleton" style="height: 90px;"></div>
+                        <div class="skeleton" style="height: 90px;"></div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+                    <div class="skeleton" style="width: 200px; height: 30px;"></div>
+                    <div class="skeleton" style="width: 80px; height: 80px; border-radius: 50%;"></div>
+                    <div class="skeleton" style="width: 128px; height: 128px; border-radius: 50%;"></div>
+                    <div class="skeleton" style="width: 80px; height: 80px; border-radius: 50%;"></div>
+                    <div class="skeleton" style="width: 80px; height: 80px; border-radius: 50%;"></div>
+                    <div class="skeleton" style="width: 64px; height: 64px; border-radius: 50%;"></div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div class="skeleton" style="height: 260px;"></div>
+                    <div class="skeleton" style="height: 100px;"></div>
+                    <div class="skeleton" style="height: 130px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="error-state">
+            <span class="material-symbols-outlined" style="font-size: 56px; color: #ef4444;">error</span>
+            <h2 style="font-size: 20px; font-weight: 700;">Algo deu errado</h2>
+            <p style="font-size: 14px; color: #9CA3AF;">Não foi possível carregar sua jornada. Tente novamente.</p>
+            <button onclick="location.reload()" style="margin-top: 12px; background: rgba(0,255,102,0.1); border: 1px solid rgba(0,255,102,0.3); color: #00FF66; padding: 12px 28px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(0,255,102,0.2)'" onmouseout="this.style.background='rgba(0,255,102,0.1)'">
+                <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle;">refresh</span> Tentar novamente
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" class="jp-grid" style="display: none;">
+
+            <!-- LEFT COLUMN -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+
+                <!-- Impacto Real -->
+                <div class="jp-glass" style="padding: 24px; position: relative; overflow: hidden;">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,255,102,0.05), transparent); opacity: 0.5;"></div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; position: relative; z-index: 1;">
+                        <span class="material-symbols-outlined" style="color: #00FF66;">bolt</span>
+                        <h2 style="font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Impacto Real</h2>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1;">
+                        <!-- Score recuperado -->
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px;">
+                                <span id="impactoScore" style="font-size: 36px; font-weight: 700; color: #00FF66;">+0</span>
+                                <span style="font-size: 11px; color: #00FF66; background: rgba(0,255,102,0.1); padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Estimado</span>
+                            </div>
+                            <p style="font-size: 13px; color: #9CA3AF;">Pontos de Score recuperados</p>
+                            <div style="width: 100%; height: 6px; background: #1f2937; border-radius: 4px; margin-top: 8px;">
+                                <div id="impactoBar" style="width: 0%; height: 100%; background: #00FF66; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,102,0.5); transition: width 0.6s;"></div>
+                            </div>
+                        </div>
+                        <div style="height: 1px; background: rgba(255,255,255,0.05);"></div>
+                        <!-- Total negociado -->
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <span class="material-symbols-outlined" style="font-size: 20px; color: #FFD700;">savings</span>
+                                <span id="impactoValor" style="font-size: 22px; font-weight: 700;">R$ 0</span>
+                            </div>
+                            <p style="font-size: 13px; color: #9CA3AF;">Total negociado com desconto</p>
+                        </div>
+                        <!-- Dívidas quitadas -->
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <span class="material-symbols-outlined" style="font-size: 20px; color: #007AFF;">verified</span>
+                                <span id="impactoDividas" style="font-size: 22px; font-weight: 700;">0 Dívidas</span>
+                            </div>
+                            <p style="font-size: 13px; color: #9CA3AF;">Quitadas com sucesso</p>
+                        </div>
+                    </div>
+                    <button onclick="openModal('relatorioModal')" style="width: 100%; margin-top: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 12px; font-weight: 700; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                        Ver Relatório Detalhado
+                        <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                    </button>
+                </div>
+
+                <!-- Quick Links: Aprender & Ajuda -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <a href="../loja" class="jp-glass" style="padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(18,18,18,0.6)'">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(0,122,255,0.2); display: flex; align-items: center; justify-content: center; color: #007AFF;">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <span style="font-size: 12px; font-weight: 700; color: #D1D5DB;">Aprender</span>
+                    </a>
+                    <a href="../suporte" class="jp-glass" style="padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(18,18,18,0.6)'">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(168,85,247,0.2); display: flex; align-items: center; justify-content: center; color: #a855f7;">
+                            <span class="material-symbols-outlined">help</span>
+                        </div>
+                        <span style="font-size: 12px; font-weight: 700; color: #D1D5DB;">Ajuda</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CENTER COLUMN: Trilha de Evolução (rendered by JS) -->
+            <div class="jp-trail-col" style="display: flex; flex-direction: column; align-items: center;">
+                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 28px;">Trilha de Evolução</h2>
+                <div id="trailContainer" style="position: relative; width: 100%; max-width: 420px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 32px 0;">
+                    <div class="trail-line"></div>
+                    <!-- Nodes populated by renderTrail() -->
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+
+                <!-- Prioridade - 30% OFF -->
+                <div id="ofertaCard" style="background: linear-gradient(135deg, #FFD700, #B8860B); padding: 1px; border-radius: 24px; box-shadow: 0 0 30px rgba(255,215,0,0.2); position: relative; overflow: hidden;">
+                    <div class="animate-pulse-slow" style="position: absolute; inset: 0; background: rgba(255,255,0,0.1);"></div>
+                    <div style="background: #12120a; border-radius: 23px; padding: 20px; position: relative; z-index: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,215,0,0.2); display: flex; align-items: center; justify-content: center; color: #FFD700;">
+                                <span class="material-symbols-outlined">timer</span>
+                            </div>
+                            <span style="background: #FFD700; color: #000; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">PRIORIDADE</span>
+                        </div>
+                        <h3 id="ofertaTitulo" style="font-weight: 700; font-size: 18px; margin-bottom: 4px;">Manter 30% OFF</h3>
+                        <p id="ofertaSubtitulo" style="font-size: 12px; color: #9CA3AF; margin-bottom: 14px;">Renovação da oferta especial em breve.</p>
+                        <div style="display: flex; align-items: flex-end; gap: 6px; margin-bottom: 14px;">
+                            <span id="ofertaDias" style="font-size: 32px; font-weight: 700; color: #FFD700; line-height: 1;">--</span>
+                            <span id="ofertaDiasLabel" style="font-size: 13px; color: #9CA3AF; margin-bottom: 4px;">dias restantes</span>
+                        </div>
+                        <div style="width: 100%; height: 4px; background: #1f2937; border-radius: 4px; margin-bottom: 14px;">
+                            <div id="ofertaBar" style="width: 0%; height: 100%; background: #FFD700; border-radius: 4px; transition: width 0.6s;"></div>
+                        </div>
+                        <button id="ofertaBtn" onclick="openModal('ofertaModal')" style="width: 100%; background: #FFD700; color: #000; font-size: 12px; font-weight: 700; padding: 12px; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#FBBF24'" onmouseout="this.style.background='#FFD700'">
+                            Verificar Status
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sequência / Streak -->
+                <div class="jp-glass" onclick="openModal('streakModal')" style="padding: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='rgba(249,115,22,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+                    <div>
+                        <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9CA3AF; margin-bottom: 4px;">Sequência</p>
+                        <h3 id="streakDias" style="font-size: 24px; font-weight: 700;">0 Dias</h3>
+                        <p style="font-size: 10px; color: #6B7280; margin-top: 4px;">Recorde pessoal: <span id="streakRecorde">0</span> dias</p>
+                    </div>
+                    <div id="streakFireIcon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #374151, #1f2937); border-radius: 16px; transform: rotate(3deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        <span class="material-symbols-outlined" style="font-size: 24px; color: #6B7280;">local_fire_department</span>
+                    </div>
+                </div>
+
+                <!-- Próxima Recompensa -->
+                <div class="jp-glass" style="padding: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <h3 style="font-size: 14px; font-weight: 700;">Próxima Recompensa</h3>
+                        <span onclick="openModal('recompensasModal')" style="font-size: 12px; color: #00FF66; cursor: pointer; transition: 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Ver todas</span>
+                    </div>
+                    <div style="display: flex; gap: 14px; align-items: center;">
+                        <div id="rewardIcon" style="width: 56px; height: 56px; border-radius: 14px; background: #1f2937; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
+                            <span class="material-symbols-outlined" style="font-size: 24px; color: #6B7280;">lock</span>
+                            <div style="position: absolute; bottom: -6px; right: -6px; width: 20px; height: 20px; background: #374151; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #000;">
+                                <span style="font-size: 8px; color: #fff;">Lvl 3</span>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <p id="rewardName" style="font-size: 14px; font-weight: 700; line-height: 1.3;">Consultoria Financeira Grátis</p>
+                            <p id="rewardLevel" style="font-size: 10px; color: #9CA3AF; margin-top: 4px;">Desbloqueia no nível "Evoluindo"</p>
+                            <div style="width: 100%; height: 4px; background: #1f2937; border-radius: 4px; margin-top: 8px;">
+                                <div id="rewardBar" style="width: 0%; height: 100%; background: #22c55e; border-radius: 4px; transition: width 0.6s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="rewardBtn" disabled style="width: 100%; margin-top: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #4B5563; font-size: 12px; font-weight: 700; padding: 10px; border-radius: 10px; cursor: not-allowed;">
+                        Resgatar (bloqueado)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ========== MODALS ========== -->
+
+    <!-- Points History Modal -->
+    <div id="pointsModal" class="modal-overlay" onclick="if(event.target===this)closeModal('pointsModal')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('pointsModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #FFD700;">monetization_on</span>
+                <h2 style="font-size: 20px; font-weight: 700;">Histórico de Pontos</h2>
+            </div>
+            <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 10px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px;">Saldo Atual</div>
+                <div id="modalPtsTotal" style="font-size: 36px; font-weight: 700; color: #FFD700;">0 pts</div>
+            </div>
+            <h3 style="font-size: 13px; color: #9CA3AF; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Movimentações</h3>
+            <div id="ptsHistoryList" style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="text-align: center; padding: 20px; color: #4B5563; font-size: 13px;">Nenhuma movimentação ainda.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Streak Calendar Modal -->
+    <div id="streakModal" class="modal-overlay" onclick="if(event.target===this)closeModal('streakModal')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('streakModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #f97316;">local_fire_department</span>
+                <h2 style="font-size: 20px; font-weight: 700;">Sua Sequência</h2>
+            </div>
+            <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                <div style="flex: 1; background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; text-align: center;">
+                    <div id="modalStreakAtual" style="font-size: 28px; font-weight: 700; color: #f97316;">0</div>
+                    <div style="font-size: 10px; color: #9CA3AF;">Dias seguidos</div>
+                </div>
+                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; text-align: center;">
+                    <div id="modalStreakRecorde" style="font-size: 28px; font-weight: 700; color: #fff;">0</div>
+                    <div style="font-size: 10px; color: #9CA3AF;">Recorde</div>
+                </div>
+            </div>
+            <h3 style="font-size: 13px; color: #9CA3AF; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" id="streakMonthLabel">Fevereiro 2026</h3>
+            <div id="streakCalendar" class="streak-calendar">
+                <!-- Populated by JS -->
+            </div>
+            <div style="margin-top: 16px; padding: 12px; background: rgba(0,255,102,0.05); border: 1px solid rgba(0,255,102,0.15); border-radius: 12px;">
+                <p style="font-size: 12px; color: #9CA3AF; line-height: 1.5;">
+                    <span class="material-symbols-outlined" style="font-size: 14px; color: #00FF66; vertical-align: middle;">tips_and_updates</span>
+                    <strong style="color: #00FF66;">Dica:</strong> Acesse, pague ou consulte algo diariamente para manter sua sequência ativa!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Detail Modal -->
+    <div id="levelModal" class="modal-overlay" onclick="if(event.target===this)closeModal('levelModal')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('levelModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div id="levelModalContent">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Relatório Detalhado Modal -->
+    <div id="relatorioModal" class="modal-overlay" onclick="if(event.target===this)closeModal('relatorioModal')">
+        <div class="modal-box" style="max-width: 560px;">
+            <button class="modal-close" onclick="closeModal('relatorioModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #00FF66;">assessment</span>
+                <h2 style="font-size: 20px; font-weight: 700;">Relatório Detalhado</h2>
+            </div>
+
+            <!-- Score Evolution -->
+            <div style="background: rgba(0,255,102,0.05); border: 1px solid rgba(0,255,102,0.15); border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="font-size: 13px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Evolução do Score</h3>
+                <div style="display: flex; align-items: flex-end; gap: 4px; height: 80px; margin-bottom: 8px;" id="scoreChart">
+                    <!-- Bars populated by JS -->
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 9px; color: #4B5563;" id="scoreChartLabels"></div>
+            </div>
+
+            <!-- Negotiation History -->
+            <h3 style="font-size: 13px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Negociações</h3>
+            <div id="negociacoesList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                <div style="text-align: center; padding: 16px; color: #4B5563; font-size: 13px;">Nenhuma negociação registrada.</div>
+            </div>
+
+            <button onclick="alert('Funcionalidade de exportar PDF em breve!')" style="width: 100%; background: rgba(0,255,102,0.1); border: 1px solid rgba(0,255,102,0.2); color: #00FF66; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;" onmouseover="this.style.background='rgba(0,255,102,0.2)'" onmouseout="this.style.background='rgba(0,255,102,0.1)'">
+                <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Exportar PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Oferta/Renovação Modal -->
+    <div id="ofertaModal" class="modal-overlay" onclick="if(event.target===this)closeModal('ofertaModal')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('ofertaModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #FFD700;">verified</span>
+                <h2 style="font-size: 20px; font-weight: 700;">Status da Oferta</h2>
+            </div>
+            <div id="ofertaModalContent">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Recompensas Modal -->
+    <div id="recompensasModal" class="modal-overlay" onclick="if(event.target===this)closeModal('recompensasModal')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('recompensasModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #22c55e;">emoji_events</span>
+                <h2 style="font-size: 20px; font-weight: 700;">Recompensas</h2>
+            </div>
+            <div id="recompensasList" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav">
+        <a href="../" class="mobile-nav-item"><i class="ph ph-house"></i><span>Home</span></a>
+        <a href="./" class="mobile-nav-item active"><i class="ph ph-rocket-launch"></i><span>Jornada</span></a>
+        <a href="../loja" class="mobile-nav-item"><i class="ph ph-storefront"></i><span>Loja</span></a>
+        <a href="../servicos" class="mobile-nav-item"><i class="ph ph-file-text"></i><span>Servi&#231;os</span></a>
+        <a href="../configuracoes" class="mobile-nav-item"><i class="ph ph-user-circle"></i><span>Perfil</span></a>
+    </nav>
+
+    <script src="../../v2-assets/scripts/app.js"></script>
+    <script>
+        // ========== LEVEL DEFINITIONS ==========
+        // XP thresholds & card gradients must match dashboard TRAIL_LEVELS
+        const LEVELS = [
+            { id: 1, name: 'Endividado', xpMin: 0, color: '#ef4444', cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)', nodeBg: '#2a1111', nodeBorder: 'rgba(239,68,68,0.3)', desc: 'Fase inicial. Identificação de todas as pendências e restrições no CPF.', criterio: 'Cadastro e diagnóstico completo', reward: null },
+            { id: 2, name: 'Organizando', xpMin: 100, color: '#00FF66', cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)', nodeBg: '#1a1a0a', nodeBorder: 'rgba(255,215,0,0.3)', desc: 'Negociações em andamento. Foco em quitar dívidas e manter pagamentos em dia.', criterio: 'Quitar primeiras dívidas, manter pagamentos', reward: null },
+            { id: 3, name: 'Evoluindo', xpMin: 350, color: '#22c55e', cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)', nodeBg: '#051105', nodeBorder: 'rgba(34,197,94,0.2)', desc: 'Score subindo. Perfil bancário melhorando com movimentações estratégicas.', criterio: 'Score acima de 500, sem novas negativações', reward: 'Consultoria Financeira Grátis' },
+            { id: 4, name: 'Estratégico', xpMin: 750, color: '#007AFF', cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)', nodeBg: '#0d121c', nodeBorder: 'rgba(0,122,255,0.2)', desc: 'Crédito forte. Limites aumentando e aprovações sendo conquistadas.', criterio: 'Score acima de 700, rating bancário ativo', reward: 'Análise Premium de Crédito' },
+            { id: 5, name: 'Premium Black', xpMin: 1500, color: '#FFD700', cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)', nodeBg: '#111', nodeBorder: 'rgba(255,215,0,0.2)', desc: 'Topo da trilha. Perfil de crédito premium com acesso a melhores condições.', criterio: 'Score 900+, perfil completo', reward: 'Cartão Premium + Consultoria VIP' },
+        ];
+
+        const RECOMPENSAS = [
+            { name: 'Diagnóstico Completo', level: 1, icon: 'search', desc: 'Raio-x do seu CPF' },
+            { name: 'Plano Personalizado', level: 2, icon: 'route', desc: 'Trilha feita pro seu caso' },
+            { name: 'Consultoria Financeira Grátis', level: 3, icon: 'support_agent', desc: 'Sessão com consultor especialista' },
+            { name: 'Análise Premium de Crédito', level: 4, icon: 'analytics', desc: 'Relatório avançado do perfil' },
+            { name: 'Cartão Premium + Consultoria VIP', level: 5, icon: 'diamond', desc: 'Acesso exclusivo Premium Black' },
+        ];
+
+        // ========== MODAL HELPERS ==========
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ========== LEVEL MODAL ==========
+        function openLevelModal(levelId) {
+            const level = LEVELS.find(l => l.id === levelId);
+            if (!level) return;
+
+            const isCompleted = levelId < currentLevelIdx + 1;
+            const isCurrent = levelId === currentLevelIdx + 1;
+            const isLocked = levelId > currentLevelIdx + 1;
+
+            let html = '';
+            if (isCompleted) {
+                html = `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(34,197,94,0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                            <span class="material-symbols-outlined" style="font-size: 32px; color: #22c55e;">check_circle</span>
+                        </div>
+                        <h2 style="font-size: 22px; font-weight: 700; color: ${level.color};">${level.name}</h2>
+                        <span style="font-size: 12px; background: rgba(34,197,94,0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-weight: 600;">Concluído</span>
+                    </div>
+                    <p style="font-size: 14px; color: #9CA3AF; text-align: center; margin-bottom: 16px;">${level.desc}</p>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">O que foi feito</div>
+                        <p style="font-size: 13px; color: #D1D5DB;">${level.criterio}</p>
+                    </div>
+                `;
+            } else if (isLocked) {
+                html = `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                            <span class="material-symbols-outlined" style="font-size: 32px; color: #4B5563;">lock</span>
+                        </div>
+                        <h2 style="font-size: 22px; font-weight: 700; color: ${level.color};">${level.name}</h2>
+                        <span style="font-size: 12px; background: rgba(255,255,255,0.05); color: #6B7280; padding: 4px 12px; border-radius: 20px; font-weight: 600;">Bloqueado</span>
+                    </div>
+                    <p style="font-size: 14px; color: #6B7280; text-align: center; margin-bottom: 16px;">Complete o nível anterior para desbloquear.</p>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Critério</div>
+                        <p style="font-size: 13px; color: #4B5563;">${level.criterio}</p>
+                    </div>
+                    ${level.reward ? `
+                    <div style="margin-top: 12px; background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 12px; padding: 14px;">
+                        <div style="font-size: 11px; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Recompensa</div>
+                        <p style="font-size: 13px; color: #D1D5DB;">${level.reward}</p>
+                    </div>` : ''}
+                `;
+            }
+
+            document.getElementById('levelModalContent').innerHTML = html;
+            openModal('levelModal');
+        }
+
+        // ========== STREAK CALENDAR ==========
+        function renderStreakCalendar(activeDays) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+            document.getElementById('streakMonthLabel').textContent = months[month] + ' ' + year;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = now.getDate();
+
+            const headers = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+            let html = headers.map(d => `<div class="streak-day header">${d}</div>`).join('');
+
+            for (let i = 0; i < firstDay; i++) {
+                html += '<div class="streak-day"></div>';
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isActive = activeDays.includes(d);
+                const isToday = d === today;
+                let cls = 'streak-day';
+                if (isToday) cls += ' today';
+                else if (isActive) cls += ' active';
+                else if (d < today) cls += ' inactive';
+                else cls += ' inactive';
+                html += `<div class="${cls}">${d}</div>`;
+            }
+
+            document.getElementById('streakCalendar').innerHTML = html;
+        }
+
+        // ========== RECOMPENSAS LIST ==========
+        function renderRecompensas(currentLevel) {
+            const container = document.getElementById('recompensasList');
+            container.innerHTML = RECOMPENSAS.map(r => {
+                const unlocked = currentLevel >= r.level;
+                const isCurrent = r.level === currentLevel + 1;
+                return `
+                <div style="display: flex; gap: 14px; align-items: center; padding: 14px; background: ${unlocked ? 'rgba(34,197,94,0.05)' : 'rgba(255,255,255,0.02)'}; border: 1px solid ${unlocked ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.06)'}; border-radius: 14px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: ${unlocked ? 'rgba(34,197,94,0.15)' : '#1f2937'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <span class="material-symbols-outlined" style="font-size: 22px; color: ${unlocked ? '#22c55e' : '#4B5563'};">${unlocked ? r.icon : 'lock'}</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="font-size: 14px; font-weight: 700; color: ${unlocked ? '#fff' : '#6B7280'};">${r.name}</p>
+                        <p style="font-size: 11px; color: ${unlocked ? '#9CA3AF' : '#4B5563'}; margin-top: 2px;">${r.desc}</p>
+                    </div>
+                    ${unlocked ? '<span style="font-size: 10px; background: rgba(34,197,94,0.15); color: #22c55e; padding: 3px 10px; border-radius: 20px; font-weight: 600; white-space: nowrap;">Disponível</span>' :
+                    '<span style="font-size: 10px; color: #4B5563; white-space: nowrap;">Nível ' + r.level + '</span>'}
+                </div>`;
+            }).join('');
+        }
+
+        // ========== RENDER TRAIL ==========
+        function renderTrail(currentIdx, progress) {
+            const container = document.getElementById('trailContainer');
+            // Keep the trail-line
+            let html = '<div class="trail-line"></div>';
+
+            // Render levels from top (5) to bottom (1)
+            const reversed = [...LEVELS].reverse();
+            reversed.forEach((lvl, rIdx) => {
+                const idx = LEVELS.length - 1 - rIdx; // actual index
+                const isCurrent = idx === currentIdx;
+                const isCompleted = idx < currentIdx;
+                const isLocked = idx > currentIdx;
+
+                // Label side alternation
+                const labelSide = rIdx % 2 === 0 ? 'left' : 'right';
+
+                if (isCurrent) {
+                    // ===== CURRENT LEVEL: Big node with 3D card =====
+                    const pct = Math.round(progress * 100);
+                    const circumference = 377;
+                    const offset = circumference - (progress * circumference);
+                    html += `
+                    <div class="jp-trail-current-wrap" style="position: relative; z-index: 20; width: 100%; display: flex; justify-content: center; padding: 16px 0;">
+                        <div style="position: relative;">
+                            <div class="animate-breathe" style="position: absolute; inset: -10px; background: ${lvl.color}25; border-radius: 50%; filter: blur(30px);"></div>
+                            <div style="width: 128px; height: 128px; border-radius: 50%; background: #1a1a1a; border: 2px solid ${lvl.color}80; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px ${lvl.color}25; position: relative;">
+                                <div class="perspective-container">
+                                    <div class="animate-float" style="width: 80px; height: 50px; background: ${lvl.cardGrad}; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; overflow: hidden; border: 1px solid ${lvl.cardBorder};">
+                                        <div class="card-shine" style="position: absolute; inset: 0; opacity: 0.4;"></div>
+                                        <div style="position: absolute; top: 8px; left: 8px; width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3);"></div>
+                                        <div style="position: absolute; bottom: 6px; right: 8px;">
+                                            <span class="material-symbols-outlined" style="font-size: 10px; color: rgba(255,255,255,0.3);">wifi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <svg style="position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none;">
+                                    <circle cx="64" cy="64" r="60" fill="none" stroke="#333" stroke-width="2"></circle>
+                                    <circle cx="64" cy="64" r="60" fill="none" stroke="${lvl.color}" stroke-width="2" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"></circle>
+                                </svg>
+                                <div style="position: absolute; bottom: -14px; background: ${lvl.color}; color: #000; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);">
+                                    Nível ${idx + 1}
+                                </div>
+                            </div>
+                            <div class="jp-glass jp-trail-info-card" style="position: absolute; left: 150px; top: 50%; transform: translateY(-50%); width: 180px; padding: 14px; border-color: ${lvl.color}33 !important;">
+                                <h3 style="color: ${lvl.color}; font-weight: 700; font-size: 14px;">${lvl.name}</h3>
+                                <p style="font-size: 10px; color: #9CA3AF; margin-top: 4px;">${lvl.desc.split('.')[0]}.</p>
+                                <div style="width: 100%; height: 4px; background: #1f2937; border-radius: 4px; margin-top: 8px;">
+                                    <div style="width: ${pct}%; height: 100%; background: ${lvl.color}; border-radius: 4px; transition: width 0.6s;"></div>
+                                </div>
+                                <span style="font-size: 9px; color: ${lvl.color}; display: block; text-align: right; margin-top: 3px;">${pct}%</span>
+                            </div>
+                        </div>
+                    </div>`;
+                } else if (isCompleted) {
+                    // ===== COMPLETED LEVEL: Small with check =====
+                    html += `
+                    <div class="trail-node-group" onclick="openLevelModal(${lvl.id})" style="position: relative; z-index: 10; width: 100%; display: flex; justify-content: center; cursor: pointer;">
+                        <div style="position: relative;">
+                            <div style="width: 64px; height: 64px; border-radius: 50%; background: ${lvl.nodeBg}; border: 1px solid rgba(34,197,94,0.2); display: flex; align-items: center; justify-content: center; opacity: 0.5;">
+                                <div class="card-mini" style="background: ${lvl.cardGrad}; border: 1px solid ${lvl.cardBorder}; width: 32px; height: 20px;"></div>
+                                <div style="position: absolute; bottom: -6px; right: -4px; background: #14532d; border: 1px solid #22c55e; color: #22c55e; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+                                    <span class="material-symbols-outlined" style="font-size: 12px;">check</span>
+                                </div>
+                            </div>
+                            <div style="position: absolute; ${labelSide === 'right' ? 'right: 80px' : 'left: 80px'}; top: 50%; transform: translateY(-50%); text-align: ${labelSide === 'right' ? 'right' : 'left'}; width: 100px;">
+                                <span style="font-weight: 700; font-size: 13px; color: #6B7280; display: block;">${lvl.name}</span>
+                                <span style="font-size: 10px; color: #4B5563;">Concluído ✓</span>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    // ===== LOCKED LEVEL: Grayscale with lock =====
+                    const baseOpacity = 0.3 + (rIdx * 0.05);
+                    html += `
+                    <div class="trail-node-group" onclick="openLevelModal(${lvl.id})" style="position: relative; z-index: 10; width: 100%; display: flex; justify-content: center; opacity: ${baseOpacity}; filter: grayscale(1); transition: all 0.3s;" onmouseover="this.style.opacity='1';this.style.filter='grayscale(0)'" onmouseout="this.style.opacity='${baseOpacity}';this.style.filter='grayscale(1)'">
+                        <div style="position: relative;">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: ${lvl.nodeBg}; border: 1px solid ${lvl.nodeBorder}; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+                                <div class="card-mini" style="background: ${lvl.cardGrad}; border: 1px solid ${lvl.cardBorder};"></div>
+                                <div style="position: absolute; bottom: -8px; right: -8px; background: ${lvl.nodeBg}; border: 1px solid ${lvl.color}; color: ${lvl.color}; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">lock</span>
+                                </div>
+                            </div>
+                            <div class="trail-label" style="display: none; position: absolute; ${labelSide === 'left' ? 'left: 100px' : 'right: 100px'}; top: 50%; transform: translateY(-50%); width: 140px; text-align: ${labelSide === 'left' ? 'left' : 'right'};">
+                                <span style="font-weight: 700; font-size: 14px; color: ${lvl.color}; display: block;">${lvl.name}</span>
+                                <span style="font-size: 10px; color: #6B7280;">Complete o nível anterior</span>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ========== SCORE CHART ==========
+        function renderScoreChart(scores) {
+            const chart = document.getElementById('scoreChart');
+            const labels = document.getElementById('scoreChartLabels');
+            if (!scores || scores.length === 0) {
+                scores = [{ month: 'Jan', value: 0 }, { month: 'Fev', value: 0 }];
+            }
+            const max = Math.max(...scores.map(s => s.value), 100);
+            chart.innerHTML = scores.map(s => {
+                const h = Math.max((s.value / max) * 100, 4);
+                return `<div style="flex: 1; background: linear-gradient(to top, rgba(0,255,102,0.3), rgba(0,255,102,0.1)); border-radius: 4px 4px 0 0; height: ${h}%; min-height: 4px; position: relative;">
+                    <span style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: #00FF66;">${s.value}</span>
+                </div>`;
+            }).join('');
+            labels.innerHTML = scores.map(s => `<span>${s.month}</span>`).join('');
+        }
+
+        // ========== OFERTA MODAL ==========
+        function renderOfertaModal(diasRestantes, expirada) {
+            const content = document.getElementById('ofertaModalContent');
+            if (expirada) {
+                content.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">timer_off</span>
+                        <h3 style="font-size: 20px; font-weight: 700; margin-top: 12px; color: #ef4444;">Oferta Expirada</h3>
+                        <p style="font-size: 13px; color: #9CA3AF; margin-top: 8px;">O desconto de 30% não está mais disponível.</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 16px;">
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Preço atual (sem desconto)</div>
+                        <div style="font-size: 28px; font-weight: 700;">R$ 297,00</div>
+                    </div>
+                    <a href="../loja" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: rgba(0,255,102,0.1); border: 1px solid rgba(0,255,102,0.3); color: #00FF66; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='rgba(0,255,102,0.2)'" onmouseout="this.style.background='rgba(0,255,102,0.1)'">
+                        Ver planos
+                    </a>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                        <div style="font-size: 12px; color: #9CA3AF; margin-bottom: 4px;">Seu plano com desconto</div>
+                        <div style="display: flex; align-items: baseline; justify-content: center; gap: 8px;">
+                            <span style="font-size: 16px; color: #6B7280; text-decoration: line-through;">R$ 297,00</span>
+                            <span style="font-size: 32px; font-weight: 700; color: #FFD700;">R$ 207,90</span>
+                        </div>
+                        <div style="font-size: 11px; color: #FFD700; margin-top: 4px;">30% OFF aplicado</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 16px;">
+                        <span class="material-symbols-outlined" style="color: #FFD700;">schedule</span>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 700;">${diasRestantes} dias restantes</div>
+                            <div style="font-size: 11px; color: #9CA3AF;">para renovar com desconto</div>
+                        </div>
+                    </div>
+                    <a href="../loja" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #FFD700; color: #000; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='#FBBF24'" onmouseout="this.style.background='#FFD700'">
+                        Renovar agora
+                    </a>
+                `;
+            }
+        }
+
+        // ========== MAIN LOAD ==========
+        let currentLevelIdx = 1; // 0-based index
+
+        (async function loadJornada() {
+            const skeleton = document.getElementById('loadingSkeleton');
+            const mainContent = document.getElementById('mainContent');
+            const errorState = document.getElementById('errorState');
+
+            // Show skeleton
+            skeleton.style.display = 'block';
+
+            const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || 'null');
+            const cpf = sessao?.cpf?.replace(/[^0-9]/g, '');
+
+            if (sessao?.nome) {
+                const firstName = sessao.nome.split(' ')[0];
+                document.getElementById('headerUserName').textContent = 'Olá, ' + firstName;
+                document.getElementById('userAvatar').src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(sessao.nome) + '&background=181B21&color=fff';
+            }
+
+            // Balance
+            if (cpf) {
+                try {
+                    const balRes = await fetch('/api/balance/' + cpf);
+                    if (balRes.ok) {
+                        const balData = await balRes.json();
+                        const formatted = parseFloat(balData.saldo || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        document.getElementById('sidebarBalance').textContent = formatted;
+                    }
+                } catch (e) { }
+            }
+
+            // Gamification data
+            let gam = {
+                xp_atual: 0, xp_maximo: 100,
+                streak_dias: 0, streak_recorde: 0, streak_active_days: [],
+                desconto_ativo: 0, desconto_expira_em: 0,
+                score_recuperado: 0, total_negociado: 0, dividas_quitadas: 0,
+                pontos_historico: [], negociacoes: [], score_history: [],
+                oferta_total_dias: 30
+            };
+
+            let loadFailed = false;
+            if (cpf) {
+                try {
+                    const res = await fetch('/api/gamification/' + cpf);
+                    if (res.ok) {
+                        const d = await res.json();
+                        gam = { ...gam, ...d };
+                    }
+                } catch (e) {
+                    const local = JSON.parse(localStorage.getItem('cp_gamification_' + cpf) || 'null');
+                    if (local) { gam = { ...gam, ...local }; }
+                }
+            }
+
+            // After 3s skeleton timeout, show content or error
+            setTimeout(() => {
+                skeleton.style.display = 'none';
+                if (loadFailed) {
+                    errorState.style.display = 'flex';
+                } else {
+                    mainContent.style.display = 'grid';
+                }
+            }, 800);
+
+            // Determine current level by XP (same logic as dashboard)
+            currentLevelIdx = 0;
+            for (let i = LEVELS.length - 1; i >= 0; i--) {
+                if (gam.xp_atual >= LEVELS[i].xpMin) { currentLevelIdx = i; break; }
+            }
+            const currentLevel = LEVELS[currentLevelIdx];
+            const nextLevel = LEVELS[currentLevelIdx + 1] || null;
+
+            // Header
+            document.getElementById('headerPts').innerHTML = (gam.xp_atual || 0) + ' <span style="font-size:11px;color:#6B7280;font-weight:400;">pts</span>';
+            document.getElementById('headerUserLevel').textContent = 'Nível ' + currentLevel.name;
+
+            // Impacto
+            const score = gam.score_recuperado || 0;
+            document.getElementById('impactoScore').textContent = '+' + score;
+            document.getElementById('impactoBar').style.width = Math.min(score, 100) + '%';
+            document.getElementById('impactoValor').textContent = 'R$ ' + (gam.total_negociado || 0).toLocaleString('pt-BR');
+            document.getElementById('impactoDividas').textContent = (gam.dividas_quitadas || 0) + ' Dívidas';
+
+            // Streak
+            const streakDias = gam.streak_dias || 0;
+            const streakRecorde = gam.streak_recorde || streakDias;
+            document.getElementById('streakDias').textContent = streakDias + ' Dias';
+            document.getElementById('streakRecorde').textContent = streakRecorde;
+            document.getElementById('modalStreakAtual').textContent = streakDias;
+            document.getElementById('modalStreakRecorde').textContent = streakRecorde;
+
+            // Streak fire icon state
+            if (streakDias > 0) {
+                const fireIcon = document.getElementById('streakFireIcon');
+                fireIcon.style.background = 'linear-gradient(135deg, #f97316, #dc2626)';
+                fireIcon.querySelector('.material-symbols-outlined').style.color = '#fff';
+                fireIcon.querySelector('.material-symbols-outlined').classList.add('animate-pulse-slow');
+            }
+
+            // Streak calendar
+            renderStreakCalendar(gam.streak_active_days || []);
+
+            // Points history modal
+            document.getElementById('modalPtsTotal').textContent = (gam.xp_atual || 0) + ' pts';
+            const ptsHistory = gam.pontos_historico || [];
+            if (ptsHistory.length > 0) {
+                document.getElementById('ptsHistoryList').innerHTML = ptsHistory.map(p => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="material-symbols-outlined" style="font-size: 18px; color: ${p.tipo === 'ganho' ? '#00FF66' : '#ef4444'};">${p.tipo === 'ganho' ? 'add_circle' : 'remove_circle'}</span>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600;">${p.descricao}</div>
+                                <div style="font-size: 10px; color: #6B7280;">${p.data || ''}</div>
+                            </div>
+                        </div>
+                        <span style="font-size: 14px; font-weight: 700; color: ${p.tipo === 'ganho' ? '#00FF66' : '#ef4444'};">${p.tipo === 'ganho' ? '+' : '-'}${p.valor} pts</span>
+                    </div>
+                `).join('');
+            }
+
+            // Calculate progress within current level
+            const xpInLevel = gam.xp_atual - currentLevel.xpMin;
+            const xpLevelRange = nextLevel ? (nextLevel.xpMin - currentLevel.xpMin) : currentLevel.xpMin || 100;
+            const progress = nextLevel ? Math.min(xpInLevel / xpLevelRange, 1) : 1;
+
+            // Render the entire trail dynamically
+            renderTrail(currentLevelIdx, progress);
+
+            // Oferta / Countdown
+            const diasRestantes = gam.desconto_expira_em || 0;
+            const totalDias = gam.oferta_total_dias || 30;
+            const ofertaExpirada = diasRestantes <= 0;
+
+            document.getElementById('ofertaDias').textContent = ofertaExpirada ? '0' : diasRestantes;
+            document.getElementById('ofertaBar').style.width = ofertaExpirada ? '0%' : Math.round((diasRestantes / totalDias) * 100) + '%';
+
+            if (ofertaExpirada) {
+                document.getElementById('ofertaTitulo').textContent = 'Oferta Expirada';
+                document.getElementById('ofertaSubtitulo').textContent = 'O desconto não está mais disponível.';
+                document.getElementById('ofertaDiasLabel').textContent = '';
+                document.getElementById('ofertaBtn').textContent = 'Ver planos';
+                document.getElementById('ofertaBtn').style.background = 'rgba(255,255,255,0.1)';
+                document.getElementById('ofertaBtn').style.color = '#fff';
+            }
+
+            renderOfertaModal(diasRestantes, ofertaExpirada);
+
+            // Reward progress
+            const rewardProgress = Math.round(progress * 100);
+            document.getElementById('rewardBar').style.width = rewardProgress + '%';
+
+            // Recompensas
+            renderRecompensas(currentLevelIdx);
+
+            // Score chart
+            renderScoreChart(gam.score_history || []);
+
+        })();
+
+        // ========== OFFLINE DETECTION ==========
+        window.addEventListener('offline', () => {
+            document.getElementById('offlineBanner').style.display = 'block';
+        });
+        window.addEventListener('online', () => {
+            document.getElementById('offlineBanner').style.display = 'none';
+        });
+
+        function logout() {
+            localStorage.removeItem('credpositivo_sessao');
+            window.location.href = '../../login';
+        }
+    </script>
+</body>
+
+</html>

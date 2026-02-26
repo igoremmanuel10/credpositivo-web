@@ -27,6 +27,22 @@
             width: auto;
         }
 
+        .mobile-nav { display: none; }
+
+        /* 3D Mini Card in trail */
+        .mini-card-3d {
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-12deg);
+        }
+        .mini-card-3d::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 50%);
+        }
+
         @media (max-width: 768px) {
             .mobile-nav {
                 display: flex;
@@ -34,14 +50,14 @@
                 bottom: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 90%;
-                max-width: 400px;
+                width: 92%;
+                max-width: 420px;
                 background: rgba(20, 20, 20, 0.85);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
                 border: 1px solid rgba(255, 255, 255, 0.15);
                 border-radius: 50px;
-                padding: 12px 30px;
+                padding: 10px 20px;
                 justify-content: space-between;
                 align-items: center;
                 z-index: 1000;
@@ -158,7 +174,7 @@
 <body>
 
     <aside class="sidebar">
-        <a href=".."" class=" sidebar-logo">
+        <a href=".." class="sidebar-logo">
             <img src="../v2-assets/assets/images/logo.webp" alt="CredPositivo">
         </a>
 
@@ -218,64 +234,68 @@
         </header>
 
         <!-- Bloco Status do Usuário - Gamificação -->
-        <div id="userStatusBlock" class="glass-card" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; margin-bottom: 20px; border-color: rgba(59,130,246,0.15); gap: 16px; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-                <!-- Nível -->
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 38px; height: 38px; background: rgba(59,130,246,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: 20px;">
-                        <i class="ph ph-trophy"></i>
-                    </div>
-                    <div>
-                        <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Nível</div>
-                        <div id="userNivel" style="font-size: 14px; font-weight: 700; color: var(--color-primary);">Iniciante</div>
-                    </div>
-                </div>
-
-                <!-- XP -->
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 38px; height: 38px; background: rgba(34,197,94,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-success); font-size: 20px;">
-                        <i class="ph ph-lightning"></i>
-                    </div>
-                    <div>
-                        <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">XP</div>
-                        <div style="display: flex; align-items: baseline; gap: 4px;">
-                            <span id="userXpAtual" style="font-size: 14px; font-weight: 700; color: #fff;">0</span>
-                            <span style="font-size: 11px; color: var(--color-text-muted);">/ <span id="userXpMax">500</span></span>
+        <a href="jornada" id="userStatusBlock" class="glass-card" style="display: block; padding: 20px 24px; margin-bottom: 20px; border-color: rgba(59,130,246,0.15); text-decoration: none; color: #fff; transition: 0.2s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.3)'" onmouseout="this.style.borderColor='rgba(59,130,246,0.15)'">
+            <!-- Top row: Stats -->
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <!-- Nível -->
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 38px; height: 38px; background: rgba(59,130,246,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: 20px;">
+                            <i class="ph ph-trophy"></i>
                         </div>
-                        <div style="width: 80px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; margin-top: 3px;">
-                            <div id="userXpBar" style="width: 0%; height: 100%; background: var(--color-success); border-radius: 4px; transition: width 0.5s ease;"></div>
+                        <div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Nível</div>
+                            <div id="userNivel" style="font-size: 14px; font-weight: 700; color: var(--color-primary);">Iniciante</div>
                         </div>
                     </div>
+
+                    <!-- XP -->
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 38px; height: 38px; background: rgba(34,197,94,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-success); font-size: 20px;">
+                            <i class="ph ph-lightning"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">XP</div>
+                            <div style="display: flex; align-items: baseline; gap: 4px;">
+                                <span id="userXpAtual" style="font-size: 14px; font-weight: 700; color: #fff;">0</span>
+                                <span style="font-size: 11px; color: var(--color-text-muted);">/ <span id="userXpMax">500</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Streak -->
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 38px; height: 38px; background: rgba(245,158,11,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-warning); font-size: 20px;">
+                            <i class="ph ph-fire"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Streak</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="userStreak">0</span> dias</div>
+                        </div>
+                    </div>
+
+                    <!-- Desconto Ativo -->
+                    <div id="descontoAtivoWrapper" style="display: none; align-items: center; gap: 10px;">
+                        <div style="width: 38px; height: 38px; background: rgba(168,85,247,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #a855f7; font-size: 20px;">
+                            <i class="ph ph-tag"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Desconto</div>
+                            <div id="userDesconto" style="font-size: 14px; font-weight: 700; color: #a855f7;">0% OFF</div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Streak -->
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 38px; height: 38px; background: rgba(245,158,11,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-warning); font-size: 20px;">
-                        <i class="ph ph-fire"></i>
-                    </div>
-                    <div>
-                        <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Streak</div>
-                        <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="userStreak">0</span> dias</div>
-                    </div>
-                </div>
-
-                <!-- Desconto Ativo -->
-                <div id="descontoAtivoWrapper" style="display: none; align-items: center; gap: 10px;">
-                    <div style="width: 38px; height: 38px; background: rgba(168,85,247,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #a855f7; font-size: 20px;">
-                        <i class="ph ph-tag"></i>
-                    </div>
-                    <div>
-                        <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Desconto</div>
-                        <div id="userDesconto" style="font-size: 14px; font-weight: 700; color: #a855f7;">0% OFF</div>
-                    </div>
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--color-primary);">
+                    Ver Jornada <i class="ph ph-arrow-right"></i>
                 </div>
             </div>
 
-            <!-- Botão Ver Jornada -->
-            <a href="jornada" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 12px; font-size: 13px; font-weight: 600; color: var(--color-primary); text-decoration: none; transition: 0.2s; white-space: nowrap;" onmouseover="this.style.background='rgba(59,130,246,0.2)';this.style.borderColor='rgba(59,130,246,0.5)'" onmouseout="this.style.background='rgba(59,130,246,0.1)';this.style.borderColor='rgba(59,130,246,0.25)'">
-                <i class="ph ph-rocket-launch"></i> Ver Jornada
-            </a>
-        </div>
+            <!-- Mini Trail Visual -->
+            <div id="miniTrail" style="display: flex; align-items: center; gap: 0; width: 100%;">
+                <!-- Populated by JS -->
+            </div>
+        </a>
 
         <!-- Card de Saldo -->
         <a href="adicionar-credito" id="balanceCard" class="glass-card" style="display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; margin-bottom: 30px; text-decoration: none; color: #fff; background: linear-gradient(135deg, rgba(204,255,0,0.06), rgba(59,130,246,0.04)); border-color: rgba(204,255,0,0.15); transition: 0.2s;" onmouseover="this.style.borderColor='rgba(204,255,0,0.4)'" onmouseout="this.style.borderColor='rgba(204,255,0,0.15)'">
@@ -313,15 +333,6 @@
                     </div>
                 </article>
 
-                <!-- Banner Loja -->
-                <article class="glass-card"
-                    style="background: linear-gradient(135deg, rgba(204,255,0,0.08), rgba(59,130,246,0.05)); padding: 24px; display: flex; flex-direction: column; gap: 12px;">
-                    <span
-                        style="font-size: 10px; background: var(--color-primary); color: #000; padding: 2px 6px; border-radius: 4px; align-self: flex-start; font-weight: 700;">DESTAQUE</span>
-                    <h3 style="font-size: 16px;">Diagnóstico de Crédito</h3>
-                    <p style="font-size: 13px; color: var(--color-text-muted);">Análise completa da sua situação financeira com recomendações personalizadas.</p>
-                    <a href="loja" class="btn btn-primary" style="width: 100%; justify-content: center; text-decoration: none;">Contratar na Loja</a>
-                </article>
 
             </section>
 
@@ -464,6 +475,7 @@
     <!-- Mobile Nav -->
     <nav class="mobile-nav">
         <a href="./" class="mobile-nav-item active"><i class="ph ph-house"></i><span>Home</span></a>
+        <a href="jornada/" class="mobile-nav-item"><i class="ph ph-rocket-launch"></i><span>Jornada</span></a>
         <a href="loja" class="mobile-nav-item"><i class="ph ph-storefront"></i><span>Loja</span></a>
         <a href="servicos" class="mobile-nav-item"><i class="ph ph-file-text"></i><span>Servi&#231;os</span></a>
         <a href="configuracoes" class="mobile-nav-item"><i class="ph ph-user-circle"></i><span>Perfil</span></a>
@@ -512,7 +524,6 @@
             };
 
             let orders = [];
-            const cpf = sessao?.cpf;
             if (cpf) {
                 try {
                     const res = await fetch('/api/orders/' + cpf.replace(/[^0-9]/g, ''));
@@ -594,6 +605,15 @@
         }
 
         // ========== GAMIFICAÇÃO - Sistema de XP ==========
+        // Must match LEVELS in jornada/index.html
+        const TRAIL_LEVELS = [
+            { id: 1, name: 'Endividado', xp: 0, cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)' },
+            { id: 2, name: 'Organizando', xp: 100, cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)' },
+            { id: 3, name: 'Evoluindo', xp: 350, cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)' },
+            { id: 4, name: 'Estratégico', xp: 750, cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)' },
+            { id: 5, name: 'Premium Black', xp: 1500, cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)' },
+        ];
+
         (async function loadGamification() {
             const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || 'null');
             const cpf = sessao?.cpf?.replace(/[^0-9]/g, '');
@@ -624,24 +644,84 @@
                 }
             }
 
+            // Determine current level
+            let currentIdx = 0;
+            for (let i = TRAIL_LEVELS.length - 1; i >= 0; i--) {
+                if (gamData.xp_atual >= TRAIL_LEVELS[i].xp) { currentIdx = i; break; }
+            }
+            const currentLevel = TRAIL_LEVELS[currentIdx];
+            const nextLevel = TRAIL_LEVELS[currentIdx + 1] || null;
+
             // Populate Status Block
             const elNivel = document.getElementById('userNivel');
             const elXpAtual = document.getElementById('userXpAtual');
             const elXpMax = document.getElementById('userXpMax');
-            const elXpBar = document.getElementById('userXpBar');
             const elStreak = document.getElementById('userStreak');
             const elDesconto = document.getElementById('userDesconto');
             const elDescontoWrapper = document.getElementById('descontoAtivoWrapper');
 
-            if (elNivel) elNivel.textContent = gamData.nivel_atual;
+            if (elNivel) elNivel.textContent = currentLevel.name;
             if (elXpAtual) elXpAtual.textContent = gamData.xp_atual;
-            if (elXpMax) elXpMax.textContent = gamData.xp_maximo;
-            if (elXpBar) elXpBar.style.width = Math.min((gamData.xp_atual / gamData.xp_maximo) * 100, 100) + '%';
+            if (elXpMax) elXpMax.textContent = nextLevel ? nextLevel.xp : currentLevel.xp;
             if (elStreak) elStreak.textContent = gamData.streak_dias;
 
             if (gamData.desconto_ativo > 0) {
                 if (elDescontoWrapper) elDescontoWrapper.style.display = 'flex';
                 if (elDesconto) elDesconto.textContent = gamData.desconto_ativo + '% OFF';
+            }
+
+            // ===== MINI TRAIL VISUAL (3D Cards) =====
+            const miniTrail = document.getElementById('miniTrail');
+            if (miniTrail) {
+                let html = '';
+                TRAIL_LEVELS.forEach((lvl, idx) => {
+                    const isCurrent = idx === currentIdx;
+                    const isCompleted = idx < currentIdx;
+                    const isLocked = idx > currentIdx;
+
+                    // Node sizing
+                    const nodeSize = isCurrent ? '56px' : '46px';
+                    const cardW = isCurrent ? '36px' : '28px';
+                    const cardH = isCurrent ? '22px' : '17px';
+
+                    // Colors & states
+                    let nodeBg, nodeBorder, labelColor, opacity, filter;
+                    if (isCompleted) {
+                        nodeBg = 'rgba(34,197,94,0.1)'; nodeBorder = 'rgba(34,197,94,0.4)'; labelColor = 'var(--color-success)'; opacity = '0.7'; filter = '';
+                    } else if (isCurrent) {
+                        nodeBg = 'rgba(59,130,246,0.1)'; nodeBorder = 'var(--color-primary)'; labelColor = 'var(--color-primary)'; opacity = '1'; filter = '';
+                    } else {
+                        nodeBg = 'rgba(255,255,255,0.03)'; nodeBorder = 'rgba(255,255,255,0.08)'; labelColor = 'rgba(255,255,255,0.25)'; opacity = '0.4'; filter = 'grayscale(1)';
+                    }
+
+                    const glow = isCurrent ? 'box-shadow: 0 0 14px rgba(59,130,246,0.35);' : '';
+
+                    // Check badge for completed
+                    const checkBadge = isCompleted ? `<div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:#14532d;border:1px solid #22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="ph ph-check" style="font-size:10px;color:#22c55e;"></i></div>` : '';
+
+                    // Lock badge for locked
+                    const lockBadge = isLocked ? `<div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="ph ph-lock-simple" style="font-size:9px;color:rgba(255,255,255,0.3);"></i></div>` : '';
+
+                    // Connector line
+                    let connector = '';
+                    if (idx < TRAIL_LEVELS.length - 1) {
+                        const lineColor = idx < currentIdx ? 'var(--color-success)' : 'rgba(255,255,255,0.06)';
+                        connector = `<div style="flex: 1; height: 2px; background: ${lineColor}; min-width: 8px;"></div>`;
+                    }
+
+                    html += `
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: ${opacity}; filter: ${filter}; transition: 0.3s;">
+                            <div style="width: ${nodeSize}; height: ${nodeSize}; border-radius: 50%; background: ${nodeBg}; border: 2px solid ${nodeBorder}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; ${glow} position: relative; transition: 0.3s;">
+                                <div class="mini-card-3d" style="width: ${cardW}; height: ${cardH}; background: ${lvl.cardGrad}; border: 1px solid ${lvl.cardBorder}; box-shadow: 1px 2px 6px rgba(0,0,0,0.4);"></div>
+                                ${checkBadge}${lockBadge}
+                            </div>
+                            <span style="font-size: 10px; font-weight: ${isCurrent ? '700' : '500'}; color: ${labelColor}; white-space: nowrap; max-width: 70px; overflow: hidden; text-overflow: ellipsis; text-align: center;">${lvl.name}</span>
+                            ${isCurrent ? '<div style="width: 4px; height: 4px; border-radius: 50%; background: var(--color-primary); margin-top: -2px;"></div>' : ''}
+                        </div>
+                        ${connector}
+                    `;
+                });
+                miniTrail.innerHTML = html;
             }
 
             // Populate Progresso do Mês
