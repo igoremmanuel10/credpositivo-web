@@ -998,18 +998,19 @@ function showResult() {
 // Navigation
 // ============================================================
 function nextStep(stepNum) {
-    // Conditional skip logic based on situation
+    // Conditional skip: nome limpo pula perguntas de divida/restricao (Variant A only)
     const sit = answers.situacao ? answers.situacao.value : null;
-    if (sit === 'nome_limpo_sem_credito') {
-        // Nome limpo: skip dividas (step 2) and restricoes (step 3)
-        if (stepNum === 2) {
-            answers.valor = { value: 'sem_divida', label: 'Nao tenho divida — quero conseguir credito', score: 5 };
-            nextStep(4); // go to urgencia
-            return;
-        }
-        if (stepNum === 3) {
-            answers.onde = { values: ['sem_restricao'], labels: ['Nao tenho restricao'], score: 0 };
-            nextStep(4);
+    if (VARIANT === 'A' && sit === 'nome_limpo_sem_credito') {
+        const stepConfig = CONFIG.steps[stepNum];
+        if (stepConfig && (stepConfig.key === 'valor' || stepConfig.key === 'onde')) {
+            // Auto-fill skipped answers
+            if (stepConfig.key === 'valor') {
+                answers.valor = { value: 'sem_divida', label: 'Nao tenho divida — quero conseguir credito', score: 5 };
+            }
+            if (stepConfig.key === 'onde') {
+                answers.onde = { values: ['sem_restricao'], labels: ['Nao tenho restricao'], score: 0 };
+            }
+            nextStep(stepNum + 1);
             return;
         }
     }
