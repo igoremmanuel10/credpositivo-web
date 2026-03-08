@@ -590,11 +590,10 @@ const VARIANT_A = {
             ]
         },
         2: {
-            bubble: 'Voc\u00ea sabe o valor aproximado das suas pend\u00eancias?',
+            bubble: 'Qual o valor aproximado das suas d\u00edvidas?',
             type: 'single',
             key: 'valor',
             options: [
-                { label: 'N\u00e3o tenho d\u00edvida \u2014 quero conseguir cr\u00e9dito', value: 'sem_divida', score: 5 },
                 { label: 'At\u00e9 R$5.000', value: 'ate_5k', score: 10 },
                 { label: 'R$5.000 a R$20.000', value: '5k_20k', score: 15 },
                 { label: 'R$20.000 a R$50.000', value: '20k_50k', score: 20 },
@@ -607,34 +606,44 @@ const VARIANT_A = {
             type: 'multi',
             key: 'onde',
             options: [
-                { label: 'Banco (Ita\u00fa, Bradesco, Santander, Caixa...)', value: 'banco', score: 10 },
-                { label: 'Bir\u00f4s de cr\u00e9dito (\u00f3rg\u00e3os de prote\u00e7\u00e3o)', value: 'biros', score: 8 },
-                { label: 'Financeira (cart\u00e3o de loja, credi\u00e1rio)', value: 'financeira', score: 6 },
-                { label: 'Telefonia (Claro, Vivo, Tim)', value: 'telefonia', score: 3 },
-                { label: 'N\u00e3o sei onde tenho restri\u00e7\u00e3o', value: 'nao_sei_onde', score: 5 },
-                { label: 'N\u00e3o tenho restri\u00e7\u00e3o', value: 'sem_restricao', score: 0 }
+                { label: 'Serasa', value: 'serasa', score: 10 },
+                { label: 'SPC', value: 'spc', score: 10 },
+                { label: 'Boa Vista', value: 'boa_vista', score: 8 },
+                { label: 'Banco (Ita\u00fa, Bradesco, Santander, Caixa...)', value: 'banco', score: 6 },
+                { label: 'Financeira ou loja (cart\u00e3o, credi\u00e1rio)', value: 'financeira', score: 4 },
+                { label: 'N\u00e3o sei onde', value: 'nao_sei_onde', score: 5 }
             ]
         },
         4: {
-            bubble: 'Voc\u00ea precisa de cr\u00e9dito ou financiamento nos pr\u00f3ximos meses?',
+            bubble: 'O que voc\u00ea precisa conseguir?',
             type: 'single',
             key: 'urgencia',
             options: [
-                { label: 'Sim, \u00e9 urgente \u2014 preciso resolver logo', value: 'urgente', score: 25 },
-                { label: 'Sim, mas posso esperar um pouco', value: 'pode_esperar', score: 15 },
-                { label: 'N\u00e3o agora, mas quero me preparar', value: 'sem_urgencia', score: 5 }
+                { label: 'Financiamento (casa, carro, moto)', value: 'financiamento', score: 25 },
+                { label: 'Cart\u00e3o de cr\u00e9dito com limite bom', value: 'cartao', score: 20 },
+                { label: 'Empr\u00e9stimo pessoal', value: 'emprestimo', score: 20 },
+                { label: 'Limpar meu nome primeiro', value: 'limpar_nome', score: 15 },
+                { label: 'Quero entender minha situa\u00e7\u00e3o', value: 'entender', score: 10 }
             ]
         },
         5: {
             bubble: 'Voc\u00ea j\u00e1 tentou resolver isso antes?',
             type: 'single',
             key: 'tentativa',
-            options: [
-                { label: 'Sim, tentei negociar sozinho e n\u00e3o consegui', value: 'tentou_sozinho', score: 15 },
-                { label: 'Sim, contratei uma empresa mas n\u00e3o resolveu', value: 'tentou_empresa', score: 15 },
-                { label: 'Tentei em feir\u00e3o mas a d\u00edvida voltou', value: 'feirao', score: 12 },
-                { label: 'N\u00e3o, \u00e9 a primeira vez', value: 'primeira_vez', score: 5 }
-            ]
+            _variantOptions: {
+                default: [
+                    { label: 'Sim, tentei negociar sozinho e n\u00e3o consegui', value: 'tentou_sozinho', score: 15 },
+                    { label: 'Sim, contratei uma empresa mas n\u00e3o resolveu', value: 'tentou_empresa', score: 15 },
+                    { label: 'Tentei em feir\u00e3o mas a d\u00edvida voltou', value: 'feirao', score: 12 },
+                    { label: 'N\u00e3o, \u00e9 a primeira vez', value: 'primeira_vez', score: 5 }
+                ],
+                nome_limpo: [
+                    { label: 'Sim, j\u00e1 pedi cr\u00e9dito e foi negado v\u00e1rias vezes', value: 'negado_varias', score: 15 },
+                    { label: 'Sim, tentei aumentar score mas n\u00e3o adiantou', value: 'tentou_score', score: 15 },
+                    { label: 'N\u00e3o, \u00e9 a primeira vez que busco ajuda', value: 'primeira_vez', score: 5 }
+                ]
+            },
+            options: [] // filled dynamically
         },
         6: {
             bubble: '<strong>Voc\u00ea sabia?</strong> Os bancos n\u00e3o olham s\u00f3 se voc\u00ea deve ou n\u00e3o.<br><br>Eles analisam seu <strong>RATING BANC\u00c1RIO</strong> \u2014 uma nota invis\u00edvel que determina se voc\u00ea \u00e9 aprovado ou rejeitado.<br><br><span class="highlight">Nome limpo \u2260 Bom rating.</span><br>Por isso muita gente com nome limpo continua sendo negada.<br><br>Sua an\u00e1lise vai revelar exatamente onde est\u00e1 o problema.',
@@ -668,17 +677,18 @@ const VARIANT_B = {
             ]
         },
         2: {
-            bubble: 'Quanto isso \u00e9 urgente pra voc\u00ea?',
+            bubble: 'O que voc\u00ea precisa conseguir?',
             type: 'single',
             key: 'urgencia',
             options: [
-                { label: 'Preciso resolver AGORA \u2014 j\u00e1 tentei antes e n\u00e3o consegui', value: 'urgente_tentou', score: 40 },
-                { label: 'Preciso resolver logo \u2014 \u00e9 a primeira vez que busco ajuda', value: 'urgente_primeira', score: 25 },
-                { label: 'Posso esperar, mas quero entender minha situa\u00e7\u00e3o', value: 'pode_esperar', score: 10 }
+                { label: 'Financiamento ou empr\u00e9stimo \u2014 preciso logo', value: 'urgente', score: 40 },
+                { label: 'Cart\u00e3o de cr\u00e9dito com limite bom', value: 'cartao', score: 30 },
+                { label: 'Limpar meu nome primeiro', value: 'limpar_nome', score: 25 },
+                { label: 'Quero entender minha situa\u00e7\u00e3o', value: 'entender', score: 10 }
             ]
         },
         3: {
-            bubble: 'O que os bancos veem no seu CPF vai <strong>al\u00e9m do nome limpo</strong>.<br><br>Existe uma nota invis\u00edvel \u2014 o <strong>Rating Banc\u00e1rio</strong> \u2014 que decide tudo.<br><br>Preencha para ver onde voc\u00ea est\u00e1:',
+            bubble: 'Os bancos analisam uma <strong>nota invis\u00edvel</strong> no seu CPF \u2014 o <strong>Rating Banc\u00e1rio</strong>.<br><br>Mesmo com nome limpo, se o rating est\u00e1 baixo, voc\u00ea \u00e9 negado.<br><br>Preencha para ver onde voc\u00ea est\u00e1:',
             type: 'contact',
             key: 'contato'
         }
@@ -729,7 +739,18 @@ function renderSingleStep(stepNum, config) {
     bubbleEl.innerHTML = config.bubble;
     optionsEl.innerHTML = '';
 
-    config.options.forEach(opt => {
+    // Dynamic options based on situacao (e.g. step 5 tentativa)
+    let options = config.options;
+    if (config._variantOptions) {
+        const sit = answers.situacao ? answers.situacao.value : '';
+        if (sit === 'nome_limpo_sem_credito' && config._variantOptions.nome_limpo) {
+            options = config._variantOptions.nome_limpo;
+        } else {
+            options = config._variantOptions.default;
+        }
+    }
+
+    options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerHTML = '<span class="option-marker"></span>' + opt.label;
@@ -961,7 +982,7 @@ function showResult() {
         r.whatsappMsg +
         '\n\nSitua\u00e7\u00e3o: ' + situacaoLabel +
         (showDivida ? '\nD\u00edvida: ' + answers.valor.label : '') +
-        (urgenciaLabel ? '\nUrg\u00eancia: ' + urgenciaLabel : '') +
+        (urgenciaLabel ? '\nObjetivo: ' + urgenciaLabel : '') +
         '\nNome: ' + (answers.nome || '')
     );
 
@@ -998,20 +1019,28 @@ function showResult() {
 // Navigation
 // ============================================================
 function nextStep(stepNum) {
-    // Conditional skip: nome limpo pula perguntas de divida/restricao (Variant A only)
-    const sit = answers.situacao ? answers.situacao.value : null;
-    if (VARIANT === 'A' && sit === 'nome_limpo_sem_credito') {
+    // Conditional skip based on situacao (Variant A only)
+    if (VARIANT === 'A') {
+        const sit = answers.situacao ? answers.situacao.value : null;
         const stepConfig = CONFIG.steps[stepNum];
-        if (stepConfig && (stepConfig.key === 'valor' || stepConfig.key === 'onde')) {
-            // Auto-fill skipped answers
-            if (stepConfig.key === 'valor') {
-                answers.valor = { value: 'sem_divida', label: 'Nao tenho divida — quero conseguir credito', score: 5 };
+        if (stepConfig) {
+            // Nome limpo: pula dividas e restricoes
+            if (sit === 'nome_limpo_sem_credito' && stepConfig.key === 'valor') {
+                answers.valor = { value: 'sem_divida', label: 'Nome limpo, sem divida', score: 5 };
+                nextStep(stepNum + 1);
+                return;
             }
-            if (stepConfig.key === 'onde') {
-                answers.onde = { values: ['sem_restricao'], labels: ['Nao tenho restricao'], score: 0 };
+            if (sit === 'nome_limpo_sem_credito' && stepConfig.key === 'onde') {
+                answers.onde = { values: ['sem_restricao'], labels: ['Sem restricao'], score: 0 };
+                nextStep(stepNum + 1);
+                return;
             }
-            nextStep(stepNum + 1);
-            return;
+            // Tem divida mas nao negativado: pula restricoes
+            if (sit === 'dividas_nao_negativado' && stepConfig.key === 'onde') {
+                answers.onde = { values: ['nao_sei_onde'], labels: ['Nao sei onde'], score: 5 };
+                nextStep(stepNum + 1);
+                return;
+            }
         }
     }
 
