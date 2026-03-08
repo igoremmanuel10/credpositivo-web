@@ -849,6 +849,10 @@ function renderContactStep(stepNum, config) {
             <label>WhatsApp</label>
             <input type="tel" id="inputWhatsapp" placeholder="(00) 00000-0000" autocomplete="tel" required>
         </div>
+        <div class="input-group">
+            <label>E-mail</label>
+            <input type="email" id="inputEmail" placeholder="seu@email.com" autocomplete="email" required>
+        </div>
         <button class="btn-continue visible" onclick="submitContact()">Ver meu resultado</button>
     `;
 
@@ -876,6 +880,7 @@ function renderContactStep(stepNum, config) {
 function submitContact() {
     const nome = document.getElementById('inputNome').value.trim();
     const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+    const email = document.getElementById('inputEmail').value.trim();
 
     if (!nome) {
         document.getElementById('inputNome').focus();
@@ -885,9 +890,14 @@ function submitContact() {
         document.getElementById('inputWhatsapp').focus();
         return;
     }
+    if (!email || !email.includes('@')) {
+        document.getElementById('inputEmail').focus();
+        return;
+    }
 
     answers.nome = nome;
     answers.whatsapp = whatsapp;
+    answers.email = email;
     answers.variant = VARIANT;
     answers.timestamp = new Date().toISOString();
 
@@ -1071,6 +1081,7 @@ function sendToBackend(data) {
     const payload = {
         nome: data.nome,
         whatsapp: data.whatsapp,
+        email: data.email,
         variant: data.variant,
         score: calculateScore(),
         level: getScoreLevel(calculateScore()),
