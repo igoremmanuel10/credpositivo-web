@@ -956,10 +956,11 @@ function showResult() {
     let urgenciaLabel = '';
     if (answers.urgencia) urgenciaLabel = answers.urgencia.label || '';
 
+    const showDivida = answers.valor && answers.valor.value !== 'sem_divida';
     const fullMsg = encodeURIComponent(
         r.whatsappMsg +
         '\n\nSitua\u00e7\u00e3o: ' + situacaoLabel +
-        (answers.valor ? '\nD\u00edvida: ' + answers.valor.label : '') +
+        (showDivida ? '\nD\u00edvida: ' + answers.valor.label : '') +
         (urgenciaLabel ? '\nUrg\u00eancia: ' + urgenciaLabel : '') +
         '\nNome: ' + (answers.nome || '')
     );
@@ -997,6 +998,22 @@ function showResult() {
 // Navigation
 // ============================================================
 function nextStep(stepNum) {
+    // Conditional skip logic based on situation
+    const sit = answers.situacao ? answers.situacao.value : null;
+    if (sit === 'nome_limpo_sem_credito') {
+        // Nome limpo: skip dividas (step 2) and restricoes (step 3)
+        if (stepNum === 2) {
+            answers.valor = { value: 'sem_divida', label: 'Nao tenho divida — quero conseguir credito', score: 5 };
+            nextStep(4); // go to urgencia
+            return;
+        }
+        if (stepNum === 3) {
+            answers.onde = { values: ['sem_restricao'], labels: ['Nao tenho restricao'], score: 0 };
+            nextStep(4);
+            return;
+        }
+    }
+
     if (!CONFIG.steps[stepNum]) {
         return;
     }
