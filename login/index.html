@@ -139,43 +139,47 @@
             }
         })();
 
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value;
+            const alertEl = document.getElementById('loginAlert');
+            const btn = document.querySelector('button[type="submit"]');
 
-            // 1. Check Unified Users (New Flow)
-            const cpUsers = JSON.parse(localStorage.getItem('cp_users') || '[]');
-            const foundUnified = cpUsers.find(u =>
-                (u.cpf === user || u.email === user) && u.senha === pass
-            );
+            btn.disabled = true;
+            btn.textContent = 'Entrando...';
 
-            if (foundUnified) {
-                localStorage.setItem('credpositivo_sessao', JSON.stringify(foundUnified));
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: user, senha: pass })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    alertEl.textContent = data.error || 'CPF/Email ou senha inválidos. Tente novamente.';
+                    alertEl.style.background = 'rgba(239, 68, 68, 0.1)';
+                    alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                    alertEl.style.color = 'var(--color-danger)';
+                    alertEl.classList.add('show');
+                    return false;
+                }
+
+                localStorage.setItem('credpositivo_sessao', JSON.stringify(data.user || data));
                 window.location.href = '../dash/';
-                return false;
+            } catch (err) {
+                alertEl.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+                alertEl.style.background = 'rgba(239, 68, 68, 0.1)';
+                alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                alertEl.style.color = 'var(--color-danger)';
+                alertEl.classList.add('show');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
             }
 
-            // 2. Fallback to Legacy Clients (Backward Compatibility)
-            const clientes = JSON.parse(localStorage.getItem('credpositivo_clientes') || '[]');
-            const foundLegacy = clientes.find(c =>
-                (c.cpf === user || c.email === user) && c.senha === pass
-            );
-
-            if (foundLegacy) {
-                localStorage.setItem('credpositivo_sessao', JSON.stringify(foundLegacy));
-                window.location.href = '../dash/';
-                return false;
-            }
-
-
-            // Show error
-            const alert = document.getElementById('loginAlert');
-            alert.textContent = 'CPF/Email ou senha inválidos. Tente novamente.';
-            alert.style.background = 'rgba(239, 68, 68, 0.1)';
-            alert.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-            alert.style.color = 'var(--color-danger)';
-            alert.classList.add('show');
             return false;
         }
     </script>
