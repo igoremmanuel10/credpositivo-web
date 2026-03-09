@@ -127,7 +127,7 @@
     <div class="container">
         <!-- Logo -->
         <div class="logo-center">
-            <a href="..""><img src="../v2-assets/assets/images/logo.webp" alt="CredPositivo"></a>
+            <a href=".."><img src="../v2-assets/assets/images/logo.webp" alt="CredPositivo"></a>
         </div>
 
         <h1 style="text-align: center; margin-bottom: 30px; font-size: 24px;">Cadastro Rating Completo</h1>
@@ -330,7 +330,7 @@
             }
         }
 
-        function handleRatingSubmit(e) {
+        async function handleRatingSubmit(e) {
             e.preventDefault();
 
             const senha = document.getElementById('r_senha').value;
@@ -383,28 +383,32 @@
                 createdAt: new Date().toISOString()
             };
 
-            // Save to Centralized Storage (cp_users)
-            const cpUsers = JSON.parse(localStorage.getItem('cp_users') || '[]');
-            if (cpUsers.some(u => u.cpf === cliente.cpf || u.email === cliente.email)) {
-                alert('CPF ou E-mail já cadastrados na plataforma única!');
+            // Register on backend API
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: cliente.nome,
+                        cpf: cliente.cpf.replace(/\D/g, ''),
+                        email: cliente.email,
+                        telefone: cliente.telefone.replace(/\D/g, ''),
+                        senha: cliente.senha
+                    })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('credpositivo_sessao', JSON.stringify(data.user || data));
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'Erro ao cadastrar. Tente novamente.');
+                    return false;
+                }
+            } catch (err) {
+                alert('Erro de conexão. Tente novamente.');
                 return false;
             }
-            cpUsers.push(cliente);
-            localStorage.setItem('cp_users', JSON.stringify(cpUsers));
 
-            // Legacy sync (backward compatibility)
-            const legacyClients = JSON.parse(localStorage.getItem('credpositivo_clientes') || '[]');
-            legacyClients.push({
-                ...cliente,
-                celular: cliente.telefone, // compatibility
-                data: cliente.createdAt
-            });
-            localStorage.setItem('credpositivo_clientes', JSON.stringify(legacyClients));
-
-            // Auto-login session
-            localStorage.setItem('credpositivo_sessao', JSON.stringify(cliente));
-
-            // Redirect to Login with success param
             window.location.href = '../login/?cadastro=sucesso';
             return false;
         }

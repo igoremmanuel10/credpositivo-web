@@ -908,8 +908,7 @@
                         gam = { ...gam, ...d };
                     }
                 } catch (e) {
-                    const local = JSON.parse(localStorage.getItem('cp_gamification_' + cpf) || 'null');
-                    if (local) { gam = { ...gam, ...local }; }
+                    console.warn('[Jornada] Erro ao carregar gamificacao:', e.message);
                 }
             }
 

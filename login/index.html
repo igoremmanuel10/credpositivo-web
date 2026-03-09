@@ -149,7 +149,6 @@
             btn.disabled = true;
             btn.textContent = 'Entrando...';
 
-            // 1. Try backend API first
             try {
                 const res = await fetch('/api/login', {
                     method: 'POST',
@@ -157,51 +156,30 @@
                     body: JSON.stringify({ email: user, senha: pass })
                 });
 
+                const data = await res.json();
+
                 if (res.ok) {
-                    const data = await res.json();
                     localStorage.setItem('credpositivo_sessao', JSON.stringify(data.user || data));
                     window.location.href = '../dash/';
                     return false;
                 }
+
+                alertEl.textContent = data.error || 'CPF/Email ou senha invalidos. Tente novamente.';
+                alertEl.style.background = 'rgba(239, 68, 68, 0.1)';
+                alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                alertEl.style.color = 'var(--color-danger)';
+                alertEl.classList.add('show');
             } catch (err) {
-                // API unavailable, fall through to localStorage
-            }
-
-            // 2. Fallback: check localStorage (legacy users)
-            const cpUsers = JSON.parse(localStorage.getItem('cp_users') || '[]');
-            const foundUnified = cpUsers.find(u =>
-                (u.cpf === user || u.email === user) && u.senha === pass
-            );
-
-            if (foundUnified) {
-                localStorage.setItem('credpositivo_sessao', JSON.stringify(foundUnified));
-                window.location.href = '../dash/';
+                alertEl.textContent = 'Erro de conexao. Verifique sua internet e tente novamente.';
+                alertEl.style.background = 'rgba(239, 68, 68, 0.1)';
+                alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                alertEl.style.color = 'var(--color-danger)';
+                alertEl.classList.add('show');
+            } finally {
                 btn.disabled = false;
                 btn.textContent = 'Entrar';
-                return false;
             }
 
-            const clientes = JSON.parse(localStorage.getItem('credpositivo_clientes') || '[]');
-            const foundLegacy = clientes.find(c =>
-                (c.cpf === user || c.email === user) && c.senha === pass
-            );
-
-            if (foundLegacy) {
-                localStorage.setItem('credpositivo_sessao', JSON.stringify(foundLegacy));
-                window.location.href = '../dash/';
-                btn.disabled = false;
-                btn.textContent = 'Entrar';
-                return false;
-            }
-
-            // 3. Nothing found
-            alertEl.textContent = 'CPF/Email ou senha inválidos. Tente novamente.';
-            alertEl.style.background = 'rgba(239, 68, 68, 0.1)';
-            alertEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-            alertEl.style.color = 'var(--color-danger)';
-            alertEl.classList.add('show');
-            btn.disabled = false;
-            btn.textContent = 'Entrar';
             return false;
         }
     </script>

@@ -136,60 +136,36 @@
             btn.disabled = true;
             btn.textContent = 'Cadastrando...';
 
-            // Always save to localStorage (keeps dashboard working)
-            const newUser = {
-                id: Date.now(),
-                nome: nome,
-                cpf: cpf.replace(/\D/g, ''),
-                email: email,
-                telefone: tel.replace(/\D/g, ''),
-                senha: pass,
-                tutorial_completed: false,
-                createdAt: new Date().toISOString()
-            };
-
-            const users = JSON.parse(localStorage.getItem('cp_users') || '[]');
-            if (users.some(u => u.cpf === newUser.cpf || u.email === newUser.email)) {
-                showError('CPF ou E-mail já cadastrados!');
-                btn.disabled = false;
-                btn.textContent = 'Finalizar Cadastro';
-                return false;
-            }
-            users.push(newUser);
-            localStorage.setItem('cp_users', JSON.stringify(users));
-
-            const legacyClients = JSON.parse(localStorage.getItem('credpositivo_clientes') || '[]');
-            legacyClients.push({ nome, cpf: newUser.cpf, email, senha: pass, telefone: newUser.telefone, tipo: 'platform', data: newUser.createdAt });
-            localStorage.setItem('credpositivo_clientes', JSON.stringify(legacyClients));
-
-            // Also register on backend (non-blocking)
             try {
                 const res = await fetch('/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         nome,
-                        cpf: newUser.cpf,
+                        cpf: cpf.replace(/\D/g, ''),
                         email,
-                        telefone: newUser.telefone,
+                        telefone: tel.replace(/\D/g, ''),
                         senha: pass
                     })
                 });
 
-                if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem('credpositivo_sessao', JSON.stringify(data.user || data));
-                } else {
-                    localStorage.setItem('credpositivo_sessao', JSON.stringify(newUser));
+                const data = await res.json();
+
+                if (!res.ok) {
+                    showError(data.error || 'Erro ao cadastrar. Tente novamente.');
+                    btn.disabled = false;
+                    btn.textContent = 'Finalizar Cadastro';
+                    return false;
                 }
+
+                localStorage.setItem('credpositivo_sessao', JSON.stringify(data.user || data));
+                window.location.href = '../login/?cadastro=sucesso';
             } catch (err) {
-                // Backend unavailable, localStorage is enough
-                localStorage.setItem('credpositivo_sessao', JSON.stringify(newUser));
+                showError('Erro de conexao. Verifique sua internet e tente novamente.');
+                btn.disabled = false;
+                btn.textContent = 'Finalizar Cadastro';
             }
 
-            btn.disabled = false;
-            btn.textContent = 'Finalizar Cadastro';
-            window.location.href = '../login/?cadastro=sucesso';
             return false;
         }
 

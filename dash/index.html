@@ -511,7 +511,9 @@
                         if (mainBal) mainBal.textContent = formatted;
                         if (sideBal) sideBal.textContent = formatted;
                     }
-                } catch (e) { }
+                } catch (e) {
+                    console.warn('[Dashboard] Erro ao carregar saldo:', e.message);
+                }
             }
 
             // Load recent orders
@@ -531,7 +533,9 @@
                         const data = await res.json();
                         orders = data.orders || [];
                     }
-                } catch (e) { }
+                } catch (e) {
+                    console.warn('[Dashboard] Erro ao carregar pedidos:', e.message);
+                }
             }
 
             // Fallback localStorage
@@ -638,9 +642,7 @@
                         gamData = { ...gamData, ...apiData };
                     }
                 } catch (e) {
-                    // Fallback to localStorage
-                    const localGam = JSON.parse(localStorage.getItem('cp_gamification_' + cpf) || 'null');
-                    if (localGam) gamData = { ...gamData, ...localGam };
+                    console.warn('[Dashboard] Erro ao carregar gamificacao:', e.message);
                 }
             }
 

@@ -28,49 +28,172 @@
             <img src="../v2-assets/assets/images/logo.webp" alt="CredPositivo" style="height: 50px;">
         </div>
 
-        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 12px;">Recuperar Senha</h2>
-        <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 30px;">
-            Enviaremos um link de recuperação para o seu e-mail cadastrado.
-        </p>
+        <!-- Step 1: Request reset -->
+        <div id="stepRequest">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 12px;">Recuperar Senha</h2>
+            <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 30px;">
+                Enviaremos um link de recuperacao para o seu e-mail cadastrado.
+            </p>
 
-        <form id="recoverForm" onsubmit="return handleRecover(event)">
-            <div class="form-group" style="text-align: left;">
-                <label>E-mail Cadastrado</label>
-                <div style="position: relative;">
-                    <i class="ph ph-envelope"
-                        style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted);"></i>
-                    <input type="email" id="recoverEmail" placeholder="seu@email.com" required
-                        style="padding-left: 44px;">
+            <div id="requestAlert" style="display:none;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;"></div>
+
+            <form id="recoverForm" onsubmit="return handleRecover(event)">
+                <div class="form-group" style="text-align: left;">
+                    <label>E-mail Cadastrado</label>
+                    <div style="position: relative;">
+                        <i class="ph ph-envelope"
+                            style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted);"></i>
+                        <input type="email" id="recoverEmail" placeholder="seu@email.com" required
+                            style="padding-left: 44px;">
+                    </div>
+                </div>
+
+                <button type="submit" id="btnRequest" class="btn btn-primary btn-block" style="margin-top: 20px;">Enviar Link</button>
+
+                <div style="margin-top: 24px; font-size: 14px;">
+                    <a href="../login/" style="color: var(--color-text-muted); text-decoration: none;">
+                        <i class="ph ph-arrow-left"></i> Voltar para o Login
+                    </a>
+                </div>
+            </form>
+
+            <div id="successMsg"
+                style="display: none; margin-top: 20px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; color: var(--color-success); font-size: 14px;">
+                <i class="ph ph-check-circle" style="font-size: 20px; margin-bottom: 8px; display: block;"></i>
+                Se este e-mail estiver cadastrado, voce recebera um link em instantes.
+                <div style="margin-top: 16px;">
+                    <a href="../login/" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">
+                        Voltar para o Login
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Enviar Link</button>
+        <!-- Step 2: Reset password (shown when ?token= is present) -->
+        <div id="stepReset" style="display: none;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 12px;">Nova Senha</h2>
+            <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 30px;">
+                Digite sua nova senha abaixo.
+            </p>
 
-            <div style="margin-top: 24px; font-size: 14px;">
-                <a href="login"" style="color: var(--color-text-muted); text-decoration: none;">
-                    <i class="ph ph-arrow-left"></i> Voltar para o Login
-                </a>
+            <div id="resetAlert" style="display:none;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;"></div>
+
+            <form id="resetForm" onsubmit="return handleReset(event)">
+                <div class="form-group" style="text-align: left;">
+                    <label>Nova Senha</label>
+                    <input type="password" id="newPass" placeholder="Minimo 6 caracteres" required>
+                </div>
+                <div class="form-group" style="text-align: left;">
+                    <label>Confirmar Nova Senha</label>
+                    <input type="password" id="newPass2" placeholder="Repita a senha" required>
+                </div>
+
+                <button type="submit" id="btnReset" class="btn btn-primary btn-block" style="margin-top: 20px;">Redefinir Senha</button>
+            </form>
+
+            <div id="resetSuccess"
+                style="display: none; margin-top: 20px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; color: var(--color-success); font-size: 14px;">
+                <i class="ph ph-check-circle" style="font-size: 20px; margin-bottom: 8px; display: block;"></i>
+                Senha alterada com sucesso!
+                <div style="margin-top: 16px;">
+                    <a href="../login/" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">
+                        Fazer Login
+                    </a>
+                </div>
             </div>
-        </form>
-
-        <div id="successMsg"
-            style="display: none; margin-top: 20px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; color: var(--color-success); font-size: 14px;">
-            <i class="ph ph-check-circle" style="font-size: 20px; margin-bottom: 8px; display: block;"></i>
-            Se este e-mail estiver cadastrado, você receberá um link em instantes.
         </div>
     </div>
 
     <script>
-        function handleRecover(e) {
+        // Check if we have a reset token in URL
+        const params = new URLSearchParams(window.location.search);
+        const resetToken = params.get('token');
+
+        if (resetToken) {
+            document.getElementById('stepRequest').style.display = 'none';
+            document.getElementById('stepReset').style.display = 'block';
+        }
+
+        async function handleRecover(e) {
             e.preventDefault();
             const email = document.getElementById('recoverEmail').value;
+            const btn = document.getElementById('btnRequest');
 
-            // Simulation
-            document.getElementById('recoverForm').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
 
-            console.log('Solicitação de recuperação para:', email);
+            try {
+                const res = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                document.getElementById('recoverForm').style.display = 'none';
+                document.getElementById('successMsg').style.display = 'block';
+            } catch (err) {
+                document.getElementById('recoverForm').style.display = 'none';
+                document.getElementById('successMsg').style.display = 'block';
+            }
+
             return false;
+        }
+
+        async function handleReset(e) {
+            e.preventDefault();
+            const pass = document.getElementById('newPass').value;
+            const pass2 = document.getElementById('newPass2').value;
+            const alertEl = document.getElementById('resetAlert');
+            const btn = document.getElementById('btnReset');
+
+            if (pass.length < 6) {
+                showAlert(alertEl, 'A senha deve ter no minimo 6 caracteres.', 'error');
+                return false;
+            }
+
+            if (pass !== pass2) {
+                showAlert(alertEl, 'As senhas nao coincidem.', 'error');
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Salvando...';
+
+            try {
+                const res = await fetch('/api/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: resetToken, senha: pass })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    showAlert(alertEl, data.error || 'Erro ao redefinir senha.', 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Redefinir Senha';
+                    return false;
+                }
+
+                document.getElementById('resetForm').style.display = 'none';
+                document.getElementById('resetSuccess').style.display = 'block';
+            } catch (err) {
+                showAlert(alertEl, 'Erro de conexao. Tente novamente.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Redefinir Senha';
+            }
+
+            return false;
+        }
+
+        function showAlert(el, msg, type) {
+            el.textContent = msg;
+            el.style.display = 'block';
+            if (type === 'error') {
+                el.style.background = 'rgba(239,68,68,0.1)';
+                el.style.border = '1px solid rgba(239,68,68,0.3)';
+                el.style.color = '#ef4444';
+            }
         }
     </script>
 </body>
