@@ -101,6 +101,10 @@
                             style="color: var(--color-primary);">Politica de Privacidade</a>.</label>
                 </div>
 
+                <div id="refCodeInfo" style="display:none; margin: 16px 0; padding: 12px 16px; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; font-size: 13px; color: var(--color-success);">
+                    Indicado por: <strong id="refCodeDisplay"></strong>
+                </div>
+
                 <button type="submit" class="btn btn-primary btn-block">Finalizar Cadastro</button>
 
                 <p style="text-align: center; margin-top: 24px; font-size: 14px; color: var(--color-text-muted);">
@@ -112,6 +116,14 @@
     </div>
 
     <script>
+        // Capture referral code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+        if (refCode) {
+            document.getElementById('refCodeInfo').style.display = 'block';
+            document.getElementById('refCodeDisplay').textContent = refCode;
+        }
+
         async function handleRegister(e) {
             e.preventDefault();
 
@@ -136,17 +148,20 @@
             btn.disabled = true;
             btn.textContent = 'Cadastrando...';
 
+            const payload = {
+                nome,
+                cpf: cpf.replace(/\D/g, ''),
+                email,
+                telefone: tel.replace(/\D/g, ''),
+                senha: pass
+            };
+            if (refCode) payload.referred_by_code = refCode;
+
             try {
                 const res = await fetch('/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        nome,
-                        cpf: cpf.replace(/\D/g, ''),
-                        email,
-                        telefone: tel.replace(/\D/g, ''),
-                        senha: pass
-                    })
+                    body: JSON.stringify(payload)
                 });
 
                 const data = await res.json();
