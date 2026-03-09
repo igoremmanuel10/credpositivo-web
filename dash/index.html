@@ -232,28 +232,28 @@
                         </div>
                     </div>
 
-                    <!-- XP -->
+                    <!-- CP (Pontos) -->
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div style="width: 38px; height: 38px; background: rgba(34,197,94,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-success); font-size: 20px;">
                             <i class="ph ph-lightning"></i>
                         </div>
                         <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">XP</div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">CP</div>
                             <div style="display: flex; align-items: baseline; gap: 4px;">
-                                <span id="userXpAtual" style="font-size: 14px; font-weight: 700; color: #fff;">0</span>
-                                <span style="font-size: 11px; color: var(--color-text-muted);">/ <span id="userXpMax">500</span></span>
+                                <span id="userCpAtual" style="font-size: 14px; font-weight: 700; color: #fff;">0</span>
+                                <span style="font-size: 11px; color: var(--color-text-muted);">/ <span id="userCpMax">500</span></span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Streak -->
+                    <!-- Rating -->
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div style="width: 38px; height: 38px; background: rgba(245,158,11,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-warning); font-size: 20px;">
-                            <i class="ph ph-fire"></i>
+                            <i class="ph ph-star"></i>
                         </div>
                         <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Streak</div>
-                            <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="userStreak">0</span> dias</div>
+                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Rating</div>
+                            <div id="userRating" style="font-size: 14px; font-weight: 700; color: #fff;">--</div>
                         </div>
                     </div>
 
@@ -374,26 +374,26 @@
                         <span id="progressoDescontoTag" style="display: none; font-size: 11px; font-weight: 600; color: #a855f7; background: rgba(168,85,247,0.1); padding: 3px 10px; border-radius: 8px;">0% OFF ativo</span>
                     </div>
 
-                    <!-- Barra XP Mensal -->
+                    <!-- Barra CP Mensal -->
                     <div style="margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-                            <span style="font-size: 12px; color: var(--color-text-muted);">XP este mês</span>
-                            <span style="font-size: 13px; font-weight: 600; color: #fff;"><span id="xpMesAtual">0</span> / <span id="xpMetaMes">200</span> XP</span>
+                            <span style="font-size: 12px; color: var(--color-text-muted);">CP este mês</span>
+                            <span style="font-size: 13px; font-weight: 600; color: #fff;"><span id="cpMesAtual">0</span> / <span id="cpMetaMes">200</span> CP</span>
                         </div>
                         <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden;">
-                            <div id="xpMesBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-success), var(--color-primary)); border-radius: 6px; transition: width 0.6s ease;"></div>
+                            <div id="cpMesBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-success), var(--color-primary)); border-radius: 6px; transition: width 0.6s ease;"></div>
                         </div>
                     </div>
 
                     <!-- Mini Stats -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 12px; padding: 14px; text-align: center;">
-                            <div style="font-size: 22px; font-weight: 700; color: var(--color-success);" id="xpMesGanho">0</div>
-                            <div style="font-size: 11px; color: var(--color-text-muted);">XP Ganhos</div>
+                            <div style="font-size: 22px; font-weight: 700; color: var(--color-success);" id="cpMesGanho">0</div>
+                            <div style="font-size: 11px; color: var(--color-text-muted);">CP Ganhos</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 12px; padding: 14px; text-align: center;">
-                            <div style="font-size: 22px; font-weight: 700; color: var(--color-primary);" id="xpMesFaltam">200</div>
-                            <div style="font-size: 11px; color: var(--color-text-muted);">XP pra Meta</div>
+                            <div style="font-size: 22px; font-weight: 700; color: var(--color-primary);" id="cpMesFaltam">200</div>
+                            <div style="font-size: 11px; color: var(--color-text-muted);">CP pra Meta</div>
                         </div>
                     </div>
 
@@ -512,8 +512,8 @@
                     const xpBase = Math.round(parseFloat(order.price || 0) * 0.1) || 10;
                     const isPaid = ['paid', 'completed'].includes(order.status);
                     const xpDisplay = isPaid
-                        ? `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--color-success);background:rgba(34,197,94,0.1);padding:2px 8px;border-radius:8px;margin-top:2px;"><i class="ph ph-lightning" style="font-size:12px;"></i>+${xpBase} XP</span>`
-                        : `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--color-text-muted);background:rgba(255,255,255,0.04);padding:2px 8px;border-radius:8px;margin-top:2px;"><i class="ph ph-hourglass" style="font-size:12px;"></i>XP pendente</span>`;
+                        ? `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--color-success);background:rgba(34,197,94,0.1);padding:2px 8px;border-radius:8px;margin-top:2px;"><i class="ph ph-lightning" style="font-size:12px;"></i>+${xpBase} CP</span>`
+                        : `<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--color-text-muted);background:rgba(255,255,255,0.04);padding:2px 8px;border-radius:8px;margin-top:2px;"><i class="ph ph-hourglass" style="font-size:12px;"></i>CP pendente</span>`;
 
                     row.innerHTML = `
                         <div style="display:flex;align-items:center;gap:12px;">
@@ -607,16 +607,16 @@
 
             // Populate Status Block
             const elNivel = document.getElementById('userNivel');
-            const elXpAtual = document.getElementById('userXpAtual');
-            const elXpMax = document.getElementById('userXpMax');
-            const elStreak = document.getElementById('userStreak');
+            const elCpAtual = document.getElementById('userCpAtual');
+            const elCpMax = document.getElementById('userCpMax');
+            const elRating = document.getElementById('userRating');
             const elDesconto = document.getElementById('userDesconto');
             const elDescontoWrapper = document.getElementById('descontoAtivoWrapper');
 
             if (elNivel) elNivel.textContent = currentLevel.name;
-            if (elXpAtual) elXpAtual.textContent = gamData.xp_atual;
-            if (elXpMax) elXpMax.textContent = nextLevel ? nextLevel.xp : currentLevel.xp;
-            if (elStreak) elStreak.textContent = gamData.streak_dias;
+            if (elCpAtual) elCpAtual.textContent = gamData.xp_atual;
+            if (elCpMax) elCpMax.textContent = nextLevel ? nextLevel.xp : currentLevel.xp;
+            if (elRating) elRating.textContent = gamData.rating || '--';
 
             if (gamData.desconto_ativo > 0) {
                 if (elDescontoWrapper) elDescontoWrapper.style.display = 'flex';
@@ -678,22 +678,22 @@
             }
 
             // Populate Progresso do Mês
-            const elXpMes = document.getElementById('xpMesAtual');
-            const elXpMeta = document.getElementById('xpMetaMes');
-            const elXpMesBar = document.getElementById('xpMesBar');
-            const elXpMesGanho = document.getElementById('xpMesGanho');
-            const elXpMesFaltam = document.getElementById('xpMesFaltam');
+            const elCpMes = document.getElementById('cpMesAtual');
+            const elCpMeta = document.getElementById('cpMetaMes');
+            const elCpMesBar = document.getElementById('cpMesBar');
+            const elCpMesGanho = document.getElementById('cpMesGanho');
+            const elCpMesFaltam = document.getElementById('cpMesFaltam');
             const elProgressoDesconto = document.getElementById('progressoDescontoTag');
 
-            const xpMes = gamData.xp_mes_atual || 0;
+            const cpMes = gamData.xp_mes_atual || 0;
             const metaMes = gamData.meta_mes || 200;
-            const faltam = Math.max(metaMes - xpMes, 0);
+            const faltam = Math.max(metaMes - cpMes, 0);
 
-            if (elXpMes) elXpMes.textContent = xpMes;
-            if (elXpMeta) elXpMeta.textContent = metaMes;
-            if (elXpMesBar) elXpMesBar.style.width = Math.min((xpMes / metaMes) * 100, 100) + '%';
-            if (elXpMesGanho) elXpMesGanho.textContent = xpMes;
-            if (elXpMesFaltam) elXpMesFaltam.textContent = faltam;
+            if (elCpMes) elCpMes.textContent = cpMes;
+            if (elCpMeta) elCpMeta.textContent = metaMes;
+            if (elCpMesBar) elCpMesBar.style.width = Math.min((cpMes / metaMes) * 100, 100) + '%';
+            if (elCpMesGanho) elCpMesGanho.textContent = cpMes;
+            if (elCpMesFaltam) elCpMesFaltam.textContent = faltam;
 
             if (gamData.desconto_ativo > 0 && elProgressoDesconto) {
                 elProgressoDesconto.style.display = 'inline-block';
@@ -708,15 +708,8 @@
                 if (gamData.xp_atual > 0) {
                     gamNotifs.push({
                         icon: 'ph-lightning', color: 'var(--color-success)',
-                        text: 'Você ganhou ' + gamData.xp_atual + ' XP na sua jornada!',
-                        type: 'ganho_xp'
-                    });
-                }
-                if (gamData.streak_dias >= 3) {
-                    gamNotifs.push({
-                        icon: 'ph-fire', color: 'var(--color-warning)',
-                        text: 'Streak de ' + gamData.streak_dias + ' dias! Continue assim!',
-                        type: 'streak_incrementado'
+                        text: 'Você ganhou ' + gamData.xp_atual + ' CP na sua jornada!',
+                        type: 'ganho_cp'
                     });
                 }
                 if (gamData.desconto_ativo > 0) {
