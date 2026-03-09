@@ -365,35 +365,28 @@
                     </ul>
                 </article>
 
-                <!-- Progresso do Mês -->
-                <article id="progressoMesBlock" class="glass-card" style="padding: 20px; border-color: rgba(34,197,94,0.15);">
+                <!-- Tarefas do Nível Atual -->
+                <article id="tarefasNivelBlock" class="glass-card" style="padding: 20px; border-color: rgba(34,197,94,0.15);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h3 style="font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                            <i class="ph ph-chart-line-up" style="color: var(--color-success);"></i> Progresso do Mês
+                            <i class="ph ph-list-checks" style="color: var(--color-success);"></i> <span id="tarefasTitulo">Ações para avançar</span>
                         </h3>
-                        <span id="progressoDescontoTag" style="display: none; font-size: 11px; font-weight: 600; color: #a855f7; background: rgba(168,85,247,0.1); padding: 3px 10px; border-radius: 8px;">0% OFF ativo</span>
+                        <span id="tarefasMetaTag" style="font-size: 11px; font-weight: 600; color: var(--color-primary); background: rgba(204,255,0,0.08); padding: 3px 10px; border-radius: 8px;">0 / 100 CP</span>
                     </div>
 
-                    <!-- Barra CP Mensal -->
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-                            <span style="font-size: 12px; color: var(--color-text-muted);">CP este mês</span>
-                            <span style="font-size: 13px; font-weight: 600; color: #fff;"><span id="cpMesAtual">0</span> / <span id="cpMetaMes">200</span> CP</span>
-                        </div>
+                    <!-- Lista de Tarefas -->
+                    <div id="tarefasLista" style="display: flex; flex-direction: column; gap: 0;">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Barra de Progresso CP -->
+                    <div style="margin-top: 16px;">
                         <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden;">
-                            <div id="cpMesBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-success), var(--color-primary)); border-radius: 6px; transition: width 0.6s ease;"></div>
+                            <div id="cpProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-success), var(--color-primary)); border-radius: 6px; transition: width 0.6s ease;"></div>
                         </div>
-                    </div>
-
-                    <!-- Mini Stats -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 12px; padding: 14px; text-align: center;">
-                            <div style="font-size: 22px; font-weight: 700; color: var(--color-success);" id="cpMesGanho">0</div>
-                            <div style="font-size: 11px; color: var(--color-text-muted);">CP Ganhos</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 12px; padding: 14px; text-align: center;">
-                            <div style="font-size: 22px; font-weight: 700; color: var(--color-primary);" id="cpMesFaltam">200</div>
-                            <div style="font-size: 11px; color: var(--color-text-muted);">CP pra Meta</div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+                            <span style="font-size: 11px; color: var(--color-text-muted);"><span id="cpAtualLabel">0</span> CP</span>
+                            <span style="font-size: 11px; color: var(--color-text-muted);">Meta: <span id="cpMetaLabel">100</span> CP</span>
                         </div>
                     </div>
 
@@ -562,11 +555,34 @@
         // ========== GAMIFICAÇÃO - Sistema de XP ==========
         // Must match LEVELS in jornada/index.html
         const TRAIL_LEVELS = [
-            { id: 1, name: 'Endividado', xp: 0, cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)' },
-            { id: 2, name: 'Organizando', xp: 100, cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)' },
-            { id: 3, name: 'Evoluindo', xp: 350, cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)' },
-            { id: 4, name: 'Estratégico', xp: 750, cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)' },
-            { id: 5, name: 'Premium Black', xp: 1500, cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)' },
+            { id: 1, name: 'Endividado', xp: 0, cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)', cpMeta: 100, requisitos: [
+                { name: 'Pagar Diagnóstico de Rating', cp: 40 },
+                { name: 'Assistir Módulo 1', cp: 30 },
+                { name: 'Fazer questões do Módulo 1', cp: 30 },
+            ] },
+            { id: 2, name: 'Organizando', xp: 100, cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)', cpMeta: 100, requisitos: [
+                { name: 'Pagar Rating', cp: 50 },
+                { name: 'Pagar Limpa Nome (se tiver nome sujo)', cp: 80 },
+                { name: 'Assistir Módulo 2', cp: 60 },
+                { name: 'Fazer questões do Módulo 2', cp: 60 },
+            ] },
+            { id: 3, name: 'Evoluindo', xp: 350, cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)', cpMeta: 350, requisitos: [
+                { name: 'Pagar Diagnóstico de BACEN', cp: 100 },
+                { name: 'Quitar primeiras dívidas', cp: 150 },
+                { name: 'Assistir Módulo 3', cp: 75 },
+                { name: 'Fazer questões do Módulo 3', cp: 75 },
+            ] },
+            { id: 4, name: 'Estratégico', xp: 750, cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)', cpMeta: 750, requisitos: [
+                { name: 'PF: Pagar Aumento BACEN', cp: 300 },
+                { name: 'PJ: Consultoria Avançada PRONAMPE', cp: 300 },
+                { name: 'Assistir Módulo 4', cp: 100 },
+                { name: 'Fazer questões do Módulo 4', cp: 100 },
+                { name: 'Resultados de crédito aprovados', cp: 250 },
+            ] },
+            { id: 5, name: 'Premium Black', xp: 1500, cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)', cpMeta: 1500, requisitos: [
+                { name: 'Liberação Cartão Black em parceiros', cp: null },
+                { name: 'Incentivo para linha de crédito nos parceiros', cp: null },
+            ] },
         ];
 
         (async function loadGamification() {
@@ -677,27 +693,38 @@
                 miniTrail.innerHTML = html;
             }
 
-            // Populate Progresso do Mês
-            const elCpMes = document.getElementById('cpMesAtual');
-            const elCpMeta = document.getElementById('cpMetaMes');
-            const elCpMesBar = document.getElementById('cpMesBar');
-            const elCpMesGanho = document.getElementById('cpMesGanho');
-            const elCpMesFaltam = document.getElementById('cpMesFaltam');
-            const elProgressoDesconto = document.getElementById('progressoDescontoTag');
+            // Populate Tarefas do Nível Atual
+            const levelData = TRAIL_LEVELS[currentIdx];
+            const cpAtual = gamData.xp_atual || 0;
+            const cpMeta = levelData.cpMeta || 100;
+            const nextLevelName = TRAIL_LEVELS[currentIdx + 1] ? TRAIL_LEVELS[currentIdx + 1].name : 'Máximo';
 
-            const cpMes = gamData.xp_mes_atual || 0;
-            const metaMes = gamData.meta_mes || 200;
-            const faltam = Math.max(metaMes - cpMes, 0);
+            // Title & meta tag
+            const elTitulo = document.getElementById('tarefasTitulo');
+            const elMetaTag = document.getElementById('tarefasMetaTag');
+            if (elTitulo) elTitulo.textContent = 'Ações para avançar';
+            if (elMetaTag) elMetaTag.textContent = cpAtual + ' / ' + cpMeta + ' CP';
 
-            if (elCpMes) elCpMes.textContent = cpMes;
-            if (elCpMeta) elCpMeta.textContent = metaMes;
-            if (elCpMesBar) elCpMesBar.style.width = Math.min((cpMes / metaMes) * 100, 100) + '%';
-            if (elCpMesGanho) elCpMesGanho.textContent = cpMes;
-            if (elCpMesFaltam) elCpMesFaltam.textContent = faltam;
+            // Progress bar
+            const elBar = document.getElementById('cpProgressBar');
+            const elCpAtual = document.getElementById('cpAtualLabel');
+            const elCpMeta = document.getElementById('cpMetaLabel');
+            if (elBar) elBar.style.width = Math.min((cpAtual / cpMeta) * 100, 100) + '%';
+            if (elCpAtual) elCpAtual.textContent = cpAtual;
+            if (elCpMeta) elCpMeta.textContent = cpMeta;
 
-            if (gamData.desconto_ativo > 0 && elProgressoDesconto) {
-                elProgressoDesconto.style.display = 'inline-block';
-                elProgressoDesconto.textContent = gamData.desconto_ativo + '% OFF ativo';
+            // Render tasks
+            const tarefasContainer = document.getElementById('tarefasLista');
+            if (tarefasContainer && levelData.requisitos) {
+                tarefasContainer.innerHTML = levelData.requisitos.map(r => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--color-border-glass);">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0;"></div>
+                            <span style="font-size: 13px; color: var(--color-text-muted);">${r.name}</span>
+                        </div>
+                        ${r.cp ? `<span style="font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(34,197,94,0.08); padding: 3px 8px; border-radius: 6px; white-space: nowrap;">+${r.cp} CP</span>` : ''}
+                    </div>
+                `).join('');
             }
 
             // Gamified Notifications
