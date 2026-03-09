@@ -353,11 +353,11 @@
             document.getElementById('tab-' + id).style.display = 'block';
         }
 
-        function saveProfile(e) {
+        async function saveProfile(e) {
             e.preventDefault();
             const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || '{}');
+            const btn = e.target.querySelector('button[type="submit"]');
 
-            // Map values
             sessao.nome = document.getElementById('p_nome').value;
             sessao.email = document.getElementById('p_email').value;
             sessao.telefone = document.getElementById('p_tel').value;
@@ -367,17 +367,31 @@
             sessao.agencia = document.getElementById('p_agencia').value;
             sessao.conta = document.getElementById('p_conta').value;
 
-            // Update Session
-            localStorage.setItem('credpositivo_sessao', JSON.stringify(sessao));
+            btn.disabled = true;
+            btn.textContent = 'Salvando...';
 
-            // Sync with cp_users DB simulation
-            const cpUsers = JSON.parse(localStorage.getItem('cp_users') || '[]');
-            const index = cpUsers.findIndex(u => u.id === sessao.id);
-            if (index !== -1) {
-                cpUsers[index] = { ...cpUsers[index], ...sessao };
-                localStorage.setItem('cp_users', JSON.stringify(cpUsers));
+            // Save to backend if user has ID
+            if (sessao.id) {
+                try {
+                    await fetch('/api/profile/' + (sessao.cpf || '').replace(/\D/g, ''), {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nome: sessao.nome,
+                            email: sessao.email,
+                            telefone: sessao.telefone
+                        })
+                    });
+                } catch (err) {
+                    console.warn('[Config] Erro ao salvar perfil no servidor:', err.message);
+                }
             }
 
+            // Update local session
+            localStorage.setItem('credpositivo_sessao', JSON.stringify(sessao));
+
+            btn.disabled = false;
+            btn.textContent = 'Salvar Alteracoes';
             alert('Perfil atualizado com sucesso!');
             return false;
         }

@@ -96,22 +96,23 @@
             <div class="container" style="max-width: 700px;">
                 <div class="glass-card fade-up" style="padding: 40px; background: white;">
                     <h2 style="margin-bottom: 30px; text-align: center;">Envie uma mensagem</h2>
-                    <form class="flex flex-col gap-4">
+                    <div id="contactAlert" style="display:none;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:14px;"></div>
+                    <form id="contactForm" class="flex flex-col gap-4" onsubmit="return handleContact(event)">
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Nome Completo</label>
-                            <input type="text" placeholder="Seu nome"
+                            <input type="text" id="c_nome" placeholder="Seu nome" required
                                 style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;">
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">E-mail</label>
-                            <input type="email" placeholder="seu@email.com"
+                            <input type="email" id="c_email" placeholder="seu@email.com" required
                                 style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;">
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Assunto</label>
-                            <select
+                            <select id="c_assunto"
                                 style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; background: white;">
-                                <option>Dúvidas sobre o Relatório</option>
+                                <option>Duvidas sobre o Relatorio</option>
                                 <option>Problemas de Acesso</option>
                                 <option>Pagamento/Reembolso</option>
                                 <option>Outros</option>
@@ -119,11 +120,39 @@
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Mensagem</label>
-                            <textarea rows="4" placeholder="Como podemos ajudar?"
+                            <textarea id="c_msg" rows="4" placeholder="Como podemos ajudar?" required
                                 style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px;"></textarea>
                         </div>
-                        <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">Enviar Mensagem</button>
+                        <button type="submit" id="btnContact" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Enviar Mensagem</button>
                     </form>
+                    <script>
+                        async function handleContact(e) {
+                            e.preventDefault();
+                            const nome = document.getElementById('c_nome').value;
+                            const email = document.getElementById('c_email').value;
+                            const assunto = document.getElementById('c_assunto').value;
+                            const msg = document.getElementById('c_msg').value;
+                            const btn = document.getElementById('btnContact');
+                            const alertEl = document.getElementById('contactAlert');
+
+                            btn.disabled = true;
+                            btn.textContent = 'Enviando...';
+
+                            const whatsappMsg = encodeURIComponent('*Contato via Site*\n\nNome: ' + nome + '\nEmail: ' + email + '\nAssunto: ' + assunto + '\n\nMensagem: ' + msg);
+                            window.open('https://wa.me/5571936180654?text=' + whatsappMsg, '_blank');
+
+                            alertEl.textContent = 'Mensagem enviada! Voce sera redirecionado ao WhatsApp.';
+                            alertEl.style.display = 'block';
+                            alertEl.style.background = '#DCFCE7';
+                            alertEl.style.color = '#16A34A';
+                            alertEl.style.border = '1px solid #BBF7D0';
+
+                            btn.disabled = false;
+                            btn.textContent = 'Enviar Mensagem';
+                            document.getElementById('contactForm').reset();
+                            return false;
+                        }
+                    </script>
                 </div>
             </div>
         </section>
