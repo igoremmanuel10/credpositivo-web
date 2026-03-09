@@ -292,57 +292,60 @@
             <!-- LEFT COLUMN -->
             <div style="display: flex; flex-direction: column; gap: 24px;">
 
-                <!-- Impacto Real -->
-                <div class="jp-glass" style="padding: 24px; position: relative; overflow: hidden;">
+                <!-- Impacto Real (bloqueado até comprar diagnóstico) -->
+                <div id="impactoRealCard" class="jp-glass" style="padding: 24px; position: relative; overflow: hidden;">
                     <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,255,102,0.05), transparent); opacity: 0.5;"></div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; position: relative; z-index: 1;">
                         <span class="material-symbols-outlined" style="color: #00FF66;">bolt</span>
                         <h2 style="font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Impacto Real</h2>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1;">
-                        <!-- Score recuperado -->
+                    <div style="display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; filter: blur(6px); pointer-events: none;">
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px;">
-                                <span id="impactoScore" style="font-size: 36px; font-weight: 700; color: #00FF66;">+0</span>
+                                <span style="font-size: 36px; font-weight: 700; color: #00FF66;">+0</span>
                                 <span style="font-size: 11px; color: #00FF66; background: rgba(0,255,102,0.1); padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">Estimado</span>
                             </div>
                             <p style="font-size: 13px; color: #9CA3AF;">Pontos de Score recuperados</p>
                             <div style="width: 100%; height: 6px; background: #1f2937; border-radius: 4px; margin-top: 8px;">
-                                <div id="impactoBar" style="width: 0%; height: 100%; background: #00FF66; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,102,0.5); transition: width 0.6s;"></div>
+                                <div style="width: 0%; height: 100%; background: #00FF66; border-radius: 4px;"></div>
                             </div>
                         </div>
                         <div style="height: 1px; background: rgba(255,255,255,0.05);"></div>
-                        <!-- Total negociado -->
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                                 <span class="material-symbols-outlined" style="font-size: 20px; color: #FFD700;">savings</span>
-                                <span id="impactoValor" style="font-size: 22px; font-weight: 700;">R$ 0</span>
+                                <span style="font-size: 22px; font-weight: 700;">R$ 0</span>
                             </div>
                             <p style="font-size: 13px; color: #9CA3AF;">Total negociado com desconto</p>
                         </div>
-                        <!-- Dívidas quitadas -->
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                                 <span class="material-symbols-outlined" style="font-size: 20px; color: #007AFF;">verified</span>
-                                <span id="impactoDividas" style="font-size: 22px; font-weight: 700;">0 Dívidas</span>
+                                <span style="font-size: 22px; font-weight: 700;">0 Dívidas</span>
                             </div>
                             <p style="font-size: 13px; color: #9CA3AF;">Quitadas com sucesso</p>
                         </div>
                     </div>
-                    <button onclick="openModal('relatorioModal')" style="width: 100%; margin-top: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 12px; font-weight: 700; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-                        Ver Relatório Detalhado
-                        <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
-                    </button>
+                    <!-- Lock overlay -->
+                    <div style="position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(5,5,5,0.7); backdrop-filter: blur(2px); border-radius: inherit;">
+                        <span class="material-symbols-outlined" style="font-size: 40px; color: #6B7280; margin-bottom: 12px;">lock</span>
+                        <p style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px;">Área Bloqueada</p>
+                        <p style="font-size: 12px; color: #9CA3AF; text-align: center; max-width: 200px; margin-bottom: 16px;">Contrate o Diagnóstico para desbloquear seu relatório de impacto.</p>
+                        <a href="/dash/loja" style="background: #00FF66; color: #000; font-size: 12px; font-weight: 700; padding: 10px 24px; border-radius: 10px; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='#00cc52'" onmouseout="this.style.background='#00FF66'">
+                            Contratar Diagnóstico
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Quick Links: Aprender & Ajuda -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <a href="/dash/loja" class="jp-glass" style="padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(18,18,18,0.6)'">
+                    <div onclick="alert('Em breve!')" class="jp-glass" style="padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #fff; cursor: pointer; transition: 0.2s; opacity: 0.5;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(18,18,18,0.6)'">
                         <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(0,122,255,0.2); display: flex; align-items: center; justify-content: center; color: #007AFF;">
                             <span class="material-symbols-outlined">school</span>
                         </div>
                         <span style="font-size: 12px; font-weight: 700; color: #D1D5DB;">Aprender</span>
-                    </a>
+                        <span style="font-size: 9px; font-weight: 600; color: #9CA3AF; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px;">EM BREVE</span>
+                    </div>
                     <a href="/dash/suporte" class="jp-glass" style="padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #fff; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(18,18,18,0.6)'">
                         <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(168,85,247,0.2); display: flex; align-items: center; justify-content: center; color: #a855f7;">
                             <span class="material-symbols-outlined">help</span>
@@ -363,43 +366,6 @@
 
             <!-- RIGHT COLUMN -->
             <div style="display: flex; flex-direction: column; gap: 24px;">
-
-                <!-- Prioridade - 30% OFF -->
-                <div id="ofertaCard" style="background: linear-gradient(135deg, #FFD700, #B8860B); padding: 1px; border-radius: 24px; box-shadow: 0 0 30px rgba(255,215,0,0.2); position: relative; overflow: hidden;">
-                    <div class="animate-pulse-slow" style="position: absolute; inset: 0; background: rgba(255,255,0,0.1);"></div>
-                    <div style="background: #12120a; border-radius: 23px; padding: 20px; position: relative; z-index: 1;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,215,0,0.2); display: flex; align-items: center; justify-content: center; color: #FFD700;">
-                                <span class="material-symbols-outlined">timer</span>
-                            </div>
-                            <span style="background: #FFD700; color: #000; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">PRIORIDADE</span>
-                        </div>
-                        <h3 id="ofertaTitulo" style="font-weight: 700; font-size: 18px; margin-bottom: 4px;">Manter 30% OFF</h3>
-                        <p id="ofertaSubtitulo" style="font-size: 12px; color: #9CA3AF; margin-bottom: 14px;">Renovação da oferta especial em breve.</p>
-                        <div style="display: flex; align-items: flex-end; gap: 6px; margin-bottom: 14px;">
-                            <span id="ofertaDias" style="font-size: 32px; font-weight: 700; color: #FFD700; line-height: 1;">--</span>
-                            <span id="ofertaDiasLabel" style="font-size: 13px; color: #9CA3AF; margin-bottom: 4px;">dias restantes</span>
-                        </div>
-                        <div style="width: 100%; height: 4px; background: #1f2937; border-radius: 4px; margin-bottom: 14px;">
-                            <div id="ofertaBar" style="width: 0%; height: 100%; background: #FFD700; border-radius: 4px; transition: width 0.6s;"></div>
-                        </div>
-                        <button id="ofertaBtn" onclick="openModal('ofertaModal')" style="width: 100%; background: #FFD700; color: #000; font-size: 12px; font-weight: 700; padding: 12px; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#FBBF24'" onmouseout="this.style.background='#FFD700'">
-                            Verificar Status
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Sequência / Streak -->
-                <div class="jp-glass" onclick="openModal('streakModal')" style="padding: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='rgba(249,115,22,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-                    <div>
-                        <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9CA3AF; margin-bottom: 4px;">Sequência</p>
-                        <h3 id="streakDias" style="font-size: 24px; font-weight: 700;">0 Dias</h3>
-                        <p style="font-size: 10px; color: #6B7280; margin-top: 4px;">Recorde pessoal: <span id="streakRecorde">0</span> dias</p>
-                    </div>
-                    <div id="streakFireIcon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #374151, #1f2937); border-radius: 16px; transform: rotate(3deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                        <span class="material-symbols-outlined" style="font-size: 24px; color: #6B7280;">local_fire_department</span>
-                    </div>
-                </div>
 
                 <!-- Próxima Recompensa -->
                 <div class="jp-glass" style="padding: 20px;">
@@ -452,37 +418,15 @@
         </div>
     </div>
 
-    <!-- Streak Calendar Modal -->
-    <div id="streakModal" class="modal-overlay" onclick="if(event.target===this)closeModal('streakModal')">
+    <!-- Streak Modal removed -->
+    <!-- Keeping placeholder to avoid JS errors -->
+    <div id="streakModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeModal('streakModal')">
         <div class="modal-box">
-            <button class="modal-close" onclick="closeModal('streakModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
-                <span class="material-symbols-outlined" style="font-size: 28px; color: #f97316;">local_fire_department</span>
-                <h2 style="font-size: 20px; font-weight: 700;">Sua Sequência</h2>
-            </div>
-            <div style="display: flex; gap: 16px; margin-bottom: 20px;">
-                <div style="flex: 1; background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.2); border-radius: 14px; padding: 14px; text-align: center;">
-                    <div id="modalStreakAtual" style="font-size: 28px; font-weight: 700; color: #f97316;">0</div>
-                    <div style="font-size: 10px; color: #9CA3AF;">Dias seguidos</div>
-                </div>
-                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; text-align: center;">
-                    <div id="modalStreakRecorde" style="font-size: 28px; font-weight: 700; color: #fff;">0</div>
-                    <div style="font-size: 10px; color: #9CA3AF;">Recorde</div>
-                </div>
-            </div>
-            <h3 style="font-size: 13px; color: #9CA3AF; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;" id="streakMonthLabel">Fevereiro 2026</h3>
-            <div id="streakCalendar" class="streak-calendar">
-                <!-- Populated by JS -->
-            </div>
-            <div style="margin-top: 16px; padding: 12px; background: rgba(0,255,102,0.05); border: 1px solid rgba(0,255,102,0.15); border-radius: 12px;">
-                <p style="font-size: 12px; color: #9CA3AF; line-height: 1.5;">
-                    <span class="material-symbols-outlined" style="font-size: 14px; color: #00FF66; vertical-align: middle;">tips_and_updates</span>
-                    <strong style="color: #00FF66;">Dica:</strong> Acesse, pague ou consulte algo diariamente para manter sua sequência ativa!
-                </p>
-            </div>
+            <p>Em breve</p>
         </div>
     </div>
 
+    <!-- Placeholder end - original streak content below was removed -->
     <!-- Level Detail Modal -->
     <div id="levelModal" class="modal-overlay" onclick="if(event.target===this)closeModal('levelModal')">
         <div class="modal-box">
@@ -523,19 +467,6 @@
         </div>
     </div>
 
-    <!-- Oferta/Renovação Modal -->
-    <div id="ofertaModal" class="modal-overlay" onclick="if(event.target===this)closeModal('ofertaModal')">
-        <div class="modal-box">
-            <button class="modal-close" onclick="closeModal('ofertaModal')"><span class="material-symbols-outlined" style="font-size: 16px;">close</span></button>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px;">
-                <span class="material-symbols-outlined" style="font-size: 28px; color: #FFD700;">verified</span>
-                <h2 style="font-size: 20px; font-weight: 700;">Status da Oferta</h2>
-            </div>
-            <div id="ofertaModalContent">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </div>
 
     <!-- Recompensas Modal -->
     <div id="recompensasModal" class="modal-overlay" onclick="if(event.target===this)closeModal('recompensasModal')">
