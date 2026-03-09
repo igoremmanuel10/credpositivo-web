@@ -1268,53 +1268,152 @@
             String(now.getSeconds()).padStart(2, '0');
     }
 
+    // ---- Map API response to UI data structure ----
+    function mapApiToUI(api) {
+        const s = api.stats || {};
+        const a = api.agents || {};
+        const aug = a.augusto || {};
+        const pau = a.paulo || {};
+        const ana = a.ana || {};
+        const lua = a.luan || {};
+        const ale = a.alex || {};
+        const igo = a.igor || {};
+        const mus = a.musk || {};
+
+        const now = new Date();
+        const hour = now.getHours();
+        const totalPhases = aug.phases ? Object.values(aug.phases).reduce((a,b) => a+b, 0) : 0;
+        const converted = aug.phases ? (aug.phases[3]||0) + (aug.phases[4]||0) : 0;
+
+        return {
+            overview: {
+                conversations_today: s.conversations_today || 0,
+                messages_today: s.messages_today || 0,
+                avg_response_time: s.avg_response_time_sec || '--',
+                cost_today: s.api_cost_today != null ? s.api_cost_today.toFixed(4) : '0.00',
+                conversion_rate: s.conversion_rate || 0
+            },
+            augusto: {
+                conversations: aug.conversations_today || 0,
+                avgResponse: aug.avg_response_time != null ? aug.avg_response_time + 's' : '--',
+                conversion: totalPhases > 0 ? ((converted / totalPhases) * 100).toFixed(1) : '0',
+                lastAction: 'Respondeu ' + (aug.messages_today || 0) + ' msgs hoje',
+                lastActionTime: 'agora',
+                sparkline: generateSparkline(24, 2, 15),
+                leads_fase_0: aug.phases?.[0] || 0,
+                leads_fase_1: aug.phases?.[1] || 0,
+                leads_fase_2: aug.phases?.[2] || 0,
+                leads_fase_3: aug.phases?.[3] || 0,
+                leads_fase_4: aug.phases?.[4] || 0
+            },
+            paulo: {
+                outbound: pau.conversations_today || 0,
+                followups: pau.followups_sent_today || 0,
+                conversion: pau.conversations_today > 0 ? ((pau.followups_sent_today || 0) / pau.conversations_today * 100).toFixed(1) : '0',
+                lastAction: (pau.messages_today || 0) + ' mensagens enviadas hoje',
+                lastActionTime: 'agora',
+                sparkline: generateSparkline(24, 0, 3),
+                leads_contatados: pau.conversations_today || 0,
+                respostas: pau.messages_today || 0,
+                agendamentos: 0
+            },
+            ana: {
+                checks: ana.checks_today || 0,
+                violations: 0,
+                staleLeads: 0,
+                lastAction: 'Monitoramento ativo',
+                lastActionTime: ana.last_check ? timeAgo(Math.floor((Date.now() - new Date(ana.last_check).getTime()) / 1000)) : '--',
+                sparkline: generateSparkline(24, 0, 2),
+                pipeline_health: 'Monitorando',
+                proximo_check: formatTime(addMinutes(now, 30 - (now.getMinutes() % 30))),
+                relatorios_enviados: ana.checks_today || 0
+            },
+            luan: {
+                pipelineHealth: lua.pipeline_health || '--',
+                conversionRate: s.conversion_rate || '0',
+                reportsToday: lua.reports_this_week || 0,
+                lastAction: lua.last_report ? 'Ultimo relatorio: ' + new Date(lua.last_report).toLocaleDateString('pt-BR') : 'Sem relatorios recentes',
+                lastActionTime: lua.last_report ? timeAgo(Math.floor((Date.now() - new Date(lua.last_report).getTime()) / 1000)) : '--',
+                sparkline: generateSparkline(7, 1, 4),
+                ultimo_relatorio: lua.last_report ? new Date(lua.last_report).toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '--',
+                foco_prioridade: lua.pipeline_health === 'fraco' ? 'Melhorar qualificacao' : 'Manter pipeline',
+                meta_semanal: lua.reports_this_week + ' relatorios'
+            },
+            igor: {
+                cycles: igo.cycles_today || 0,
+                activeConvs: igo.active_monitoring || 0,
+                issuesFixed: igo.issues_today || 0,
+                lastAction: 'Ciclo #' + (igo.cycles_today || 0) + ' — ' + (igo.active_monitoring || 0) + ' conversas ativas',
+                lastActionTime: igo.last_cycle ? timeAgo(Math.floor((Date.now() - new Date(igo.last_cycle).getTime()) / 1000)) : 'agora',
+                sparkline: generateSparkline(24, 20, 45),
+                issues_detectados: igo.issues_today || 0,
+                intervencoes: igo.issues_today || 0,
+                tempo_ciclo: '~2min'
+            },
+            alex: {
+                uptime: ale.cycles_today > 0 ? '99.9' : '--',
+                autoFixes: ale.auto_fixes_today || 0,
+                alerts: ale.critical_alerts_today || 0,
+                lastAction: ale.last_cycle ? 'Ultimo check: ' + new Date(ale.last_cycle).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : 'Monitorando',
+                lastActionTime: ale.last_cycle ? timeAgo(Math.floor((Date.now() - new Date(ale.last_cycle).getTime()) / 1000)) : '--',
+                sparkline: generateSparkline(24, 95, 100),
+                cpu: '--',
+                memory: '--',
+                disk: '--',
+                containers: ale.cycles_today > 0 ? '9/9 running' : '--'
+            },
+            musk: {
+                directive: mus.directives_this_month > 0 ? 'Diretiva ativa' : 'Aguardando',
+                focus: 'Estrategia mensal',
+                nextReview: proximaSegunda(),
+                lastAction: mus.last_directive ? 'Diretiva em ' + new Date(mus.last_directive).toLocaleDateString('pt-BR') : 'Sem diretivas recentes',
+                lastActionTime: mus.last_directive ? timeAgo(Math.floor((Date.now() - new Date(mus.last_directive).getTime()) / 1000)) : '--',
+                sparkline: generateSparkline(4, 1, 5),
+                meta_trimestral: '500 clientes',
+                decisoes_semana: mus.directives_this_month || 0,
+                kpi_principal: 'CAC < R$50'
+            }
+        };
+    }
+
     // ---- Refresh Dashboard ----
     async function refreshDashboard() {
-        // Try real APIs
-        const [overview, performance, daily, reports, igorStatus, health] = await Promise.all([
-            fetchData('/api/admin/analytics/overview?days=1'),
-            fetchData('/api/admin/analytics/agent-performance?days=1'),
-            fetchData('/api/admin/analytics/daily?days=7'),
-            fetchData('/api/admin/analytics/system-reports'),
-            fetchData('/api/admin/igor-status'),
-            fetchData('/api/admin/devops-health')
-        ]);
+        // Single public API call - no auth needed
+        const apiData = await fetchData('/api/public/agents-status');
 
-        // Build data from API or fallback to demo
         let data;
+        if (apiData && apiData.stats && !apiData.stats.error) {
+            // Real data from API
+            data = mapApiToUI(apiData);
 
-        if (overview && overview.success) {
-            // Real API data - merge with structure
-            data = generateDemoData(); // Start with demo as base
-            // Override with real values where available
-            if (overview.data) {
-                data.overview.conversations_today = overview.data.total_conversations || data.overview.conversations_today;
-                data.overview.messages_today = overview.data.total_messages || data.overview.messages_today;
-                data.overview.cost_today = overview.data.total_cost?.toFixed(3) || data.overview.cost_today;
-            }
-            if (performance && performance.data) {
-                if (performance.data.augusto) {
-                    data.augusto.conversations = performance.data.augusto.conversations || data.augusto.conversations;
-                    data.augusto.avgResponse = performance.data.augusto.avg_response || data.augusto.avgResponse;
-                }
-                if (performance.data.paulo) {
-                    data.paulo.outbound = performance.data.paulo.outbound || data.paulo.outbound;
-                }
-            }
-            if (igorStatus && igorStatus.data) {
-                data.igor.cycles = igorStatus.data.cycles_today || data.igor.cycles;
-                data.igor.activeConvs = igorStatus.data.active_conversations || data.igor.activeConvs;
-                data.igor.issuesFixed = igorStatus.data.issues_fixed || data.igor.issuesFixed;
-            }
-            if (health && health.data) {
-                data.alex.uptime = health.data.uptime || data.alex.uptime;
-                data.alex.alerts = health.data.critical_alerts || data.alex.alerts;
-                data.alex.cpu = health.data.cpu || data.alex.cpu;
-                data.alex.memory = health.data.memory || data.alex.memory;
-                data.alex.containers = health.data.containers || data.alex.containers;
+            // Update activity feed with real data if available
+            if (apiData.activity && apiData.activity.length > 0) {
+                const agentMeta = {
+                    augusto: { color: '#3B82F6', icon: 'ph-robot' },
+                    paulo:   { color: '#8B5CF6', icon: 'ph-megaphone' },
+                    ana:     { color: '#22C55E', icon: 'ph-shield-check' },
+                    luan:    { color: '#F59E0B', icon: 'ph-chart-line-up' },
+                    igor:    { color: '#06B6D4', icon: 'ph-eye' },
+                    alex:    { color: '#EF4444', icon: 'ph-wrench' },
+                    musk:    { color: '#EAB308', icon: 'ph-crown' }
+                };
+                const realFeed = apiData.activity.map(item => {
+                    const meta = agentMeta[item.agent] || agentMeta.augusto;
+                    const t = new Date(item.time);
+                    return {
+                        time: formatTime(t),
+                        agent: item.agent,
+                        agentName: item.agent.charAt(0).toUpperCase() + item.agent.slice(1),
+                        color: meta.color,
+                        icon: meta.icon,
+                        text: item.action
+                    };
+                });
+                activityLog = realFeed;
+                renderActivityFeed();
             }
         } else {
-            // Full demo mode
+            // Fallback to demo
             data = generateDemoData();
         }
 
