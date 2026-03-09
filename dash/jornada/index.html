@@ -496,19 +496,42 @@
         // ========== LEVEL DEFINITIONS ==========
         // XP thresholds & card gradients must match dashboard TRAIL_LEVELS
         const LEVELS = [
-            { id: 1, name: 'Endividado', xpMin: 0, color: '#ef4444', cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)', nodeBg: '#2a1111', nodeBorder: 'rgba(239,68,68,0.3)', desc: 'Fase inicial. Identificação de todas as pendências e restrições no CPF.', criterio: 'Cadastro e diagnóstico completo', reward: null },
-            { id: 2, name: 'Organizando', xpMin: 100, color: '#00FF66', cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)', nodeBg: '#1a1a0a', nodeBorder: 'rgba(255,215,0,0.3)', desc: 'Negociações em andamento. Foco em quitar dívidas e manter pagamentos em dia.', criterio: 'Quitar primeiras dívidas, manter pagamentos', reward: null },
-            { id: 3, name: 'Evoluindo', xpMin: 350, color: '#22c55e', cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)', nodeBg: '#051105', nodeBorder: 'rgba(34,197,94,0.2)', desc: 'Score subindo. Perfil bancário melhorando com movimentações estratégicas.', criterio: 'Score acima de 500, sem novas negativações', reward: 'Consultoria Financeira Grátis' },
-            { id: 4, name: 'Estratégico', xpMin: 750, color: '#007AFF', cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)', nodeBg: '#0d121c', nodeBorder: 'rgba(0,122,255,0.2)', desc: 'Crédito forte. Limites aumentando e aprovações sendo conquistadas.', criterio: 'Score acima de 700, rating bancário ativo', reward: 'Análise Premium de Crédito' },
-            { id: 5, name: 'Premium Black', xpMin: 1500, color: '#FFD700', cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)', nodeBg: '#111', nodeBorder: 'rgba(255,215,0,0.2)', desc: 'Topo da trilha. Perfil de crédito premium com acesso a melhores condições.', criterio: 'Score 900+, perfil completo', reward: 'Cartão Premium + Consultoria VIP' },
+            { id: 1, name: 'Endividado', xpMin: 0, color: '#ef4444', cardGrad: 'linear-gradient(135deg, #4a1a1a, #2a0a0a)', cardBorder: 'rgba(239,68,68,0.3)', nodeBg: '#2a1111', nodeBorder: 'rgba(239,68,68,0.3)', desc: 'Fase inicial. Identificação de todas as pendências e restrições no CPF.', scoreMin: null, rating: null, cpMeta: 100, requisitos: [
+                { name: 'Pagar Diagnóstico de Rating', cp: 40 },
+                { name: 'Assistir Módulo 1', cp: 30 },
+                { name: 'Fazer questões do Módulo 1', cp: 30 },
+            ], reward: null },
+            { id: 2, name: 'Organizando', xpMin: 100, color: '#00FF66', cardGrad: 'linear-gradient(135deg, #ffd700, #b8860b)', cardBorder: 'rgba(255,215,0,0.5)', nodeBg: '#1a1a0a', nodeBorder: 'rgba(255,215,0,0.3)', desc: 'Negociações em andamento. Foco em quitar dívidas e manter pagamentos em dia.', scoreMin: '300+', rating: 'C', cpMeta: 100, requisitos: [
+                { name: 'Pagar Rating', cp: 50 },
+                { name: 'Pagar Limpa Nome (se tiver nome sujo)', cp: 80 },
+                { name: 'Assistir Módulo 2', cp: 60 },
+                { name: 'Fazer questões do Módulo 2', cp: 60 },
+            ], reward: 'Consultoria Financeira' },
+            { id: 3, name: 'Evoluindo', xpMin: 350, color: '#22c55e', cardGrad: 'linear-gradient(135deg, #006622, #003311)', cardBorder: 'rgba(34,197,94,0.4)', nodeBg: '#051105', nodeBorder: 'rgba(34,197,94,0.2)', desc: 'Score subindo. Perfil bancário melhorando com movimentações estratégicas.', scoreMin: '500+', rating: 'B', cpMeta: 350, requisitos: [
+                { name: 'Pagar Diagnóstico de BACEN', cp: 100 },
+                { name: 'Quitar primeiras dívidas', cp: 150 },
+                { name: 'Assistir Módulo 3', cp: 75 },
+                { name: 'Fazer questões do Módulo 3', cp: 75 },
+            ], reward: 'Consultoria Financeira Grátis' },
+            { id: 4, name: 'Estratégico', xpMin: 750, color: '#007AFF', cardGrad: 'linear-gradient(135deg, #003366, #001a33)', cardBorder: 'rgba(0,122,255,0.4)', nodeBg: '#0d121c', nodeBorder: 'rgba(0,122,255,0.2)', desc: 'Crédito forte. Limites aumentando e aprovações sendo conquistadas.', scoreMin: '700+', rating: 'A', cpMeta: 750, requisitos: [
+                { name: 'PF: Pagar Aumento BACEN', cp: 300 },
+                { name: 'PJ: Consultoria Avançada PRONAMPE', cp: 300, note: '(Escolher um ou ambos)' },
+                { name: 'Assistir Módulo 4', cp: 100 },
+                { name: 'Fazer questões do Módulo 4', cp: 100 },
+                { name: 'Resultados de crédito aprovados', cp: 250 },
+            ], reward: 'Análise Premium de Crédito' },
+            { id: 5, name: 'Premium Black', xpMin: 1500, color: '#FFD700', cardGrad: 'linear-gradient(135deg, #111, #333)', cardBorder: 'rgba(255,215,0,0.3)', nodeBg: '#111', nodeBorder: 'rgba(255,215,0,0.2)', desc: 'Topo da trilha. Perfil de crédito premium com acesso a melhores condições.', scoreMin: '900+', rating: 'A+', cpMeta: 1500, requisitos: [
+                { name: 'Liberação Cartão Black em parceiros', cp: null },
+                { name: 'Incentivo para linha de crédito nos parceiros', cp: null },
+            ], reward: 'Cartão Black + Linha de Crédito Parceiros' },
         ];
 
         const RECOMPENSAS = [
             { name: 'Diagnóstico Completo', level: 1, icon: 'search', desc: 'Raio-x do seu CPF' },
-            { name: 'Plano Personalizado', level: 2, icon: 'route', desc: 'Trilha feita pro seu caso' },
+            { name: 'Consultoria Financeira', level: 2, icon: 'route', desc: 'Trilha feita pro seu caso' },
             { name: 'Consultoria Financeira Grátis', level: 3, icon: 'support_agent', desc: 'Sessão com consultor especialista' },
             { name: 'Análise Premium de Crédito', level: 4, icon: 'analytics', desc: 'Relatório avançado do perfil' },
-            { name: 'Cartão Premium + Consultoria VIP', level: 5, icon: 'diamond', desc: 'Acesso exclusivo Premium Black' },
+            { name: 'Cartão Black + Linha de Crédito Parceiros', level: 5, icon: 'diamond', desc: 'Acesso exclusivo Premium Black' },
         ];
 
         // ========== MODAL HELPERS ==========
@@ -529,8 +552,10 @@
             const isCompleted = levelId < currentLevelIdx + 1;
             const isCurrent = levelId === currentLevelIdx + 1;
             const isLocked = levelId > currentLevelIdx + 1;
+            const nextLevel = LEVELS.find(l => l.id === levelId + 1);
 
             let html = '';
+
             if (isCompleted) {
                 html = `
                     <div style="text-align: center; margin-bottom: 20px;">
@@ -541,12 +566,62 @@
                         <span style="font-size: 12px; background: rgba(34,197,94,0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-weight: 600;">Concluído</span>
                     </div>
                     <p style="font-size: 14px; color: #9CA3AF; text-align: center; margin-bottom: 16px;">${level.desc}</p>
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
-                        <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">O que foi feito</div>
-                        <p style="font-size: 13px; color: #D1D5DB;">${level.criterio}</p>
-                    </div>
                 `;
-            } else if (isLocked) {
+            } else if (isCurrent) {
+                // Current level - "Ações para avançar"
+                let reqHtml = '';
+                level.requisitos.forEach(r => {
+                    reqHtml += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0;"></div>
+                                <span style="font-size: 14px; color: #D1D5DB;">${r.name}</span>
+                            </div>
+                            ${r.cp ? `<span style="font-size: 13px; font-weight: 700; color: #00FF66; background: rgba(0,255,102,0.1); padding: 4px 10px; border-radius: 8px; white-space: nowrap;">+${r.cp} CP</span>` : ''}
+                        </div>
+                    `;
+                    if (r.note) {
+                        reqHtml += `<div style="text-align: center; font-size: 12px; color: #6B7280; font-style: italic; padding: 4px 0;">${r.note}</div>`;
+                    }
+                });
+
+                html = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-outlined" style="font-size: 24px; color: #00FF66;">trending_up</span>
+                            <h2 style="font-size: 18px; font-weight: 700;">Ações para avançar</h2>
+                        </div>
+                    </div>
+                    <p style="font-size: 14px; color: #9CA3AF; margin-bottom: 16px;">Complete para avançar para: <strong style="color: ${nextLevel ? nextLevel.color : '#fff'};">${nextLevel ? nextLevel.name : 'Máximo'}</strong></p>
+                    <div style="margin-bottom: 20px;">
+                        ${reqHtml}
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 16px;">
+                        <div style="font-size: 12px; color: #9CA3AF; margin-bottom: 4px;">Meta desta fase</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #00FF66;">${level.cpMeta} CP</div>
+                    </div>
+                    <a href="/dash/loja" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 600; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">storefront</span> Ver na Loja
+                    </a>
+                `;
+            } else {
+                // Locked level
+                let reqHtml = '';
+                level.requisitos.forEach(r => {
+                    reqHtml += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0;"></div>
+                                <span style="font-size: 14px; color: #9CA3AF;">${r.name}</span>
+                            </div>
+                            ${r.cp ? `<span style="font-size: 13px; font-weight: 700; color: #9CA3AF; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 8px; white-space: nowrap;">+${r.cp} CP</span>` : ''}
+                        </div>
+                    `;
+                    if (r.note) {
+                        reqHtml += `<div style="text-align: center; font-size: 12px; color: #6B7280; font-style: italic; padding: 4px 0;">${r.note}</div>`;
+                    }
+                });
+
                 html = `
                     <div style="text-align: center; margin-bottom: 20px;">
                         <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
@@ -555,15 +630,29 @@
                         <h2 style="font-size: 22px; font-weight: 700; color: ${level.color};">${level.name}</h2>
                         <span style="font-size: 12px; background: rgba(255,255,255,0.05); color: #6B7280; padding: 4px 12px; border-radius: 20px; font-weight: 600;">Bloqueado</span>
                     </div>
-                    <p style="font-size: 14px; color: #6B7280; text-align: center; margin-bottom: 16px;">Complete o nível anterior para desbloquear.</p>
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px;">
-                        <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Critério</div>
-                        <p style="font-size: 13px; color: #4B5563;">${level.criterio}</p>
+                    <p style="font-size: 14px; color: #6B7280; text-align: center; margin-bottom: 20px;">Complete o nível anterior para desbloquear.</p>
+                    ${level.scoreMin ? `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; text-align: center;">
+                            <div style="font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Score Mín.</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #fff;">${level.scoreMin}</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; text-align: center;">
+                            <div style="font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Rating</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #fff;">${level.rating}</div>
+                        </div>
+                    </div>` : ''}
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                        <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Requisitos para Desbloquear</div>
+                        ${reqHtml}
+                    </div>
+                    <div style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 14px; padding: 14px; text-align: center; margin-bottom: 16px;">
+                        <span style="font-size: 14px; font-weight: 700; color: #3b82f6;">Meta: ${level.cpMeta} CP total para desbloquear</span>
                     </div>
                     ${level.reward ? `
-                    <div style="margin-top: 12px; background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 12px; padding: 14px;">
+                    <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 14px; padding: 14px;">
                         <div style="font-size: 11px; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Recompensa</div>
-                        <p style="font-size: 13px; color: #D1D5DB;">${level.reward}</p>
+                        <p style="font-size: 14px; color: #D1D5DB; font-weight: 600;">${level.reward}</p>
                     </div>` : ''}
                 `;
             }
@@ -572,39 +661,7 @@
             openModal('levelModal');
         }
 
-        // ========== STREAK CALENDAR ==========
-        function renderStreakCalendar(activeDays) {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-
-            document.getElementById('streakMonthLabel').textContent = months[month] + ' ' + year;
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = now.getDate();
-
-            const headers = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-            let html = headers.map(d => `<div class="streak-day header">${d}</div>`).join('');
-
-            for (let i = 0; i < firstDay; i++) {
-                html += '<div class="streak-day"></div>';
-            }
-
-            for (let d = 1; d <= daysInMonth; d++) {
-                const isActive = activeDays.includes(d);
-                const isToday = d === today;
-                let cls = 'streak-day';
-                if (isToday) cls += ' today';
-                else if (isActive) cls += ' active';
-                else if (d < today) cls += ' inactive';
-                else cls += ' inactive';
-                html += `<div class="${cls}">${d}</div>`;
-            }
-
-            document.getElementById('streakCalendar').innerHTML = html;
-        }
+        // ========== STREAK CALENDAR (removed - HTML elements deleted) ==========
 
         // ========== RECOMPENSAS LIST ==========
         function renderRecompensas(currentLevel) {
@@ -739,47 +796,7 @@
             labels.innerHTML = scores.map(s => `<span>${s.month}</span>`).join('');
         }
 
-        // ========== OFERTA MODAL ==========
-        function renderOfertaModal(diasRestantes, expirada) {
-            const content = document.getElementById('ofertaModalContent');
-            if (expirada) {
-                content.innerHTML = `
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">timer_off</span>
-                        <h3 style="font-size: 20px; font-weight: 700; margin-top: 12px; color: #ef4444;">Oferta Expirada</h3>
-                        <p style="font-size: 13px; color: #9CA3AF; margin-top: 8px;">O desconto de 30% não está mais disponível.</p>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 16px;">
-                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Preço atual (sem desconto)</div>
-                        <div style="font-size: 28px; font-weight: 700;">R$ 297,00</div>
-                    </div>
-                    <a href="/dash/loja" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: rgba(0,255,102,0.1); border: 1px solid rgba(0,255,102,0.3); color: #00FF66; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='rgba(0,255,102,0.2)'" onmouseout="this.style.background='rgba(0,255,102,0.1)'">
-                        Ver planos
-                    </a>
-                `;
-            } else {
-                content.innerHTML = `
-                    <div style="background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center;">
-                        <div style="font-size: 12px; color: #9CA3AF; margin-bottom: 4px;">Seu plano com desconto</div>
-                        <div style="display: flex; align-items: baseline; justify-content: center; gap: 8px;">
-                            <span style="font-size: 16px; color: #6B7280; text-decoration: line-through;">R$ 297,00</span>
-                            <span style="font-size: 32px; font-weight: 700; color: #FFD700;">R$ 207,90</span>
-                        </div>
-                        <div style="font-size: 11px; color: #FFD700; margin-top: 4px;">30% OFF aplicado</div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 16px;">
-                        <span class="material-symbols-outlined" style="color: #FFD700;">schedule</span>
-                        <div>
-                            <div style="font-size: 14px; font-weight: 700;">${diasRestantes} dias restantes</div>
-                            <div style="font-size: 11px; color: #9CA3AF;">para renovar com desconto</div>
-                        </div>
-                    </div>
-                    <a href="/dash/loja" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #FFD700; color: #000; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: 0.2s;" onmouseover="this.style.background='#FBBF24'" onmouseout="this.style.background='#FFD700'">
-                        Renovar agora
-                    </a>
-                `;
-            }
-        }
+        // ========== OFERTA MODAL (removed - HTML elements deleted) ==========
 
         // ========== MAIN LOAD ==========
         let currentLevelIdx = 1; // 0-based index
@@ -865,24 +882,7 @@
             document.getElementById('impactoValor').textContent = 'R$ ' + (gam.total_negociado || 0).toLocaleString('pt-BR');
             document.getElementById('impactoDividas').textContent = (gam.dividas_quitadas || 0) + ' Dívidas';
 
-            // Streak
-            const streakDias = gam.streak_dias || 0;
-            const streakRecorde = gam.streak_recorde || streakDias;
-            document.getElementById('streakDias').textContent = streakDias + ' Dias';
-            document.getElementById('streakRecorde').textContent = streakRecorde;
-            document.getElementById('modalStreakAtual').textContent = streakDias;
-            document.getElementById('modalStreakRecorde').textContent = streakRecorde;
-
-            // Streak fire icon state
-            if (streakDias > 0) {
-                const fireIcon = document.getElementById('streakFireIcon');
-                fireIcon.style.background = 'linear-gradient(135deg, #f97316, #dc2626)';
-                fireIcon.querySelector('.material-symbols-outlined').style.color = '#fff';
-                fireIcon.querySelector('.material-symbols-outlined').classList.add('animate-pulse-slow');
-            }
-
-            // Streak calendar
-            renderStreakCalendar(gam.streak_active_days || []);
+            // Streak (removed - HTML elements deleted)
 
             // Points history modal
             document.getElementById('modalPtsTotal').textContent = (gam.xp_atual || 0) + ' pts';
@@ -910,24 +910,7 @@
             // Render the entire trail dynamically
             renderTrail(currentLevelIdx, progress);
 
-            // Oferta / Countdown
-            const diasRestantes = gam.desconto_expira_em || 0;
-            const totalDias = gam.oferta_total_dias || 30;
-            const ofertaExpirada = diasRestantes <= 0;
-
-            document.getElementById('ofertaDias').textContent = ofertaExpirada ? '0' : diasRestantes;
-            document.getElementById('ofertaBar').style.width = ofertaExpirada ? '0%' : Math.round((diasRestantes / totalDias) * 100) + '%';
-
-            if (ofertaExpirada) {
-                document.getElementById('ofertaTitulo').textContent = 'Oferta Expirada';
-                document.getElementById('ofertaSubtitulo').textContent = 'O desconto não está mais disponível.';
-                document.getElementById('ofertaDiasLabel').textContent = '';
-                document.getElementById('ofertaBtn').textContent = 'Ver planos';
-                document.getElementById('ofertaBtn').style.background = 'rgba(255,255,255,0.1)';
-                document.getElementById('ofertaBtn').style.color = '#fff';
-            }
-
-            renderOfertaModal(diasRestantes, ofertaExpirada);
+            // Oferta / Countdown (removed - HTML elements deleted)
 
             // Reward progress
             const rewardProgress = Math.round(progress * 100);
