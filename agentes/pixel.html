@@ -83,6 +83,17 @@ border-bottom:1px solid rgba(255,255,255,0.03)}
 .metric-val{color:#22C55E}
 .sparkline{height:24px;margin-top:6px}
 
+/* Agent control buttons */
+.agent-controls{display:flex;gap:6px;margin-top:8px}
+.ctrl-btn{flex:1;padding:5px 0;font-family:'Press Start 2P',monospace;font-size:7px;
+border:1px solid var(--glass-b);border-radius:4px;cursor:pointer;
+background:rgba(255,255,255,0.03);color:var(--text-m);transition:all 0.2s;letter-spacing:0.5px}
+.ctrl-btn:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+.ctrl-btn.start{border-color:#22C55E44;color:#22C55E}
+.ctrl-btn.start:hover{background:#22C55E15}
+.ctrl-btn.stop{border-color:#EF444444;color:#EF4444}
+.ctrl-btn.stop:hover{background:#EF444415}
+
 /* Sound toggle */
 .sound-btn{position:absolute;top:12px;right:240px;z-index:20;width:32px;height:32px;
 background:rgba(255,255,255,0.04);border:1px solid var(--glass-b);border-radius:6px;
@@ -828,6 +839,49 @@ function renderFeed() {
   ).join('');
 }
 
+// ===== AGENT-SPECIFIC METRIC ROWS =====
+function getAgentMetricRows(agent, s) {
+  const m = s.metrics;
+  switch (agent.id) {
+    case 'augusto':
+      return `
+      <div class="metric-row"><span>Conversas</span><span class="metric-val">${m.conversations ?? '-'}</span></div>
+      <div class="metric-row"><span>Taxa Conv.</span><span class="metric-val">${m.conversion ?? m.conversionRate ?? '-'}</span></div>
+      <div class="metric-row"><span>Tempo Resp.</span><span class="metric-val">${m.responseTime ?? m.avgResponseTime ?? '-'}</span></div>`;
+    case 'paulo':
+      return `
+      <div class="metric-row"><span>Conversas</span><span class="metric-val">${m.conversations ?? '-'}</span></div>
+      <div class="metric-row"><span>Qualificados</span><span class="metric-val">${m.qualified ?? m.leadsQualified ?? '-'}</span></div>
+      <div class="metric-row"><span>Follow-ups</span><span class="metric-val">${m.followups ?? m.followUps ?? '-'}</span></div>`;
+    case 'ana':
+      return `
+      <div class="metric-row"><span>Ciclos</span><span class="metric-val">${m.cycles ?? m.cyclesRun ?? '-'}</span></div>
+      <div class="metric-row"><span>Problemas</span><span class="metric-val">${m.problems ?? m.issuesFound ?? '-'}</span></div>
+      <div class="metric-row"><span>Correcoes</span><span class="metric-val">${m.corrections ?? m.fixes ?? '-'}</span></div>`;
+    case 'alex':
+      return `
+      <div class="metric-row"><span>Status</span><span class="metric-val">${m.systemStatus ?? m.status ?? 'OK'}</span></div>
+      <div class="metric-row"><span>Erros</span><span class="metric-val">${m.errors ?? m.errorCount ?? '-'}</span></div>
+      <div class="metric-row"><span>Fixes</span><span class="metric-val">${m.fixes ?? m.autoFixes ?? '-'}</span></div>`;
+    case 'igor':
+      return `
+      <div class="metric-row"><span>Verificadas</span><span class="metric-val">${m.verified ?? m.conversationsChecked ?? '-'}</span></div>
+      <div class="metric-row"><span>Problemas</span><span class="metric-val">${m.problems ?? m.issuesFound ?? '-'}</span></div>
+      <div class="metric-row"><span>Correcoes</span><span class="metric-val">${m.corrections ?? m.fixes ?? '-'}</span></div>`;
+    case 'luan':
+      return `
+      <div class="metric-row"><span>Relatorios Hoje</span><span class="metric-val">${m.reportsToday ?? m.reports ?? '-'}</span></div>`;
+    case 'musk':
+      return `
+      <div class="metric-row"><span>Diretivas Hoje</span><span class="metric-val">${m.directivesToday ?? m.directives ?? '-'}</span></div>`;
+    default:
+      return `
+      <div class="metric-row"><span>Conversas</span><span class="metric-val">${m.conversations ?? '-'}</span></div>
+      <div class="metric-row"><span>Resp. Time</span><span class="metric-val">${m.responseTime ?? '-'}</span></div>
+      <div class="metric-row"><span>Conversao</span><span class="metric-val">${m.conversion ?? '-'}</span></div>`;
+  }
+}
+
 // ===== RIGHT PANEL =====
 function buildAgentList() {
   const el = document.getElementById('agent-list');
@@ -844,10 +898,12 @@ function buildAgentList() {
       <div class="agent-status-ind" style="background:${s.state==='sleeping'?'#EF4444':s.state==='alert'?'#F59E0B':'#22C55E'}"></div>
     </div>
     <div class="agent-metrics" ${selectedAgent===a.id?'style="display:block"':''}>
-      <div class="metric-row"><span>Conversas</span><span class="metric-val">${s.metrics.conversations}</span></div>
-      <div class="metric-row"><span>Resp. Time</span><span class="metric-val">${s.metrics.responseTime}</span></div>
-      <div class="metric-row"><span>Conversao</span><span class="metric-val">${s.metrics.conversion}</span></div>
+      ${getAgentMetricRows(a, s)}
       <canvas class="sparkline" data-agent="${a.id}" width="240" height="24"></canvas>
+      <div class="agent-controls">
+        <button class="ctrl-btn start" onclick="controlAgent(event,'${a.id}','start')">START</button>
+        <button class="ctrl-btn stop"  onclick="controlAgent(event,'${a.id}','stop')">STOP</button>
+      </div>
     </div>`;
   }).join('');
 
@@ -879,6 +935,32 @@ function buildAgentList() {
 function selectAgent(id) {
   selectedAgent = selectedAgent === id ? null : id;
   buildAgentList();
+}
+
+function controlAgent(evt, agentId, action) {
+  evt.stopPropagation();
+  const btn = evt.currentTarget;
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '...';
+  fetch(`/api/os/agents/${agentId}/control`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action})
+  })
+  .then(r => r.json())
+  .then(() => {
+    const s = agentStates[agentId];
+    if (s) s.state = action === 'start' ? 'working' : 'sleeping';
+    const agent = AGENTS.find(a => a.id === agentId);
+    const label = action === 'start' ? 'iniciado' : 'parado';
+    if (agent) addRawFeedEvent(null, agent.color, agent.name, label);
+    buildAgentList();
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = origText;
+  });
 }
 
 // ===== SOUND =====
@@ -1003,13 +1085,33 @@ function connectAPI() {
             s.bubbleAlpha = 1;
           }
 
-          // Map metrics (API uses snake_case strings, panel expects object)
+          // Map metrics — normalize all snake_case API keys to camelCase
           if (ad.metrics) {
-            s.metrics = {
-              conversations: ad.metrics.conversations_today  ?? s.metrics.conversations,
-              responseTime:  ad.metrics.avg_response_time    ?? s.metrics.responseTime,
-              conversion:    ad.metrics.conversion_rate      ?? s.metrics.conversion
-            };
+            const m = ad.metrics;
+            // Common fields
+            if (m.conversations_today  != null) s.metrics.conversations      = m.conversations_today;
+            if (m.avg_response_time    != null) s.metrics.responseTime        = m.avg_response_time;
+            if (m.conversion_rate      != null) s.metrics.conversion          = m.conversion_rate;
+            // Augusto
+            if (m.conversion_rate      != null) s.metrics.conversionRate      = m.conversion_rate;
+            // Paulo
+            if (m.leads_qualified      != null) s.metrics.qualified           = m.leads_qualified;
+            if (m.follow_ups           != null) s.metrics.followups            = m.follow_ups;
+            // Ana / Igor
+            if (m.cycles_run           != null) s.metrics.cycles              = m.cycles_run;
+            if (m.issues_found         != null) s.metrics.problems             = m.issues_found;
+            if (m.fixes_applied        != null) s.metrics.corrections          = m.fixes_applied;
+            if (m.conversations_checked!= null) s.metrics.verified            = m.conversations_checked;
+            // Alex
+            if (m.system_status        != null) s.metrics.systemStatus         = m.system_status;
+            if (m.error_count          != null) s.metrics.errors               = m.error_count;
+            if (m.auto_fixes           != null) s.metrics.fixes                = m.auto_fixes;
+            // Luan
+            if (m.reports_today        != null) s.metrics.reportsToday         = m.reports_today;
+            // Musk
+            if (m.directives_today     != null) s.metrics.directivesToday      = m.directives_today;
+            // Also accept camelCase directly (if backend sends camelCase)
+            Object.assign(s.metrics, m);
           }
         });
 
@@ -1031,6 +1133,8 @@ function handleSSEEvent(data) {
   if (!data || !data.type) return;
 
   switch (data.type) {
+
+    // --- Core agent events ---
     case 'agent.activity': {
       const agentId = data.agentId;
       const s = agentStates[agentId];
@@ -1052,11 +1156,133 @@ function handleSSEEvent(data) {
       if (!s) return;
       const prevState = s.state;
       s.state = 'working';
-      // Flash back to previous state after ~1.5s (90 frames)
       s.stateTimer = 90;
       s._nextState = prevState === 'working' ? 'idle' : prevState;
       break;
     }
+
+    // --- Per-agent cycle/status events ---
+    case 'ana.cycle_complete': {
+      const s = agentStates['ana'];
+      if (!s) break;
+      const problems = data.payload && data.payload.problems != null ? data.payload.problems : null;
+      const msg = problems > 0 ? `${problems} problemas detectados` : 'Tudo limpo';
+      s.state = problems > 0 ? 'alert' : 'working';
+      s.currentMsg = msg; s.msgTimer = 180; s.bubbleAlpha = 1;
+      const ana = AGENTS.find(a => a.id === 'ana');
+      if (ana) addFeedEventFromSSE(ana, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+    case 'alex.health_check': {
+      const s = agentStates['alex'];
+      if (!s) break;
+      const errs = data.payload && data.payload.errors != null ? data.payload.errors : null;
+      const ok = !errs || errs === 0;
+      const msg = ok ? 'Sistema OK' : `ALERTA: ${errs} erros`;
+      s.state = ok ? 'working' : 'alert';
+      s.currentMsg = msg; s.msgTimer = 180; s.bubbleAlpha = 1;
+      const alex = AGENTS.find(a => a.id === 'alex');
+      if (alex) addFeedEventFromSSE(alex, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+    case 'igor.cycle_complete': {
+      const s = agentStates['igor'];
+      if (!s) break;
+      const checked = data.payload && data.payload.checked != null ? data.payload.checked : 0;
+      const msg = `${checked} conversas verificadas`;
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const igor = AGENTS.find(a => a.id === 'igor');
+      if (igor) addFeedEventFromSSE(igor, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+    case 'luan.report_generated': {
+      const s = agentStates['luan'];
+      if (!s) break;
+      const msg = 'Relatorio enviado';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const luan = AGENTS.find(a => a.id === 'luan');
+      if (luan) addFeedEventFromSSE(luan, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+    case 'musk.directive': {
+      const s = agentStates['musk'];
+      if (!s) break;
+      const msg = 'Nova diretiva';
+      s.state = 'talking';
+      s.currentMsg = msg; s.msgTimer = 180; s.bubbleAlpha = 1;
+      const musk = AGENTS.find(a => a.id === 'musk');
+      if (musk) addFeedEventFromSSE(musk, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+    case 'paulo.followup_processed': {
+      const s = agentStates['paulo'];
+      if (!s) break;
+      const count = data.payload && data.payload.count != null ? data.payload.count : 0;
+      const msg = `${count} follow-ups`;
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const paulo = AGENTS.find(a => a.id === 'paulo');
+      if (paulo) addFeedEventFromSSE(paulo, msg);
+      if (data.payload && data.payload.metrics) {
+        Object.assign(s.metrics, data.payload.metrics);
+        buildAgentList();
+      }
+      break;
+    }
+
+    // --- Workflow events ---
+    case 'workflow.alert': {
+      const wMsg = (data.payload && data.payload.message) ? data.payload.message : 'Alerta de workflow';
+      addRawFeedEvent(null, '#EF4444', 'WORKFLOW', wMsg);
+      break;
+    }
+    case 'workflow.escalation': {
+      const wMsg = (data.payload && data.payload.message) ? data.payload.message : 'Escalacao de workflow';
+      addRawFeedEvent(null, '#F59E0B', 'WORKFLOW', wMsg);
+      break;
+    }
+    case 'workflow.recovery': {
+      const wMsg = (data.payload && data.payload.message) ? data.payload.message : 'Workflow recuperado';
+      addRawFeedEvent(null, '#22C55E', 'WORKFLOW', wMsg);
+      break;
+    }
+
+    // --- Generic metrics update ---
+    case 'agent.metrics': {
+      const agentId = data.agentId;
+      const s = agentStates[agentId];
+      if (!s || !data.payload) break;
+      Object.assign(s.metrics, data.payload);
+      if (s.sparkline && typeof data.payload.sparkPoint === 'number') {
+        s.sparkline.push(data.payload.sparkPoint);
+        if (s.sparkline.length > 12) s.sparkline.shift();
+      }
+      buildAgentList();
+      break;
+    }
+
     case 'os.boot': {
       addRawFeedEvent(null, '#22C55E', 'Sistema', 'iniciado');
       break;
