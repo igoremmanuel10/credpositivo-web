@@ -13,6 +13,8 @@
 :root{
 --bg:#0F1115;--augusto:#3B82F6;--paulo:#8B5CF6;--ana:#22C55E;
 --luan:#F59E0B;--igor:#06B6D4;--alex:#EF4444;--musk:#EAB308;
+--bia:#EC4899;--carol:#F472B6;--fernando:#14B8A6;
+--vapi:#A855F7;--agenda:#0EA5E9;--coaching:#F97316;
 --glass:rgba(255,255,255,0.03);--glass-b:rgba(255,255,255,0.08);
 --text:#FFFFFF;--text-m:#9CA3AF;--text-d:#6B7280;
 }
@@ -50,10 +52,13 @@ animation:feed-in 0.3s ease-out}
 @keyframes feed-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Right Panel */
-.right-panel{top:50px;right:0;bottom:100px;width:280px;
+.right-panel{top:50px;right:0;bottom:0;width:280px;
 background:rgba(15,17,21,0.9);border-left:1px solid var(--glass-b);
-padding:12px;overflow-y:auto;transition:transform 0.3s ease;scrollbar-width:none}
-.right-panel::-webkit-scrollbar{display:none}
+padding:12px 12px 60px;overflow-y:auto;transition:transform 0.3s ease;scrollbar-width:thin;
+scrollbar-color:rgba(255,255,255,0.1) transparent}
+.right-panel::-webkit-scrollbar{width:4px}
+.right-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.right-panel::-webkit-scrollbar-track{background:transparent}
 .right-panel.collapsed{transform:translateX(280px)}
 .panel-toggle{position:absolute;top:50%;left:-28px;transform:translateY(-50%);
 width:28px;height:48px;background:rgba(15,17,21,0.9);border:1px solid var(--glass-b);
@@ -167,9 +172,21 @@ const AGENTS = [
   {id:'ana',name:'Ana',role:'Monitor',color:'#22C55E',
    room:'main',deskX:0,deskY:0},
   {id:'luan',name:'Luan',role:'Sales Manager',color:'#F59E0B',
-   room:'main',deskX:0,deskY:0},
+   room:'break',deskX:0,deskY:0},
   {id:'alex',name:'Alex',role:'DevOps',color:'#EF4444',
-   room:'server',deskX:0,deskY:0}
+   room:'server',deskX:0,deskY:0},
+  {id:'bia',name:'Bia',role:'Social Media',color:'#EC4899',
+   room:'break',deskX:0,deskY:0},
+  {id:'carol',name:'Carol',role:'Trafego & Ads',color:'#F472B6',
+   room:'main',deskX:0,deskY:0},
+  {id:'fernando',name:'Fernando',role:'Relatorios',color:'#14B8A6',
+   room:'main',deskX:0,deskY:0},
+  {id:'vapi',name:'Vapi',role:'Voz & Ligacoes',color:'#A855F7',
+   room:'server',deskX:0,deskY:0},
+  {id:'agenda',name:'Agenda',role:'Agenda & Reunioes',color:'#0EA5E9',
+   room:'control',deskX:0,deskY:0},
+  {id:'coaching',name:'Coach',role:'Accountability',color:'#F97316',
+   room:'ceo',deskX:0,deskY:0}
 ];
 
 const SKIN_COLORS = ['#F5D0A9','#E8C39E','#D4A574','#C49A6C','#F5C6AA','#E0B896','#DEB887'];
@@ -178,7 +195,7 @@ const SKIN_COLORS = ['#F5D0A9','#E8C39E','#D4A574','#C49A6C','#F5C6AA','#E0B896'
 const canvas = document.getElementById('office-canvas');
 const ctx = canvas.getContext('2d');
 let W, H, SCALE, PIXEL;
-let officeW = 400, officeH = 275;
+let officeW = 440, officeH = 310;
 let offsetX = 0, offsetY = 0;
 let frame = 0, slowFrame = 0, tick = 0;
 let particles = [];
@@ -216,28 +233,42 @@ window.addEventListener('resize', resize);
 // ===== OFFICE LAYOUT =====
 // Rooms defined in virtual coords (officeW x officeH grid)
 const ROOMS = {
-  ceo:    {x:120,y:10,  w:130,h:65, label:'CEO OFFICE'},
-  control:{x:8,  y:85, w:110, h:100, label:'CONTROL ROOM'},
-  main:   {x:126,y:85, w:150,h:100, label:'MAIN OFFICE'},
-  server: {x:284,y:85, w:100, h:100, label:'SERVER ROOM'},
-  break_: {x:8,  y:195,w:80, h:65, label:'BREAK'}
+  ceo:    {x:130,y:10,  w:150,h:70, label:'CEO OFFICE'},
+  control:{x:8,  y:90, w:115,h:110, label:'CONTROL ROOM'},
+  main:   {x:131,y:90, w:185,h:110, label:'MAIN OFFICE'},
+  server: {x:324,y:90, w:108,h:110, label:'SERVER ROOM'},
+  break_: {x:8,  y:210,w:115,h:90, label:'BREAK ROOM'}
 };
 
-const COFFEE_POS = {x:38, y:215};
+const COFFEE_POS = {x:28, y:258};
 
 function assignDesks() {
-  // CEO
-  AGENTS[0].deskX = ROOMS.ceo.x + 65; AGENTS[0].deskY = ROOMS.ceo.y + 33;
-  // Igor - control
-  AGENTS[1].deskX = ROOMS.control.x + 55; AGENTS[1].deskY = ROOMS.control.y + 55;
-  // Main office 4 agents in 2x2
+  const byId = {};
+  AGENTS.forEach(a => { byId[a.id] = a; });
+
+  // CEO room: Musk (center-left) + Coach (center-right)
+  byId['musk'].deskX    = ROOMS.ceo.x + 55;  byId['musk'].deskY    = ROOMS.ceo.y + 35;
+  byId['coaching'].deskX= ROOMS.ceo.x + 100; byId['coaching'].deskY= ROOMS.ceo.y + 35;
+
+  // Control room: Igor (upper) + Agenda (lower)
+  byId['igor'].deskX    = ROOMS.control.x + 57; byId['igor'].deskY    = ROOMS.control.y + 38;
+  byId['agenda'].deskX  = ROOMS.control.x + 57; byId['agenda'].deskY  = ROOMS.control.y + 78;
+
+  // Main office: 5 agents in a 3-top / 2-bottom arrangement
   const mx = ROOMS.main.x, my = ROOMS.main.y;
-  AGENTS[2].deskX = mx + 35; AGENTS[2].deskY = my + 30;
-  AGENTS[3].deskX = mx + 100; AGENTS[3].deskY = my + 30;
-  AGENTS[4].deskX = mx + 35; AGENTS[4].deskY = my + 70;
-  AGENTS[5].deskX = mx + 100; AGENTS[5].deskY = my + 70;
-  // Alex - server
-  AGENTS[6].deskX = ROOMS.server.x + 50; AGENTS[6].deskY = ROOMS.server.y + 65;
+  byId['augusto'].deskX = mx + 30;  byId['augusto'].deskY = my + 32;
+  byId['paulo'].deskX   = mx + 90;  byId['paulo'].deskY   = my + 32;
+  byId['ana'].deskX     = mx + 150; byId['ana'].deskY     = my + 32;
+  byId['carol'].deskX   = mx + 50;  byId['carol'].deskY   = my + 78;
+  byId['fernando'].deskX= mx + 120; byId['fernando'].deskY= my + 78;
+
+  // Server room: Alex (upper) + Vapi (lower)
+  byId['alex'].deskX    = ROOMS.server.x + 54; byId['alex'].deskY    = ROOMS.server.y + 38;
+  byId['vapi'].deskX    = ROOMS.server.x + 54; byId['vapi'].deskY    = ROOMS.server.y + 78;
+
+  // Break room: Luan (left) + Bia (right)
+  byId['luan'].deskX    = ROOMS.break_.x + 30; byId['luan'].deskY    = ROOMS.break_.y + 45;
+  byId['bia'].deskX     = ROOMS.break_.x + 78; byId['bia'].deskY     = ROOMS.break_.y + 45;
 
   AGENTS.forEach(a => {
     const s = agentStates[a.id];
@@ -313,14 +344,14 @@ function drawRooms() {
 
 function drawDoors() {
   ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  // CEO door
-  px(ROOMS.ceo.x + 50, ROOMS.ceo.y + ROOMS.ceo.h - 1, 25, 2);
-  // Control door
-  px(ROOMS.control.x + ROOMS.control.w - 1, ROOMS.control.y + 38, 2, 20);
-  // Server door
-  px(ROOMS.server.x, ROOMS.server.y + 38, 2, 20);
-  // Break door
-  px(ROOMS.break_.x + ROOMS.break_.w - 1, ROOMS.break_.y + 18, 2, 20);
+  // CEO door (bottom wall)
+  px(ROOMS.ceo.x + 60, ROOMS.ceo.y + ROOMS.ceo.h - 1, 25, 2);
+  // Control door (right wall, connects to main office)
+  px(ROOMS.control.x + ROOMS.control.w - 1, ROOMS.control.y + 45, 2, 22);
+  // Server door (left wall, connects to main office)
+  px(ROOMS.server.x, ROOMS.server.y + 45, 2, 22);
+  // Break room door (top wall)
+  px(ROOMS.break_.x + 40, ROOMS.break_.y, 22, 2);
 }
 
 function drawDesk(x, y, hasMonitor) {
@@ -433,71 +464,83 @@ function drawClock(x, y) {
 }
 
 function drawFurniture() {
-  // CEO desk (large)
-  const c = AGENTS[0];
+  const byId = {};
+  AGENTS.forEach(a => { byId[a.id] = a; });
+
+  // --- CEO OFFICE ---
+  // Musk - large CEO desk
+  const c = byId['musk'];
   ctx.fillStyle = '#4A3728';
   px(c.deskX-12, c.deskY-3, 24, 10);
   ctx.fillStyle = '#3D2B1F';
   px(c.deskX-12, c.deskY+6, 24, 2);
-  // CEO monitors (2)
   ctx.fillStyle = '#1a1a2e';
   px(c.deskX-8, c.deskY-7, 7, 5);
   px(c.deskX+1, c.deskY-7, 7, 5);
   ctx.fillStyle = '#EAB30830';
   px(c.deskX-7, c.deskY-6, 5, 3);
   px(c.deskX+2, c.deskY-6, 5, 3);
-  // CEO chair
   ctx.fillStyle = '#1a1a1a';
   px(c.deskX-4, c.deskY+9, 8, 5);
   ctx.fillStyle = '#2a2a2a';
   px(c.deskX-3, c.deskY+8, 6, 1);
-  // CEO nameplate
   ctx.fillStyle = '#EAB30850';
   px(c.deskX-6, c.deskY+4, 12, 2);
 
-  // Igor control room - multiple screens
-  const ig = AGENTS[1];
+  // Coach - standard desk in CEO room
+  drawDesk(byId['coaching'].deskX, byId['coaching'].deskY, true);
+
+  // --- CONTROL ROOM ---
+  // Igor - desk + big screen wall
+  const ig = byId['igor'];
   drawDesk(ig.deskX, ig.deskY, false);
-  // Big screen wall
   for (let i = 0; i < 3; i++) {
     ctx.fillStyle = '#1a1a2e';
-    px(ROOMS.control.x + 10 + i*30, ROOMS.control.y + 10, 24, 15);
-    // Screen content
+    px(ROOMS.control.x + 8 + i*34, ROOMS.control.y + 8, 28, 16);
     const colors = ['#06B6D4','#22C55E','#3B82F6'];
     ctx.fillStyle = colors[i] + '30';
-    px(ROOMS.control.x + 12 + i*30, ROOMS.control.y + 12, 20, 11);
-    // Data lines
+    px(ROOMS.control.x + 10 + i*34, ROOMS.control.y + 10, 24, 12);
     for (let j = 0; j < 4; j++) {
       ctx.fillStyle = colors[i] + '50';
       const lw = 5 + Math.floor(Math.random()*10);
-      px(ROOMS.control.x + 14 + i*30, ROOMS.control.y + 14 + j*3, lw, 1);
+      px(ROOMS.control.x + 12 + i*34, ROOMS.control.y + 12 + j*3, lw, 1);
     }
   }
+  // Agenda - standard desk below Igor
+  drawDesk(byId['agenda'].deskX, byId['agenda'].deskY, true);
 
-  // Main office desks
-  for (let i = 2; i <= 5; i++) drawDesk(AGENTS[i].deskX, AGENTS[i].deskY, true);
+  // --- MAIN OFFICE (5 agents) ---
+  drawDesk(byId['augusto'].deskX, byId['augusto'].deskY, true);
+  drawDesk(byId['paulo'].deskX,   byId['paulo'].deskY,   true);
+  drawDesk(byId['ana'].deskX,     byId['ana'].deskY,     true);
+  drawDesk(byId['carol'].deskX,   byId['carol'].deskY,   true);
+  drawDesk(byId['fernando'].deskX,byId['fernando'].deskY,true);
 
-  // Server room racks
-  drawServerRack(ROOMS.server.x + 10, ROOMS.server.y + 10);
-  drawServerRack(ROOMS.server.x + 25, ROOMS.server.y + 10);
-  drawServerRack(ROOMS.server.x + 65, ROOMS.server.y + 10);
-  drawServerRack(ROOMS.server.x + 10, ROOMS.server.y + 40);
-  drawServerRack(ROOMS.server.x + 65, ROOMS.server.y + 40);
-  // Alex desk
-  drawDesk(AGENTS[6].deskX, AGENTS[6].deskY, true);
+  // --- SERVER ROOM ---
+  drawServerRack(ROOMS.server.x + 8,  ROOMS.server.y + 8);
+  drawServerRack(ROOMS.server.x + 22, ROOMS.server.y + 8);
+  drawServerRack(ROOMS.server.x + 74, ROOMS.server.y + 8);
+  drawServerRack(ROOMS.server.x + 8,  ROOMS.server.y + 40);
+  drawServerRack(ROOMS.server.x + 74, ROOMS.server.y + 40);
+  drawDesk(byId['alex'].deskX, byId['alex'].deskY, true);
+  drawDesk(byId['vapi'].deskX, byId['vapi'].deskY, true);
 
-  // Break area
+  // --- BREAK ROOM ---
   drawCoffeeMachine(COFFEE_POS.x, COFFEE_POS.y);
+  // Luan and Bia have desks in break room
+  drawDesk(byId['luan'].deskX, byId['luan'].deskY, true);
+  drawDesk(byId['bia'].deskX,  byId['bia'].deskY,  true);
 
-  // Plants
-  drawPlant(ROOMS.main.x + 6, ROOMS.main.y + 6);
-  drawPlant(ROOMS.main.x + 138, ROOMS.main.y + 6);
-  drawPlant(ROOMS.ceo.x + 6, ROOMS.ceo.y + 6);
-  drawPlant(ROOMS.ceo.x + 115, ROOMS.ceo.y + 6);
+  // --- PLANTS ---
+  drawPlant(ROOMS.main.x + 6,   ROOMS.main.y + 6);
+  drawPlant(ROOMS.main.x + 170, ROOMS.main.y + 6);
+  drawPlant(ROOMS.ceo.x + 6,    ROOMS.ceo.y + 6);
+  drawPlant(ROOMS.ceo.x + 133,  ROOMS.ceo.y + 6);
+  drawPlant(ROOMS.break_.x + 90, ROOMS.break_.y + 6);
 
-  // Clocks
-  drawClock(ROOMS.main.x + 70, ROOMS.main.y + 3);
-  drawClock(ROOMS.ceo.x + 60, ROOMS.ceo.y + 3);
+  // --- CLOCKS ---
+  drawClock(ROOMS.main.x + 82, ROOMS.main.y + 3);
+  drawClock(ROOMS.ceo.x + 68,  ROOMS.ceo.y + 3);
 }
 
 // ===== DRAW AGENTS =====
@@ -822,6 +865,28 @@ function getAgentMetricRows(agent, s) {
     case 'musk':
       return `
       <div class="metric-row"><span>Diretivas Hoje</span><span class="metric-val">${m.directivesToday ?? m.directives ?? '-'}</span></div>`;
+    case 'bia':
+      return `
+      <div class="metric-row"><span>Posts Hoje</span><span class="metric-val">${m.postsToday ?? m.posts ?? '-'}</span></div>
+      <div class="metric-row"><span>Engajamento</span><span class="metric-val">${m.engagement ?? '-'}</span></div>`;
+    case 'carol':
+      return `
+      <div class="metric-row"><span>Campanhas</span><span class="metric-val">${m.campaigns ?? '-'}</span></div>
+      <div class="metric-row"><span>Gasto</span><span class="metric-val">${m.spend ?? '-'}</span></div>
+      <div class="metric-row"><span>CPL</span><span class="metric-val">${m.cpl ?? '-'}</span></div>`;
+    case 'fernando':
+      return `
+      <div class="metric-row"><span>Relatorios Hoje</span><span class="metric-val">${m.reportsToday ?? m.reports ?? '-'}</span></div>`;
+    case 'vapi':
+      return `
+      <div class="metric-row"><span>Ligacoes Hoje</span><span class="metric-val">${m.callsToday ?? m.calls ?? '-'}</span></div>`;
+    case 'agenda':
+      return `
+      <div class="metric-row"><span>Eventos Hoje</span><span class="metric-val">${m.eventsToday ?? m.events ?? '-'}</span></div>
+      <div class="metric-row"><span>Lembretes</span><span class="metric-val">${m.reminders ?? '-'}</span></div>`;
+    case 'coaching':
+      return `
+      <div class="metric-row"><span>Check-ins Hoje</span><span class="metric-val">${m.checkinsToday ?? m.checkins ?? '-'}</span></div>`;
     default:
       return `
       <div class="metric-row"><span>Conversas</span><span class="metric-val">${m.conversations ?? '-'}</span></div>
@@ -1063,6 +1128,22 @@ function connectAPI() {
             if (m.reports_today        != null) s.metrics.reportsToday         = m.reports_today;
             // Musk
             if (m.directives_today     != null) s.metrics.directivesToday      = m.directives_today;
+            // Bia
+            if (m.posts_today          != null) s.metrics.postsToday           = m.posts_today;
+            if (m.engagement           != null) s.metrics.engagement            = m.engagement;
+            // Carol
+            if (m.campaigns            != null) s.metrics.campaigns             = m.campaigns;
+            if (m.spend                != null) s.metrics.spend                 = m.spend;
+            if (m.cpl                  != null) s.metrics.cpl                   = m.cpl;
+            // Fernando
+            if (m.reports_today        != null) s.metrics.reportsToday         = m.reports_today;
+            // Vapi
+            if (m.calls_today          != null) s.metrics.callsToday            = m.calls_today;
+            // Agenda
+            if (m.events_today         != null) s.metrics.eventsToday           = m.events_today;
+            if (m.reminders            != null) s.metrics.reminders              = m.reminders;
+            // Coach
+            if (m.checkins_today       != null) s.metrics.checkinsToday         = m.checkins_today;
             // Also accept camelCase directly (if backend sends camelCase)
             Object.assign(s.metrics, m);
           }
@@ -1202,6 +1283,96 @@ function handleSSEEvent(data) {
         Object.assign(s.metrics, data.payload.metrics);
         buildAgentList();
       }
+      break;
+    }
+
+    // --- New agent events ---
+    case 'bia.content_generated': {
+      const s = agentStates['bia'];
+      if (!s) break;
+      const msg = 'Conteudo criado';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const bia = AGENTS.find(a => a.id === 'bia');
+      if (bia) addFeedEventFromSSE(bia, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'bia.post_published': {
+      const s = agentStates['bia'];
+      if (!s) break;
+      const msg = 'Post publicado!';
+      s.state = 'talking';
+      s.currentMsg = msg; s.msgTimer = 180; s.bubbleAlpha = 1;
+      const bia = AGENTS.find(a => a.id === 'bia');
+      if (bia) addFeedEventFromSSE(bia, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'carol.ads_check': {
+      const s = agentStates['carol'];
+      if (!s) break;
+      const msg = 'Campanhas verificadas';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const carol = AGENTS.find(a => a.id === 'carol');
+      if (carol) addFeedEventFromSSE(carol, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'fernando.report_sent': {
+      const s = agentStates['fernando'];
+      if (!s) break;
+      const msg = 'Relatorio enviado';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const fernando = AGENTS.find(a => a.id === 'fernando');
+      if (fernando) addFeedEventFromSSE(fernando, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'vapi.call_scheduled': {
+      const s = agentStates['vapi'];
+      if (!s) break;
+      const msg = 'Ligacao agendada';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const vapi = AGENTS.find(a => a.id === 'vapi');
+      if (vapi) addFeedEventFromSSE(vapi, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'agenda.reminder_sent': {
+      const s = agentStates['agenda'];
+      if (!s) break;
+      const msg = 'Lembrete enviado';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const agendaAgent = AGENTS.find(a => a.id === 'agenda');
+      if (agendaAgent) addFeedEventFromSSE(agendaAgent, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'agenda.daily_agenda': {
+      const s = agentStates['agenda'];
+      if (!s) break;
+      const msg = 'Agenda do dia';
+      s.state = 'talking';
+      s.currentMsg = msg; s.msgTimer = 180; s.bubbleAlpha = 1;
+      const agendaAgent = AGENTS.find(a => a.id === 'agenda');
+      if (agendaAgent) addFeedEventFromSSE(agendaAgent, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
+      break;
+    }
+    case 'coaching.checkin_sent': {
+      const s = agentStates['coaching'];
+      if (!s) break;
+      const msg = 'Check-in enviado';
+      s.state = 'working';
+      s.currentMsg = msg; s.msgTimer = 150; s.bubbleAlpha = 1;
+      const coaching = AGENTS.find(a => a.id === 'coaching');
+      if (coaching) addFeedEventFromSSE(coaching, msg);
+      if (data.payload && data.payload.metrics) { Object.assign(s.metrics, data.payload.metrics); buildAgentList(); }
       break;
     }
 
