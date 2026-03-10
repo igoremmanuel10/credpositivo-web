@@ -172,7 +172,6 @@
             <ul>
                 <li><a href="/dash/" class="nav-link active"><i class="ph ph-squares-four"></i> Visão Geral</a></li>
                 <li><a href="/dash/servicos" class="nav-link"><i class="ph ph-file-text"></i> Meus Serviços</a></li>
-                <li><a href="/dash/financeiro" class="nav-link"><i class="ph ph-wallet"></i> Financeiro</a></li>
                 <li><a href="/dash/loja" class="nav-link"><i class="ph ph-storefront"></i> Loja</a></li>
             </ul>
 
@@ -215,70 +214,6 @@
                 </div>
             </div>
         </header>
-
-        <!-- Bloco Status do Usuário - Gamificação -->
-        <a href="/dash/jornada/" id="userStatusBlock" class="glass-card" style="display: block; padding: 20px 24px; margin-bottom: 20px; border-color: rgba(59,130,246,0.15); text-decoration: none; color: #fff; transition: 0.2s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.3)'" onmouseout="this.style.borderColor='rgba(59,130,246,0.15)'">
-            <!-- Top row: Stats -->
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
-                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-                    <!-- Nível -->
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 38px; height: 38px; background: rgba(59,130,246,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: 20px;">
-                            <i class="ph ph-trophy"></i>
-                        </div>
-                        <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Nível</div>
-                            <div id="userNivel" style="font-size: 14px; font-weight: 700; color: var(--color-primary);">Iniciante</div>
-                        </div>
-                    </div>
-
-                    <!-- CP (Pontos) -->
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 38px; height: 38px; background: rgba(34,197,94,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-success); font-size: 20px;">
-                            <i class="ph ph-lightning"></i>
-                        </div>
-                        <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">CP</div>
-                            <div style="display: flex; align-items: baseline; gap: 4px;">
-                                <span id="userCpAtual" style="font-size: 14px; font-weight: 700; color: #fff;">0</span>
-                                <span style="font-size: 11px; color: var(--color-text-muted);">/ <span id="userCpMax">500</span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Rating -->
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 38px; height: 38px; background: rgba(245,158,11,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--color-warning); font-size: 20px;">
-                            <i class="ph ph-star"></i>
-                        </div>
-                        <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Rating</div>
-                            <div id="userRating" style="font-size: 14px; font-weight: 700; color: #fff;">--</div>
-                        </div>
-                    </div>
-
-                    <!-- Desconto Ativo -->
-                    <div id="descontoAtivoWrapper" style="display: none; align-items: center; gap: 10px;">
-                        <div style="width: 38px; height: 38px; background: rgba(168,85,247,0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #a855f7; font-size: 20px;">
-                            <i class="ph ph-tag"></i>
-                        </div>
-                        <div>
-                            <div style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Desconto</div>
-                            <div id="userDesconto" style="font-size: 14px; font-weight: 700; color: #a855f7;">0% OFF</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--color-primary);">
-                    Ver Jornada <i class="ph ph-arrow-right"></i>
-                </div>
-            </div>
-
-            <!-- Mini Trail Visual -->
-            <div id="miniTrail" style="display: flex; align-items: center; gap: 0; width: 100%;">
-                <!-- Populated by JS -->
-            </div>
-        </a>
 
         <div class="grid-dash">
 
@@ -325,14 +260,6 @@
                             <i class="ph ph-file-text"
                                 style="font-size: 24px; color: var(--color-primary); display: block; margin-bottom: 8px;"></i>
                             <span style="font-size: 12px;">Meus Serviços</span>
-                        </a>
-                        <a href="/dash/financeiro"
-                            style="background: var(--color-glass-card); border: 1px solid var(--color-border-glass); border-radius: 16px; padding: 20px; text-align: center; text-decoration: none; color: #fff; transition: 0.2s;"
-                            onmouseover="this.style.borderColor='rgba(34,197,94,0.3)'"
-                            onmouseout="this.style.borderColor='var(--color-border-glass)'">
-                            <i class="ph ph-wallet"
-                                style="font-size: 24px; color: var(--color-primary); display: block; margin-bottom: 8px;"></i>
-                            <span style="font-size: 12px;">Painel Financeiro</span>
                         </a>
                         <a href="/dash/configuracoes"
                             style="background: var(--color-glass-card); border: 1px solid var(--color-border-glass); border-radius: 16px; padding: 20px; text-align: center; text-decoration: none; color: #fff; transition: 0.2s;"
