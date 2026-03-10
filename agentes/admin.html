@@ -1360,7 +1360,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const data = await fetch(API_BASE + '/api/admin/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email, password}),
+      body: JSON.stringify({email, senha: password}),
     }).then(r => r.json());
     if (!data.token) throw new Error(data.message || 'Login falhou');
     authToken = data.token;
