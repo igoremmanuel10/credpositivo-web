@@ -1,0 +1,787 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CredPositivo Design System v1.0
+   ═══════════════════════════════════════════════════════════════════════════
+   Two themes:
+     1. [default] Public — neon green glassmorphism (index, cadastro, login)
+     2. [data-theme="dashboard"] Dashboard — blue primary, Outfit font
+
+   Usage:
+     <link rel="stylesheet" href="/v2-assets/styles/design-system.css">
+     <body>                              → public theme
+     <body data-theme="dashboard">       → dashboard theme
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Design Tokens ──────────────────────────────────────────────────── */
+
+:root {
+  /* ─ Colors: Public Theme (neon green) ─ */
+  --ds-bg:              #0A0A0A;
+  --ds-bg-elevated:     #111111;
+  --ds-bg-glass:        rgba(20, 20, 20, 0.4);
+  --ds-bg-glass-hover:  rgba(20, 20, 20, 0.6);
+  --ds-border:          rgba(255, 255, 255, 0.08);
+  --ds-border-hover:    rgba(255, 255, 255, 0.15);
+
+  --ds-primary:         #00FF66;
+  --ds-primary-dark:    #00CC52;
+  --ds-primary-dim:     rgba(0, 255, 102, 0.15);
+  --ds-primary-glow:    rgba(0, 255, 102, 0.3);
+  --ds-accent:          #00F0FF;
+  --ds-accent-dim:      rgba(0, 240, 255, 0.15);
+
+  --ds-text:            #FFFFFF;
+  --ds-text-secondary:  #9CA3AF;
+  --ds-text-muted:      #6B7280;
+  --ds-text-inverse:    #000000;
+
+  --ds-success:         #22C55E;
+  --ds-warning:         #F59E0B;
+  --ds-danger:          #EF4444;
+  --ds-info:            #3B82F6;
+
+  /* Track colors (score gauge) */
+  --ds-track-red:       #FF3B30;
+  --ds-track-yellow:    #FFCC00;
+  --ds-track-blue:      #007AFF;
+
+  /* ─ Typography ─ */
+  --ds-font-display:    'Space Grotesk', sans-serif;
+  --ds-font-body:       'Inter', 'Outfit', sans-serif;
+  --ds-font-mono:       'JetBrains Mono', 'Fira Code', monospace;
+
+  --ds-text-xs:         0.75rem;    /* 12px */
+  --ds-text-sm:         0.875rem;   /* 14px */
+  --ds-text-base:       1rem;       /* 16px */
+  --ds-text-lg:         1.125rem;   /* 18px */
+  --ds-text-xl:         1.25rem;    /* 20px */
+  --ds-text-2xl:        1.5rem;     /* 24px */
+  --ds-text-3xl:        1.875rem;   /* 30px */
+  --ds-text-4xl:        2.25rem;    /* 36px */
+  --ds-text-5xl:        3rem;       /* 48px */
+
+  --ds-leading-tight:   1.25;
+  --ds-leading-normal:  1.5;
+  --ds-leading-relaxed: 1.625;
+
+  /* ─ Spacing (4px base) ─ */
+  --ds-space-1:   4px;
+  --ds-space-2:   8px;
+  --ds-space-3:   12px;
+  --ds-space-4:   16px;
+  --ds-space-5:   20px;
+  --ds-space-6:   24px;
+  --ds-space-8:   32px;
+  --ds-space-10:  40px;
+  --ds-space-12:  48px;
+  --ds-space-16:  64px;
+
+  /* ─ Border Radius ─ */
+  --ds-radius-sm:    8px;
+  --ds-radius-md:    12px;
+  --ds-radius-lg:    16px;
+  --ds-radius-xl:    20px;
+  --ds-radius-2xl:   24px;
+  --ds-radius-full:  9999px;
+
+  /* ─ Shadows ─ */
+  --ds-shadow-sm:    0 2px 8px rgba(0, 0, 0, 0.3);
+  --ds-shadow-md:    0 4px 16px rgba(0, 0, 0, 0.4);
+  --ds-shadow-lg:    0 8px 32px rgba(0, 0, 0, 0.5);
+  --ds-shadow-xl:    0 12px 48px rgba(0, 0, 0, 0.6);
+  --ds-shadow-glow:  0 0 20px var(--ds-primary-glow);
+
+  /* ─ Effects ─ */
+  --ds-blur:           12px;
+  --ds-blur-heavy:     20px;
+  --ds-transition:     0.3s ease;
+  --ds-transition-fast: 0.15s ease;
+
+  /* ─ Layout ─ */
+  --ds-max-width:     1200px;
+  --ds-sidebar-width: 260px;
+  --ds-header-height: 70px;
+
+  /* ─ Z-Index Scale ─ */
+  --ds-z-base:    1;
+  --ds-z-card:    10;
+  --ds-z-sticky:  50;
+  --ds-z-sidebar: 100;
+  --ds-z-modal:   200;
+  --ds-z-toast:   300;
+}
+
+/* ── 2. Dashboard Theme Override ───────────────────────────────────────── */
+
+[data-theme="dashboard"] {
+  --ds-bg:              #0F1115;
+  --ds-bg-elevated:     rgba(255, 255, 255, 0.02);
+  --ds-bg-glass:        rgba(255, 255, 255, 0.03);
+  --ds-bg-glass-hover:  rgba(255, 255, 255, 0.05);
+
+  --ds-primary:         #3B82F6;
+  --ds-primary-dark:    #2563EB;
+  --ds-primary-dim:     rgba(59, 130, 246, 0.15);
+  --ds-primary-glow:    rgba(59, 130, 246, 0.5);
+  --ds-accent:          #22C55E;
+  --ds-accent-dim:      rgba(34, 197, 94, 0.15);
+
+  --ds-font-display:    'Outfit', sans-serif;
+  --ds-font-body:       'Outfit', sans-serif;
+}
+
+/* ── 3. Base Reset ─────────────────────────────────────────────────────── */
+
+.ds-reset,
+.ds-reset *,
+.ds-reset *::before,
+.ds-reset *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── 4. Component: Buttons ─────────────────────────────────────────────── */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  padding: var(--ds-space-3) var(--ds-space-6);
+  border: none;
+  border-radius: var(--ds-radius-md);
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--ds-transition);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.ds-btn:active {
+  transform: scale(0.97);
+}
+
+/* Primary */
+.ds-btn-primary {
+  background: var(--ds-primary);
+  color: var(--ds-text-inverse);
+  box-shadow: var(--ds-shadow-glow);
+}
+.ds-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px var(--ds-primary-glow);
+}
+
+/* Secondary (ghost) */
+.ds-btn-secondary {
+  background: transparent;
+  color: var(--ds-text);
+  border: 1px solid var(--ds-border);
+}
+.ds-btn-secondary:hover {
+  background: var(--ds-bg-glass);
+  border-color: var(--ds-border-hover);
+}
+
+/* Danger */
+.ds-btn-danger {
+  background: var(--ds-danger);
+  color: #fff;
+}
+.ds-btn-danger:hover {
+  background: #DC2626;
+  transform: translateY(-2px);
+}
+
+/* Sizes */
+.ds-btn-sm {
+  padding: var(--ds-space-2) var(--ds-space-4);
+  font-size: var(--ds-text-xs);
+}
+.ds-btn-lg {
+  padding: var(--ds-space-4) var(--ds-space-8);
+  font-size: var(--ds-text-base);
+}
+.ds-btn-block {
+  width: 100%;
+}
+
+/* Icon-only */
+.ds-btn-icon {
+  padding: var(--ds-space-3);
+  border-radius: var(--ds-radius-md);
+}
+
+/* ── 5. Component: Cards ───────────────────────────────────────────────── */
+
+.ds-card {
+  background: var(--ds-bg-glass);
+  backdrop-filter: blur(var(--ds-blur));
+  -webkit-backdrop-filter: blur(var(--ds-blur));
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-xl);
+  padding: var(--ds-space-6);
+  box-shadow: var(--ds-shadow-lg);
+  transition: transform var(--ds-transition), border-color var(--ds-transition);
+}
+
+.ds-card-interactive:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--ds-shadow-xl);
+}
+
+.ds-card-compact {
+  padding: var(--ds-space-4);
+  border-radius: var(--ds-radius-lg);
+}
+
+.ds-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ds-space-4);
+}
+
+.ds-card-title {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-lg);
+  font-weight: 700;
+  color: var(--ds-text);
+}
+
+/* ── 6. Component: Inputs ──────────────────────────────────────────────── */
+
+.ds-input,
+.ds-select,
+.ds-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--ds-border);
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border-radius: var(--ds-radius-md);
+  color: var(--ds-text);
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-text-sm);
+  outline: none;
+  transition: border-color var(--ds-transition-fast), box-shadow var(--ds-transition-fast);
+  height: 48px;
+}
+
+.ds-textarea {
+  height: auto;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.ds-input:focus,
+.ds-select:focus,
+.ds-textarea:focus {
+  border-color: var(--ds-primary);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 3px var(--ds-primary-dim);
+}
+
+.ds-input::placeholder {
+  color: var(--ds-text-muted);
+}
+
+.ds-label {
+  display: block;
+  margin-bottom: var(--ds-space-2);
+  font-size: var(--ds-text-sm);
+  color: var(--ds-text-secondary);
+  font-weight: 500;
+}
+
+.ds-form-group {
+  margin-bottom: var(--ds-space-4);
+}
+
+/* ── 7. Component: Badges ──────────────────────────────────────────────── */
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  padding: 4px 10px;
+  border-radius: var(--ds-radius-full);
+  font-size: var(--ds-text-xs);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ds-badge-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--ds-success);
+}
+.ds-badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--ds-warning);
+}
+.ds-badge-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--ds-danger);
+}
+.ds-badge-info {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--ds-info);
+}
+.ds-badge-neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ds-text-secondary);
+}
+
+/* Dot indicator */
+.ds-badge-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── 8. Component: Modal / Dialog ──────────────────────────────────────── */
+
+.ds-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--ds-z-modal);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ds-transition);
+}
+
+.ds-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ds-modal {
+  background: var(--ds-bg);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-xl);
+  padding: var(--ds-space-8);
+  max-width: 520px;
+  width: 90%;
+  box-shadow: var(--ds-shadow-xl);
+  transform: translateY(20px);
+  transition: transform var(--ds-transition);
+}
+
+.ds-modal-overlay.active .ds-modal {
+  transform: translateY(0);
+}
+
+.ds-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ds-space-6);
+}
+
+.ds-modal-title {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-xl);
+  font-weight: 700;
+}
+
+.ds-modal-close {
+  background: none;
+  border: none;
+  color: var(--ds-text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.ds-modal-footer {
+  display: flex;
+  gap: var(--ds-space-3);
+  justify-content: flex-end;
+  margin-top: var(--ds-space-6);
+}
+
+/* ── 9. Component: Toast ───────────────────────────────────────────────── */
+
+.ds-toast-container {
+  position: fixed;
+  top: var(--ds-space-6);
+  right: var(--ds-space-6);
+  z-index: var(--ds-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+}
+
+.ds-toast {
+  background: var(--ds-bg-elevated);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-md);
+  padding: var(--ds-space-4) var(--ds-space-5);
+  min-width: 280px;
+  max-width: 400px;
+  box-shadow: var(--ds-shadow-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-space-3);
+  animation: ds-toast-in 0.3s ease forwards;
+}
+
+.ds-toast-success { border-left: 3px solid var(--ds-success); }
+.ds-toast-error   { border-left: 3px solid var(--ds-danger); }
+.ds-toast-warning { border-left: 3px solid var(--ds-warning); }
+.ds-toast-info    { border-left: 3px solid var(--ds-info); }
+
+@keyframes ds-toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ds-toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(20px); }
+}
+
+/* ── 10. Component: Table ──────────────────────────────────────────────── */
+
+.ds-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ds-table th {
+  text-align: left;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  font-size: var(--ds-text-xs);
+  font-weight: 600;
+  color: var(--ds-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.ds-table td {
+  padding: var(--ds-space-3) var(--ds-space-4);
+  font-size: var(--ds-text-sm);
+  color: var(--ds-text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ds-table tr:hover td {
+  background: var(--ds-bg-glass);
+}
+
+/* ── 11. Component: Stat Card ──────────────────────────────────────────── */
+
+.ds-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-1);
+}
+
+.ds-stat-value {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-3xl);
+  font-weight: 700;
+  color: var(--ds-text);
+  line-height: 1;
+}
+
+.ds-stat-label {
+  font-size: var(--ds-text-sm);
+  color: var(--ds-text-secondary);
+}
+
+.ds-stat-change {
+  font-size: var(--ds-text-xs);
+  font-weight: 600;
+}
+
+.ds-stat-change-up   { color: var(--ds-success); }
+.ds-stat-change-down { color: var(--ds-danger); }
+
+/* ── 12. Component: Avatar ─────────────────────────────────────────────── */
+
+.ds-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ds-radius-full);
+  background: var(--ds-primary-dim);
+  color: var(--ds-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--ds-text-sm);
+  flex-shrink: 0;
+}
+
+.ds-avatar-sm { width: 32px; height: 32px; font-size: var(--ds-text-xs); }
+.ds-avatar-lg { width: 56px; height: 56px; font-size: var(--ds-text-lg); }
+
+/* ── 13. Component: Progress Bar ───────────────────────────────────────── */
+
+.ds-progress {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--ds-radius-full);
+  overflow: hidden;
+}
+
+.ds-progress-bar {
+  height: 100%;
+  background: var(--ds-primary);
+  border-radius: var(--ds-radius-full);
+  transition: width 0.5s ease;
+}
+
+.ds-progress-bar-success { background: var(--ds-success); }
+.ds-progress-bar-warning { background: var(--ds-warning); }
+.ds-progress-bar-danger  { background: var(--ds-danger); }
+
+/* ── 14. Component: Tabs ───────────────────────────────────────────────── */
+
+.ds-tabs {
+  display: flex;
+  gap: var(--ds-space-1);
+  border-bottom: 1px solid var(--ds-border);
+  margin-bottom: var(--ds-space-6);
+}
+
+.ds-tab {
+  padding: var(--ds-space-3) var(--ds-space-5);
+  background: none;
+  border: none;
+  color: var(--ds-text-muted);
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--ds-transition-fast);
+  margin-bottom: -1px;
+}
+
+.ds-tab:hover {
+  color: var(--ds-text-secondary);
+}
+
+.ds-tab.active {
+  color: var(--ds-primary);
+  border-bottom-color: var(--ds-primary);
+}
+
+/* ── 15. Component: Empty State ────────────────────────────────────────── */
+
+.ds-empty {
+  text-align: center;
+  padding: var(--ds-space-12) var(--ds-space-6);
+  color: var(--ds-text-muted);
+}
+
+.ds-empty-icon {
+  font-size: 48px;
+  margin-bottom: var(--ds-space-4);
+  opacity: 0.5;
+}
+
+.ds-empty-title {
+  font-size: var(--ds-text-lg);
+  font-weight: 600;
+  color: var(--ds-text-secondary);
+  margin-bottom: var(--ds-space-2);
+}
+
+/* ── 16. Component: Skeleton Loader ────────────────────────────────────── */
+
+.ds-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: ds-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--ds-radius-sm);
+}
+
+@keyframes ds-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.ds-skeleton-text  { height: 16px; margin-bottom: 8px; }
+.ds-skeleton-title { height: 24px; width: 60%; margin-bottom: 12px; }
+.ds-skeleton-card  { height: 120px; border-radius: var(--ds-radius-xl); }
+
+/* ── 17. Component: Divider ────────────────────────────────────────────── */
+
+.ds-divider {
+  border: none;
+  border-top: 1px solid var(--ds-border);
+  margin: var(--ds-space-6) 0;
+}
+
+/* ── 18. Layout Utilities ──────────────────────────────────────────────── */
+
+.ds-flex        { display: flex; }
+.ds-flex-col    { display: flex; flex-direction: column; }
+.ds-flex-center { display: flex; align-items: center; justify-content: center; }
+.ds-flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+.ds-gap-1  { gap: var(--ds-space-1); }
+.ds-gap-2  { gap: var(--ds-space-2); }
+.ds-gap-3  { gap: var(--ds-space-3); }
+.ds-gap-4  { gap: var(--ds-space-4); }
+.ds-gap-6  { gap: var(--ds-space-6); }
+.ds-gap-8  { gap: var(--ds-space-8); }
+
+.ds-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--ds-space-6); }
+.ds-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ds-space-6); }
+.ds-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ds-space-6); }
+
+.ds-container {
+  max-width: var(--ds-max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--ds-space-6);
+}
+
+/* ── 19. Text Utilities ────────────────────────────────────────────────── */
+
+.ds-text-primary   { color: var(--ds-primary); }
+.ds-text-accent    { color: var(--ds-accent); }
+.ds-text-success   { color: var(--ds-success); }
+.ds-text-warning   { color: var(--ds-warning); }
+.ds-text-danger    { color: var(--ds-danger); }
+.ds-text-muted     { color: var(--ds-text-muted); }
+.ds-text-secondary { color: var(--ds-text-secondary); }
+
+.ds-font-display { font-family: var(--ds-font-display); }
+.ds-font-mono    { font-family: var(--ds-font-mono); }
+
+.ds-heading-xl {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-4xl);
+  font-weight: 700;
+  line-height: var(--ds-leading-tight);
+}
+
+.ds-heading-lg {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-2xl);
+  font-weight: 700;
+  line-height: var(--ds-leading-tight);
+}
+
+.ds-heading-md {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-text-xl);
+  font-weight: 600;
+}
+
+.ds-body {
+  font-size: var(--ds-text-base);
+  color: var(--ds-text-secondary);
+  line-height: var(--ds-leading-normal);
+}
+
+.ds-caption {
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+}
+
+/* ── 20. Effect Utilities ──────────────────────────────────────────────── */
+
+.ds-glow {
+  text-shadow: 0 0 10px var(--ds-primary-glow);
+}
+
+.ds-glass {
+  background: var(--ds-bg-glass);
+  backdrop-filter: blur(var(--ds-blur));
+  -webkit-backdrop-filter: blur(var(--ds-blur));
+  border: 1px solid var(--ds-border);
+}
+
+.ds-glass-heavy {
+  background: var(--ds-bg-glass);
+  backdrop-filter: blur(var(--ds-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--ds-blur-heavy));
+  border: 1px solid var(--ds-border);
+}
+
+.ds-neon-border {
+  border: 1px solid var(--ds-primary);
+  box-shadow: 0 0 10px var(--ds-primary-dim), inset 0 0 10px var(--ds-primary-dim);
+}
+
+/* ── 21. Animations ────────────────────────────────────────────────────── */
+
+.ds-fade-in {
+  animation: ds-fade-in 0.5s ease-out forwards;
+}
+
+@keyframes ds-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ds-slide-up {
+  animation: ds-slide-up 0.4s ease-out forwards;
+}
+
+@keyframes ds-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ds-pulse {
+  animation: ds-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ds-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+/* ── 22. Responsive ────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .ds-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .ds-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .ds-grid-2,
+  .ds-grid-3,
+  .ds-grid-4 { grid-template-columns: 1fr; }
+
+  .ds-container { padding: 0 var(--ds-space-4); }
+
+  .ds-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .ds-modal { padding: var(--ds-space-6); }
+
+  .ds-heading-xl { font-size: var(--ds-text-3xl); }
+}
+
+@media (max-width: 480px) {
+  .ds-toast-container {
+    right: var(--ds-space-3);
+    left: var(--ds-space-3);
+  }
+  .ds-toast { min-width: unset; }
+}
