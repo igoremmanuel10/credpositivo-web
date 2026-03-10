@@ -33,14 +33,10 @@ padding:12px 20px;background:linear-gradient(180deg,rgba(15,17,21,0.95) 0%,rgba(
 background:linear-gradient(90deg,#22C55E,#06B6D4);-webkit-background-clip:text;
 -webkit-text-fill-color:transparent;background-clip:text}
 .top-bar .status{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--text-m)}
-.status-dot{width:8px;height:8px;background:#22C55E;border-radius:50%;
+.status-dot{width:8px;height:8px;background:#6B7280;border-radius:50%;
 animation:pulse-dot 2s infinite;display:inline-block;margin-right:4px}
 @keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.6)}50%{box-shadow:0 0 0 4px rgba(34,197,94,0)}}
 .top-bar .clock{font-size:12px;font-variant-numeric:tabular-nums;color:#06B6D4}
-.demo-badge{display:inline-flex;align-items:center;padding:2px 6px;border-radius:3px;
-font-size:8px;background:#EF4444;color:#fff;letter-spacing:1px;
-animation:demo-blink 1.2s step-end infinite;margin-left:8px}
-@keyframes demo-blink{0%,100%{opacity:1}50%{opacity:0.3}}
 
 /* Bottom Bar */
 .bottom-bar{bottom:0;left:0;right:0;padding:0 20px 12px;
@@ -131,9 +127,8 @@ border-radius:6px 6px 0 0;border:1px solid var(--glass-b);border-bottom:none}
   <h1>CREDPOSITIVO AI OS</h1>
  </div>
  <div class="status">
-  <span><span class="status-dot"></span>ONLINE</span>
-  <span id="agent-count">7/7 Ativos</span>
-  <span id="demo-badge" class="demo-badge" style="display:none">DEMO</span>
+  <span><span class="status-dot"></span><span id="api-status-label">Conectando...</span></span>
+  <span id="agent-count">— Ativos</span>
  </div>
  <div class="clock" id="hud-clock">00:00:00</div>
 </div>
@@ -162,29 +157,21 @@ border-radius:6px 6px 0 0;border:1px solid var(--glass-b);border-bottom:none}
 // ===== CONFIGURATION =====
 const AGENTS = [
   {id:'musk',name:'Musk',role:'CEO',color:'#EAB308',
-   msgs:['KPI positivo','Revisando Q1...','Meta: 100 vendas','Aprovado!','Board meeting'],
    room:'ceo',deskX:0,deskY:0},
   {id:'igor',name:'Igor',role:'Orchestrator',color:'#06B6D4',
-   msgs:['Monitorando...','Correcao aplicada','Tudo normal','Fluxo OK','Sync completo'],
    room:'control',deskX:0,deskY:0},
   {id:'augusto',name:'Augusto',role:'Closer',color:'#3B82F6',
-   msgs:['Respondendo lead...','Fechando venda!','Enviando audio...','Proposta enviada','Follow-up!'],
    room:'main',deskX:0,deskY:0},
   {id:'paulo',name:'Paulo',role:'SDR',color:'#8B5CF6',
-   msgs:['Follow-up enviado','Novo contato!','Prospectando...','Lead qualificado','Agendando call'],
    room:'main',deskX:0,deskY:0},
   {id:'ana',name:'Ana',role:'Monitor',color:'#22C55E',
-   msgs:['Pipeline OK','Verificando...','Alerta: lead parado','Metricas atualizadas','SLA ok'],
    room:'main',deskX:0,deskY:0},
   {id:'luan',name:'Luan',role:'Sales Manager',color:'#F59E0B',
-   msgs:['Relatorio pronto','Analisando dados...','Pipeline saudavel','Dashboard atualizado','Meta batida!'],
    room:'main',deskX:0,deskY:0},
   {id:'alex',name:'Alex',role:'DevOps',color:'#EF4444',
-   msgs:['Servidor OK','CPU: 45%','Deploy ok','Backup completo','Uptime: 99.9%'],
    room:'server',deskX:0,deskY:0}
 ];
 
-const STATES = ['idle','working','working','working','talking','coffee','working','alert','walking'];
 const SKIN_COLORS = ['#F5D0A9','#E8C39E','#D4A574','#C49A6C','#F5C6AA','#E0B896','#DEB887'];
 
 // ===== CANVAS SETUP =====
@@ -198,7 +185,7 @@ let particles = [];
 let selectedAgent = null;
 let soundEnabled = false;
 let audioCtx = null;
-let demoMode = true;
+let apiConnected = false;
 let dayProgress = 0;
 
 // Agent runtime state
@@ -206,13 +193,11 @@ const agentStates = {};
 AGENTS.forEach((a,i) => {
   const skin = SKIN_COLORS[i % SKIN_COLORS.length];
   agentStates[a.id] = {
-    state:'working', x:0, y:0, targetX:0, targetY:0,
+    state:'idle', x:0, y:0, targetX:0, targetY:0,
     frame:0, msgTimer:0, currentMsg:'', bubbleAlpha:0,
-    skin, walkDir:0, stateTimer: Math.random()*300+100,
-    metrics:{conversations:Math.floor(Math.random()*50+10),
-             responseTime:(Math.random()*3+0.5).toFixed(1)+'s',
-             conversion:(Math.random()*30+5).toFixed(1)+'%'},
-    sparkline: Array.from({length:12},()=>Math.random())
+    skin, walkDir:0, stateTimer: 9999,
+    metrics:{},
+    sparkline: Array.from({length:12},()=>0)
   };
 });
 
@@ -748,7 +733,6 @@ function drawScreenGlows() {
 function updateAgentStates() {
   AGENTS.forEach(a => {
     const s = agentStates[a.id];
-    s.stateTimer--;
 
     // Frame animation (every ~500ms at 60fps)
     if (tick % 30 === 0) s.frame = (s.frame + 1) % 2;
@@ -758,33 +742,6 @@ function updateAgentStates() {
       s.bubbleAlpha -= 0.02;
     }
     if (s.msgTimer > 0) s.msgTimer--;
-
-    // State transitions
-    if (s.stateTimer <= 0) {
-      const newState = STATES[Math.floor(Math.random() * STATES.length)];
-      s.state = newState;
-      s.stateTimer = 120 + Math.random() * 400;
-
-      if (newState === 'walking') {
-        // Walk to random nearby spot then come back
-        s.targetX = a.deskX + (Math.random() - 0.5) * 30;
-        s.targetY = a.deskY + (Math.random() - 0.5) * 20;
-        s.walkDir = s.targetX > s.x ? 1 : -1;
-      } else if (newState === 'coffee') {
-        s.targetX = COFFEE_POS.x + 10;
-        s.targetY = COFFEE_POS.y + 3;
-        s.state = 'walking';
-        s._nextState = 'coffee';
-      } else if (newState === 'talking') {
-        s.currentMsg = a.msgs[Math.floor(Math.random() * a.msgs.length)];
-        s.msgTimer = 120;
-        s.bubbleAlpha = 1;
-        addFeedEvent(a);
-      } else {
-        s.targetX = a.deskX;
-        s.targetY = a.deskY;
-      }
-    }
 
     // Movement
     const dx = s.targetX - s.x;
@@ -809,27 +766,18 @@ function updateAgentStates() {
       }
     }
 
-    // Random speech while working
-    if (s.state === 'working' && s.msgTimer <= 0 && Math.random() < 0.003) {
-      s.currentMsg = a.msgs[Math.floor(Math.random() * a.msgs.length)];
-      s.msgTimer = 100;
-      s.bubbleAlpha = 1;
-      addFeedEvent(a);
-    }
   });
 }
 
 // ===== ACTIVITY FEED =====
 const feedItems = [];
-// Demo-mode feed event — only fires when demoMode is true
-function addFeedEvent(agent) {
-  if (!demoMode) return;
-  const s = agentStates[agent.id];
-  addFeedEventFromSSE(agent, s.currentMsg);
-}
 
 function renderFeed() {
   const el = document.getElementById('activity-feed');
+  if (feedItems.length === 0) {
+    el.innerHTML = '<div class="feed-item"><span style="color:var(--text-d)">Aguardando eventos...</span></div>';
+    return;
+  }
   el.innerHTML = feedItems.map(f =>
     `<div class="feed-item">
       <div class="dot" style="background:${f.color}"></div>
@@ -1016,11 +964,16 @@ function updateClock() {
     now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
 
-// ===== DEMO BADGE =====
-function setDemoMode(val) {
-  demoMode = val;
-  const badge = document.getElementById('demo-badge');
-  if (badge) badge.style.display = val ? 'inline-flex' : 'none';
+// ===== API STATUS =====
+function setAPIStatus(connected) {
+  apiConnected = connected;
+  const dot = document.querySelector('.status-dot');
+  const label = document.getElementById('api-status-label');
+  if (dot) {
+    dot.style.background = connected ? '#22C55E' : '#EF4444';
+    dot.style.animationName = connected ? 'pulse-dot' : 'none';
+  }
+  if (label) label.textContent = connected ? 'ONLINE' : 'OFFLINE';
 }
 
 // ===== API CONNECTION =====
@@ -1034,7 +987,7 @@ function connectAPI() {
       try {
         const data = JSON.parse(event.data);
         handleSSEEvent(data);
-        setDemoMode(false);
+        setAPIStatus(true);
       } catch(e) {}
     });
 
@@ -1043,12 +996,12 @@ function connectAPI() {
       try {
         const data = JSON.parse(event.data);
         handleSSEEvent(data);
-        setDemoMode(false);
+        setAPIStatus(true);
       } catch(e) {}
     };
 
-    evtSource.onerror = () => { setDemoMode(true); };
-  } catch(e) { setDemoMode(true); }
+    evtSource.onerror = () => { setAPIStatus(false); };
+  } catch(e) { setAPIStatus(false); }
 
   // Try initial state
   fetch('/api/os/pixel-state')
@@ -1121,11 +1074,11 @@ function connectAPI() {
             `${data.office.activeCount}/${AGENTS.length} Ativos`;
         }
 
-        setDemoMode(false);
+        setAPIStatus(true);
         buildAgentList();
       }
     })
-    .catch(() => { setDemoMode(true); });
+    .catch(() => { setAPIStatus(false); });
 }
 
 // ===== SSE EVENT HANDLER =====
@@ -1356,7 +1309,7 @@ function render() {
   updateParticles();
 
   // Update & draw agents (sorted by Y for depth)
-  if (demoMode) updateAgentStates();
+  updateAgentStates();
 
   const sorted = [...AGENTS].sort((a,b) => agentStates[a.id].y - agentStates[b.id].y);
   sorted.forEach(a => {
@@ -1377,16 +1330,6 @@ function render() {
   // Refresh panel periodically
   if (tick % 180 === 0) {
     buildAgentList();
-    // Update sparklines with new random data point
-    AGENTS.forEach(a => {
-      const s = agentStates[a.id];
-      s.sparkline.push(Math.random());
-      if (s.sparkline.length > 12) s.sparkline.shift();
-      // Slowly change metrics in demo mode
-      if (demoMode) {
-        s.metrics.conversations = Math.floor(Math.random()*50+10);
-      }
-    });
   }
 
   requestAnimationFrame(render);
@@ -1396,15 +1339,8 @@ function render() {
 resize();
 updateClock();
 buildAgentList();
-setDemoMode(true);  // start in demo mode until API responds
+renderFeed();
 connectAPI();
-
-// Seed initial feed events
-AGENTS.slice(0,3).forEach(a => {
-  const s = agentStates[a.id];
-  s.currentMsg = a.msgs[0];
-  addFeedEvent(a);
-});
 
 render();
 </script>
