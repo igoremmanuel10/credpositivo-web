@@ -770,6 +770,104 @@ textarea{resize:vertical;line-height:1.7}
   .page-inner{padding:16px}
   .brand h1{font-size:10px}
 }
+
+/* ---- AGENT PROFILE ---- */
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:12px}
+.section-card h3{font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-card h3 i{font-size:14px}
+
+/* Toggle Switch */
+.toggle-switch{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:10px}
+.toggle-switch input{display:none}
+.toggle-slider{width:36px;height:18px;background:var(--danger);border:1px solid var(--border);position:relative;transition:0.2s}
+.toggle-slider::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--text);transition:0.2s}
+.toggle-switch input:checked + .toggle-slider{background:var(--accent)}
+.toggle-switch input:checked + .toggle-slider::after{left:20px}
+
+/* Model Config Row */
+.config-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.config-row.triple{grid-template-columns:1fr 1fr 1fr}
+.config-row label{font-size:9px;color:var(--text-d);letter-spacing:1px;display:block;margin-bottom:4px}
+.config-row select,.config-row input[type="number"],.config-row input[type="time"],.config-row input[type="text"]{
+  width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);
+  font-family:inherit;font-size:11px;padding:8px 10px;outline:none;transition:0.2s;box-sizing:border-box}
+.config-row select:focus,.config-row input:focus{border-color:var(--accent)}
+
+/* Temperature Slider */
+.slider-wrap{display:flex;align-items:center;gap:8px}
+.slider-wrap input[type="range"]{flex:1;-webkit-appearance:none;height:4px;background:var(--border);outline:none}
+.slider-wrap input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--accent);cursor:pointer;border:none}
+.slider-val{font-size:11px;color:var(--accent);min-width:30px;text-align:right}
+
+/* Prompt Versions */
+.version-list{max-height:150px;overflow-y:auto;margin-top:8px;border:1px solid var(--border);background:var(--bg)}
+.version-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid var(--border);font-size:9px}
+.version-item:last-child{border-bottom:none}
+.version-item .date{color:var(--text-d)}
+.version-item .btn-restore{background:none;border:1px solid var(--accent);color:var(--accent);font-family:inherit;font-size:8px;padding:2px 6px;cursor:pointer}
+.version-item .btn-restore:hover{background:var(--accent);color:var(--bg)}
+
+/* Media Grid */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:10px}
+.media-card{background:var(--bg);border:1px solid var(--border);padding:8px;position:relative;overflow:hidden}
+.media-card .preview{width:100%;height:80px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);margin-bottom:6px;overflow:hidden}
+.media-card .preview img{max-width:100%;max-height:100%;object-fit:cover}
+.media-card .preview .play-icon{position:absolute;font-size:24px;color:var(--accent);opacity:0.8}
+.media-card .preview audio{width:100%;height:30px}
+.media-card .preview .file-icon{font-size:28px;color:var(--text-d)}
+.media-card .meta{font-size:9px;color:var(--text)}
+.media-card .meta .label{color:var(--text-d);font-size:8px;margin-top:2px}
+.media-card .actions{display:flex;gap:4px;margin-top:6px}
+
+/* Chat Test */
+.chat-test{background:var(--bg);border:1px solid var(--border);border-radius:4px;max-height:300px;display:flex;flex-direction:column}
+.chat-messages{flex:1;overflow-y:auto;padding:10px;min-height:120px;display:flex;flex-direction:column;gap:6px}
+.chat-bubble{max-width:80%;padding:8px 10px;font-size:10px;line-height:1.5;word-wrap:break-word}
+.chat-bubble.user{align-self:flex-end;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);color:var(--text)}
+.chat-bubble.agent{align-self:flex-start;background:rgba(0,255,102,0.08);border:1px solid rgba(0,255,102,0.2);color:var(--text)}
+.chat-bubble.typing{font-style:italic;color:var(--text-d);font-size:9px}
+.chat-input-row{display:flex;gap:6px;padding:8px;border-top:1px solid var(--border)}
+.chat-input-row input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:10px;padding:8px;outline:none}
+.chat-input-row input:focus{border-color:var(--accent)}
+
+/* Cost Display */
+.cost-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.cost-item{text-align:center;padding:10px;background:var(--bg);border:1px solid var(--border)}
+.cost-item .value{font-size:14px;color:var(--accent);font-weight:700}
+.cost-item .label{font-size:8px;color:var(--text-d);margin-top:4px;letter-spacing:1px}
+
+/* Sticky Actions */
+.profile-actions{position:sticky;bottom:0;background:var(--bg2);border-top:1px solid var(--border);padding:12px 16px;display:flex;justify-content:flex-end;gap:8px;z-index:10}
+
+/* Tutorial Overlay */
+.tutorial-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:all;transition:opacity 0.3s}
+.tutorial-backdrop{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85)}
+.tutorial-spotlight{position:absolute;box-shadow:0 0 0 9999px rgba(0,0,0,0.85);z-index:10000;border:2px solid var(--accent);transition:all 0.4s}
+.tutorial-tooltip{position:absolute;z-index:10001;background:var(--bg2);border:2px solid var(--accent);padding:16px;max-width:300px;font-size:11px;line-height:1.6}
+.tutorial-tooltip h4{color:var(--accent);font-size:12px;margin-bottom:8px}
+.tutorial-tooltip .steps{display:flex;gap:4px;margin-top:10px}
+.tutorial-tooltip .steps .dot{width:8px;height:8px;background:var(--border)}
+.tutorial-tooltip .steps .dot.active{background:var(--accent)}
+.tutorial-nav{display:flex;justify-content:space-between;margin-top:12px}
+
+/* Agent search */
+.agent-search{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:10px;padding:8px;margin-bottom:8px;outline:none;box-sizing:border-box}
+.agent-search:focus{border-color:var(--accent)}
+.agent-item .status-dot{width:8px;height:8px;border-radius:0;display:inline-block;margin-right:6px}
+.agent-item .status-dot.online{background:var(--accent)}
+.agent-item .status-dot.offline{background:var(--danger)}
+
+/* Media Modal */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9998;display:flex;align-items:center;justify-content:center}
+.modal-box{background:var(--bg2);border:2px solid var(--accent);padding:20px;min-width:350px;max-width:500px}
+.modal-box h3{font-size:12px;color:var(--accent);margin-bottom:14px}
+.modal-box .field{margin-bottom:10px}
+.modal-box .field label{font-size:9px;color:var(--text-d);letter-spacing:1px;display:block;margin-bottom:4px}
+.modal-box .field input,.modal-box .field select,.modal-box .field textarea{
+  width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);
+  font-family:inherit;font-size:11px;padding:8px;outline:none;box-sizing:border-box}
+.modal-box .field textarea{min-height:60px;resize:vertical}
+.modal-box .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 </style>
 </head>
 <body>
@@ -811,8 +909,8 @@ textarea{resize:vertical;line-height:1.7}
       <span class="badge" style="background:#EF444415;border-color:#EF444440;color:var(--danger)">ADMIN</span>
     </div>
     <nav class="nav-tabs" id="nav-tabs">
-      <button class="nav-tab active" data-tab="prompts">
-        <i class="ph ph-chat-text"></i><span>Prompts</span>
+      <button class="nav-tab active" data-tab="agentes">
+        <i class="ph ph-robot"></i><span>Agentes</span>
       </button>
       <button class="nav-tab" data-tab="workflows">
         <i class="ph ph-flow-arrow"></i><span>Workflows</span>
@@ -831,6 +929,7 @@ textarea{resize:vertical;line-height:1.7}
       </button>
     </nav>
     <div class="top-bar-right">
+      <button class="btn btn-xs" onclick="startTutorial()" style="margin-right:8px">VER TUTORIAL</button>
       <span class="sse-status disconnected" id="sse-indicator">SSE OFF</span>
       <div class="user-chip">
         <span class="status-dot"></span>
@@ -846,64 +945,204 @@ textarea{resize:vertical;line-height:1.7}
   <div class="app-body">
 
     <!-- ============================================================
-         TAB 1: PROMPTS
+         TAB 1: AGENTES
     ============================================================ -->
-    <section class="page active" id="page-prompts">
-      <div class="prompts-layout">
+    <section class="page active" id="page-agentes">
+      <div class="prompts-layout" style="display:flex;gap:0;height:100%;overflow:hidden">
         <!-- Sidebar -->
-        <aside class="agents-sidebar" id="agents-sidebar">
-          <div class="sidebar-label">AGENTES</div>
-          <!-- populated by JS -->
+        <aside style="width:220px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;padding:16px 12px;display:flex;flex-direction:column;gap:4px">
+          <input type="text" class="agent-search" placeholder="Buscar agente..." oninput="filterAgents(this.value)">
+          <div id="agents-sidebar" class="agent-list"></div>
         </aside>
-        <!-- Editor -->
-        <div class="prompt-editor-area" id="prompt-editor-area">
-          <div class="empty-state" id="prompt-empty">
-            <i class="ph ph-robot"></i>
-            <p>Selecione um agente para editar o prompt.</p>
-          </div>
-          <div id="prompt-editor-content" style="display:none;flex-direction:column;gap:20px">
-            <div class="page-header">
+
+        <!-- Agent Profile -->
+        <div id="agent-profile-content" style="display:none;flex:1;overflow-y:auto;padding:0 16px 60px 16px">
+
+          <!-- Section 1: Header -->
+          <div class="section-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
               <div>
-                <div class="page-title" id="prompt-agent-name">Agente</div>
-                <div class="page-sub" id="prompt-agent-role"></div>
+                <div id="ap-name" style="font-size:16px;font-weight:700;color:var(--text)">—</div>
+                <div id="ap-role" style="font-size:10px;color:var(--text-d);margin-top:4px">—</div>
               </div>
-            </div>
-            <div class="prompt-meta">
-              <div class="meta-card">
-                <div class="label">MODELO</div>
-                <div class="value accent" id="meta-model">—</div>
-              </div>
-              <div class="meta-card">
-                <div class="label">OVERRIDE ATIVO</div>
-                <div class="value" id="meta-override">—</div>
-              </div>
-              <div class="meta-card">
-                <div class="label">CHARS</div>
-                <div class="value" id="meta-chars">0</div>
-              </div>
-            </div>
-            <div class="prompt-textarea-wrap">
-              <div class="prompt-textarea-label">
-                <span>SYSTEM PROMPT</span>
-                <span id="prompt-saved-at" style="font-size:10px;color:var(--text-d)"></span>
-              </div>
-              <textarea
-                class="prompt-textarea"
-                id="prompt-textarea"
-                placeholder="Digite o system prompt do agente aqui..."
-                spellcheck="false"
-              ></textarea>
-            </div>
-            <div class="prompt-actions">
-              <button class="btn btn-secondary" id="btn-reset-prompt">
-                <i class="ph ph-arrow-counter-clockwise"></i> Reset
-              </button>
-              <span class="char-count" id="char-count">0 chars</span>
-              <button class="btn btn-primary" id="btn-save-prompt">
-                <i class="ph ph-floppy-disk"></i> Salvar
-              </button>
+              <label class="toggle-switch">
+                <input type="checkbox" id="ap-enabled" onchange="markDirty()">
+                <span class="toggle-slider"></span>
+                <span id="ap-status-text" style="color:var(--accent)">ONLINE</span>
+              </label>
             </div>
           </div>
+
+          <!-- Section 2: Model -->
+          <div class="section-card">
+            <h3><i class="ph ph-cpu"></i> MODELO</h3>
+            <div class="config-row">
+              <div>
+                <label>PROVIDER</label>
+                <select id="ap-provider" onchange="onProviderChange();markDirty()">
+                  <option value="anthropic">Anthropic</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="openrouter">OpenRouter</option>
+                </select>
+              </div>
+              <div>
+                <label>MODELO</label>
+                <select id="ap-model" onchange="markDirty()"></select>
+              </div>
+            </div>
+            <div class="config-row">
+              <div>
+                <label>FALLBACK</label>
+                <select id="ap-fallback" onchange="markDirty()">
+                  <option value="">Nenhum</option>
+                  <option value="gpt-4o-mini">GPT-4o Mini</option>
+                  <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5</option>
+                  <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+                </select>
+              </div>
+              <div>
+                <label>MAX TOKENS</label>
+                <input type="number" id="ap-max-tokens" value="500" min="50" max="4096" onchange="markDirty()">
+              </div>
+            </div>
+            <div>
+              <label style="font-size:9px;color:var(--text-d);letter-spacing:1px;display:block;margin-bottom:4px">TEMPERATURA</label>
+              <div class="slider-wrap">
+                <input type="range" id="ap-temperature" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('ap-temp-val').textContent=this.value;markDirty()">
+                <span class="slider-val" id="ap-temp-val">0.7</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Prompt -->
+          <div class="section-card">
+            <h3><i class="ph ph-terminal-window"></i> PROMPT</h3>
+            <div style="font-size:9px;color:var(--text-d);margin-bottom:8px">Use <span style="color:var(--accent)">---</span> para separar bolhas no WhatsApp</div>
+            <textarea id="ap-prompt" style="width:100%;min-height:250px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:11px;padding:10px;resize:vertical;outline:none;box-sizing:border-box" oninput="updatePromptCharCount();markDirty()"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+              <span id="ap-char-count" style="font-size:9px;color:var(--text-d)">0 chars</span>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-xs" style="border-color:var(--warn);color:var(--warn)" onclick="resetPromptToDefault()">RESETAR AO PADRAO</button>
+                <button class="btn btn-xs" onclick="togglePromptHistory()">HISTORICO</button>
+              </div>
+            </div>
+            <div id="ap-prompt-history" style="display:none">
+              <div class="version-list" id="ap-versions"></div>
+            </div>
+          </div>
+
+          <!-- Section 4: Delay -->
+          <div class="section-card">
+            <h3><i class="ph ph-timer"></i> DELAY DE RESPOSTA</h3>
+            <div class="config-row triple">
+              <div>
+                <label>MINIMO (ms)</label>
+                <input type="number" id="ap-delay-min" value="2000" min="0" max="30000" onchange="markDirty()">
+              </div>
+              <div>
+                <label>MAXIMO (ms)</label>
+                <input type="number" id="ap-delay-max" value="5000" min="0" max="30000" onchange="markDirty()">
+              </div>
+              <div>
+                <label>ENTRE BOLHAS (ms)</label>
+                <input type="number" id="ap-delay-bubbles" value="1500" min="0" max="15000" onchange="markDirty()">
+              </div>
+            </div>
+            <label class="toggle-switch" style="margin-top:8px">
+              <input type="checkbox" id="ap-show-typing" checked onchange="markDirty()">
+              <span class="toggle-slider"></span>
+              MOSTRAR "DIGITANDO..."
+            </label>
+          </div>
+
+          <!-- Section 5: Operating Hours -->
+          <div class="section-card">
+            <h3><i class="ph ph-clock"></i> HORARIO DE FUNCIONAMENTO</h3>
+            <div class="config-row">
+              <div>
+                <label>INICIO</label>
+                <input type="time" id="ap-hours-start" value="08:00" onchange="markDirty()">
+              </div>
+              <div>
+                <label>FIM</label>
+                <input type="time" id="ap-hours-end" value="22:00" onchange="markDirty()">
+              </div>
+            </div>
+            <div style="margin-top:8px">
+              <label style="font-size:9px;color:var(--text-d);letter-spacing:1px;display:block;margin-bottom:4px">MENSAGEM FORA DO HORARIO</label>
+              <textarea id="ap-off-hours-msg" style="width:100%;min-height:50px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:10px;padding:8px;resize:vertical;outline:none;box-sizing:border-box" onchange="markDirty()">Nosso horario de atendimento e das 8h as 22h. Retornaremos em breve!</textarea>
+            </div>
+          </div>
+
+          <!-- Section 6: Schedule -->
+          <div class="section-card">
+            <h3><i class="ph ph-calendar-dots"></i> SCHEDULE</h3>
+            <div class="config-row">
+              <div>
+                <label>TIPO</label>
+                <select id="ap-schedule-type" onchange="toggleCronInput();markDirty()">
+                  <option value="always">Always (event-driven)</option>
+                  <option value="cron">Cron</option>
+                </select>
+              </div>
+              <div id="ap-cron-wrap" style="display:none">
+                <label>EXPRESSAO CRON</label>
+                <input type="text" id="ap-cron-expr" placeholder="0 9 * * *" onchange="markDirty()">
+              </div>
+            </div>
+            <div id="ap-cron-human" style="font-size:9px;color:var(--text-d);margin-top:4px;display:none"></div>
+          </div>
+
+          <!-- Section 7: Media -->
+          <div class="section-card">
+            <h3><i class="ph ph-image"></i> MIDIAS</h3>
+            <div class="media-grid" id="ap-media-grid"></div>
+            <button class="btn btn-sm" style="margin-top:10px" onclick="openAddMediaModal()">
+              <i class="ph ph-plus"></i> ADICIONAR MIDIA
+            </button>
+          </div>
+
+          <!-- Section 8: Cost -->
+          <div class="section-card">
+            <h3><i class="ph ph-coin"></i> CUSTO</h3>
+            <div class="cost-grid">
+              <div class="cost-item">
+                <div class="value" id="ap-tokens-today">0</div>
+                <div class="label">TOKENS HOJE</div>
+              </div>
+              <div class="cost-item">
+                <div class="value" id="ap-tokens-month">0</div>
+                <div class="label">TOKENS MES</div>
+              </div>
+              <div class="cost-item">
+                <div class="value" id="ap-cost-brl">R$ 0,00</div>
+                <div class="label">CUSTO EST. MES</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 9: Test -->
+          <div class="section-card">
+            <h3><i class="ph ph-chat-dots"></i> TESTAR AGENTE</h3>
+            <div class="chat-test">
+              <div class="chat-messages" id="ap-chat-messages"></div>
+              <div class="chat-input-row">
+                <input type="text" id="ap-chat-input" placeholder="Digite uma mensagem de teste..." onkeydown="if(event.key==='Enter')simulateAgent()">
+                <button class="btn btn-sm" onclick="simulateAgent()">ENVIAR</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 10: Actions (sticky) -->
+          <div class="profile-actions">
+            <button class="btn" style="border-color:var(--text-d);color:var(--text-d)" onclick="cancelAgentChanges()">CANCELAR</button>
+            <button class="btn" id="btn-save-all" style="border-color:var(--accent);color:var(--accent)" onclick="saveAgentAll()">SALVAR TUDO</button>
+          </div>
+        </div>
+
+        <!-- Empty state when no agent selected -->
+        <div id="agent-empty-state" style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--text-d);font-size:11px">
+          Selecione um agente na lista
         </div>
       </div>
     </section>
@@ -1266,15 +1505,25 @@ textarea{resize:vertical;line-height:1.7}
 // =============================================================
 // CONSTANTS
 // =============================================================
-const AGENTS = [
-  {id:'augusto', name:'Augusto', role:'Closer',        color:'#3B82F6'},
-  {id:'paulo',   name:'Paulo',   role:'SDR',            color:'#8B5CF6'},
-  {id:'ana',     name:'Ana',     role:'Monitor',        color:'#22C55E'},
-  {id:'luan',    name:'Luan',    role:'Sales Manager',  color:'#F59E0B'},
-  {id:'igor',    name:'Igor',    role:'Orchestrator',   color:'#06B6D4'},
-  {id:'alex',    name:'Alex',    role:'DevOps',         color:'#EF4444'},
-  {id:'musk',    name:'Musk',    role:'CEO',            color:'#EAB308'},
-];
+const MODEL_OPTIONS = {
+  anthropic: [
+    { value: 'claude-haiku-4-5-20251001', label: 'Claude Haiku 4.5' },
+    { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
+    { value: 'claude-opus-4-6', label: 'Claude Opus 4.6' },
+  ],
+  openai: [
+    { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+    { value: 'gpt-4o', label: 'GPT-4o' },
+  ],
+  openrouter: [
+    { value: 'anthropic/claude-haiku-4-5', label: 'Claude Haiku 4.5' },
+    { value: 'anthropic/claude-sonnet-4', label: 'Claude Sonnet 4' },
+    { value: 'google/gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+    { value: 'openai/gpt-4o-mini', label: 'GPT-4o Mini' },
+    { value: 'openai/gpt-4o', label: 'GPT-4o' },
+    { value: 'meta-llama/llama-3-70b', label: 'Llama 3 70B' },
+  ],
+};
 
 const NOTIF_EVENTS = [
   {id:'sale_closed',    name:'Venda Fechada',       desc:'Quando um lead converte'},
@@ -1290,6 +1539,10 @@ const NOTIF_EVENTS = [
 const API_BASE = '';  // same origin
 let authToken = localStorage.getItem('cp_admin_token') || '';
 let currentPromptAgentId = null;
+let currentAgentId = null;
+let currentAgentData = null;
+let agentsDirty = false;
+let agentsListData = [];
 let sseSource = null;
 let logsPage = 0;
 const LOGS_LIMIT = 50;
@@ -1403,142 +1656,500 @@ function switchTab(tab) {
 // INIT
 // =============================================================
 function initApp() {
-  buildAgentSidebar();
   buildQuotasTable();
   buildNotifEventsList();
-  loadPrompts();
+  loadAgents();
   loadWorkflows();
   loadSchedules();
   loadConfig();
   loadNotifications();
   loadLogsHistory();
   initSSE();
+  if (!localStorage.getItem('cp_admin_tutorial_done')) { setTimeout(startTutorial, 1500); }
 }
 
 // =============================================================
-// TAB 1: PROMPTS
+// TAB 1: AGENTES
 // =============================================================
-let promptsData = [];
 
 function buildAgentSidebar() {
   const sidebar = document.getElementById('agents-sidebar');
-  sidebar.innerHTML = '<div class="sidebar-label">AGENTES</div>';
-  AGENTS.forEach(a => {
+  if (!sidebar) return;
+  sidebar.innerHTML = '';
+  agentsListData.forEach(a => {
     const el = document.createElement('div');
-    el.className = 'agent-item';
-    el.dataset.agentId = a.id;
+    el.className = 'agent-item' + (a.agentId === currentAgentId ? ' active' : '');
+    el.dataset.agentId = a.agentId;
     el.innerHTML = `
-      <div class="dot" style="background:${a.color}"></div>
+      <span class="status-dot ${a.enabled !== false ? 'online' : 'offline'}"></span>
       <div class="info">
-        <div class="name">${a.name}</div>
-        <div class="role">${a.role}</div>
+        <div class="name">${a.agentName || a.agentId}</div>
+        <div class="role">${a.role || ''}</div>
       </div>
     `;
-    el.addEventListener('click', () => selectPromptAgent(a.id));
+    el.addEventListener('click', () => selectAgent(a.agentId));
     sidebar.appendChild(el);
   });
 }
 
-async function loadPrompts() {
+function filterAgents(query) {
+  const items = document.querySelectorAll('#agents-sidebar .agent-item');
+  const q = query.toLowerCase();
+  items.forEach(el => {
+    const name = (el.querySelector('.name')?.textContent || '').toLowerCase();
+    const role = (el.querySelector('.role')?.textContent || '').toLowerCase();
+    el.style.display = (name.includes(q) || role.includes(q)) ? '' : 'none';
+  });
+}
+
+async function loadAgents() {
   try {
     const data = await apiFetch('/api/os/admin/prompts');
-    promptsData = data.prompts || [];
-  } catch (err) {
-    // API might not be live yet; use empty data
-    promptsData = AGENTS.map(a => ({
-      agentId: a.id,
-      name: a.name,
-      role: a.role,
-      prompt: '',
-      isOverride: false,
-      model: 'claude-haiku-4-5',
+    agentsListData = (data.prompts || []).map(p => ({
+      ...p,
+      enabled: true, // will be updated per-agent when selected
     }));
+    buildAgentSidebar();
+  } catch (err) {
+    console.error('Failed to load agents:', err);
+    agentsListData = [];
   }
 }
 
-function selectPromptAgent(agentId) {
-  document.querySelectorAll('.agent-item').forEach(el =>
+async function selectAgent(agentId) {
+  currentAgentId = agentId;
+  agentsDirty = false;
+
+  // Update sidebar active state
+  document.querySelectorAll('#agents-sidebar .agent-item').forEach(el =>
     el.classList.toggle('active', el.dataset.agentId === agentId)
   );
-  currentPromptAgentId = agentId;
-  const found = promptsData.find(p => p.agentId === agentId);
-  const agent = AGENTS.find(a => a.id === agentId);
-  if (!agent) return;
-  const data = found || {agentId, name: agent.name, role: agent.role, prompt: '', isOverride: false, model: '—'};
 
-  document.getElementById('prompt-empty').style.display = 'none';
-  const content = document.getElementById('prompt-editor-content');
-  content.style.display = 'flex';
+  // Show profile, hide empty state
+  document.getElementById('agent-profile-content').style.display = '';
+  document.getElementById('agent-empty-state').style.display = 'none';
 
-  document.getElementById('prompt-agent-name').textContent = data.name;
-  document.getElementById('prompt-agent-role').textContent = data.role;
-  document.getElementById('meta-model').textContent = data.model || '—';
-  const overrideEl = document.getElementById('meta-override');
-  overrideEl.textContent = data.isOverride ? 'SIM' : 'NÃO';
-  overrideEl.className = 'value ' + (data.isOverride ? 'override' : '');
-  document.getElementById('prompt-textarea').value = data.prompt || '';
-  updateCharCount();
-}
+  // Load all data in parallel
+  const agentBase = agentsListData.find(a => a.agentId === agentId) || {};
 
-function updateCharCount() {
-  const ta = document.getElementById('prompt-textarea');
-  const len = ta.value.length;
-  document.getElementById('char-count').textContent = `${len.toLocaleString()} chars`;
-  document.getElementById('meta-chars').textContent = len.toLocaleString();
-}
-
-document.getElementById('prompt-textarea').addEventListener('input', updateCharCount);
-
-document.getElementById('btn-save-prompt').addEventListener('click', async () => {
-  if (!currentPromptAgentId) return;
-  const btn = document.getElementById('btn-save-prompt');
-  const prompt = document.getElementById('prompt-textarea').value;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Salvando...';
+  let configData = null, costData = null, historyData = null, mediaData = null;
   try {
-    await apiFetch(`/api/os/admin/prompts/${currentPromptAgentId}`, {
-      method: 'PUT',
-      body: JSON.stringify({prompt}),
-    });
-    const idx = promptsData.findIndex(p => p.agentId === currentPromptAgentId);
-    if (idx >= 0) {
-      promptsData[idx].prompt = prompt;
-      promptsData[idx].isOverride = true;
-    }
-    document.getElementById('meta-override').textContent = 'SIM';
-    document.getElementById('meta-override').className = 'value override';
-    document.getElementById('prompt-saved-at').textContent = `Salvo ${formatTime(new Date())}`;
-    showToast('Prompt salvo com sucesso.', 'success');
-  } catch (err) {
-    showToast('Erro ao salvar prompt: ' + err.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Salvar';
-  }
-});
+    const [configRes, costRes, historyRes, mediaRes] = await Promise.all([
+      apiFetch(`/api/os/admin/agents/${agentId}/config`).catch(() => null),
+      apiFetch(`/api/os/admin/agents/${agentId}/cost`).catch(() => null),
+      apiFetch(`/api/os/admin/prompts/${agentId}/history`).catch(() => null),
+      apiFetch(`/api/os/admin/media/${agentId}`).catch(() => null),
+    ]);
+    configData = configRes?.config || null;
+    costData = costRes || null;
+    historyData = historyRes?.history || [];
+    mediaData = mediaRes?.media || [];
+  } catch (e) { console.error(e); }
 
-document.getElementById('btn-reset-prompt').addEventListener('click', () => {
-  if (!currentPromptAgentId) return;
-  confirm2(
-    'Resetar Prompt',
-    `Remover o override do agente "${currentPromptAgentId}"? O prompt padrão será restaurado.`,
-    async () => {
-      try {
-        await apiFetch(`/api/os/admin/prompts/${currentPromptAgentId}`, {
+  currentAgentData = { ...agentBase, config: configData, cost: costData, history: historyData, media: mediaData };
+  renderAgentProfile(currentAgentData);
+}
+
+function renderAgentProfile(data) {
+  // Header
+  document.getElementById('ap-name').textContent = data.agentName || data.agentId;
+  document.getElementById('ap-role').textContent = data.role || '';
+  const enabledCb = document.getElementById('ap-enabled');
+  const isEnabled = data.config?.enabled !== false;
+  enabledCb.checked = isEnabled;
+  document.getElementById('ap-status-text').textContent = isEnabled ? 'ONLINE' : 'OFFLINE';
+  document.getElementById('ap-status-text').style.color = isEnabled ? 'var(--accent)' : 'var(--danger)';
+
+  // Model
+  const llm = data.llm || {};
+  const provider = llm.provider || 'anthropic';
+  document.getElementById('ap-provider').value = provider;
+  onProviderChange(llm.model);
+  document.getElementById('ap-fallback').value = llm.fallback?.model || '';
+  document.getElementById('ap-max-tokens').value = llm.max_tokens || 500;
+  const temp = llm.temperature ?? 0.7;
+  document.getElementById('ap-temperature').value = temp;
+  document.getElementById('ap-temp-val').textContent = temp;
+
+  // Prompt
+  const promptText = data.overrideText || data.defaultPrompt || '';
+  document.getElementById('ap-prompt').value = promptText;
+  updatePromptCharCount();
+
+  // Delay
+  const delay = data.config?.delay || {};
+  document.getElementById('ap-delay-min').value = delay.minMs ?? 2000;
+  document.getElementById('ap-delay-max').value = delay.maxMs ?? 5000;
+  document.getElementById('ap-delay-bubbles').value = delay.betweenBubblesMs ?? 1500;
+  document.getElementById('ap-show-typing').checked = delay.showTyping !== false;
+
+  // Operating Hours
+  const hours = data.config?.operatingHours || {};
+  document.getElementById('ap-hours-start').value = hours.start || '08:00';
+  document.getElementById('ap-hours-end').value = hours.end || '22:00';
+  document.getElementById('ap-off-hours-msg').value = hours.offHoursMessage || 'Nosso horario de atendimento e das 8h as 22h.';
+
+  // Schedule
+  const schedule = data.schedule ? (typeof data.schedule === 'string' ? JSON.parse(data.schedule || '{}') : data.schedule) : {};
+  const schedType = schedule.type || 'always';
+  document.getElementById('ap-schedule-type').value = schedType;
+  toggleCronInput();
+  if (schedule.cron) document.getElementById('ap-cron-expr').value = schedule.cron;
+
+  // Cost
+  if (data.cost) {
+    document.getElementById('ap-tokens-today').textContent = (data.cost.tokensToday || 0).toLocaleString();
+    document.getElementById('ap-tokens-month').textContent = (data.cost.tokensMonth || 0).toLocaleString();
+    document.getElementById('ap-cost-brl').textContent = 'R$ ' + (data.cost.estimatedCostBRL || 0).toFixed(2).replace('.', ',');
+  }
+
+  // Media
+  renderMediaGrid(data.media || []);
+
+  // Prompt History
+  renderPromptHistory(data.history || []);
+
+  // Clear chat test
+  document.getElementById('ap-chat-messages').innerHTML = '';
+  document.getElementById('ap-chat-input').value = '';
+
+  agentsDirty = false;
+}
+
+function markDirty() {
+  agentsDirty = true;
+}
+
+function onProviderChange(preselect) {
+  const provider = document.getElementById('ap-provider').value;
+  const modelSel = document.getElementById('ap-model');
+  const options = MODEL_OPTIONS[provider] || [];
+  modelSel.innerHTML = options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+  if (preselect) {
+    modelSel.value = preselect;
+    if (!modelSel.value && options.length) modelSel.selectedIndex = 0;
+  }
+}
+
+function updatePromptCharCount() {
+  const ta = document.getElementById('ap-prompt');
+  document.getElementById('ap-char-count').textContent = (ta?.value?.length || 0) + ' chars';
+}
+
+function togglePromptHistory() {
+  const el = document.getElementById('ap-prompt-history');
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+function toggleCronInput() {
+  const type = document.getElementById('ap-schedule-type').value;
+  document.getElementById('ap-cron-wrap').style.display = type === 'cron' ? '' : 'none';
+  document.getElementById('ap-cron-human').style.display = type === 'cron' ? '' : 'none';
+}
+
+function renderPromptHistory(history) {
+  const el = document.getElementById('ap-versions');
+  if (!history || !history.length) {
+    el.innerHTML = '<div style="padding:8px;font-size:9px;color:var(--text-d)">Nenhuma versao anterior</div>';
+    return;
+  }
+  el.innerHTML = history.map((v, i) => `
+    <div class="version-item">
+      <span class="date">${new Date(v.savedAt).toLocaleString('pt-BR')}</span>
+      <button class="btn-restore" onclick="rollbackPrompt(${i})">RESTAURAR</button>
+    </div>
+  `).join('');
+}
+
+function renderMediaGrid(media) {
+  const grid = document.getElementById('ap-media-grid');
+  if (!media || !media.length) {
+    grid.innerHTML = '<div style="font-size:9px;color:var(--text-d)">Nenhuma midia vinculada</div>';
+    return;
+  }
+  grid.innerHTML = media.map(m => {
+    let preview = '';
+    if (m.type === 'image') preview = `<img src="${m.url}" alt="${m.label}">`;
+    else if (m.type === 'video') preview = `<img src="${m.thumbnail || m.url}" alt="${m.label}"><span class="play-icon"><i class="ph ph-play-circle"></i></span>`;
+    else if (m.type === 'audio') preview = `<audio controls preload="none" src="${m.url}"></audio>`;
+    else preview = `<span class="file-icon"><i class="ph ph-file-text"></i></span>`;
+    return `
+      <div class="media-card">
+        <div class="preview">${preview}</div>
+        <div class="meta">
+          <div>${m.label}</div>
+          <div class="label">${m.type} ${m.tags?.length ? '· ' + m.tags.join(', ') : ''}</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-xs" onclick="editMedia('${m.mediaId}')"><i class="ph ph-pencil"></i></button>
+          <button class="btn btn-xs" style="border-color:var(--danger);color:var(--danger)" onclick="deleteMedia('${m.mediaId}')"><i class="ph ph-trash"></i></button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function resetPromptToDefault() {
+  if (!currentAgentData) return;
+  const def = currentAgentData.defaultPrompt || '';
+  if (!def) { showToast('Prompt padrao nao disponivel', 'warn'); return; }
+  document.getElementById('ap-prompt').value = def;
+  updatePromptCharCount();
+  markDirty();
+  showToast('Prompt restaurado ao padrao (salve para aplicar)', 'info');
+}
+
+async function saveAgentAll() {
+  if (!currentAgentId) return;
+  const btn = document.getElementById('btn-save-all');
+  btn.textContent = 'SALVANDO...';
+  btn.disabled = true;
+
+  try {
+    const promises = [];
+
+    // Save prompt
+    const promptText = document.getElementById('ap-prompt').value;
+    promises.push(apiFetch(`/api/os/admin/prompts/${currentAgentId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ prompt: promptText }),
+    }).catch(e => console.error('Prompt save error:', e)));
+
+    // Save agent config (delay, hours, enabled)
+    const configPayload = {
+      enabled: document.getElementById('ap-enabled').checked,
+      delay: {
+        minMs: parseInt(document.getElementById('ap-delay-min').value) || 2000,
+        maxMs: parseInt(document.getElementById('ap-delay-max').value) || 5000,
+        betweenBubblesMs: parseInt(document.getElementById('ap-delay-bubbles').value) || 1500,
+        showTyping: document.getElementById('ap-show-typing').checked,
+      },
+      operatingHours: {
+        start: document.getElementById('ap-hours-start').value || '08:00',
+        end: document.getElementById('ap-hours-end').value || '22:00',
+        offHoursMessage: document.getElementById('ap-off-hours-msg').value || '',
+      },
+    };
+    promises.push(apiFetch(`/api/os/admin/agents/${currentAgentId}/config`, {
+      method: 'PUT',
+      body: JSON.stringify(configPayload),
+    }).catch(e => console.error('Config save error:', e)));
+
+    // Save schedule if cron
+    const schedType = document.getElementById('ap-schedule-type').value;
+    if (schedType === 'cron') {
+      const cronExpr = document.getElementById('ap-cron-expr').value;
+      if (cronExpr) {
+        promises.push(apiFetch(`/api/os/admin/schedules/${currentAgentId}`, {
           method: 'PUT',
-          body: JSON.stringify({prompt: null, reset: true}),
-        });
-        const idx = promptsData.findIndex(p => p.agentId === currentPromptAgentId);
-        if (idx >= 0) promptsData[idx].isOverride = false;
-        document.getElementById('meta-override').textContent = 'NÃO';
-        document.getElementById('meta-override').className = 'value';
-        showToast('Prompt resetado.', 'info');
-      } catch (err) {
-        showToast('Erro: ' + err.message, 'error');
+          body: JSON.stringify({ cron: cronExpr }),
+        }).catch(e => console.error('Schedule save error:', e)));
       }
     }
-  );
-});
+
+    await Promise.all(promises);
+    agentsDirty = false;
+    showToast('Todas as alteracoes salvas com sucesso!', 'success');
+
+    // Reload agent data
+    await selectAgent(currentAgentId);
+  } catch (err) {
+    showToast('Erro ao salvar: ' + err.message, 'error');
+  } finally {
+    btn.textContent = 'SALVAR TUDO';
+    btn.disabled = false;
+  }
+}
+
+function cancelAgentChanges() {
+  if (!currentAgentId) return;
+  if (agentsDirty && !confirm('Descartar alteracoes nao salvas?')) return;
+  selectAgent(currentAgentId);
+}
+
+function openAddMediaModal() {
+  document.getElementById('media-modal-title').textContent = 'ADICIONAR MIDIA';
+  document.getElementById('media-edit-id').value = '';
+  document.getElementById('media-url').value = '';
+  document.getElementById('media-type').value = 'image';
+  document.getElementById('media-label').value = '';
+  document.getElementById('media-tags').value = '';
+  document.getElementById('media-modal').style.display = '';
+}
+
+function editMedia(mediaId) {
+  const item = (currentAgentData?.media || []).find(m => m.mediaId === mediaId);
+  if (!item) return;
+  document.getElementById('media-modal-title').textContent = 'EDITAR MIDIA';
+  document.getElementById('media-edit-id').value = mediaId;
+  document.getElementById('media-url').value = item.url || '';
+  document.getElementById('media-type').value = item.type || 'link';
+  document.getElementById('media-label').value = item.label || '';
+  document.getElementById('media-tags').value = (item.tags || []).join(', ');
+  document.getElementById('media-modal').style.display = '';
+}
+
+function closeMediaModal() {
+  document.getElementById('media-modal').style.display = 'none';
+}
+
+async function saveMedia() {
+  if (!currentAgentId) return;
+  const editId = document.getElementById('media-edit-id').value;
+  const payload = {
+    url: document.getElementById('media-url').value,
+    type: document.getElementById('media-type').value,
+    label: document.getElementById('media-label').value,
+    tags: document.getElementById('media-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+  };
+
+  if (!payload.url || !payload.label) {
+    showToast('URL e Label sao obrigatorios', 'error');
+    return;
+  }
+
+  try {
+    if (editId) {
+      await apiFetch(`/api/os/admin/media/${currentAgentId}/${editId}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      });
+    } else {
+      await apiFetch(`/api/os/admin/media/${currentAgentId}`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+    }
+    closeMediaModal();
+    showToast('Midia salva!', 'success');
+    // Reload media
+    const mediaRes = await apiFetch(`/api/os/admin/media/${currentAgentId}`).catch(() => null);
+    currentAgentData.media = mediaRes?.media || [];
+    renderMediaGrid(currentAgentData.media);
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  }
+}
+
+async function deleteMedia(mediaId) {
+  if (!currentAgentId || !confirm('Deletar esta midia?')) return;
+  try {
+    await apiFetch(`/api/os/admin/media/${currentAgentId}/${mediaId}`, { method: 'DELETE' });
+    showToast('Midia removida', 'info');
+    const mediaRes = await apiFetch(`/api/os/admin/media/${currentAgentId}`).catch(() => null);
+    currentAgentData.media = mediaRes?.media || [];
+    renderMediaGrid(currentAgentData.media);
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  }
+}
+
+async function simulateAgent() {
+  if (!currentAgentId) return;
+  const input = document.getElementById('ap-chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const messages = document.getElementById('ap-chat-messages');
+  messages.innerHTML += `<div class="chat-bubble user">${msg}</div>`;
+  messages.innerHTML += `<div class="chat-bubble typing" id="typing-indicator">digitando...</div>`;
+  messages.scrollTop = messages.scrollHeight;
+  input.value = '';
+
+  try {
+    const res = await apiFetch(`/api/os/admin/agents/${currentAgentId}/simulate`, {
+      method: 'POST',
+      body: JSON.stringify({ message: msg }),
+    });
+    document.getElementById('typing-indicator')?.remove();
+    const response = res.response || 'Sem resposta';
+    // Split by --- for bubble preview
+    const bubbles = response.split('---').map(b => b.trim()).filter(Boolean);
+    bubbles.forEach(b => {
+      messages.innerHTML += `<div class="chat-bubble agent">${b}</div>`;
+    });
+  } catch (err) {
+    document.getElementById('typing-indicator')?.remove();
+    messages.innerHTML += `<div class="chat-bubble agent" style="color:var(--danger)">Erro: ${err.message}</div>`;
+  }
+  messages.scrollTop = messages.scrollHeight;
+}
+
+async function rollbackPrompt(index) {
+  if (!currentAgentId || !confirm('Restaurar esta versao do prompt?')) return;
+  try {
+    await apiFetch(`/api/os/admin/prompts/${currentAgentId}/rollback`, {
+      method: 'POST',
+      body: JSON.stringify({ index }),
+    });
+    showToast('Versao restaurada!', 'success');
+    await selectAgent(currentAgentId);
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  }
+}
+
+const TUTORIAL_STEPS = [
+  { target: '#agents-sidebar', title: 'AGENTES', text: 'Selecione um agente na lista para ver e editar todas as configuracoes.' },
+  { target: '#ap-provider', title: 'MODELO', text: 'Escolha o provider, modelo de IA, temperatura e tokens maximos.' },
+  { target: '#ap-prompt', title: 'PROMPT', text: 'Edite o system prompt do agente. Use --- para separar bolhas no WhatsApp.' },
+  { target: '#ap-media-grid', title: 'MIDIAS', text: 'Adicione videos, audios e imagens que o agente pode enviar nas conversas.' },
+  { target: '#btn-save-all', title: 'SALVAR', text: 'Clique em Salvar Tudo para aplicar todas as alteracoes de uma vez.' },
+];
+let tutorialStep = 0;
+
+function startTutorial() {
+  tutorialStep = 0;
+  document.getElementById('tutorial-overlay').style.display = '';
+  showTutorialStep();
+}
+
+function showTutorialStep() {
+  const step = TUTORIAL_STEPS[tutorialStep];
+  if (!step) { skipTutorial(); return; }
+
+  const target = document.querySelector(step.target);
+  const spot = document.getElementById('tutorial-spot');
+  const tip = document.getElementById('tutorial-tip');
+
+  if (target) {
+    const rect = target.getBoundingClientRect();
+    spot.style.top = (rect.top - 4) + 'px';
+    spot.style.left = (rect.left - 4) + 'px';
+    spot.style.width = (rect.width + 8) + 'px';
+    spot.style.height = (rect.height + 8) + 'px';
+    spot.style.display = '';
+
+    tip.style.top = (rect.bottom + 12) + 'px';
+    tip.style.left = Math.min(rect.left, window.innerWidth - 320) + 'px';
+  } else {
+    spot.style.display = 'none';
+    tip.style.top = '50%';
+    tip.style.left = '50%';
+  }
+
+  document.getElementById('tutorial-title').textContent = step.title;
+  document.getElementById('tutorial-text').textContent = step.text;
+  document.getElementById('tutorial-next-btn').textContent = tutorialStep === TUTORIAL_STEPS.length - 1 ? 'FINALIZAR' : 'PROXIMO';
+
+  // Dots
+  const dots = document.getElementById('tutorial-dots');
+  dots.innerHTML = TUTORIAL_STEPS.map((_, i) => `<span class="dot ${i === tutorialStep ? 'active' : ''}"></span>`).join('');
+}
+
+function nextTutorialStep() {
+  tutorialStep++;
+  if (tutorialStep >= TUTORIAL_STEPS.length) {
+    skipTutorial();
+  } else {
+    showTutorialStep();
+  }
+}
+
+function skipTutorial() {
+  document.getElementById('tutorial-overlay').style.display = 'none';
+  localStorage.setItem('cp_admin_tutorial_done', 'true');
+}
 
 // =============================================================
 // TAB 2: WORKFLOWS
@@ -1732,7 +2343,7 @@ function onActionTypeChange() {
           <label class="form-label">AGENTE TARGET</label>
           <select id="wf-af-agent">
             <option value="">Todos</option>
-            ${AGENTS.map(a => `<option value="${a.id}">${a.name}</option>`).join('')}
+            ${agentsListData.map(a => `<option value="${a.agentId}">${a.agentName || a.agentId}</option>`).join('')}
           </select>
         </div>
         <div class="form-group">
@@ -1788,9 +2399,9 @@ async function loadSchedules() {
     const data = await apiFetch('/api/os/admin/schedules');
     schedulesData = data.schedules || [];
   } catch {
-    schedulesData = AGENTS.map(a => ({
-      agentId: a.id,
-      name: a.name,
+    schedulesData = agentsListData.map(a => ({
+      agentId: a.agentId,
+      name: a.agentName || a.agentId,
       expression: '*/5 * * * *',
       timezone: 'America/Sao_Paulo',
       humanReadable: 'A cada 5 minutos',
@@ -1801,15 +2412,15 @@ async function loadSchedules() {
 
 function renderSchedules() {
   const container = document.getElementById('schedules-list');
-  const agent = (id) => AGENTS.find(a => a.id === id) || {};
+  const agent = (id) => agentsListData.find(a => a.agentId === id) || {};
   container.innerHTML = schedulesData.map(s => {
     const a = agent(s.agentId);
     return `
     <div class="schedule-item card" id="schedule-item-${s.agentId}">
       <div class="schedule-agent">
-        <div class="dot" style="background:${a.color || '#888'}"></div>
+        <div class="dot" style="background:#9CA3AF"></div>
         <div>
-          <div class="name">${s.name || a.name || s.agentId}</div>
+          <div class="name">${s.name || a.agentName || s.agentId}</div>
           <div class="role">${a.role || ''}</div>
         </div>
       </div>
@@ -1935,8 +2546,7 @@ function handleLiveEvent(event) {
   const severity = event.severity || (event.type === 'error' ? 'error' : 'info');
   const entry = document.createElement('div');
   entry.className = `log-entry ${severity}`;
-  const agent = AGENTS.find(a => a.id === event.agentId);
-  const color = agent?.color || '#9CA3AF';
+  const color = '#9CA3AF';
   entry.innerHTML = `
     <span class="log-ts">${formatTime(new Date(event.timestamp || Date.now()))}</span>
     <span class="log-agent" style="border-color:${color}40;background:${color}15;color:${color}">${event.agentId || 'os'}</span>
@@ -2003,10 +2613,9 @@ async function loadLogsHistory() {
     tbody.innerHTML = events.map(ev => {
       const sev = ev.severity || 'info';
       const colors = {success:'#22C55E',error:'#EF4444',warn:'#F59E0B',info:'#3B82F6'};
-      const agent2 = AGENTS.find(a => a.id === ev.agentId);
       return `<tr>
         <td>${escHtml(ev.timestamp ? new Date(ev.timestamp).toLocaleString('pt-BR') : '—')}</td>
-        <td style="color:${agent2?.color || 'var(--text-m)'}">${escHtml(ev.agentId || 'os')}</td>
+        <td style="color:var(--text-m)">${escHtml(ev.agentId || 'os')}</td>
         <td>${escHtml(ev.type || '—')}</td>
         <td><span class="badge badge-${sev}">${sev}</span></td>
         <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(ev.message || '')}</td>
@@ -2024,15 +2633,16 @@ let configData = {};
 
 function buildQuotasTable() {
   const tbody = document.getElementById('quotas-tbody');
-  tbody.innerHTML = AGENTS.map(a => `
+  const agents = agentsListData.length ? agentsListData : [];
+  tbody.innerHTML = agents.map(a => `
     <tr>
-      <td style="color:${a.color}">${a.name}</td>
+      <td style="color:var(--text-m)">${a.agentName || a.agentId}</td>
       <td>
-        <input type="number" id="quota-${a.id}" min="0" step="1000" value="100000"
+        <input type="number" id="quota-${a.agentId}" min="0" step="1000" value="100000"
           style="width:100px;text-align:right;font-size:12px;padding:5px 8px">
       </td>
     </tr>
-  `).join('');
+  `).join('') || '<tr><td colspan="2" style="color:var(--text-d);font-size:10px;padding:8px">Nenhum agente carregado</td></tr>';
 }
 
 async function loadConfig() {
@@ -2051,9 +2661,9 @@ function applyConfigToForm(cfg) {
   if (cfg.activityDetectionInterval) document.getElementById('cfg-activity-interval').value = cfg.activityDetectionInterval;
   if (cfg.ringBufferSize) document.getElementById('cfg-ring-buffer').value = cfg.ringBufferSize;
   if (cfg.tokenQuotas) {
-    AGENTS.forEach(a => {
-      const el = document.getElementById(`quota-${a.id}`);
-      if (el && cfg.tokenQuotas[a.id] !== undefined) el.value = cfg.tokenQuotas[a.id];
+    agentsListData.forEach(a => {
+      const el = document.getElementById(`quota-${a.agentId}`);
+      if (el && cfg.tokenQuotas[a.agentId] !== undefined) el.value = cfg.tokenQuotas[a.agentId];
     });
   }
 }
@@ -2061,9 +2671,9 @@ function applyConfigToForm(cfg) {
 document.getElementById('btn-save-config').addEventListener('click', async () => {
   const btn = document.getElementById('btn-save-config');
   const tokenQuotas = {};
-  AGENTS.forEach(a => {
-    const el = document.getElementById(`quota-${a.id}`);
-    if (el) tokenQuotas[a.id] = parseInt(el.value) || 0;
+  agentsListData.forEach(a => {
+    const el = document.getElementById(`quota-${a.agentId}`);
+    if (el) tokenQuotas[a.agentId] = parseInt(el.value) || 0;
   });
   const body = {
     healthCheckInterval: parseInt(document.getElementById('cfg-health-interval').value) || undefined,
@@ -2254,5 +2864,53 @@ document.addEventListener('keydown', (e) => {
 // =============================================================
 checkAuth();
 </script>
+
+<!-- Media Modal -->
+<div id="media-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeMediaModal()">
+  <div class="modal-box">
+    <h3 id="media-modal-title">ADICIONAR MIDIA</h3>
+    <input type="hidden" id="media-edit-id">
+    <div class="field">
+      <label>URL</label>
+      <input type="text" id="media-url" placeholder="https://...">
+    </div>
+    <div class="field">
+      <label>TIPO</label>
+      <select id="media-type">
+        <option value="image">Imagem</option>
+        <option value="video">Video</option>
+        <option value="audio">Audio</option>
+        <option value="pdf">PDF</option>
+        <option value="link">Link</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>LABEL</label>
+      <input type="text" id="media-label" placeholder="Nome da midia">
+    </div>
+    <div class="field">
+      <label>TAGS (separar por virgula)</label>
+      <input type="text" id="media-tags" placeholder="objecao-preco, boas-vindas">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-sm" style="border-color:var(--text-d);color:var(--text-d)" onclick="closeMediaModal()">CANCELAR</button>
+      <button class="btn btn-sm" onclick="saveMedia()">SALVAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tutorial Overlay -->
+<div id="tutorial-overlay" class="tutorial-overlay" style="display:none">
+  <div class="tutorial-spotlight" id="tutorial-spot"></div>
+  <div class="tutorial-tooltip" id="tutorial-tip">
+    <h4 id="tutorial-title"></h4>
+    <p id="tutorial-text"></p>
+    <div class="steps" id="tutorial-dots"></div>
+    <div class="tutorial-nav">
+      <button class="btn btn-xs" onclick="skipTutorial()">PULAR</button>
+      <button class="btn btn-xs" id="tutorial-next-btn" onclick="nextTutorialStep()">PROXIMO</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
