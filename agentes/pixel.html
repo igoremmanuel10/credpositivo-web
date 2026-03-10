@@ -15,6 +15,7 @@
 --luan:#F59E0B;--igor:#06B6D4;--alex:#EF4444;--musk:#EAB308;
 --bia:#EC4899;--carol:#F472B6;--fernando:#14B8A6;
 --vapi:#A855F7;--agenda:#0EA5E9;--coaching:#F97316;
+--andre:#D946EF;--claudia:#FB923C;--brenda:#6366F1;
 --glass:rgba(255,255,255,0.03);--glass-b:rgba(255,255,255,0.08);
 --text:#FFFFFF;--text-m:#9CA3AF;--text-d:#6B7280;
 }
@@ -186,7 +187,13 @@ const AGENTS = [
   {id:'agenda',name:'Agenda',role:'Agenda & Reunioes',color:'#0EA5E9',
    room:'control',deskX:0,deskY:0},
   {id:'coaching',name:'Coach',role:'Accountability',color:'#F97316',
-   room:'ceo',deskX:0,deskY:0}
+   room:'ceo',deskX:0,deskY:0},
+  {id:'andre',name:'Andre',role:'Copywriter',color:'#D946EF',
+   room:'break',deskX:0,deskY:0},
+  {id:'claudia',name:'Claudia',role:'Designer UX/UI',color:'#FB923C',
+   room:'main',deskX:0,deskY:0},
+  {id:'brenda',name:'Brenda',role:'Estrategista',color:'#6366F1',
+   room:'control',deskX:0,deskY:0}
 ];
 
 const SKIN_COLORS = ['#F5D0A9','#E8C39E','#D4A574','#C49A6C','#F5C6AA','#E0B896','#DEB887'];
@@ -195,7 +202,7 @@ const SKIN_COLORS = ['#F5D0A9','#E8C39E','#D4A574','#C49A6C','#F5C6AA','#E0B896'
 const canvas = document.getElementById('office-canvas');
 const ctx = canvas.getContext('2d');
 let W, H, SCALE, PIXEL;
-let officeW = 440, officeH = 310;
+let officeW = 460, officeH = 330;
 let offsetX = 0, offsetY = 0;
 let frame = 0, slowFrame = 0, tick = 0;
 let particles = [];
@@ -233,14 +240,14 @@ window.addEventListener('resize', resize);
 // ===== OFFICE LAYOUT =====
 // Rooms defined in virtual coords (officeW x officeH grid)
 const ROOMS = {
-  ceo:    {x:130,y:10,  w:150,h:70, label:'CEO OFFICE'},
-  control:{x:8,  y:90, w:115,h:110, label:'CONTROL ROOM'},
-  main:   {x:131,y:90, w:185,h:110, label:'MAIN OFFICE'},
-  server: {x:324,y:90, w:108,h:110, label:'SERVER ROOM'},
-  break_: {x:8,  y:210,w:115,h:90, label:'BREAK ROOM'}
+  ceo:    {x:130,y:10,  w:160,h:70, label:'CEO OFFICE'},
+  control:{x:8,  y:90, w:115,h:130, label:'CONTROL ROOM'},
+  main:   {x:131,y:90, w:200,h:130, label:'MAIN OFFICE'},
+  server: {x:339,y:90, w:113,h:130, label:'SERVER ROOM'},
+  break_: {x:8,  y:230,w:115,h:90, label:'BREAK ROOM'}
 };
 
-const COFFEE_POS = {x:28, y:258};
+const COFFEE_POS = {x:28, y:278};
 
 function assignDesks() {
   const byId = {};
@@ -248,27 +255,30 @@ function assignDesks() {
 
   // CEO room: Musk (center-left) + Coach (center-right)
   byId['musk'].deskX    = ROOMS.ceo.x + 55;  byId['musk'].deskY    = ROOMS.ceo.y + 35;
-  byId['coaching'].deskX= ROOMS.ceo.x + 100; byId['coaching'].deskY= ROOMS.ceo.y + 35;
+  byId['coaching'].deskX= ROOMS.ceo.x + 105; byId['coaching'].deskY= ROOMS.ceo.y + 35;
 
-  // Control room: Igor (upper) + Agenda (lower)
-  byId['igor'].deskX    = ROOMS.control.x + 57; byId['igor'].deskY    = ROOMS.control.y + 38;
-  byId['agenda'].deskX  = ROOMS.control.x + 57; byId['agenda'].deskY  = ROOMS.control.y + 78;
+  // Control room: Igor (upper-center) + Brenda (mid-center) + Agenda (lower-center)
+  byId['igor'].deskX    = ROOMS.control.x + 57; byId['igor'].deskY    = ROOMS.control.y + 30;
+  byId['brenda'].deskX  = ROOMS.control.x + 57; byId['brenda'].deskY  = ROOMS.control.y + 68;
+  byId['agenda'].deskX  = ROOMS.control.x + 57; byId['agenda'].deskY  = ROOMS.control.y + 106;
 
-  // Main office: 5 agents in a 3-top / 2-bottom arrangement
+  // Main office: 3-top / 3-bottom arrangement (6 agents)
   const mx = ROOMS.main.x, my = ROOMS.main.y;
-  byId['augusto'].deskX = mx + 30;  byId['augusto'].deskY = my + 32;
-  byId['paulo'].deskX   = mx + 90;  byId['paulo'].deskY   = my + 32;
-  byId['ana'].deskX     = mx + 150; byId['ana'].deskY     = my + 32;
-  byId['carol'].deskX   = mx + 50;  byId['carol'].deskY   = my + 78;
-  byId['fernando'].deskX= mx + 120; byId['fernando'].deskY= my + 78;
+  byId['augusto'].deskX = mx + 28;  byId['augusto'].deskY = my + 32;
+  byId['paulo'].deskX   = mx + 95;  byId['paulo'].deskY   = my + 32;
+  byId['ana'].deskX     = mx + 162; byId['ana'].deskY     = my + 32;
+  byId['carol'].deskX   = mx + 28;  byId['carol'].deskY   = my + 88;
+  byId['fernando'].deskX= mx + 95;  byId['fernando'].deskY= my + 88;
+  byId['claudia'].deskX = mx + 162; byId['claudia'].deskY = my + 88;
 
   // Server room: Alex (upper) + Vapi (lower)
-  byId['alex'].deskX    = ROOMS.server.x + 54; byId['alex'].deskY    = ROOMS.server.y + 38;
-  byId['vapi'].deskX    = ROOMS.server.x + 54; byId['vapi'].deskY    = ROOMS.server.y + 78;
+  byId['alex'].deskX    = ROOMS.server.x + 56; byId['alex'].deskY    = ROOMS.server.y + 38;
+  byId['vapi'].deskX    = ROOMS.server.x + 56; byId['vapi'].deskY    = ROOMS.server.y + 88;
 
-  // Break room: Luan (left) + Bia (right)
-  byId['luan'].deskX    = ROOMS.break_.x + 30; byId['luan'].deskY    = ROOMS.break_.y + 45;
-  byId['bia'].deskX     = ROOMS.break_.x + 78; byId['bia'].deskY     = ROOMS.break_.y + 45;
+  // Break room: Luan (upper-left) + Bia (upper-right) + Andre (lower-center)
+  byId['luan'].deskX    = ROOMS.break_.x + 28; byId['luan'].deskY    = ROOMS.break_.y + 32;
+  byId['bia'].deskX     = ROOMS.break_.x + 78; byId['bia'].deskY     = ROOMS.break_.y + 32;
+  byId['andre'].deskX   = ROOMS.break_.x + 53; byId['andre'].deskY   = ROOMS.break_.y + 68;
 
   AGENTS.forEach(a => {
     const s = agentStates[a.id];
@@ -506,41 +516,45 @@ function drawFurniture() {
       px(ROOMS.control.x + 12 + i*34, ROOMS.control.y + 12 + j*3, lw, 1);
     }
   }
-  // Agenda - standard desk below Igor
+  // Brenda - standard desk (mid control room)
+  drawDesk(byId['brenda'].deskX, byId['brenda'].deskY, true);
+  // Agenda - standard desk (lower control room)
   drawDesk(byId['agenda'].deskX, byId['agenda'].deskY, true);
 
-  // --- MAIN OFFICE (5 agents) ---
+  // --- MAIN OFFICE (6 agents) ---
   drawDesk(byId['augusto'].deskX, byId['augusto'].deskY, true);
   drawDesk(byId['paulo'].deskX,   byId['paulo'].deskY,   true);
   drawDesk(byId['ana'].deskX,     byId['ana'].deskY,     true);
   drawDesk(byId['carol'].deskX,   byId['carol'].deskY,   true);
   drawDesk(byId['fernando'].deskX,byId['fernando'].deskY,true);
+  drawDesk(byId['claudia'].deskX, byId['claudia'].deskY, true);
 
   // --- SERVER ROOM ---
   drawServerRack(ROOMS.server.x + 8,  ROOMS.server.y + 8);
   drawServerRack(ROOMS.server.x + 22, ROOMS.server.y + 8);
-  drawServerRack(ROOMS.server.x + 74, ROOMS.server.y + 8);
-  drawServerRack(ROOMS.server.x + 8,  ROOMS.server.y + 40);
-  drawServerRack(ROOMS.server.x + 74, ROOMS.server.y + 40);
+  drawServerRack(ROOMS.server.x + 84, ROOMS.server.y + 8);
+  drawServerRack(ROOMS.server.x + 8,  ROOMS.server.y + 55);
+  drawServerRack(ROOMS.server.x + 84, ROOMS.server.y + 55);
   drawDesk(byId['alex'].deskX, byId['alex'].deskY, true);
   drawDesk(byId['vapi'].deskX, byId['vapi'].deskY, true);
 
   // --- BREAK ROOM ---
   drawCoffeeMachine(COFFEE_POS.x, COFFEE_POS.y);
-  // Luan and Bia have desks in break room
-  drawDesk(byId['luan'].deskX, byId['luan'].deskY, true);
-  drawDesk(byId['bia'].deskX,  byId['bia'].deskY,  true);
+  // Luan, Bia and Andre have desks in break room
+  drawDesk(byId['luan'].deskX,  byId['luan'].deskY,  true);
+  drawDesk(byId['bia'].deskX,   byId['bia'].deskY,   true);
+  drawDesk(byId['andre'].deskX, byId['andre'].deskY, true);
 
   // --- PLANTS ---
   drawPlant(ROOMS.main.x + 6,   ROOMS.main.y + 6);
-  drawPlant(ROOMS.main.x + 170, ROOMS.main.y + 6);
+  drawPlant(ROOMS.main.x + 185, ROOMS.main.y + 6);
   drawPlant(ROOMS.ceo.x + 6,    ROOMS.ceo.y + 6);
-  drawPlant(ROOMS.ceo.x + 133,  ROOMS.ceo.y + 6);
+  drawPlant(ROOMS.ceo.x + 143,  ROOMS.ceo.y + 6);
   drawPlant(ROOMS.break_.x + 90, ROOMS.break_.y + 6);
 
   // --- CLOCKS ---
-  drawClock(ROOMS.main.x + 82, ROOMS.main.y + 3);
-  drawClock(ROOMS.ceo.x + 68,  ROOMS.ceo.y + 3);
+  drawClock(ROOMS.main.x + 90, ROOMS.main.y + 3);
+  drawClock(ROOMS.ceo.x + 72,  ROOMS.ceo.y + 3);
 }
 
 // ===== DRAW AGENTS =====
@@ -887,6 +901,18 @@ function getAgentMetricRows(agent, s) {
     case 'coaching':
       return `
       <div class="metric-row"><span>Check-ins Hoje</span><span class="metric-val">${m.checkinsToday ?? m.checkins ?? '-'}</span></div>`;
+    case 'andre':
+      return `
+      <div class="metric-row"><span>Copies Criadas</span><span class="metric-val">${m.copiesCriadas ?? m.copies ?? '-'}</span></div>
+      <div class="metric-row"><span>Ads Escritos</span><span class="metric-val">${m.adsEscritos ?? m.ads ?? '-'}</span></div>`;
+    case 'claudia':
+      return `
+      <div class="metric-row"><span>Designs Criados</span><span class="metric-val">${m.designsCriados ?? m.designs ?? '-'}</span></div>
+      <div class="metric-row"><span>Pages Built</span><span class="metric-val">${m.pagesBuilt ?? m.pages ?? '-'}</span></div>`;
+    case 'brenda':
+      return `
+      <div class="metric-row"><span>Analises</span><span class="metric-val">${m.analises ?? m.analyses ?? '-'}</span></div>
+      <div class="metric-row"><span>Estrategias</span><span class="metric-val">${m.estrategias ?? m.strategies ?? '-'}</span></div>`;
     default:
       return `
       <div class="metric-row"><span>Conversas</span><span class="metric-val">${m.conversations ?? '-'}</span></div>
