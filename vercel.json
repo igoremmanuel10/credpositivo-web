@@ -59,6 +59,7 @@
   ],
   "rewrites": [
     { "source": "/api/:path*", "destination": "http://159.223.141.100:3001/api/:path*" },
+    { "source": "/webhook/:path*", "destination": "http://159.223.141.100:3001/webhook/:path*" },
     { "source": "/bio", "destination": "/index.html" }
   ]
 }
