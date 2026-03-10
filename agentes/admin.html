@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | CredPositivo AI OS</title>
+<link rel="icon" href="../v2-assets/assets/images/logo.webp" type="image/webp">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0F1115;
+  --bg2:#13151a;
+  --bg3:#1a1d24;
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.12);
+  --accent:#00ff88;
+  --accent2:#06B6D4;
+  --accent3:#8B5CF6;
+  --danger:#EF4444;
+  --warn:#F59E0B;
+  --info:#3B82F6;
+  --text:#FFFFFF;
+  --text-m:#9CA3AF;
+  --text-d:#6B7280;
+  --augusto:#3B82F6;
+  --paulo:#8B5CF6;
+  --ana:#22C55E;
+  --luan:#F59E0B;
+  --igor:#06B6D4;
+  --alex:#EF4444;
+  --musk:#EAB308;
+  --glass:rgba(255,255,255,0.03);
+  --glass-b:rgba(255,255,255,0.06);
+  --radius:6px;
+}
+
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Press Start 2P',monospace;
+  font-size:11px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ---- LOGIN OVERLAY ---- */
+#login-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{
+  width:360px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  padding:40px 32px;
+  display:flex;flex-direction:column;gap:24px;
+}
+.login-box .brand{
+  text-align:center;
+  font-size:10px;
+  letter-spacing:2px;
+  line-height:1.8;
+}
+.login-box .brand .title{
+  background:linear-gradient(90deg,#22C55E,#06B6D4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.login-box .brand .sub{font-size:7px;color:var(--text-d);margin-top:6px}
+.login-form{display:flex;flex-direction:column;gap:14px}
+.field-group{display:flex;flex-direction:column;gap:6px}
+.field-group label{font-size:8px;color:var(--text-d);letter-spacing:1px}
+
+/* ---- BASE INPUTS ---- */
+input,select,textarea{
+  font-family:'Press Start 2P',monospace;
+  font-size:10px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--text);
+  padding:10px 12px;
+  width:100%;
+  outline:none;
+  transition:border-color 0.2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent2)}
+input::placeholder,textarea::placeholder{color:var(--text-d)}
+select option{background:var(--bg3)}
+textarea{resize:vertical;line-height:1.7}
+
+/* ---- BUTTONS ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-family:'Press Start 2P',monospace;
+  font-size:9px;
+  padding:9px 16px;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:all 0.18s;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+.btn-primary{background:#00ff8820;border-color:var(--accent);color:var(--accent)}
+.btn-primary:hover:not(:disabled){background:#00ff8835}
+.btn-secondary{background:var(--glass);border-color:var(--border2);color:var(--text-m)}
+.btn-secondary:hover:not(:disabled){background:var(--glass-b);color:var(--text)}
+.btn-danger{background:#EF444415;border-color:var(--danger);color:var(--danger)}
+.btn-danger:hover:not(:disabled){background:#EF444425}
+.btn-warn{background:#F59E0B15;border-color:var(--warn);color:var(--warn)}
+.btn-warn:hover:not(:disabled){background:#F59E0B25}
+.btn-info{background:#3B82F615;border-color:var(--info);color:var(--info)}
+.btn-info:hover:not(:disabled){background:#3B82F625}
+.btn-sm{font-size:7px;padding:6px 10px}
+.btn-xs{font-size:6px;padding:4px 8px}
+.btn-icon{padding:7px;width:32px;height:32px}
+.btn-full{width:100%}
+
+/* ---- TOP BAR ---- */
+.top-bar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,17,21,0.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  padding:0 24px;
+  display:flex;align-items:center;gap:0;
+  height:52px;
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  margin-right:32px;
+  flex-shrink:0;
+}
+.brand h1{
+  font-size:9px;
+  letter-spacing:1.5px;
+  background:linear-gradient(90deg,#22C55E,#06B6D4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.brand .badge{
+  font-size:6px;
+  padding:2px 6px;
+  background:#EF444420;
+  border:1px solid var(--danger);
+  color:var(--danger);
+  border-radius:3px;
+  letter-spacing:1px;
+}
+
+/* ---- NAV TABS ---- */
+.nav-tabs{
+  display:flex;align-items:center;gap:0;
+  flex:1;
+  height:100%;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{
+  display:flex;align-items:center;gap:7px;
+  padding:0 18px;
+  height:100%;
+  font-size:8px;
+  color:var(--text-d);
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.18s;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+  font-family:'Press Start 2P',monospace;
+}
+.nav-tab:hover{color:var(--text-m)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-tab i{font-size:14px}
+
+.top-bar-right{
+  display:flex;align-items:center;gap:12px;
+  margin-left:auto;
+  flex-shrink:0;
+}
+.user-chip{
+  display:flex;align-items:center;gap:7px;
+  font-size:8px;color:var(--text-m);
+  padding:5px 10px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--accent);
+  animation:pulse-dot 2s infinite;flex-shrink:0;
+}
+@keyframes pulse-dot{
+  0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.5)}
+  50%{box-shadow:0 0 0 4px rgba(0,255,136,0)}
+}
+
+/* ---- MAIN LAYOUT ---- */
+.app-body{
+  display:flex;
+  height:calc(100vh - 52px);
+}
+.page{display:none;flex:1;overflow:hidden}
+.page.active{display:flex}
+
+/* ---- PAGE INNER ---- */
+.page-inner{
+  flex:1;
+  overflow-y:auto;
+  padding:24px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.page-title{
+  font-size:12px;
+  letter-spacing:1px;
+  color:var(--text);
+}
+.page-sub{font-size:7px;color:var(--text-d);margin-top:6px;line-height:1.8}
+
+/* ---- CARDS ---- */
+.card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+}
+.card-title{font-size:9px;color:var(--text-m);letter-spacing:1px}
+.card-body{padding:18px}
+.card-body-sm{padding:12px}
+
+/* ---- PROMPTS PAGE ---- */
+.prompts-layout{
+  display:flex;
+  gap:0;
+  height:100%;
+  overflow:hidden;
+}
+.agents-sidebar{
+  width:220px;
+  flex-shrink:0;
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  padding:16px 12px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.sidebar-label{
+  font-size:7px;color:var(--text-d);letter-spacing:1.5px;
+  padding:0 6px;margin-bottom:8px;
+}
+.agent-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 10px;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:all 0.18s;
+}
+.agent-item:hover{background:var(--glass);border-color:var(--border)}
+.agent-item.active{background:var(--glass-b);border-color:var(--border2)}
+.agent-item .dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.agent-item .info .name{font-size:8px;margin-bottom:3px}
+.agent-item .info .role{font-size:6px;color:var(--text-d)}
+
+.prompt-editor-area{
+  flex:1;
+  overflow-y:auto;
+  padding:24px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.prompt-meta{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.meta-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px 14px;
+}
+.meta-card .label{font-size:7px;color:var(--text-d);margin-bottom:6px;letter-spacing:1px}
+.meta-card .value{font-size:9px;color:var(--text)}
+.meta-card .value.accent{color:var(--accent)}
+.meta-card .value.override{color:var(--warn)}
+
+.prompt-textarea-wrap{
+  display:flex;flex-direction:column;gap:10px;
+}
+.prompt-textarea-label{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:8px;color:var(--text-d);letter-spacing:1px;
+}
+.prompt-textarea{
+  font-size:9px;
+  line-height:1.8;
+  min-height:340px;
+  background:var(--bg3);
+  border-color:var(--border);
+  font-family:'Courier New',monospace;
+  resize:vertical;
+  padding:16px;
+}
+.prompt-actions{
+  display:flex;align-items:center;gap:10px;
+}
+.char-count{font-size:7px;color:var(--text-d);margin-left:auto}
+
+/* ---- WORKFLOWS PAGE ---- */
+.workflows-layout{
+  display:flex;flex-direction:column;gap:20px;
+  padding:24px;
+  overflow-y:auto;
+  flex:1;
+}
+.rules-table-wrap{overflow-x:auto}
+.rules-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:8px;
+}
+.rules-table th{
+  text-align:left;
+  padding:10px 14px;
+  color:var(--text-d);
+  border-bottom:1px solid var(--border);
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.rules-table td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  color:var(--text-m);
+  vertical-align:middle;
+}
+.rules-table tr:last-child td{border-bottom:none}
+.rules-table tr:hover td{background:var(--glass)}
+.rule-name{color:var(--text);font-size:8px}
+.rule-trigger{
+  font-size:7px;
+  padding:3px 8px;
+  border-radius:3px;
+  background:#3B82F615;
+  border:1px solid #3B82F630;
+  color:#3B82F6;
+  display:inline-block;
+}
+.rule-condition{
+  font-family:'Courier New',monospace;
+  font-size:8px;
+  color:var(--warn);
+  max-width:220px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.rule-stats{font-size:7px;color:var(--text-d)}
+
+/* Toggle switch */
+.toggle{
+  position:relative;display:inline-block;
+  width:36px;height:20px;
+}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{
+  position:absolute;inset:0;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.toggle-slider:before{
+  content:'';position:absolute;
+  left:3px;top:3px;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:var(--text-d);
+  transition:all 0.2s;
+}
+.toggle input:checked+.toggle-slider{
+  background:#00ff8815;
+  border-color:var(--accent);
+}
+.toggle input:checked+.toggle-slider:before{
+  transform:translateX(16px);
+  background:var(--accent);
+}
+
+.action-buttons{display:flex;align-items:center;gap:6px}
+
+/* ---- MODAL ---- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  width:100%;max-width:560px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  display:flex;flex-direction:column;
+  max-height:90vh;
+  transform:translateY(16px);
+  transition:transform 0.2s;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.modal-title{font-size:10px;letter-spacing:1px}
+.modal-close{
+  background:none;border:none;color:var(--text-d);
+  cursor:pointer;font-size:18px;transition:color 0.15s;
+  display:flex;align-items:center;
+}
+.modal-close:hover{color:var(--text)}
+.modal-body{
+  padding:22px;
+  overflow-y:auto;
+  display:flex;flex-direction:column;gap:16px;
+}
+.modal-footer{
+  padding:16px 22px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+  flex-shrink:0;
+}
+
+/* ---- FORM GROUPS ---- */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:8px;color:var(--text-d);letter-spacing:0.5px}
+.form-hint{font-size:7px;color:var(--text-d);margin-top:3px;line-height:1.7}
+.form-error{font-size:7px;color:var(--danger);margin-top:3px}
+
+/* ---- SCHEDULES PAGE ---- */
+.schedules-layout{
+  padding:24px;overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:20px;
+}
+.schedule-item{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  display:flex;align-items:center;gap:16px;
+}
+.schedule-agent{
+  display:flex;align-items:center;gap:10px;
+  min-width:160px;
+}
+.schedule-agent .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.schedule-agent .name{font-size:9px}
+.schedule-agent .role{font-size:7px;color:var(--text-d);margin-top:3px}
+.schedule-cron{flex:1;display:flex;align-items:center;gap:10px}
+.cron-input{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  max-width:200px;
+  background:var(--bg3);
+  letter-spacing:1px;
+}
+.cron-human{
+  font-size:7px;color:var(--accent2);
+  flex:1;
+}
+.schedule-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+/* ---- LOGS PAGE ---- */
+.logs-layout{
+  display:flex;flex-direction:column;
+  height:100%;
+  overflow:hidden;
+}
+.logs-toolbar{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+.logs-toolbar select,
+.logs-toolbar input{
+  font-size:8px;
+  padding:7px 10px;
+  width:auto;
+}
+.logs-toolbar input{min-width:160px}
+.logs-live{
+  flex:1;
+  overflow-y:auto;
+  padding:12px;
+  display:flex;flex-direction:column;
+  gap:2px;
+  min-height:180px;
+  max-height:260px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+}
+.log-entry{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:5px 8px;
+  border-radius:4px;
+  font-size:8px;
+  line-height:1.6;
+  transition:background 0.1s;
+  font-family:'Courier New',monospace;
+}
+.log-entry:hover{background:var(--glass)}
+.log-ts{color:var(--text-d);white-space:nowrap;flex-shrink:0;min-width:80px}
+.log-agent{
+  min-width:60px;font-size:7px;padding:1px 6px;
+  border-radius:3px;flex-shrink:0;
+  border:1px solid transparent;
+  text-align:center;
+}
+.log-type{min-width:130px;color:var(--text-m);font-size:8px;flex-shrink:0}
+.log-msg{color:var(--text-m);flex:1}
+.log-entry.success .log-type,.log-entry.success .log-msg{color:#22C55E}
+.log-entry.error .log-type,.log-entry.error .log-msg{color:var(--danger)}
+.log-entry.warn .log-type,.log-entry.warn .log-msg{color:var(--warn)}
+.log-entry.info .log-type,.log-entry.info .log-msg{color:var(--info)}
+.log-entry.success{background:#22C55E08}
+.log-entry.error{background:#EF444408}
+.log-entry.warn{background:#F59E0B08}
+.log-entry.info{background:#3B82F608}
+
+.sse-status{
+  font-size:7px;padding:2px 8px;border-radius:3px;
+  letter-spacing:1px;flex-shrink:0;
+}
+.sse-status.connected{background:#22C55E20;border:1px solid #22C55E40;color:#22C55E}
+.sse-status.disconnected{background:#EF444420;border:1px solid #EF444440;color:var(--danger)}
+.sse-status.connecting{background:#F59E0B20;border:1px solid #F59E0B40;color:var(--warn)}
+
+.logs-history{
+  flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+.logs-history-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  font-size:8px;color:var(--text-d);letter-spacing:1px;
+  flex-shrink:0;
+}
+.logs-history-table{
+  flex:1;overflow-y:auto;
+}
+.logs-table{
+  width:100%;border-collapse:collapse;font-size:8px;
+}
+.logs-table th{
+  padding:10px 14px;
+  text-align:left;
+  color:var(--text-d);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--bg2);
+  letter-spacing:0.5px;
+}
+.logs-table td{
+  padding:9px 14px;
+  border-bottom:1px solid var(--border);
+  color:var(--text-m);
+  font-family:'Courier New',monospace;
+}
+.logs-table tr:last-child td{border-bottom:none}
+
+.logs-pagination{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;
+  border-top:1px solid var(--border);
+  font-size:8px;color:var(--text-d);
+  flex-shrink:0;
+}
+.pagination-controls{display:flex;align-items:center;gap:8px}
+
+/* ---- CONFIG PAGE ---- */
+.config-layout{
+  padding:24px;overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:20px;
+}
+.config-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+}
+.config-section-title{
+  font-size:9px;color:var(--text-m);letter-spacing:1px;margin-bottom:14px;
+}
+.config-field{
+  display:flex;flex-direction:column;gap:7px;margin-bottom:14px;
+}
+.config-field label{font-size:8px;color:var(--text-d);letter-spacing:0.5px}
+.config-field input{font-size:10px}
+.quotas-table{width:100%;border-collapse:collapse;font-size:8px}
+.quotas-table th{padding:8px 12px;text-align:left;color:var(--text-d);border-bottom:1px solid var(--border)}
+.quotas-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+.quotas-table td:last-child{text-align:right}
+.quotas-table input{
+  width:100px;text-align:right;
+  font-size:9px;padding:5px 8px;
+}
+
+/* ---- NOTIFICATIONS PAGE ---- */
+.notif-layout{
+  padding:24px;overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:20px;
+}
+.notif-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.event-type-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+}
+.event-type-row:last-child{border-bottom:none}
+.event-type-row .name{font-size:8px;color:var(--text)}
+.event-type-row .desc{font-size:7px;color:var(--text-d);margin-top:3px}
+
+/* ---- TOAST ---- */
+#toast-container{
+  position:fixed;bottom:24px;right:24px;z-index:9000;
+  display:flex;flex-direction:column;gap:8px;
+  pointer-events:none;
+}
+.toast{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  font-size:9px;
+  min-width:240px;max-width:360px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  animation:toast-in 0.25s ease-out;
+  pointer-events:all;
+}
+.toast.success{border-color:#22C55E40;background:#22C55E08}
+.toast.error{border-color:#EF444440;background:#EF444408}
+.toast.info{border-color:#3B82F640;background:#3B82F608}
+.toast.warn{border-color:#F59E0B40;background:#F59E0B08}
+.toast-icon{font-size:16px;flex-shrink:0}
+.toast.success .toast-icon{color:#22C55E}
+.toast.error .toast-icon{color:var(--danger)}
+.toast.info .toast-icon{color:var(--info)}
+.toast.warn .toast-icon{color:var(--warn)}
+.toast-msg{flex:1;line-height:1.6;color:var(--text-m)}
+.toast-close{background:none;border:none;color:var(--text-d);cursor:pointer;font-size:14px;padding:0}
+.toast-close:hover{color:var(--text)}
+@keyframes toast-in{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+
+/* ---- SPINNER ---- */
+.spinner{
+  display:inline-block;
+  width:14px;height:14px;
+  border:2px solid var(--border2);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin 0.7s linear infinite;
+  flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner-lg{width:24px;height:24px;border-width:3px}
+
+/* ---- CONFIRM DIALOG ---- */
+.confirm-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.15s;
+}
+.confirm-overlay.open{opacity:1;pointer-events:all}
+.confirm-box{
+  width:360px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  padding:28px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.confirm-icon{font-size:32px;color:var(--danger);text-align:center}
+.confirm-title{font-size:10px;text-align:center;line-height:1.7}
+.confirm-msg{font-size:8px;color:var(--text-m);text-align:center;line-height:1.8}
+.confirm-actions{display:flex;gap:10px}
+
+/* ---- EMPTY STATE ---- */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;gap:14px;
+  color:var(--text-d);
+}
+.empty-state i{font-size:40px}
+.empty-state p{font-size:8px;line-height:1.8;text-align:center}
+
+/* ---- SKELETON ---- */
+.skeleton{
+  background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:4px;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ---- BACK LINK ---- */
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:8px;color:var(--text-d);
+  text-decoration:none;
+  transition:color 0.15s;
+}
+.back-link:hover{color:var(--text-m)}
+
+/* ---- BADGE ---- */
+.badge{
+  font-size:6px;padding:2px 6px;
+  border-radius:3px;display:inline-block;letter-spacing:0.5px;
+}
+.badge-success{background:#22C55E20;border:1px solid #22C55E40;color:#22C55E}
+.badge-error{background:#EF444420;border:1px solid #EF444440;color:var(--danger)}
+.badge-warn{background:#F59E0B20;border:1px solid #F59E0B40;color:var(--warn)}
+.badge-info{background:#3B82F620;border:1px solid #3B82F640;color:var(--info)}
+.badge-custom{background:var(--glass-b);border:1px solid var(--border2);color:var(--text-m)}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  .prompts-layout{flex-direction:column}
+  .agents-sidebar{width:100%;height:auto;flex-direction:row;border-right:none;border-bottom:1px solid var(--border);overflow-x:auto;padding:10px}
+  .agents-sidebar .sidebar-label{display:none}
+  .agent-item{flex-shrink:0;min-width:120px}
+  .config-grid,.notif-grid{grid-template-columns:1fr}
+  .prompt-meta{grid-template-columns:1fr 1fr}
+  .schedule-item{flex-wrap:wrap}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .top-bar{padding:0 12px}
+  .nav-tab span{display:none}
+  .nav-tab{padding:0 12px}
+  .prompt-meta{grid-template-columns:1fr}
+  .page-inner{padding:16px}
+  .brand h1{font-size:7px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="brand">
+      <div class="title">CREDPOSITIVO AI OS</div>
+      <div class="sub">ADMIN PANEL v1.0</div>
+    </div>
+    <form class="login-form" id="login-form">
+      <div class="field-group">
+        <label>EMAIL</label>
+        <input type="email" id="login-email" placeholder="admin@credpositivo.com" autocomplete="email" required>
+      </div>
+      <div class="field-group">
+        <label>SENHA</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <div id="login-error" style="font-size:8px;color:var(--danger);display:none;text-align:center;line-height:1.8"></div>
+      <button type="submit" class="btn btn-primary btn-full" id="login-btn">
+        <i class="ph ph-sign-in"></i> ENTRAR
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;flex-direction:column;height:100vh;">
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="brand">
+      <a href="pixel.html" class="back-link" title="Voltar ao Dashboard">
+        <i class="ph ph-arrow-left"></i>
+      </a>
+      <h1>AI OS ADMIN</h1>
+      <span class="badge" style="background:#EF444415;border-color:#EF444440;color:var(--danger)">ADMIN</span>
+    </div>
+    <nav class="nav-tabs" id="nav-tabs">
+      <button class="nav-tab active" data-tab="prompts">
+        <i class="ph ph-chat-text"></i><span>Prompts</span>
+      </button>
+      <button class="nav-tab" data-tab="workflows">
+        <i class="ph ph-flow-arrow"></i><span>Workflows</span>
+      </button>
+      <button class="nav-tab" data-tab="schedules">
+        <i class="ph ph-clock"></i><span>Schedules</span>
+      </button>
+      <button class="nav-tab" data-tab="logs">
+        <i class="ph ph-list-bullets"></i><span>Logs</span>
+      </button>
+      <button class="nav-tab" data-tab="config">
+        <i class="ph ph-sliders"></i><span>Config</span>
+      </button>
+      <button class="nav-tab" data-tab="notifications">
+        <i class="ph ph-bell"></i><span>Notificações</span>
+      </button>
+    </nav>
+    <div class="top-bar-right">
+      <span class="sse-status disconnected" id="sse-indicator">SSE OFF</span>
+      <div class="user-chip">
+        <span class="status-dot"></span>
+        <span id="user-email-chip">admin</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="logout-btn">
+        <i class="ph ph-sign-out"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGES -->
+  <div class="app-body">
+
+    <!-- ============================================================
+         TAB 1: PROMPTS
+    ============================================================ -->
+    <section class="page active" id="page-prompts">
+      <div class="prompts-layout">
+        <!-- Sidebar -->
+        <aside class="agents-sidebar" id="agents-sidebar">
+          <div class="sidebar-label">AGENTES</div>
+          <!-- populated by JS -->
+        </aside>
+        <!-- Editor -->
+        <div class="prompt-editor-area" id="prompt-editor-area">
+          <div class="empty-state" id="prompt-empty">
+            <i class="ph ph-robot"></i>
+            <p>Selecione um agente para editar o prompt.</p>
+          </div>
+          <div id="prompt-editor-content" style="display:none;flex-direction:column;gap:20px">
+            <div class="page-header">
+              <div>
+                <div class="page-title" id="prompt-agent-name">Agente</div>
+                <div class="page-sub" id="prompt-agent-role"></div>
+              </div>
+            </div>
+            <div class="prompt-meta">
+              <div class="meta-card">
+                <div class="label">MODELO</div>
+                <div class="value accent" id="meta-model">—</div>
+              </div>
+              <div class="meta-card">
+                <div class="label">OVERRIDE ATIVO</div>
+                <div class="value" id="meta-override">—</div>
+              </div>
+              <div class="meta-card">
+                <div class="label">CHARS</div>
+                <div class="value" id="meta-chars">0</div>
+              </div>
+            </div>
+            <div class="prompt-textarea-wrap">
+              <div class="prompt-textarea-label">
+                <span>SYSTEM PROMPT</span>
+                <span id="prompt-saved-at" style="font-size:7px;color:var(--text-d)"></span>
+              </div>
+              <textarea
+                class="prompt-textarea"
+                id="prompt-textarea"
+                placeholder="Digite o system prompt do agente aqui..."
+                spellcheck="false"
+              ></textarea>
+            </div>
+            <div class="prompt-actions">
+              <button class="btn btn-secondary" id="btn-reset-prompt">
+                <i class="ph ph-arrow-counter-clockwise"></i> Reset
+              </button>
+              <span class="char-count" id="char-count">0 chars</span>
+              <button class="btn btn-primary" id="btn-save-prompt">
+                <i class="ph ph-floppy-disk"></i> Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: WORKFLOWS
+    ============================================================ -->
+    <section class="page" id="page-workflows">
+      <div class="workflows-layout">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Workflow Rules</div>
+            <div class="page-sub">Regras de automação e triggers do OS</div>
+          </div>
+          <button class="btn btn-primary" id="btn-add-workflow">
+            <i class="ph ph-plus"></i> Add Rule
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">REGRAS ATIVAS</span>
+            <span id="workflow-count" style="font-size:8px;color:var(--text-d)">0 regras</span>
+          </div>
+          <div class="rules-table-wrap">
+            <table class="rules-table" id="rules-table">
+              <thead>
+                <tr>
+                  <th>NOME</th>
+                  <th>TRIGGER</th>
+                  <th>CONDIÇÃO</th>
+                  <th>AÇÃO</th>
+                  <th>STATS</th>
+                  <th>ATIVO</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rules-tbody">
+                <tr>
+                  <td colspan="7">
+                    <div class="empty-state" style="padding:30px">
+                      <i class="ph ph-flow-arrow"></i>
+                      <p>Nenhuma regra encontrada.</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: SCHEDULES
+    ============================================================ -->
+    <section class="page" id="page-schedules">
+      <div class="schedules-layout">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Schedules</div>
+            <div class="page-sub">Cron expressions por agente (UTC)</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-refresh-schedules">
+            <i class="ph ph-arrows-clockwise"></i> Refresh
+          </button>
+        </div>
+        <div id="schedules-list" style="display:flex;flex-direction:column;gap:10px">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 4: LOGS
+    ============================================================ -->
+    <section class="page" id="page-logs">
+      <div class="logs-layout">
+        <!-- Toolbar -->
+        <div class="logs-toolbar">
+          <select id="log-filter-agent">
+            <option value="">Todos agentes</option>
+            <option value="augusto">Augusto</option>
+            <option value="paulo">Paulo</option>
+            <option value="ana">Ana</option>
+            <option value="luan">Luan</option>
+            <option value="igor">Igor</option>
+            <option value="alex">Alex</option>
+            <option value="musk">Musk</option>
+          </select>
+          <select id="log-filter-type">
+            <option value="">Todos tipos</option>
+            <option value="cycle_complete">cycle_complete</option>
+            <option value="lead_contacted">lead_contacted</option>
+            <option value="sale_closed">sale_closed</option>
+            <option value="alert">alert</option>
+            <option value="error">error</option>
+            <option value="health_check">health_check</option>
+          </select>
+          <select id="log-filter-severity">
+            <option value="">Severidade</option>
+            <option value="info">Info</option>
+            <option value="success">Success</option>
+            <option value="warn">Warn</option>
+            <option value="error">Error</option>
+          </select>
+          <input type="text" id="log-search" placeholder="Buscar..." style="min-width:180px">
+          <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:7px;color:var(--text-d);cursor:pointer">
+              <input type="checkbox" id="autoscroll-toggle" checked style="width:auto;padding:0"> AUTOSCROLL
+            </label>
+            <button class="btn btn-secondary btn-sm" id="btn-clear-live">
+              <i class="ph ph-eraser"></i> Limpar
+            </button>
+            <span class="sse-status" id="sse-badge">CONECTANDO...</span>
+          </div>
+        </div>
+        <!-- Live stream -->
+        <div style="padding:8px 12px 4px;font-size:7px;color:var(--text-d);letter-spacing:1px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0">
+          STREAM AO VIVO
+        </div>
+        <div class="logs-live" id="logs-live"></div>
+        <!-- History -->
+        <div style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+          <div class="logs-history-header">
+            <span>HISTORICO</span>
+            <button class="btn btn-secondary btn-xs" id="btn-refresh-logs">
+              <i class="ph ph-arrows-clockwise"></i> Refresh
+            </button>
+          </div>
+          <div class="logs-history-table">
+            <table class="logs-table">
+              <thead>
+                <tr>
+                  <th>TIMESTAMP</th>
+                  <th>AGENTE</th>
+                  <th>TIPO</th>
+                  <th>SEVERITY</th>
+                  <th>MENSAGEM</th>
+                </tr>
+              </thead>
+              <tbody id="logs-history-tbody">
+                <tr><td colspan="5" style="padding:30px;text-align:center;color:var(--text-d);font-size:8px">Carregando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="logs-pagination">
+            <span id="logs-pagination-info" style="font-size:7px">0 eventos</span>
+            <div class="pagination-controls">
+              <button class="btn btn-secondary btn-xs" id="logs-prev">
+                <i class="ph ph-caret-left"></i>
+              </button>
+              <span id="logs-page-num" style="font-size:8px;color:var(--text-m)">1</span>
+              <button class="btn btn-secondary btn-xs" id="logs-next">
+                <i class="ph ph-caret-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: CONFIG
+    ============================================================ -->
+    <section class="page" id="page-config">
+      <div class="config-layout">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Configurações do OS</div>
+            <div class="page-sub">Intervalos, buffers e limites de token</div>
+          </div>
+          <button class="btn btn-primary" id="btn-save-config">
+            <i class="ph ph-floppy-disk"></i> Salvar Config
+          </button>
+        </div>
+        <div class="config-grid">
+          <!-- Intervalos -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">INTERVALOS DO SISTEMA</span>
+            </div>
+            <div class="card-body">
+              <div class="config-section-title">Polling &amp; Health</div>
+              <div class="config-field">
+                <label>HEALTH CHECK INTERVAL (ms)</label>
+                <input type="number" id="cfg-health-interval" min="1000" step="1000" placeholder="30000">
+              </div>
+              <div class="config-field">
+                <label>BRIDGE POLL INTERVAL (ms)</label>
+                <input type="number" id="cfg-bridge-interval" min="500" step="500" placeholder="5000">
+              </div>
+              <div class="config-field">
+                <label>ACTIVITY DETECTION INTERVAL (ms)</label>
+                <input type="number" id="cfg-activity-interval" min="1000" step="1000" placeholder="10000">
+              </div>
+              <div class="config-field">
+                <label>RING BUFFER SIZE</label>
+                <input type="number" id="cfg-ring-buffer" min="10" step="10" placeholder="1000">
+              </div>
+            </div>
+          </div>
+          <!-- Token Quotas -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">TOKEN QUOTAS / HORA</span>
+            </div>
+            <div class="card-body-sm">
+              <table class="quotas-table" id="quotas-table">
+                <thead>
+                  <tr>
+                    <th>AGENTE</th>
+                    <th>LIMITE/H</th>
+                  </tr>
+                </thead>
+                <tbody id="quotas-tbody">
+                  <!-- populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 6: NOTIFICATIONS
+    ============================================================ -->
+    <section class="page" id="page-notifications">
+      <div class="notif-layout">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Notificações Telegram</div>
+            <div class="page-sub">Alertas enviados via Telegram Bot</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn btn-secondary" id="btn-test-notif">
+              <i class="ph ph-paper-plane-tilt"></i> Enviar Teste
+            </button>
+            <button class="btn btn-primary" id="btn-save-notif">
+              <i class="ph ph-floppy-disk"></i> Salvar
+            </button>
+          </div>
+        </div>
+        <div class="notif-grid">
+          <!-- Phones & Quiet Hours -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">DESTINATÁRIOS</span></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:14px">
+              <div class="form-group">
+                <label class="form-label">CHAT IDs DO TELEGRAM (um por linha)</label>
+                <textarea id="notif-phones" rows="4" placeholder="123456789&#10;987654321"></textarea>
+                <span class="form-hint" style="margin-top:6px;display:block">Use @userinfobot no Telegram para descobrir seu Chat ID</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">QUIET HOURS — NÃO ENVIAR ENTRE</label>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <input type="time" id="notif-quiet-start" style="width:auto">
+                  <span style="font-size:9px;color:var(--text-d)">E</span>
+                  <input type="time" id="notif-quiet-end" style="width:auto">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">TIMEZONE</label>
+                <select id="notif-timezone">
+                  <option value="America/Sao_Paulo">America/Sao_Paulo</option>
+                  <option value="UTC">UTC</option>
+                  <option value="America/New_York">America/New_York</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- Event toggles -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">EVENTOS QUE GERAM ALERTA</span></div>
+            <div id="notif-events-list">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /app-body -->
+</div><!-- /app -->
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- WORKFLOW MODAL -->
+<div class="modal-overlay" id="workflow-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="workflow-modal-title">Nova Regra</span>
+      <button class="modal-close" onclick="closeModal('workflow-modal')"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">NOME DA REGRA</label>
+          <input type="text" id="wf-name" placeholder="Ex: Alerta alta taxa de erro">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">TRIGGER EVENT TYPE</label>
+          <select id="wf-trigger">
+            <option value="cycle_complete">cycle_complete</option>
+            <option value="lead_contacted">lead_contacted</option>
+            <option value="sale_closed">sale_closed</option>
+            <option value="agent_error">agent_error</option>
+            <option value="health_check">health_check</option>
+            <option value="alert">alert</option>
+            <option value="pipeline_update">pipeline_update</option>
+            <option value="custom">custom...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">TIPO DE AÇÃO</label>
+          <select id="wf-action-type" onchange="onActionTypeChange()">
+            <option value="emit_event">emit_event</option>
+            <option value="notify_telegram">notify_telegram</option>
+            <option value="update_status">update_status</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">CONDIÇÃO (JavaScript)</label>
+          <input type="text" id="wf-condition" placeholder='payload.issues >= 5 || payload.errors > 0'>
+          <span class="form-hint">Expressão JS avaliada com o payload do evento. Deixe vazio para sempre disparar.</span>
+        </div>
+      </div>
+      <div id="wf-action-fields" style="display:flex;flex-direction:column;gap:14px">
+        <!-- dynamic -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('workflow-modal')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-workflow">
+        <i class="ph ph-floppy-disk"></i> Salvar Regra
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="ph ph-warning"></i></div>
+    <div class="confirm-title" id="confirm-title">Confirmar ação</div>
+    <div class="confirm-msg" id="confirm-msg">Esta ação não pode ser desfeita.</div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary btn-full" id="confirm-cancel">Cancelar</button>
+      <button class="btn btn-danger btn-full" id="confirm-ok">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================================
+// CONSTANTS
+// =============================================================
+const AGENTS = [
+  {id:'augusto', name:'Augusto', role:'Closer',        color:'#3B82F6'},
+  {id:'paulo',   name:'Paulo',   role:'SDR',            color:'#8B5CF6'},
+  {id:'ana',     name:'Ana',     role:'Monitor',        color:'#22C55E'},
+  {id:'luan',    name:'Luan',    role:'Sales Manager',  color:'#F59E0B'},
+  {id:'igor',    name:'Igor',    role:'Orchestrator',   color:'#06B6D4'},
+  {id:'alex',    name:'Alex',    role:'DevOps',         color:'#EF4444'},
+  {id:'musk',    name:'Musk',    role:'CEO',            color:'#EAB308'},
+];
+
+const NOTIF_EVENTS = [
+  {id:'sale_closed',    name:'Venda Fechada',       desc:'Quando um lead converte'},
+  {id:'agent_error',   name:'Erro de Agente',       desc:'Falha crítica em qualquer agente'},
+  {id:'high_load',     name:'CPU Alta',             desc:'Uso de CPU > 80%'},
+  {id:'pipeline_stale',name:'Pipeline Parado',      desc:'Nenhuma atividade por 2h'},
+  {id:'daily_report',  name:'Relatório Diário',     desc:'Resumo enviado às 18h'},
+  {id:'health_fail',   name:'Health Check Falhou',  desc:'Agente não responde'},
+  {id:'quota_exceeded',name:'Quota Excedida',       desc:'Token limit atingido'},
+  {id:'deploy',        name:'Deploy Realizado',     desc:'Nova versão no ar'},
+];
+
+const API_BASE = '';  // same origin
+let authToken = localStorage.getItem('cp_admin_token') || '';
+let currentPromptAgentId = null;
+let sseSource = null;
+let logsPage = 0;
+const LOGS_LIMIT = 50;
+let logsTotal = 0;
+let confirmCallback = null;
+let editingWorkflowId = null;
+
+// =============================================================
+// API HELPERS
+// =============================================================
+async function apiFetch(path, options = {}) {
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(authToken ? {'Authorization': `Bearer ${authToken}`} : {}),
+    ...(options.headers || {}),
+  };
+  const resp = await fetch(API_BASE + path, {...options, headers});
+  if (resp.status === 401) {
+    doLogout();
+    throw new Error('Unauthorized');
+  }
+  const data = await resp.json();
+  if (!resp.ok) throw new Error(data.message || `HTTP ${resp.status}`);
+  return data;
+}
+
+// =============================================================
+// AUTH
+// =============================================================
+function checkAuth() {
+  if (authToken) {
+    showApp();
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  const email = parseJwtEmail(authToken);
+  if (email) document.getElementById('user-email-chip').textContent = email;
+  initApp();
+}
+
+function parseJwtEmail(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.email || payload.sub || 'admin';
+  } catch { return null; }
+}
+
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Entrando...';
+  try {
+    const data = await fetch(API_BASE + '/api/admin/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
+    }).then(r => r.json());
+    if (!data.token) throw new Error(data.message || 'Login falhou');
+    authToken = data.token;
+    localStorage.setItem('cp_admin_token', authToken);
+    showApp();
+  } catch (err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-sign-in"></i> ENTRAR';
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', doLogout);
+function doLogout() {
+  authToken = '';
+  localStorage.removeItem('cp_admin_token');
+  if (sseSource) { sseSource.close(); sseSource = null; }
+  showLogin();
+}
+
+// =============================================================
+// TABS
+// =============================================================
+document.getElementById('nav-tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.nav-tab');
+  if (!btn) return;
+  const tab = btn.dataset.tab;
+  switchTab(tab);
+});
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `page-${tab}`));
+  if (tab === 'logs') initLogsTab();
+}
+
+// =============================================================
+// INIT
+// =============================================================
+function initApp() {
+  buildAgentSidebar();
+  buildQuotasTable();
+  buildNotifEventsList();
+  loadPrompts();
+  loadWorkflows();
+  loadSchedules();
+  loadConfig();
+  loadNotifications();
+  loadLogsHistory();
+  initSSE();
+}
+
+// =============================================================
+// TAB 1: PROMPTS
+// =============================================================
+let promptsData = [];
+
+function buildAgentSidebar() {
+  const sidebar = document.getElementById('agents-sidebar');
+  sidebar.innerHTML = '<div class="sidebar-label">AGENTES</div>';
+  AGENTS.forEach(a => {
+    const el = document.createElement('div');
+    el.className = 'agent-item';
+    el.dataset.agentId = a.id;
+    el.innerHTML = `
+      <div class="dot" style="background:${a.color}"></div>
+      <div class="info">
+        <div class="name">${a.name}</div>
+        <div class="role">${a.role}</div>
+      </div>
+    `;
+    el.addEventListener('click', () => selectPromptAgent(a.id));
+    sidebar.appendChild(el);
+  });
+}
+
+async function loadPrompts() {
+  try {
+    const data = await apiFetch('/api/os/admin/prompts');
+    promptsData = data.prompts || [];
+  } catch (err) {
+    // API might not be live yet; use empty data
+    promptsData = AGENTS.map(a => ({
+      agentId: a.id,
+      name: a.name,
+      role: a.role,
+      prompt: '',
+      isOverride: false,
+      model: 'claude-haiku-4-5',
+    }));
+  }
+}
+
+function selectPromptAgent(agentId) {
+  document.querySelectorAll('.agent-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.agentId === agentId)
+  );
+  currentPromptAgentId = agentId;
+  const found = promptsData.find(p => p.agentId === agentId);
+  const agent = AGENTS.find(a => a.id === agentId);
+  if (!agent) return;
+  const data = found || {agentId, name: agent.name, role: agent.role, prompt: '', isOverride: false, model: '—'};
+
+  document.getElementById('prompt-empty').style.display = 'none';
+  const content = document.getElementById('prompt-editor-content');
+  content.style.display = 'flex';
+
+  document.getElementById('prompt-agent-name').textContent = data.name;
+  document.getElementById('prompt-agent-role').textContent = data.role;
+  document.getElementById('meta-model').textContent = data.model || '—';
+  const overrideEl = document.getElementById('meta-override');
+  overrideEl.textContent = data.isOverride ? 'SIM' : 'NÃO';
+  overrideEl.className = 'value ' + (data.isOverride ? 'override' : '');
+  document.getElementById('prompt-textarea').value = data.prompt || '';
+  updateCharCount();
+}
+
+function updateCharCount() {
+  const ta = document.getElementById('prompt-textarea');
+  const len = ta.value.length;
+  document.getElementById('char-count').textContent = `${len.toLocaleString()} chars`;
+  document.getElementById('meta-chars').textContent = len.toLocaleString();
+}
+
+document.getElementById('prompt-textarea').addEventListener('input', updateCharCount);
+
+document.getElementById('btn-save-prompt').addEventListener('click', async () => {
+  if (!currentPromptAgentId) return;
+  const btn = document.getElementById('btn-save-prompt');
+  const prompt = document.getElementById('prompt-textarea').value;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Salvando...';
+  try {
+    await apiFetch(`/api/os/admin/prompts/${currentPromptAgentId}`, {
+      method: 'PUT',
+      body: JSON.stringify({prompt}),
+    });
+    const idx = promptsData.findIndex(p => p.agentId === currentPromptAgentId);
+    if (idx >= 0) {
+      promptsData[idx].prompt = prompt;
+      promptsData[idx].isOverride = true;
+    }
+    document.getElementById('meta-override').textContent = 'SIM';
+    document.getElementById('meta-override').className = 'value override';
+    document.getElementById('prompt-saved-at').textContent = `Salvo ${formatTime(new Date())}`;
+    showToast('Prompt salvo com sucesso.', 'success');
+  } catch (err) {
+    showToast('Erro ao salvar prompt: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Salvar';
+  }
+});
+
+document.getElementById('btn-reset-prompt').addEventListener('click', () => {
+  if (!currentPromptAgentId) return;
+  confirm2(
+    'Resetar Prompt',
+    `Remover o override do agente "${currentPromptAgentId}"? O prompt padrão será restaurado.`,
+    async () => {
+      try {
+        await apiFetch(`/api/os/admin/prompts/${currentPromptAgentId}`, {
+          method: 'PUT',
+          body: JSON.stringify({prompt: null, reset: true}),
+        });
+        const idx = promptsData.findIndex(p => p.agentId === currentPromptAgentId);
+        if (idx >= 0) promptsData[idx].isOverride = false;
+        document.getElementById('meta-override').textContent = 'NÃO';
+        document.getElementById('meta-override').className = 'value';
+        showToast('Prompt resetado.', 'info');
+      } catch (err) {
+        showToast('Erro: ' + err.message, 'error');
+      }
+    }
+  );
+});
+
+// =============================================================
+// TAB 2: WORKFLOWS
+// =============================================================
+let workflowsData = [];
+
+async function loadWorkflows() {
+  try {
+    const data = await apiFetch('/api/os/admin/workflows');
+    workflowsData = data.rules || [];
+  } catch {
+    workflowsData = [];
+  }
+  renderWorkflows();
+}
+
+function renderWorkflows() {
+  const tbody = document.getElementById('rules-tbody');
+  document.getElementById('workflow-count').textContent = `${workflowsData.length} regras`;
+  if (!workflowsData.length) {
+    tbody.innerHTML = `<tr><td colspan="7">
+      <div class="empty-state" style="padding:30px">
+        <i class="ph ph-flow-arrow"></i><p>Nenhuma regra configurada.</p>
+      </div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = workflowsData.map(r => `
+    <tr>
+      <td>
+        <div class="rule-name">${escHtml(r.name || '—')}</div>
+        ${r.builtin ? '<span class="badge badge-info" style="margin-top:4px">built-in</span>' : '<span class="badge badge-custom" style="margin-top:4px">custom</span>'}
+      </td>
+      <td><span class="rule-trigger">${escHtml(r.trigger || r.triggerEventType || '—')}</span></td>
+      <td><div class="rule-condition" title="${escHtml(r.condition || '')}">${escHtml(r.condition || '*')}</div></td>
+      <td style="font-size:8px;color:var(--text-m)">${escHtml(r.action?.type || r.actionType || '—')}</td>
+      <td class="rule-stats">
+        <div>${(r.timesTriggered || 0).toLocaleString()}x</div>
+        <div style="margin-top:3px">${r.lastTriggered ? formatTime(new Date(r.lastTriggered)) : 'nunca'}</div>
+      </td>
+      <td>
+        <label class="toggle">
+          <input type="checkbox" ${r.enabled !== false ? 'checked' : ''} onchange="toggleWorkflow('${r.id}', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn btn-secondary btn-xs btn-icon" title="Testar" onclick="testWorkflow('${r.id}')">
+            <i class="ph ph-play"></i>
+          </button>
+          ${!r.builtin ? `
+          <button class="btn btn-secondary btn-xs btn-icon" title="Editar" onclick="editWorkflow('${r.id}')">
+            <i class="ph ph-pencil"></i>
+          </button>
+          <button class="btn btn-danger btn-xs btn-icon" title="Deletar" onclick="deleteWorkflow('${r.id}')">
+            <i class="ph ph-trash"></i>
+          </button>` : ''}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function toggleWorkflow(id, enabled) {
+  try {
+    await apiFetch(`/api/os/admin/workflows/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({enabled}),
+    });
+    const r = workflowsData.find(r => r.id === id);
+    if (r) r.enabled = enabled;
+    showToast(`Regra ${enabled ? 'ativada' : 'desativada'}.`, 'info');
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+    loadWorkflows();
+  }
+}
+
+async function testWorkflow(id) {
+  try {
+    await apiFetch(`/api/os/admin/workflows/${id}/test`, {method: 'POST', body: JSON.stringify({})});
+    showToast('Evento de teste disparado.', 'info');
+  } catch (err) {
+    showToast('Erro no teste: ' + err.message, 'error');
+  }
+}
+
+function editWorkflow(id) {
+  const r = workflowsData.find(r => r.id === id);
+  if (!r) return;
+  editingWorkflowId = id;
+  document.getElementById('workflow-modal-title').textContent = 'Editar Regra';
+  document.getElementById('wf-name').value = r.name || '';
+  document.getElementById('wf-trigger').value = r.trigger || r.triggerEventType || 'cycle_complete';
+  document.getElementById('wf-condition').value = r.condition || '';
+  document.getElementById('wf-action-type').value = r.action?.type || r.actionType || 'emit_event';
+  onActionTypeChange();
+  fillActionFields(r.action || {});
+  openModal('workflow-modal');
+}
+
+function deleteWorkflow(id) {
+  const r = workflowsData.find(r => r.id === id);
+  confirm2(
+    'Deletar Regra',
+    `Deletar a regra "${r?.name || id}"? Esta ação não pode ser desfeita.`,
+    async () => {
+      try {
+        await apiFetch(`/api/os/admin/workflows/${id}`, {method: 'DELETE'});
+        workflowsData = workflowsData.filter(r => r.id !== id);
+        renderWorkflows();
+        showToast('Regra deletada.', 'info');
+      } catch (err) {
+        showToast('Erro: ' + err.message, 'error');
+      }
+    }
+  );
+}
+
+document.getElementById('btn-add-workflow').addEventListener('click', () => {
+  editingWorkflowId = null;
+  document.getElementById('workflow-modal-title').textContent = 'Nova Regra';
+  document.getElementById('wf-name').value = '';
+  document.getElementById('wf-trigger').value = 'cycle_complete';
+  document.getElementById('wf-condition').value = '';
+  document.getElementById('wf-action-type').value = 'emit_event';
+  onActionTypeChange();
+  openModal('workflow-modal');
+});
+
+document.getElementById('btn-save-workflow').addEventListener('click', async () => {
+  const name = document.getElementById('wf-name').value.trim();
+  const trigger = document.getElementById('wf-trigger').value;
+  const condition = document.getElementById('wf-condition').value.trim();
+  const actionType = document.getElementById('wf-action-type').value;
+  if (!name) { showToast('Nome é obrigatório.', 'warn'); return; }
+
+  const action = {type: actionType, ...getActionFields()};
+  const body = {name, trigger, condition, action};
+  const btn = document.getElementById('btn-save-workflow');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    if (editingWorkflowId) {
+      const data = await apiFetch(`/api/os/admin/workflows/${editingWorkflowId}`, {
+        method: 'PUT', body: JSON.stringify(body),
+      });
+      const idx = workflowsData.findIndex(r => r.id === editingWorkflowId);
+      if (idx >= 0) workflowsData[idx] = {...workflowsData[idx], ...body};
+    } else {
+      const data = await apiFetch('/api/os/admin/workflows', {
+        method: 'POST', body: JSON.stringify(body),
+      });
+      workflowsData.push(data.rule || {...body, id: Date.now().toString(), enabled: true});
+    }
+    renderWorkflows();
+    closeModal('workflow-modal');
+    showToast('Regra salva.', 'success');
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Salvar Regra';
+  }
+});
+
+function onActionTypeChange() {
+  const type = document.getElementById('wf-action-type').value;
+  const container = document.getElementById('wf-action-fields');
+  const templates = {
+    emit_event: `
+      <div class="form-group">
+        <label class="form-label">EVENT TYPE A EMITIR</label>
+        <input type="text" id="wf-af-event" placeholder="Ex: pipeline_alert">
+      </div>`,
+    notify_telegram: `
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">CHAT ID DO TELEGRAM</label>
+          <input type="text" id="wf-af-phone" placeholder="123456789">
+          <span class="form-hint">Use @userinfobot no Telegram para descobrir seu Chat ID</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">TEMPLATE</label>
+          <input type="text" id="wf-af-template" placeholder="alert_default">
+        </div>
+      </div>`,
+    update_status: `
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">AGENTE TARGET</label>
+          <select id="wf-af-agent">
+            <option value="">Todos</option>
+            ${AGENTS.map(a => `<option value="${a.id}">${a.name}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">NOVO STATUS</label>
+          <select id="wf-af-status">
+            <option value="idle">idle</option>
+            <option value="paused">paused</option>
+            <option value="active">active</option>
+          </select>
+        </div>
+      </div>`,
+  };
+  container.innerHTML = templates[type] || '';
+}
+
+function getActionFields() {
+  const type = document.getElementById('wf-action-type').value;
+  if (type === 'emit_event') return {eventType: document.getElementById('wf-af-event')?.value || ''};
+  if (type === 'notify_telegram') return {
+    phone: document.getElementById('wf-af-phone')?.value || '',
+    template: document.getElementById('wf-af-template')?.value || '',
+  };
+  if (type === 'update_status') return {
+    agentId: document.getElementById('wf-af-agent')?.value || '',
+    status: document.getElementById('wf-af-status')?.value || '',
+  };
+  return {};
+}
+
+function fillActionFields(action) {
+  const type = action.type || '';
+  setTimeout(() => {
+    if (type === 'emit_event' && document.getElementById('wf-af-event'))
+      document.getElementById('wf-af-event').value = action.eventType || '';
+    if (type === 'notify_telegram') {
+      if (document.getElementById('wf-af-phone')) document.getElementById('wf-af-phone').value = action.phone || '';
+      if (document.getElementById('wf-af-template')) document.getElementById('wf-af-template').value = action.template || '';
+    }
+    if (type === 'update_status') {
+      if (document.getElementById('wf-af-agent')) document.getElementById('wf-af-agent').value = action.agentId || '';
+      if (document.getElementById('wf-af-status')) document.getElementById('wf-af-status').value = action.status || '';
+    }
+  }, 0);
+}
+
+// =============================================================
+// TAB 3: SCHEDULES
+// =============================================================
+let schedulesData = [];
+
+async function loadSchedules() {
+  try {
+    const data = await apiFetch('/api/os/admin/schedules');
+    schedulesData = data.schedules || [];
+  } catch {
+    schedulesData = AGENTS.map(a => ({
+      agentId: a.id,
+      name: a.name,
+      expression: '*/5 * * * *',
+      timezone: 'America/Sao_Paulo',
+      humanReadable: 'A cada 5 minutos',
+    }));
+  }
+  renderSchedules();
+}
+
+function renderSchedules() {
+  const container = document.getElementById('schedules-list');
+  const agent = (id) => AGENTS.find(a => a.id === id) || {};
+  container.innerHTML = schedulesData.map(s => {
+    const a = agent(s.agentId);
+    return `
+    <div class="schedule-item card" id="schedule-item-${s.agentId}">
+      <div class="schedule-agent">
+        <div class="dot" style="background:${a.color || '#888'}"></div>
+        <div>
+          <div class="name">${s.name || a.name || s.agentId}</div>
+          <div class="role">${a.role || ''}</div>
+        </div>
+      </div>
+      <div class="schedule-cron">
+        <input
+          class="cron-input"
+          type="text"
+          id="cron-${s.agentId}"
+          value="${escHtml(s.expression || '')}"
+          placeholder="*/5 * * * *"
+          onchange="updateCronHuman('${s.agentId}')"
+          onkeyup="updateCronHuman('${s.agentId}')"
+        >
+        <span class="cron-human" id="cron-human-${s.agentId}">${escHtml(s.humanReadable || parseCronHuman(s.expression))}</span>
+      </div>
+      <div class="schedule-actions">
+        <button class="btn btn-primary btn-sm" onclick="saveSchedule('${s.agentId}')">
+          <i class="ph ph-floppy-disk"></i> Salvar
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateCronHuman(agentId) {
+  const expr = document.getElementById(`cron-${agentId}`)?.value || '';
+  const human = parseCronHuman(expr);
+  const el = document.getElementById(`cron-human-${agentId}`);
+  if (el) el.textContent = human;
+}
+
+function parseCronHuman(expr) {
+  if (!expr) return '—';
+  const parts = expr.trim().split(/\s+/);
+  if (parts.length < 5) return 'Expressão inválida';
+  const [min, hour, dom, month, dow] = parts;
+  if (expr === '* * * * *') return 'A cada minuto';
+  if (min.startsWith('*/') && hour === '*' && dom === '*' && month === '*' && dow === '*') {
+    const n = min.slice(2);
+    return `A cada ${n} minuto${n === '1' ? '' : 's'}`;
+  }
+  if (hour.startsWith('*/') && min === '0') {
+    const n = hour.slice(2);
+    return `A cada ${n} hora${n === '1' ? '' : 's'}`;
+  }
+  if (dom === '*' && month === '*' && dow === '*' && !min.includes('*') && !hour.includes('*')) {
+    return `Diário às ${hour.padStart(2,'0')}:${min.padStart(2,'0')}`;
+  }
+  if (dow !== '*' && !min.includes('*') && !hour.includes('*')) {
+    const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const dayNames = dow.split(',').map(d => days[parseInt(d)] || d).join(', ');
+    return `${dayNames} às ${hour.padStart(2,'0')}:${min.padStart(2,'0')}`;
+  }
+  return expr;
+}
+
+async function saveSchedule(agentId) {
+  const expr = document.getElementById(`cron-${agentId}`)?.value?.trim();
+  if (!expr) { showToast('Expressão cron vazia.', 'warn'); return; }
+  try {
+    await apiFetch(`/api/os/admin/schedules/${agentId}`, {
+      method: 'PUT',
+      body: JSON.stringify({expression: expr}),
+    });
+    const s = schedulesData.find(s => s.agentId === agentId);
+    if (s) { s.expression = expr; s.humanReadable = parseCronHuman(expr); }
+    showToast(`Schedule de ${agentId} salvo.`, 'success');
+    updateCronHuman(agentId);
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  }
+}
+
+document.getElementById('btn-refresh-schedules').addEventListener('click', loadSchedules);
+
+// =============================================================
+// TAB 4: LOGS
+// =============================================================
+let liveLogCount = 0;
+
+function initLogsTab() {
+  loadLogsHistory();
+  if (!sseSource) initSSE();
+}
+
+function initSSE() {
+  if (!authToken) return;
+  const badge = document.getElementById('sse-badge');
+  const indicator = document.getElementById('sse-indicator');
+  const setStatus = (s, label) => {
+    [badge, indicator].forEach(el => {
+      el.className = 'sse-status ' + s;
+      el.textContent = label;
+    });
+  };
+  setStatus('connecting', 'CONECTANDO...');
+  try {
+    sseSource = new EventSource(`${API_BASE}/api/os/events/stream?token=${authToken}`);
+    sseSource.onopen = () => setStatus('connected', 'SSE ON');
+    sseSource.onmessage = (e) => {
+      try { handleLiveEvent(JSON.parse(e.data)); } catch {}
+    };
+    sseSource.onerror = () => {
+      setStatus('disconnected', 'SSE OFF');
+      sseSource.close();
+      sseSource = null;
+      setTimeout(() => { if (authToken) initSSE(); }, 5000);
+    };
+  } catch {
+    setStatus('disconnected', 'SSE OFF');
+  }
+}
+
+function handleLiveEvent(event) {
+  const container = document.getElementById('logs-live');
+  const agentFilter = document.getElementById('log-filter-agent').value;
+  const typeFilter = document.getElementById('log-filter-type').value;
+  const searchVal = document.getElementById('log-search').value.toLowerCase();
+  if (agentFilter && event.agentId !== agentFilter) return;
+  if (typeFilter && event.type !== typeFilter) return;
+  if (searchVal && !JSON.stringify(event).toLowerCase().includes(searchVal)) return;
+
+  const severity = event.severity || (event.type === 'error' ? 'error' : 'info');
+  const entry = document.createElement('div');
+  entry.className = `log-entry ${severity}`;
+  const agent = AGENTS.find(a => a.id === event.agentId);
+  const color = agent?.color || '#9CA3AF';
+  entry.innerHTML = `
+    <span class="log-ts">${formatTime(new Date(event.timestamp || Date.now()))}</span>
+    <span class="log-agent" style="border-color:${color}40;background:${color}15;color:${color}">${event.agentId || 'os'}</span>
+    <span class="log-type">${escHtml(event.type || '—')}</span>
+    <span class="log-msg">${escHtml(event.message || JSON.stringify(event.payload || {}))}</span>
+  `;
+  container.appendChild(entry);
+  liveLogCount++;
+  // Keep last 200 entries
+  while (container.children.length > 200) container.removeChild(container.firstChild);
+  if (document.getElementById('autoscroll-toggle').checked) {
+    container.scrollTop = container.scrollHeight;
+  }
+}
+
+document.getElementById('btn-clear-live').addEventListener('click', () => {
+  document.getElementById('logs-live').innerHTML = '';
+  liveLogCount = 0;
+});
+
+// Filters reapply on change (history re-fetches)
+['log-filter-agent','log-filter-type','log-filter-severity'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => { logsPage = 0; loadLogsHistory(); });
+});
+let searchTimeout;
+document.getElementById('log-search').addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => { logsPage = 0; loadLogsHistory(); }, 400);
+});
+
+document.getElementById('btn-refresh-logs').addEventListener('click', () => { logsPage = 0; loadLogsHistory(); });
+document.getElementById('logs-prev').addEventListener('click', () => {
+  if (logsPage > 0) { logsPage--; loadLogsHistory(); }
+});
+document.getElementById('logs-next').addEventListener('click', () => {
+  if ((logsPage + 1) * LOGS_LIMIT < logsTotal) { logsPage++; loadLogsHistory(); }
+});
+
+async function loadLogsHistory() {
+  const agent = document.getElementById('log-filter-agent').value;
+  const type = document.getElementById('log-filter-type').value;
+  const severity = document.getElementById('log-filter-severity').value;
+  const search = document.getElementById('log-search').value;
+  const params = new URLSearchParams({limit: LOGS_LIMIT, offset: logsPage * LOGS_LIMIT});
+  if (agent) params.set('agent', agent);
+  if (type) params.set('type', type);
+  if (severity) params.set('severity', severity);
+  if (search) params.set('q', search);
+
+  const tbody = document.getElementById('logs-history-tbody');
+  tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center"><span class="spinner"></span></td></tr>`;
+
+  try {
+    const data = await apiFetch(`/api/os/admin/logs?${params}`);
+    const events = data.events || [];
+    logsTotal = data.total || 0;
+    document.getElementById('logs-pagination-info').textContent = `${logsTotal.toLocaleString()} eventos`;
+    document.getElementById('logs-page-num').textContent = logsPage + 1;
+
+    if (!events.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:30px;text-align:center;color:var(--text-d);font-size:8px">Nenhum evento encontrado.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = events.map(ev => {
+      const sev = ev.severity || 'info';
+      const colors = {success:'#22C55E',error:'#EF4444',warn:'#F59E0B',info:'#3B82F6'};
+      const agent2 = AGENTS.find(a => a.id === ev.agentId);
+      return `<tr>
+        <td>${escHtml(ev.timestamp ? new Date(ev.timestamp).toLocaleString('pt-BR') : '—')}</td>
+        <td style="color:${agent2?.color || 'var(--text-m)'}">${escHtml(ev.agentId || 'os')}</td>
+        <td>${escHtml(ev.type || '—')}</td>
+        <td><span class="badge badge-${sev}">${sev}</span></td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(ev.message || '')}</td>
+      </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--danger);font-size:8px">${escHtml(err.message)}</td></tr>`;
+  }
+}
+
+// =============================================================
+// TAB 5: CONFIG
+// =============================================================
+let configData = {};
+
+function buildQuotasTable() {
+  const tbody = document.getElementById('quotas-tbody');
+  tbody.innerHTML = AGENTS.map(a => `
+    <tr>
+      <td style="color:${a.color}">${a.name}</td>
+      <td>
+        <input type="number" id="quota-${a.id}" min="0" step="1000" value="100000"
+          style="width:100px;text-align:right;font-size:9px;padding:5px 8px">
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function loadConfig() {
+  try {
+    const data = await apiFetch('/api/os/admin/config');
+    configData = data.config || {};
+    applyConfigToForm(configData);
+  } catch {
+    // silent — form stays with placeholders
+  }
+}
+
+function applyConfigToForm(cfg) {
+  if (cfg.healthCheckInterval) document.getElementById('cfg-health-interval').value = cfg.healthCheckInterval;
+  if (cfg.bridgePollInterval) document.getElementById('cfg-bridge-interval').value = cfg.bridgePollInterval;
+  if (cfg.activityDetectionInterval) document.getElementById('cfg-activity-interval').value = cfg.activityDetectionInterval;
+  if (cfg.ringBufferSize) document.getElementById('cfg-ring-buffer').value = cfg.ringBufferSize;
+  if (cfg.tokenQuotas) {
+    AGENTS.forEach(a => {
+      const el = document.getElementById(`quota-${a.id}`);
+      if (el && cfg.tokenQuotas[a.id] !== undefined) el.value = cfg.tokenQuotas[a.id];
+    });
+  }
+}
+
+document.getElementById('btn-save-config').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-save-config');
+  const tokenQuotas = {};
+  AGENTS.forEach(a => {
+    const el = document.getElementById(`quota-${a.id}`);
+    if (el) tokenQuotas[a.id] = parseInt(el.value) || 0;
+  });
+  const body = {
+    healthCheckInterval: parseInt(document.getElementById('cfg-health-interval').value) || undefined,
+    bridgePollInterval: parseInt(document.getElementById('cfg-bridge-interval').value) || undefined,
+    activityDetectionInterval: parseInt(document.getElementById('cfg-activity-interval').value) || undefined,
+    ringBufferSize: parseInt(document.getElementById('cfg-ring-buffer').value) || undefined,
+    tokenQuotas,
+  };
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Salvando...';
+  try {
+    await apiFetch('/api/os/admin/config', {method: 'PUT', body: JSON.stringify(body)});
+    showToast('Configurações salvas.', 'success');
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Salvar Config';
+  }
+});
+
+// =============================================================
+// TAB 6: NOTIFICATIONS
+// =============================================================
+let notifData = {};
+
+function buildNotifEventsList() {
+  const container = document.getElementById('notif-events-list');
+  container.innerHTML = NOTIF_EVENTS.map(ev => `
+    <div class="event-type-row">
+      <div>
+        <div class="name">${ev.name}</div>
+        <div class="desc">${ev.desc}</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="notif-ev-${ev.id}" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  `).join('');
+}
+
+async function loadNotifications() {
+  try {
+    const data = await apiFetch('/api/os/admin/notifications');
+    notifData = data.settings || {};
+    applyNotifToForm(notifData);
+  } catch {
+    // silent
+  }
+}
+
+function applyNotifToForm(settings) {
+  if (settings.phones) document.getElementById('notif-phones').value = Array.isArray(settings.phones) ? settings.phones.join('\n') : settings.phones;
+  if (settings.quietStart) document.getElementById('notif-quiet-start').value = settings.quietStart;
+  if (settings.quietEnd) document.getElementById('notif-quiet-end').value = settings.quietEnd;
+  if (settings.timezone) document.getElementById('notif-timezone').value = settings.timezone;
+  if (settings.events) {
+    NOTIF_EVENTS.forEach(ev => {
+      const el = document.getElementById(`notif-ev-${ev.id}`);
+      if (el) el.checked = settings.events[ev.id] !== false;
+    });
+  }
+}
+
+document.getElementById('btn-save-notif').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-save-notif');
+  const phones = document.getElementById('notif-phones').value
+    .split('\n').map(s => s.trim()).filter(Boolean);
+  const events = {};
+  NOTIF_EVENTS.forEach(ev => {
+    events[ev.id] = document.getElementById(`notif-ev-${ev.id}`)?.checked ?? true;
+  });
+  const body = {
+    phones,
+    quietStart: document.getElementById('notif-quiet-start').value,
+    quietEnd: document.getElementById('notif-quiet-end').value,
+    timezone: document.getElementById('notif-timezone').value,
+    events,
+  };
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Salvando...';
+  try {
+    await apiFetch('/api/os/admin/notifications', {method: 'PUT', body: JSON.stringify(body)});
+    showToast('Notificações salvas.', 'success');
+  } catch (err) {
+    showToast('Erro: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-floppy-disk"></i> Salvar';
+  }
+});
+
+document.getElementById('btn-test-notif').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-test-notif');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Enviando...';
+  try {
+    await apiFetch('/api/os/admin/notifications/test', {method: 'POST', body: JSON.stringify({})});
+    showToast('Mensagem de teste enviada via Telegram.', 'success');
+  } catch (err) {
+    showToast('Erro ao enviar teste: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-paper-plane-tilt"></i> Enviar Teste';
+  }
+});
+
+// =============================================================
+// MODAL HELPERS
+// =============================================================
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// =============================================================
+// CONFIRM DIALOG
+// =============================================================
+function confirm2(title, msg, onConfirm) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent = msg;
+  confirmCallback = onConfirm;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+document.getElementById('confirm-cancel').addEventListener('click', () => {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  confirmCallback = null;
+});
+document.getElementById('confirm-ok').addEventListener('click', () => {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  if (confirmCallback) { confirmCallback(); confirmCallback = null; }
+});
+
+// =============================================================
+// TOAST
+// =============================================================
+function showToast(msg, type = 'info', duration = 4000) {
+  const icons = {success:'ph-check-circle',error:'ph-x-circle',warn:'ph-warning',info:'ph-info'};
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `
+    <i class="ph ${icons[type] || 'ph-info'} toast-icon"></i>
+    <span class="toast-msg">${escHtml(msg)}</span>
+    <button class="toast-close" onclick="this.parentElement.remove()"><i class="ph ph-x"></i></button>
+  `;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), duration);
+}
+
+// =============================================================
+// UTILS
+// =============================================================
+function escHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function formatTime(date) {
+  if (!(date instanceof Date) || isNaN(date)) return '—';
+  return date.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+// ESC closes modals
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+    document.getElementById('confirm-overlay').classList.remove('open');
+  }
+});
+
+// =============================================================
+// BOOT
+// =============================================================
+checkAuth();
+</script>
+</body>
+</html>
