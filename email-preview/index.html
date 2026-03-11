@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CredPositivo — Email Template Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #08090C;
+      color: #E2E8F0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Ambient background ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -40%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -30%;
+      right: -20%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(ellipse, rgba(34, 197, 94, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Top bar ─── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 9, 12, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3B82F6, #22C55E);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .top-bar h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #F8FAFC;
+    }
+
+    .top-bar h1 span {
+      color: #64748B;
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    .status-pill {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: rgba(251, 191, 36, 0.1);
+      color: #FBBF24;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ─── Main content ─── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ─── Header section ─── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-header p {
+      font-size: 15px;
+      color: #64748B;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── Tab navigation ─── */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 40px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 4px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tab-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: transparent;
+      color: #64748B;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      color: #CBD5E1;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .tab-btn.active {
+      background: rgba(255,255,255,0.08);
+      color: #F8FAFC;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .tab-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .tab-dot.critico { background: #EF4444; }
+    .tab-dot.atencao { background: #F59E0B; }
+    .tab-dot.preventivo { background: #22C55E; }
+
+    /* ─── View toggle ─── */
+    .view-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 32px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 3px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .view-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      color: #64748B;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn:hover { color: #CBD5E1; }
+    .view-btn.active {
+      background: rgba(255,255,255,0.08);
+      color: #F8FAFC;
+    }
+
+    /* ─── Email preview frame ─── */
+    .preview-area {
+      display: flex;
+      justify-content: center;
+    }
+
+    .email-panel {
+      display: none;
+    }
+    .email-panel.active {
+      display: block;
+    }
+
+    .device-frame {
+      margin: 0 auto;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .device-frame.desktop {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .device-frame.mobile {
+      width: 375px;
+      max-width: 100%;
+    }
+
+    /* Browser chrome */
+    .browser-chrome {
+      background: #1A1D24;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .browser-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .browser-dots span:nth-child(1) { background: #EF4444; }
+    .browser-dots span:nth-child(2) { background: #F59E0B; }
+    .browser-dots span:nth-child(3) { background: #22C55E; }
+
+    .browser-url {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: #64748B;
+    }
+
+    .email-render {
+      background: #E8ECF0;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 32px 16px;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .device-frame.mobile .email-render {
+      padding: 16px 8px;
+    }
+
+    /* ─── Subject line preview ─── */
+    .subject-preview {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .subject-preview .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .subject-preview .from {
+      font-size: 14px;
+      font-weight: 600;
+      color: #F8FAFC;
+      margin-bottom: 2px;
+    }
+
+    .subject-preview .subject {
+      font-size: 14px;
+      color: #CBD5E1;
+    }
+
+    .subject-preview .preheader {
+      font-size: 13px;
+      color: #64748B;
+      margin-top: 2px;
+    }
+
+    /* ─── Action bar ─── */
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-approve {
+      background: #22C55E;
+      color: #fff;
+    }
+    .btn-approve:hover {
+      background: #16A34A;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-revision {
+      background: rgba(255,255,255,0.06);
+      color: #CBD5E1;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-revision:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-code {
+      background: rgba(59, 130, 246, 0.1);
+      color: #60A5FA;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    .btn-code:hover {
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Info grid ─── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      max-width: 680px;
+      margin: 32px auto 0;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .info-card .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    .info-card .value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #E2E8F0;
+    }
+
+    /* ─── Toast notification ─── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: #1A1D24;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #F8FAFC;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .container {
+        padding: 24px 12px 60px;
+      }
+      .page-header h2 {
+        font-size: 22px;
+      }
+      .tabs {
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        font-size: 13px;
+        padding: 8px 16px;
+      }
+      .device-frame.mobile {
+        width: 100%;
+      }
+      .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <div class="logo-mark">C</div>
+      <h1>CredPositivo <span>Email Templates v1</span></h1>
+    </div>
+    <div class="status-pill">Aguardando aprovacao</div>
+  </div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+      <h2>Email Template Preview</h2>
+      <p>Visualize os 3 templates de email (um por fluxo) antes de aplicar nos 21 emails do Brevo.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('critico')">
+        <span class="tab-dot critico"></span>
+        Fluxo A — Critico
+      </button>
+      <button class="tab-btn" onclick="switchTab('atencao')">
+        <span class="tab-dot atencao"></span>
+        Fluxo B — Atencao
+      </button>
+      <button class="tab-btn" onclick="switchTab('preventivo')">
+        <span class="tab-dot preventivo"></span>
+        Fluxo C — Preventivo
+      </button>
+    </div>
+
+    <!-- View toggle -->
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="switchView('desktop')">Desktop</button>
+      <button class="view-btn" onclick="switchView('mobile')">Mobile</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!--  FLUXO A — CRITICO                              -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="email-panel active" id="panel-critico">
+
+      <div class="subject-preview">
+        <div class="label">Preview da caixa de entrada</div>
+        <div class="from">CredPositivo</div>
+        <div class="subject">Joao, seu perfil de credito precisa de atencao urgente</div>
+        <div class="preheader">Seu score esta em 287 — veja o que fazer agora</div>
+      </div>
+
+      <div class="preview-area">
+        <div class="device-frame desktop" id="frame-critico">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">mail.google.com/mail — CredPositivo &lt;contato@credpositivo.com&gt;</div>
+          </div>
+          <div class="email-render">
+            <!-- ════ EMAIL HTML START ════ -->
+            <!--[if mso]><table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" align="center"><tr><td><![endif]-->
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+              <!-- HEADER -->
+              <tr>
+                <td style="background:linear-gradient(135deg,#0F2744 0%,#1E3A5F 50%,#1A3352 100%);padding:28px 32px;text-align:left;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">Cred</span><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#3B82F6;letter-spacing:-0.5px;">Positivo</span>
+                      </td>
+                      <td style="text-align:right;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Diagnostico de Credito</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BADGE NIVEL -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="background:#FEF2F2;border:1px solid #FECACA;border-radius:100px;padding:6px 16px;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;color:#DC2626;letter-spacing:0.5px;text-transform:uppercase;">&#9679; Nivel Critico</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- SCORE BOX -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#FEF2F2;border:1px solid #FEE2E2;border-radius:8px;">
+                    <tr>
+                      <td style="padding:20px 24px;text-align:center;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#991B1B;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Score Estimado</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;color:#DC2626;letter-spacing:-2px;line-height:1;">287</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#991B1B;display:block;margin-top:4px;">de 1000 pontos</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BODY TEXT -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">Joao Silva, tudo bem?</p>
+                  <p style="margin:0 0 16px 0;">Voce preencheu o quiz de credito no CredPositivo e eu preciso ser direto com voce.</p>
+                  <p style="margin:0 0 16px 0;">Seu perfil foi classificado como <strong style="color:#DC2626;">Critico</strong>.</p>
+                  <p style="margin:0 0 16px 0;">Isso nao e o fim. Mas e um sinal claro de que voce precisa agir logo.</p>
+                </td>
+              </tr>
+
+              <!-- O QUE SIGNIFICA -->
+              <tr>
+                <td style="padding:8px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#F9FAFB;border-radius:8px;border:1px solid #E5E7EB;">
+                    <tr>
+                      <td style="padding:20px 24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#111827;margin:0 0 12px 0;">O que "Critico" quer dizer:</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#DC2626;font-weight:700;margin-right:6px;">&#10005;</span> Voce tem restricoes ativas vinculadas ao seu CPF
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#DC2626;font-weight:700;margin-right:6px;">&#10005;</span> Seu score estimado esta em <strong>287</strong> — abaixo do minimo para aprovacao de credito
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#DC2626;font-weight:700;margin-right:6px;">&#10005;</span> Cada dia que essas restricoes continuam, seu perfil se deteriora mais
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- CONTINUATION TEXT -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">O problema e que limpar o nome e so o primeiro passo. Mesmo depois de quitar uma divida, seu perfil nos biros continua comprometido se voce nao fizer o processo certo.</p>
+                  <p style="margin:0;font-weight:700;color:#111827;font-size:16px;">Existe um caminho mais inteligente.</p>
+                </td>
+              </tr>
+
+              <!-- OFERTA -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:linear-gradient(135deg,#0F2744,#1E3A5F);border-radius:8px;">
+                    <tr>
+                      <td style="padding:24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:rgba(255,255,255,0.7);margin:0 0 4px 0;">No CredPositivo, por apenas</p>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:32px;font-weight:800;color:#ffffff;margin:0 0 16px 0;letter-spacing:-1px;">R$97</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Diagnostico completo do seu CPF</strong> — tudo que esta travando seu credito
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Call individual com agente de credito</strong> — orientacao pra resolver sua situacao
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Ebook "Saia das Dividas"</strong> — guia pratico pra retomar o controle
+                            </td>
+                          </tr>
+                        </table>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.5);margin:14px 0 0 0;">Diagnostico entregue na hora. Call agendada apos a compra.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- CTA BUTTON -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;text-align:center;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tr>
+                      <td style="background:#3B82F6;border-radius:8px;">
+                        <a href="https://credpositivo.com/cadastro" target="_blank" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;display:inline-block;padding:16px 40px;border-radius:8px;">Contratar meu diagnostico — R$97</a>
+                      </td>
+                    </tr>
+                  </table>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin-top:10px;">Pagamento seguro via Pix ou cartao</p>
+                </td>
+              </tr>
+
+              <!-- SIGN OFF -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 4px 0;">Ate breve,</p>
+                  <p style="margin:0;font-weight:700;color:#111827;">Equipe CredPositivo</p>
+                </td>
+              </tr>
+
+              <!-- P.S. BOX -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td style="border-left:3px solid #EF4444;padding:12px 16px;background:#FEF2F2;border-radius:0 6px 6px 0;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#6B7280;margin:0;">
+                          <strong style="color:#374151;">P.S.</strong> — Quanto mais tempo as restricoes ficam ativas no seu CPF, mais dificil fica a recuperacao. Se for agir, quanto antes, melhor.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- DIVIDER -->
+              <tr>
+                <td style="padding:28px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr><td style="border-top:1px solid #E5E7EB;"></td></tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- FOOTER -->
+              <tr>
+                <td style="padding:20px 32px 28px 32px;text-align:center;">
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin:0 0 8px 0;">
+                    <a href="https://credpositivo.com" style="color:#6B7280;text-decoration:underline;">credpositivo.com</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="https://instagram.com/_credpositivo" style="color:#6B7280;text-decoration:underline;">@_credpositivo</a>
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#D1D5DB;margin:0 0 4px 0;">
+                    Voce recebeu esse email porque preencheu o quiz de credito no CredPositivo.
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;margin:0;">
+                    <a href="#" style="color:#9CA3AF;text-decoration:underline;">Cancelar inscricao</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="#" style="color:#9CA3AF;text-decoration:underline;">Gerenciar preferencias</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <!--[if mso]></td></tr></table><![endif]-->
+            <!-- ════ EMAIL HTML END ════ -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Info cards -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Fluxo</div>
+          <div class="value">A — Critico (emails 1-7)</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Cor do nivel</div>
+          <div class="value" style="color:#EF4444;">#EF4444 Vermelho</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Largura</div>
+          <div class="value">600px (padrao email)</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-bar">
+        <button class="btn btn-approve" onclick="showToast('approve', 'Fluxo A (Critico)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3L6 11.6L2.7 8.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Aprovar Template
+        </button>
+        <button class="btn btn-revision" onclick="showToast('revision', 'Fluxo A (Critico)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2.7a1.6 1.6 0 012.3 2.3L5.3 13.3l-3 .7.7-3L11.3 2.7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Pedir Alteracao
+        </button>
+        <button class="btn btn-code" onclick="showToast('code', 'Fluxo A')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4l4 4-4 4M6 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Ver HTML
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!--  FLUXO B — ATENCAO                              -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="email-panel" id="panel-atencao">
+
+      <div class="subject-preview">
+        <div class="label">Preview da caixa de entrada</div>
+        <div class="from">CredPositivo</div>
+        <div class="subject">Maria, seu credito pode estar te travando sem voce saber</div>
+        <div class="preheader">Score em 520 — esta na hora de subir de nivel</div>
+      </div>
+
+      <div class="preview-area">
+        <div class="device-frame desktop" id="frame-atencao">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">mail.google.com/mail — CredPositivo &lt;contato@credpositivo.com&gt;</div>
+          </div>
+          <div class="email-render">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+              <!-- HEADER -->
+              <tr>
+                <td style="background:linear-gradient(135deg,#0F2744 0%,#1E3A5F 50%,#1A3352 100%);padding:28px 32px;text-align:left;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">Cred</span><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#3B82F6;letter-spacing:-0.5px;">Positivo</span>
+                      </td>
+                      <td style="text-align:right;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Diagnostico de Credito</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BADGE -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:100px;padding:6px 16px;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;color:#D97706;letter-spacing:0.5px;text-transform:uppercase;">&#9679; Nivel Atencao</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- SCORE BOX -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;">
+                    <tr>
+                      <td style="padding:20px 24px;text-align:center;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#92400E;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Score Estimado</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;color:#D97706;letter-spacing:-2px;line-height:1;">520</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#92400E;display:block;margin-top:4px;">de 1000 pontos</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BODY -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">Maria Santos, tudo bem?</p>
+                  <p style="margin:0 0 16px 0;">Voce preencheu o quiz de credito no CredPositivo e o resultado trouxe algo importante.</p>
+                  <p style="margin:0 0 16px 0;">Seu perfil foi classificado como <strong style="color:#D97706;">Atencao</strong>.</p>
+                  <p style="margin:0 0 16px 0;">Voce nao esta no vermelho, mas tambem nao esta no verde. Isso significa que seu credito pode estar te travando sem voce perceber.</p>
+                </td>
+              </tr>
+
+              <!-- LISTA -->
+              <tr>
+                <td style="padding:8px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#F9FAFB;border-radius:8px;border:1px solid #E5E7EB;">
+                    <tr>
+                      <td style="padding:20px 24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#111827;margin:0 0 12px 0;">O que "Atencao" quer dizer:</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#D97706;font-weight:700;margin-right:6px;">&#9888;</span> Seu score esta na faixa intermediaria — nao e ruim, mas nao abre portas
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#D97706;font-weight:700;margin-right:6px;">&#9888;</span> Bancos aprovam seu credito, mas com juros mais altos e limites menores
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#D97706;font-weight:700;margin-right:6px;">&#9888;</span> Pequenos ajustes no seu perfil podem fazer uma diferenca enorme
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- TEXT -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">A boa noticia: voce esta numa posicao onde otimizacoes simples podem acelerar muito a melhora do seu perfil.</p>
+                  <p style="margin:0;font-weight:700;color:#111827;font-size:16px;">Vamos destravar seu credito?</p>
+                </td>
+              </tr>
+
+              <!-- OFERTA -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:linear-gradient(135deg,#0F2744,#1E3A5F);border-radius:8px;">
+                    <tr>
+                      <td style="padding:24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:rgba(255,255,255,0.7);margin:0 0 4px 0;">No CredPositivo, por apenas</p>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:32px;font-weight:800;color:#ffffff;margin:0 0 16px 0;letter-spacing:-1px;">R$97</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Diagnostico completo do seu CPF</strong> — onde voce perde pontos
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Call com agente de credito</strong> — estrategia pra subir seu score
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#3B82F6;margin-right:8px;">&#10003;</span> <strong>Ebook "Codigo do Credito"</strong> — guia pra otimizar seu perfil bancario
+                            </td>
+                          </tr>
+                        </table>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.5);margin:14px 0 0 0;">Diagnostico entregue na hora. Call agendada apos a compra.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- CTA -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;text-align:center;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tr>
+                      <td style="background:#3B82F6;border-radius:8px;">
+                        <a href="https://credpositivo.com/cadastro" target="_blank" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;display:inline-block;padding:16px 40px;border-radius:8px;">Otimizar meu credito — R$97</a>
+                      </td>
+                    </tr>
+                  </table>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin-top:10px;">Pagamento seguro via Pix ou cartao</p>
+                </td>
+              </tr>
+
+              <!-- SIGN OFF -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 4px 0;">Ate breve,</p>
+                  <p style="margin:0;font-weight:700;color:#111827;">Equipe CredPositivo</p>
+                </td>
+              </tr>
+
+              <!-- P.S. -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td style="border-left:3px solid #F59E0B;padding:12px 16px;background:#FFFBEB;border-radius:0 6px 6px 0;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#6B7280;margin:0;">
+                          <strong style="color:#374151;">P.S.</strong> — Voce nao precisa esperar seu score cair pra agir. Quem otimiza agora, sai na frente quando precisar de credito.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- DIVIDER -->
+              <tr>
+                <td style="padding:28px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr><td style="border-top:1px solid #E5E7EB;"></td></tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- FOOTER -->
+              <tr>
+                <td style="padding:20px 32px 28px 32px;text-align:center;">
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin:0 0 8px 0;">
+                    <a href="https://credpositivo.com" style="color:#6B7280;text-decoration:underline;">credpositivo.com</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="https://instagram.com/_credpositivo" style="color:#6B7280;text-decoration:underline;">@_credpositivo</a>
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#D1D5DB;margin:0 0 4px 0;">
+                    Voce recebeu esse email porque preencheu o quiz de credito no CredPositivo.
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;margin:0;">
+                    <a href="#" style="color:#9CA3AF;text-decoration:underline;">Cancelar inscricao</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="#" style="color:#9CA3AF;text-decoration:underline;">Gerenciar preferencias</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Fluxo</div>
+          <div class="value">B — Atencao (emails 8-14)</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Cor do nivel</div>
+          <div class="value" style="color:#F59E0B;">#F59E0B Amarelo</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Largura</div>
+          <div class="value">600px (padrao email)</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-approve" onclick="showToast('approve', 'Fluxo B (Atencao)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3L6 11.6L2.7 8.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Aprovar Template
+        </button>
+        <button class="btn btn-revision" onclick="showToast('revision', 'Fluxo B (Atencao)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2.7a1.6 1.6 0 012.3 2.3L5.3 13.3l-3 .7.7-3L11.3 2.7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Pedir Alteracao
+        </button>
+        <button class="btn btn-code" onclick="showToast('code', 'Fluxo B')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4l4 4-4 4M6 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Ver HTML
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!--  FLUXO C — PREVENTIVO                           -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="email-panel" id="panel-preventivo">
+
+      <div class="subject-preview">
+        <div class="label">Preview da caixa de entrada</div>
+        <div class="from">CredPositivo</div>
+        <div class="subject">Ricardo, seu credito esta bom — mas pode estar melhor</div>
+        <div class="preheader">Score em 690 — veja como chegar ao topo</div>
+      </div>
+
+      <div class="preview-area">
+        <div class="device-frame desktop" id="frame-preventivo">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">mail.google.com/mail — CredPositivo &lt;contato@credpositivo.com&gt;</div>
+          </div>
+          <div class="email-render">
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+              <!-- HEADER -->
+              <tr>
+                <td style="background:linear-gradient(135deg,#0F2744 0%,#1E3A5F 50%,#1A3352 100%);padding:28px 32px;text-align:left;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.5px;">Cred</span><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;color:#3B82F6;letter-spacing:-0.5px;">Positivo</span>
+                      </td>
+                      <td style="text-align:right;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Diagnostico de Credito</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BADGE -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:100px;padding:6px 16px;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;color:#16A34A;letter-spacing:0.5px;text-transform:uppercase;">&#9679; Nivel Preventivo</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- SCORE BOX -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;">
+                    <tr>
+                      <td style="padding:20px 24px;text-align:center;">
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#166534;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;">Score Estimado</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;color:#16A34A;letter-spacing:-2px;line-height:1;">690</span>
+                        <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#166534;display:block;margin-top:4px;">de 1000 pontos</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- BODY -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">Ricardo Oliveira, tudo bem?</p>
+                  <p style="margin:0 0 16px 0;">Voce preencheu o quiz de credito no CredPositivo e tenho uma boa noticia: voce nao esta em risco.</p>
+                  <p style="margin:0 0 16px 0;">Seu perfil foi classificado como <strong style="color:#16A34A;">Preventivo</strong>.</p>
+                  <p style="margin:0 0 16px 0;">Isso significa que seu credito esta saudavel. Mas existe espaco pra crescer — e quem se prepara agora, sai na frente.</p>
+                </td>
+              </tr>
+
+              <!-- LISTA -->
+              <tr>
+                <td style="padding:8px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#F9FAFB;border-radius:8px;border:1px solid #E5E7EB;">
+                    <tr>
+                      <td style="padding:20px 24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#111827;margin:0 0 12px 0;">O que "Preventivo" quer dizer:</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#16A34A;font-weight:700;margin-right:6px;">&#10003;</span> Seu nome esta limpo e sem restricoes
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 8px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#16A34A;font-weight:700;margin-right:6px;">&#10003;</span> Seu score esta acima da media — mas ainda nao no topo
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:#4B5563;">
+                              <span style="color:#16A34A;font-weight:700;margin-right:6px;">&#10003;</span> Com ajustes estrategicos, voce pode destravar limites maiores e taxas melhores
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- TEXT -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 16px 0;">A maioria das pessoas acha que "nome limpo" e suficiente. Mas os bancos olham muito mais que isso — e a diferenca entre 690 e 800+ pode significar milhares de reais economizados em juros.</p>
+                  <p style="margin:0;font-weight:700;color:#111827;font-size:16px;">Que tal ir alem?</p>
+                </td>
+              </tr>
+
+              <!-- OFERTA -->
+              <tr>
+                <td style="padding:20px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:linear-gradient(135deg,#0F2744,#1E3A5F);border-radius:8px;">
+                    <tr>
+                      <td style="padding:24px;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:rgba(255,255,255,0.7);margin:0 0 4px 0;">No CredPositivo, por apenas</p>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:32px;font-weight:800;color:#ffffff;margin:0 0 16px 0;letter-spacing:-1px;">R$97</p>
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#22C55E;margin-right:8px;">&#10003;</span> <strong>Diagnostico completo do seu CPF</strong> — oportunidades escondidas
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0 0 10px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#22C55E;margin-right:8px;">&#10003;</span> <strong>Call com agente de credito</strong> — plano pra maximizar seu perfil
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.9);">
+                              <span style="color:#22C55E;margin-right:8px;">&#10003;</span> <strong>Ebook "Codigo do Credito"</strong> — estrategias de expansao de credito
+                            </td>
+                          </tr>
+                        </table>
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.5);margin:14px 0 0 0;">Diagnostico entregue na hora. Call agendada apos a compra.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- CTA -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;text-align:center;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tr>
+                      <td style="background:#22C55E;border-radius:8px;">
+                        <a href="https://credpositivo.com/cadastro" target="_blank" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;display:inline-block;padding:16px 40px;border-radius:8px;">Maximizar meu credito — R$97</a>
+                      </td>
+                    </tr>
+                  </table>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin-top:10px;">Pagamento seguro via Pix ou cartao</p>
+                </td>
+              </tr>
+
+              <!-- SIGN OFF -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#374151;">
+                  <p style="margin:0 0 4px 0;">Ate breve,</p>
+                  <p style="margin:0;font-weight:700;color:#111827;">Equipe CredPositivo</p>
+                </td>
+              </tr>
+
+              <!-- P.S. -->
+              <tr>
+                <td style="padding:24px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                      <td style="border-left:3px solid #22C55E;padding:12px 16px;background:#F0FDF4;border-radius:0 6px 6px 0;">
+                        <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#6B7280;margin:0;">
+                          <strong style="color:#374151;">P.S.</strong> — Quem tem o melhor score nao e quem ganha mais — e quem entende como o sistema funciona. Esse diagnostico te mostra exatamente isso.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- DIVIDER -->
+              <tr>
+                <td style="padding:28px 32px 0 32px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr><td style="border-top:1px solid #E5E7EB;"></td></tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- FOOTER -->
+              <tr>
+                <td style="padding:20px 32px 28px 32px;text-align:center;">
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9CA3AF;margin:0 0 8px 0;">
+                    <a href="https://credpositivo.com" style="color:#6B7280;text-decoration:underline;">credpositivo.com</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="https://instagram.com/_credpositivo" style="color:#6B7280;text-decoration:underline;">@_credpositivo</a>
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:#D1D5DB;margin:0 0 4px 0;">
+                    Voce recebeu esse email porque preencheu o quiz de credito no CredPositivo.
+                  </p>
+                  <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;margin:0;">
+                    <a href="#" style="color:#9CA3AF;text-decoration:underline;">Cancelar inscricao</a>&nbsp;&nbsp;&#183;&nbsp;&nbsp;<a href="#" style="color:#9CA3AF;text-decoration:underline;">Gerenciar preferencias</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Fluxo</div>
+          <div class="value">C — Preventivo (emails 15-21)</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Cor do nivel</div>
+          <div class="value" style="color:#22C55E;">#22C55E Verde</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Largura</div>
+          <div class="value">600px (padrao email)</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-approve" onclick="showToast('approve', 'Fluxo C (Preventivo)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.3 4.3L6 11.6L2.7 8.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Aprovar Template
+        </button>
+        <button class="btn btn-revision" onclick="showToast('revision', 'Fluxo C (Preventivo)')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2.7a1.6 1.6 0 012.3 2.3L5.3 13.3l-3 .7.7-3L11.3 2.7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Pedir Alteracao
+        </button>
+        <button class="btn btn-code" onclick="showToast('code', 'Fluxo C')">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4l4 4-4 4M6 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Ver HTML
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-icon" id="toast-icon"></div>
+    <span id="toast-text"></span>
+  </div>
+
+  <script>
+    // ─── Tab switching ───
+    function switchTab(tab) {
+      // Hide all panels
+      document.querySelectorAll('.email-panel').forEach(p => p.classList.remove('active'));
+      // Deactivate all tabs
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+
+      // Show selected panel
+      document.getElementById('panel-' + tab).classList.add('active');
+
+      // Activate correct tab button
+      const tabs = document.querySelectorAll('.tab-btn');
+      const tabMap = { critico: 0, atencao: 1, preventivo: 2 };
+      tabs[tabMap[tab]].classList.add('active');
+    }
+
+    // ─── View toggle (desktop/mobile) ───
+    function switchView(view) {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.querySelectorAll('.device-frame').forEach(frame => {
+        frame.classList.remove('desktop', 'mobile');
+        frame.classList.add(view);
+      });
+    }
+
+    // ─── Toast notifications ───
+    function showToast(type, flowName) {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      const text = document.getElementById('toast-text');
+
+      if (type === 'approve') {
+        icon.style.background = '#22C55E';
+        icon.innerHTML = '<span style="color:#fff;font-size:11px;">&#10003;</span>';
+        text.textContent = flowName + ' aprovado! Feedback registrado.';
+      } else if (type === 'revision') {
+        icon.style.background = '#F59E0B';
+        icon.innerHTML = '<span style="color:#fff;font-size:11px;">&#9998;</span>';
+        text.textContent = flowName + ' — alteracao solicitada. Envie os detalhes.';
+      } else if (type === 'code') {
+        icon.style.background = '#3B82F6';
+        icon.innerHTML = '<span style="color:#fff;font-size:11px;">&lt;/&gt;</span>';
+        text.textContent = flowName + ' — HTML copiado! Cole no Brevo.';
+      }
+
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>
