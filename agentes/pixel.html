@@ -112,6 +112,33 @@ font-size:14px;transition:all 0.2s;font-family:'Press Start 2P',monospace}
 text-decoration:none;transition:color 0.2s;pointer-events:auto}
 .classic-link:hover{color:var(--text-m)}
 
+/* Agent tooltip */
+.agent-tooltip{position:fixed;z-index:50;pointer-events:none;background:rgba(15,17,21,0.95);
+border:1px solid var(--glass-b);border-radius:8px;padding:10px 14px;min-width:200px;max-width:280px;
+opacity:0;transition:opacity 0.15s ease;font-family:'Press Start 2P',monospace}
+.agent-tooltip.visible{opacity:1}
+.agent-tooltip .tt-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;
+padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.agent-tooltip .tt-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.agent-tooltip .tt-name{font-size:10px;font-weight:bold}
+.agent-tooltip .tt-status{font-size:7px;padding:2px 6px;border-radius:4px;margin-left:auto}
+.agent-tooltip .tt-status.active{background:rgba(34,197,94,0.15);color:#22C55E}
+.agent-tooltip .tt-status.sleeping{background:rgba(239,68,68,0.15);color:#EF4444}
+.agent-tooltip .tt-status.alert{background:rgba(245,158,11,0.15);color:#F59E0B}
+.agent-tooltip .tt-role{font-size:8px;color:var(--text-m);margin-bottom:6px}
+.agent-tooltip .tt-desc{font-size:7px;color:var(--text-d);line-height:1.6}
+
+/* Top agent toggles bar */
+.agent-toggles{display:flex;align-items:center;gap:4px;flex-wrap:nowrap;overflow-x:auto;
+max-width:calc(100vw - 500px);scrollbar-width:none}
+.agent-toggles::-webkit-scrollbar{display:none}
+.agent-toggle{width:28px;height:28px;border-radius:6px;border:1px solid var(--glass-b);
+background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;justify-content:center;
+font-size:10px;font-family:'Press Start 2P',monospace;transition:all 0.2s;position:relative;flex-shrink:0}
+.agent-toggle:hover{background:rgba(255,255,255,0.08);transform:scale(1.1)}
+.agent-toggle.off{opacity:0.3;filter:grayscale(1)}
+.agent-toggle .toggle-dot{position:absolute;bottom:1px;right:1px;width:5px;height:5px;border-radius:50%}
+
 /* Mobile */
 @media(max-width:768px){
 .right-panel{width:100%;top:auto;bottom:0;left:0;right:0;height:50vh;
@@ -135,6 +162,7 @@ border-radius:6px 6px 0 0;border:1px solid var(--glass-b);border-bottom:none}
  <div class="brand">
   <h1>CREDPOSITIVO AI OS</h1>
  </div>
+ <div class="agent-toggles" id="agent-toggles"></div>
  <div class="status">
   <span><span class="status-dot"></span><span id="api-status-label">Conectando...</span></span>
   <span id="agent-count">— Ativos</span>
@@ -163,7 +191,29 @@ border-radius:6px 6px 0 0;border:1px solid var(--glass-b);border-bottom:none}
  <i class="ph ph-speaker-slash"></i>
 </button>
 
+<div class="agent-tooltip" id="agent-tooltip"></div>
+
 <script>
+// ===== AGENT DESCRIPTIONS =====
+const AGENT_DESC = {
+  musk: 'CEO da operacao. Define diretivas estrategicas, prioridades e metas globais para todos os agentes.',
+  igor: 'Orquestrador central. Monitora qualidade das conversas, detecta problemas e corrige fluxos automaticamente.',
+  augusto: 'Closer de vendas. Conduz conversas pelo WhatsApp, qualifica leads e fecha vendas usando IA.',
+  paulo: 'SDR (Sales Dev Rep). Primeiro contato com leads, qualificacao inicial e agendamento de follow-ups.',
+  ana: 'Monitora conversas em tempo real. Detecta leads parados, urgencias e problemas de atendimento a cada 5 min.',
+  luan: 'Gerente de vendas. Gera relatorios de performance, analisa metricas e sugere melhorias ao time.',
+  alex: 'DevOps & Infraestrutura. Monitora saude dos servicos, detecta erros e aplica correcoes automaticas.',
+  bia: 'Social Media. Cria e publica conteudo para Instagram, LinkedIn e outras redes sociais.',
+  carol: 'Trafego & Ads. Gerencia campanhas de anuncios, otimiza CPL e monitora performance dos criativos.',
+  fernando: 'Gera relatorios automaticos de performance, metricas de conversao e analise de funil.',
+  vapi: 'Agente de voz. Realiza e agenda ligacoes telefonicas para leads qualificados.',
+  agenda: 'Gerencia agenda, reunioes e lembretes. Sincroniza com Google Calendar automaticamente.',
+  coaching: 'Coach de alta performance. Envia check-ins motivacionais e dicas de produtividade.',
+  andre: 'Copywriter. Cria textos para ads, landing pages, emails e scripts de vendas.',
+  claudia: 'Designer UX/UI. Cria layouts, landing pages, dashboards e artes para campanhas.',
+  brenda: 'Estrategista. Analisa dados de mercado, concorrencia e define posicionamento de marca.'
+};
+
 // ===== CONFIGURATION =====
 const AGENTS = [
   {id:'musk',name:'Musk',role:'CEO',color:'#EAB308',
@@ -216,6 +266,7 @@ let audioCtx = null;
 let apiConnected = false;
 let dayProgress = 0;
 let lightMode = localStorage.getItem('pixelLightMode') === 'true';
+let hoveredAgent = null;
 
 // Agent runtime state
 const agentStates = {};
@@ -745,6 +796,26 @@ function drawAgent(agent, state) {
     ctx.font = `${Math.max(6, SCALE * 2)}px 'Press Start 2P'`;
     ctx.fillText(agent.role, sx, roleY);
     ctx.textAlign = 'left';
+  }
+
+  // "i" info icon on hover
+  if (hoveredAgent === agent.id) {
+    const ix = Math.floor(offsetX + (x + 6) * SCALE);
+    const iy = Math.floor(offsetY + (y - 10) * SCALE);
+    const r = Math.max(6, SCALE * 3);
+    // Circle
+    ctx.beginPath();
+    ctx.arc(ix, iy, r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fill();
+    // "i" letter
+    ctx.fillStyle = '#0F1115';
+    ctx.font = `bold ${Math.max(8, r * 1.3)}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('i', ix, iy + 0.5);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
   }
 }
 
@@ -1534,6 +1605,57 @@ canvas.addEventListener('click', (e) => {
   selectAgent(closest);
 });
 
+// ===== CANVAS HOVER — "i" icon + tooltip =====
+const tooltip = document.getElementById('agent-tooltip');
+canvas.addEventListener('mousemove', (e) => {
+  const mx = (e.clientX - offsetX) / SCALE;
+  const my = (e.clientY - offsetY) / SCALE;
+  let closest = null, closestDist = 15;
+  AGENTS.forEach(a => {
+    const s = agentStates[a.id];
+    const d = Math.sqrt((s.x-mx)**2 + (s.y-my)**2);
+    if (d < closestDist) { closest = a.id; closestDist = d; }
+  });
+  if (closest !== hoveredAgent) {
+    hoveredAgent = closest;
+    if (closest) {
+      const agent = AGENTS.find(a => a.id === closest);
+      const s = agentStates[closest];
+      const statusLabel = s.state === 'sleeping' ? 'INATIVO' :
+                          s.state === 'alert' ? 'ALERTA' : 'ATIVO';
+      const statusClass = s.state === 'sleeping' ? 'sleeping' :
+                          s.state === 'alert' ? 'alert' : 'active';
+      tooltip.innerHTML = `
+        <div class="tt-header">
+          <div class="tt-dot" style="background:${agent.color}"></div>
+          <span class="tt-name" style="color:${agent.color}">${agent.name}</span>
+          <span class="tt-status ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="tt-role">${agent.role}</div>
+        <div class="tt-desc">${AGENT_DESC[agent.id] || ''}</div>`;
+      tooltip.classList.add('visible');
+      canvas.style.cursor = 'pointer';
+    } else {
+      tooltip.classList.remove('visible');
+      canvas.style.cursor = 'default';
+    }
+  }
+  if (hoveredAgent) {
+    const tx = e.clientX + 16;
+    const ty = e.clientY - 10;
+    // Keep tooltip within viewport
+    const ttW = 260;
+    const ttH = 140;
+    tooltip.style.left = (tx + ttW > W ? e.clientX - ttW - 10 : tx) + 'px';
+    tooltip.style.top = (ty + ttH > H ? H - ttH - 10 : ty) + 'px';
+  }
+});
+canvas.addEventListener('mouseleave', () => {
+  hoveredAgent = null;
+  tooltip.classList.remove('visible');
+  canvas.style.cursor = 'default';
+});
+
 // ===== MAIN LOOP =====
 function render() {
   tick++;
@@ -1581,15 +1703,57 @@ function render() {
   // Refresh panel periodically
   if (tick % 180 === 0) {
     buildAgentList();
+    buildAgentToggles();
   }
 
   requestAnimationFrame(render);
+}
+
+// ===== TOP BAR AGENT TOGGLES =====
+function buildAgentToggles() {
+  const el = document.getElementById('agent-toggles');
+  el.innerHTML = AGENTS.map(a => {
+    const s = agentStates[a.id];
+    const isOff = s.state === 'sleeping';
+    return `<button class="agent-toggle${isOff ? ' off' : ''}" data-agent="${a.id}"
+      title="${a.name} — ${a.role}" style="color:${a.color};border-color:${a.color}30"
+      onclick="toggleAgent('${a.id}')">
+      ${a.name[0]}
+      <div class="toggle-dot" style="background:${isOff ? '#EF4444' : '#22C55E'}"></div>
+    </button>`;
+  }).join('');
+}
+
+function toggleAgent(agentId) {
+  const s = agentStates[agentId];
+  if (!s) return;
+  const action = s.state === 'sleeping' ? 'start' : 'stop';
+  const btn = document.querySelector(`.agent-toggle[data-agent="${agentId}"]`);
+  if (btn) { btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none'; }
+  fetch(`/api/os/agents/${agentId}/control`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action})
+  })
+  .then(r => r.json())
+  .then(() => {
+    s.state = action === 'start' ? 'working' : 'sleeping';
+    const agent = AGENTS.find(a => a.id === agentId);
+    const label = action === 'start' ? 'ativado' : 'desativado';
+    if (agent) addRawFeedEvent(null, agent.color, agent.name, label);
+    buildAgentToggles();
+    buildAgentList();
+  })
+  .catch(() => {
+    if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+  });
 }
 
 // ===== INIT =====
 resize();
 updateClock();
 buildAgentList();
+buildAgentToggles();
 renderFeed();
 connectAPI();
 
