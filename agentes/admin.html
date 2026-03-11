@@ -868,6 +868,176 @@ textarea{resize:vertical;line-height:1.7}
   font-family:inherit;font-size:11px;padding:8px;outline:none;box-sizing:border-box}
 .modal-box .field textarea{min-height:60px;resize:vertical}
 .modal-box .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+
+/* ---- PHASE ACCORDION ---- */
+.phase-accordion-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.phase-accordion-controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.phase-accordion{display:flex;flex-direction:column;gap:6px}
+
+.phase-card{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  border-left:3px solid var(--border2);
+}
+.phase-card[data-phase="core"]    { border-left-color:#06B6D4 }
+.phase-card[data-phase="fase01"]  { border-left-color:#3B82F6 }
+.phase-card[data-phase="fase2"]   { border-left-color:#22C55E }
+.phase-card[data-phase="fase3"]   { border-left-color:#EAB308 }
+.phase-card[data-phase="fase4"]   { border-left-color:#8B5CF6 }
+.phase-card[data-phase="objecoes"]{ border-left-color:#EF4444 }
+.phase-card[data-phase="footer"]  { border-left-color:#6B7280 }
+
+.phase-header{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  cursor:pointer;
+  user-select:none;
+  transition:background 0.15s;
+}
+.phase-header:hover{background:var(--glass)}
+
+.phase-dot{
+  width:8px;height:8px;border-radius:2px;flex-shrink:0;
+}
+.phase-card[data-phase="core"]     .phase-dot { background:#06B6D4 }
+.phase-card[data-phase="fase01"]   .phase-dot { background:#3B82F6 }
+.phase-card[data-phase="fase2"]    .phase-dot { background:#22C55E }
+.phase-card[data-phase="fase3"]    .phase-dot { background:#EAB308 }
+.phase-card[data-phase="fase4"]    .phase-dot { background:#8B5CF6 }
+.phase-card[data-phase="objecoes"] .phase-dot { background:#EF4444 }
+.phase-card[data-phase="footer"]   .phase-dot { background:#6B7280 }
+
+.phase-label{
+  flex:1;
+  font-size:10px;
+  letter-spacing:0.5px;
+  color:var(--text-m);
+  line-height:1.5;
+}
+.phase-label .phase-name{color:var(--text);font-size:10px}
+.phase-label .phase-desc{font-size:9px;color:var(--text-d);margin-top:2px}
+
+.phase-char-badge{
+  font-size:9px;
+  padding:2px 7px;
+  background:var(--glass-b);
+  border:1px solid var(--border);
+  color:var(--text-d);
+  border-radius:3px;
+  flex-shrink:0;
+  font-family:'Courier New',monospace;
+  letter-spacing:0.5px;
+}
+.phase-char-badge.has-content{border-color:var(--border2);color:var(--text-m)}
+
+.phase-chevron{
+  font-size:14px;
+  color:var(--text-d);
+  transition:transform 0.2s;
+  flex-shrink:0;
+}
+.phase-card.open .phase-chevron{transform:rotate(180deg)}
+
+.phase-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+}
+.phase-card.open .phase-body{max-height:2000px}
+
+.phase-body-inner{
+  padding:12px;
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:10px;
+}
+
+.phase-prompt{
+  width:100%;
+  min-height:120px;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  padding:10px 12px;
+  resize:vertical;
+  outline:none;
+  box-sizing:border-box;
+  line-height:1.7;
+  transition:border-color 0.2s;
+}
+.phase-prompt:focus{border-color:var(--accent2)}
+
+.phase-media-section{
+  display:flex;flex-direction:column;gap:8px;
+}
+.phase-media-label{
+  font-size:9px;color:var(--text-d);letter-spacing:1.5px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.phase-media-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:8px;
+}
+.phase-media-item{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:7px;
+  position:relative;
+  overflow:hidden;
+}
+.phase-media-item .pm-preview{
+  width:100%;height:60px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.3);
+  margin-bottom:5px;
+  overflow:hidden;
+  border-radius:2px;
+  position:relative;
+}
+.phase-media-item .pm-preview img{max-width:100%;max-height:100%;object-fit:cover}
+.phase-media-item .pm-preview .pm-play{
+  position:absolute;font-size:20px;color:var(--accent);opacity:0.85;
+}
+.phase-media-item .pm-preview audio{width:100%;height:28px}
+.phase-media-item .pm-preview .pm-file-icon{font-size:22px;color:var(--text-d)}
+.phase-media-item .pm-meta{font-size:9px;color:var(--text-m);line-height:1.4}
+.phase-media-item .pm-meta .pm-label{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;
+}
+.phase-media-item .pm-meta .pm-type{
+  font-size:8px;color:var(--text-d);margin-top:2px;
+}
+.phase-media-item .pm-actions{
+  display:flex;gap:3px;margin-top:5px;
+}
+.phase-media-empty{
+  font-size:9px;color:var(--text-d);
+  padding:8px 0;
+  font-style:italic;
+}
+
+.phase-media-add-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Press Start 2P',monospace;
+  font-size:9px;
+  padding:5px 10px;
+  border-radius:3px;
+  border:1px solid var(--border2);
+  background:var(--glass);
+  color:var(--text-d);
+  cursor:pointer;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.phase-media-add-btn:hover{background:var(--glass-b);color:var(--text-m);border-color:var(--accent2)}
 </style>
 </head>
 <body>
@@ -1014,19 +1184,25 @@ textarea{resize:vertical;line-height:1.7}
             </div>
           </div>
 
-          <!-- Section 3: Prompt -->
+          <!-- Section 3: Prompt (Phase Accordion) -->
           <div class="section-card">
-            <h3><i class="ph ph-terminal-window"></i> PROMPT</h3>
-            <div style="font-size:9px;color:var(--text-d);margin-bottom:8px">Use <span style="color:var(--accent)">---</span> para separar bolhas no WhatsApp</div>
-            <textarea id="ap-prompt" style="width:100%;min-height:250px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:11px;padding:10px;resize:vertical;outline:none;box-sizing:border-box" oninput="updatePromptCharCount();markDirty()"></textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-              <span id="ap-char-count" style="font-size:9px;color:var(--text-d)">0 chars</span>
-              <div style="display:flex;gap:6px">
-                <button class="btn btn-xs" style="border-color:var(--warn);color:var(--warn)" onclick="resetPromptToDefault()">RESETAR AO PADRAO</button>
-                <button class="btn btn-xs" onclick="togglePromptHistory()">HISTORICO</button>
+            <div class="phase-accordion-header">
+              <h3 style="margin-bottom:0"><i class="ph ph-terminal-window"></i> PROMPT</h3>
+              <div class="phase-accordion-controls">
+                <span id="ap-char-count" style="font-size:9px;color:var(--text-d)">0 chars</span>
+                <button class="btn btn-xs" onclick="expandAllPhases()"><i class="ph ph-arrows-out"></i> EXPANDIR</button>
+                <button class="btn btn-xs btn-secondary" onclick="collapseAllPhases()"><i class="ph ph-arrows-in"></i> RECOLHER</button>
+                <button class="btn btn-xs" style="border-color:var(--warn);color:var(--warn)" onclick="resetPromptToDefault()"><i class="ph ph-arrow-counter-clockwise"></i> RESETAR</button>
+                <button class="btn btn-xs" onclick="togglePromptHistory()"><i class="ph ph-clock-counter-clockwise"></i> HISTORICO</button>
               </div>
             </div>
-            <div id="ap-prompt-history" style="display:none">
+            <div style="font-size:9px;color:var(--text-d);margin-bottom:10px;line-height:1.7">
+              Use <span style="color:var(--accent)">---</span> para separar bolhas no WhatsApp. Marcadores <span style="color:var(--accent2)">&lt;!--@PHASE:xxx@--&gt;</span> separam as fases automaticamente.
+            </div>
+            <div class="phase-accordion" id="ap-phase-accordion">
+              <!-- rendered by renderPhaseAccordion() -->
+            </div>
+            <div id="ap-prompt-history" style="display:none;margin-top:10px">
               <div class="version-list" id="ap-versions"></div>
             </div>
           </div>
@@ -1091,15 +1267,6 @@ textarea{resize:vertical;line-height:1.7}
               </div>
             </div>
             <div id="ap-cron-human" style="font-size:9px;color:var(--text-d);margin-top:4px;display:none"></div>
-          </div>
-
-          <!-- Section 7: Media -->
-          <div class="section-card">
-            <h3><i class="ph ph-image"></i> MIDIAS</h3>
-            <div class="media-grid" id="ap-media-grid"></div>
-            <button class="btn btn-sm" style="margin-top:10px" onclick="openAddMediaModal()">
-              <i class="ph ph-plus"></i> ADICIONAR MIDIA
-            </button>
           </div>
 
           <!-- Section 8: Cost -->
@@ -1537,6 +1704,22 @@ const NOTIF_EVENTS = [
 ];
 
 const API_BASE = '';  // same origin
+
+// =============================================================
+// PHASE DEFINITIONS
+// =============================================================
+const PROMPT_PHASES = [
+  { id: 'core',     label: 'CORE',     fullLabel: 'CORE — Personalidade & Regras',     desc: 'Identidade, tom, proibicoes, regras gerais',        color: '#06B6D4' },
+  { id: 'fase01',   label: 'FASE 0-1', fullLabel: 'FASE 0-1 — Boas-vindas & Qualificacao', desc: 'Menu, primeira interacao, coleta de dados',      color: '#3B82F6' },
+  { id: 'fase2',    label: 'FASE 2',   fullLabel: 'FASE 2 — Educacao',                 desc: 'Audio, infografico, video (3 stages)',               color: '#22C55E' },
+  { id: 'fase3',    label: 'FASE 3',   fullLabel: 'FASE 3 — Oferta & Fechamento',      desc: 'Framework CLOSER, preco, objecoes',                 color: '#EAB308' },
+  { id: 'fase4',    label: 'FASE 4+',  fullLabel: 'FASE 4+ — Pos-venda',               desc: 'Confirmacao, upsell, manutencao',                   color: '#8B5CF6' },
+  { id: 'objecoes', label: 'OBJECOES', fullLabel: 'OBJECOES',                          desc: 'Respostas padrao para objecoes',                    color: '#EF4444' },
+  { id: 'footer',   label: 'FOOTER',   fullLabel: 'FOOTER — Metadata & Casos Especiais', desc: 'Formato de resposta, casos edge',                 color: '#6B7280' },
+];
+
+const PHASE_MARKER_RE = /<!--@PHASE:([a-zA-Z0-9_-]+)@-->/g;
+
 let authToken = localStorage.getItem('cp_admin_token') || '';
 let currentPromptAgentId = null;
 let currentAgentId = null;
@@ -1771,9 +1954,10 @@ function renderAgentProfile(data) {
   document.getElementById('ap-temperature').value = temp;
   document.getElementById('ap-temp-val').textContent = temp;
 
-  // Prompt
+  // Prompt — parse into phases and render accordion
   const promptText = data.overrideText || data.defaultPrompt || '';
-  document.getElementById('ap-prompt').value = promptText;
+  const phases = parsePromptToPhases(promptText);
+  renderPhaseAccordion(phases, data.media || []);
   updatePromptCharCount();
 
   // Delay
@@ -1803,9 +1987,6 @@ function renderAgentProfile(data) {
     document.getElementById('ap-cost-brl').textContent = 'R$ ' + (data.cost.estimatedCostBRL || 0).toFixed(2).replace('.', ',');
   }
 
-  // Media
-  renderMediaGrid(data.media || []);
-
   // Prompt History
   renderPromptHistory(data.history || []);
 
@@ -1832,8 +2013,272 @@ function onProviderChange(preselect) {
 }
 
 function updatePromptCharCount() {
-  const ta = document.getElementById('ap-prompt');
-  document.getElementById('ap-char-count').textContent = (ta?.value?.length || 0) + ' chars';
+  // Now counts all phase textareas combined
+  let total = 0;
+  document.querySelectorAll('.phase-prompt').forEach(ta => { total += ta.value.length; });
+  // Fallback: legacy hidden textarea
+  const legacy = document.getElementById('ap-prompt');
+  if (legacy) total += legacy.value.length;
+  document.getElementById('ap-char-count').textContent = total.toLocaleString() + ' chars';
+}
+
+// =============================================================
+// PHASE ACCORDION — PARSE / JOIN
+// =============================================================
+
+/**
+ * Split a single prompt string into per-phase objects.
+ * If no markers are found, everything goes into "core".
+ */
+function parsePromptToPhases(text) {
+  const result = {};
+  PROMPT_PHASES.forEach(p => { result[p.id] = ''; });
+
+  if (!text) return result;
+
+  // Check if text has any markers
+  if (!text.includes('<!--@PHASE:')) {
+    result['core'] = text.trim();
+    return result;
+  }
+
+  // Split by markers
+  const parts = text.split(/<!--@PHASE:[a-zA-Z0-9_-]+@-->/);
+  const markers = [];
+  let m;
+  const re = /<!--@PHASE:([a-zA-Z0-9_-]+)@-->/g;
+  while ((m = re.exec(text)) !== null) markers.push(m[1]);
+
+  // parts[0] is content before first marker (discard or treat as preamble)
+  markers.forEach((phaseId, i) => {
+    const content = (parts[i + 1] || '').trim();
+    if (result.hasOwnProperty(phaseId)) {
+      result[phaseId] = content;
+    } else {
+      // Unknown phase: append to footer
+      result['footer'] = (result['footer'] ? result['footer'] + '\n\n' : '') + content;
+    }
+  });
+
+  return result;
+}
+
+/**
+ * Combine per-phase strings back into a single prompt with markers.
+ */
+function joinPhasesToPrompt(phases) {
+  return PROMPT_PHASES
+    .filter(p => (phases[p.id] || '').trim() !== '')
+    .map(p => `<!--@PHASE:${p.id}@-->\n${phases[p.id].trim()}`)
+    .join('\n\n');
+}
+
+/**
+ * Read all phase textareas from the DOM and return a phases object.
+ */
+function collectPhasesFromUI() {
+  const result = {};
+  PROMPT_PHASES.forEach(p => {
+    const ta = document.getElementById(`phase-ta-${p.id}`);
+    result[p.id] = ta ? ta.value : '';
+  });
+  return result;
+}
+
+// =============================================================
+// PHASE ACCORDION — RENDER
+// =============================================================
+
+/**
+ * Filter media items for a given phase id.
+ * Also handles 'outros' for untagged items.
+ */
+function getPhaseMedia(phaseId, allMedia) {
+  if (phaseId === '__outros__') {
+    return (allMedia || []).filter(m => {
+      const tags = m.tags || [];
+      return !PROMPT_PHASES.some(p => tags.includes(p.id));
+    });
+  }
+  return (allMedia || []).filter(m => (m.tags || []).includes(phaseId));
+}
+
+/**
+ * Render compact media grid HTML for a phase.
+ */
+function renderPhaseMediaGrid(phaseId, items) {
+  if (!items || !items.length) {
+    return `<div class="phase-media-empty">Nenhuma midia nesta fase.</div>`;
+  }
+  return items.map(m => {
+    let preview = '';
+    if (m.type === 'image') {
+      preview = `<img src="${escHtml(m.url)}" alt="${escHtml(m.label)}">`;
+    } else if (m.type === 'video') {
+      preview = `<img src="${escHtml(m.thumbnail || m.url)}" alt="${escHtml(m.label)}"><span class="pm-play"><i class="ph ph-play-circle"></i></span>`;
+    } else if (m.type === 'audio') {
+      preview = `<audio controls preload="none" src="${escHtml(m.url)}" style="width:100%;height:28px"></audio>`;
+    } else {
+      preview = `<span class="pm-file-icon"><i class="ph ph-file-text"></i></span>`;
+    }
+    const typeBadge = m.type || 'file';
+    return `
+      <div class="phase-media-item">
+        <div class="pm-preview">${preview}</div>
+        <div class="pm-meta">
+          <div class="pm-label" title="${escHtml(m.label)}">${escHtml(m.label)}</div>
+          <div class="pm-type">${typeBadge}${m.tags?.length ? ' · ' + m.tags.join(', ') : ''}</div>
+        </div>
+        <div class="pm-actions">
+          <button class="btn btn-xs" onclick="editMedia('${escHtml(m.mediaId)}')" title="Editar"><i class="ph ph-pencil"></i></button>
+          <button class="btn btn-xs" style="border-color:var(--danger);color:var(--danger)" onclick="deleteMedia('${escHtml(m.mediaId)}')" title="Deletar"><i class="ph ph-trash"></i></button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/**
+ * Build the full phase accordion HTML and inject into the DOM.
+ */
+function renderPhaseAccordion(phases, allMedia) {
+  const container = document.getElementById('ap-phase-accordion');
+  if (!container) return;
+
+  const html = PROMPT_PHASES.map((p, idx) => {
+    const content = phases[p.id] || '';
+    const charCount = content.length;
+    const badgeClass = charCount > 0 ? 'has-content' : '';
+    const mediaItems = getPhaseMedia(p.id, allMedia);
+    const mediaHtml = renderPhaseMediaGrid(p.id, mediaItems);
+    // Open first phase (core) by default
+    const isOpen = idx === 0 ? 'open' : '';
+
+    return `
+      <div class="phase-card ${isOpen}" data-phase="${p.id}" id="phase-card-${p.id}">
+        <div class="phase-header" onclick="togglePhase('${p.id}')">
+          <span class="phase-dot"></span>
+          <div class="phase-label">
+            <div class="phase-name">${escHtml(p.fullLabel)}</div>
+            <div class="phase-desc">${escHtml(p.desc)}</div>
+          </div>
+          <span class="phase-char-badge ${badgeClass}" id="phase-badge-${p.id}">${charCount > 0 ? charCount.toLocaleString() + ' ch' : 'vazio'}</span>
+          <i class="ph ph-caret-down phase-chevron"></i>
+        </div>
+        <div class="phase-body">
+          <div class="phase-body-inner">
+            <textarea
+              class="phase-prompt"
+              id="phase-ta-${p.id}"
+              placeholder="Conteudo da ${escHtml(p.label)}..."
+              oninput="onPhaseInput('${p.id}')"
+            >${escHtml(content)}</textarea>
+            <div class="phase-media-section">
+              <div class="phase-media-label">
+                <span><i class="ph ph-image" style="margin-right:4px"></i>MIDIAS — ${escHtml(p.label)} (${mediaItems.length})</span>
+                <button class="phase-media-add-btn" onclick="openAddMediaModal('${p.id}')">
+                  <i class="ph ph-plus"></i> ADICIONAR
+                </button>
+              </div>
+              <div class="phase-media-grid" id="phase-media-${p.id}">${mediaHtml}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Outros section (untagged media)
+  const outrosItems = getPhaseMedia('__outros__', allMedia);
+  const outrosHtml = outrosItems.length ? `
+    <div class="phase-card" data-phase="__outros__" id="phase-card-__outros__" style="border-left-color:#4B5563">
+      <div class="phase-header" onclick="togglePhase('__outros__')">
+        <span class="phase-dot" style="background:#4B5563"></span>
+        <div class="phase-label">
+          <div class="phase-name">OUTROS — Midias sem fase</div>
+          <div class="phase-desc">Midias sem tag de fase associada</div>
+        </div>
+        <span class="phase-char-badge has-content" id="phase-badge-__outros__">${outrosItems.length} item${outrosItems.length !== 1 ? 's' : ''}</span>
+        <i class="ph ph-caret-down phase-chevron"></i>
+      </div>
+      <div class="phase-body">
+        <div class="phase-body-inner">
+          <div class="phase-media-section">
+            <div class="phase-media-label">
+              <span><i class="ph ph-image" style="margin-right:4px"></i>MIDIAS SEM FASE (${outrosItems.length})</span>
+              <button class="phase-media-add-btn" onclick="openAddMediaModal('')">
+                <i class="ph ph-plus"></i> ADICIONAR
+              </button>
+            </div>
+            <div class="phase-media-grid" id="phase-media-__outros__">${renderPhaseMediaGrid('__outros__', outrosItems)}</div>
+          </div>
+        </div>
+      </div>
+    </div>` : '';
+
+  container.innerHTML = html + outrosHtml;
+}
+
+/**
+ * Toggle a single phase card open/closed.
+ */
+function togglePhase(phaseId) {
+  const card = document.getElementById(`phase-card-${phaseId}`);
+  if (card) card.classList.toggle('open');
+}
+
+function expandAllPhases() {
+  document.querySelectorAll('.phase-card').forEach(c => c.classList.add('open'));
+}
+
+function collapseAllPhases() {
+  document.querySelectorAll('.phase-card').forEach(c => c.classList.remove('open'));
+}
+
+/**
+ * Called on textarea input for a phase — updates badge + total char count.
+ */
+function onPhaseInput(phaseId) {
+  const ta = document.getElementById(`phase-ta-${phaseId}`);
+  const badge = document.getElementById(`phase-badge-${phaseId}`);
+  if (ta && badge) {
+    const len = ta.value.length;
+    badge.textContent = len > 0 ? len.toLocaleString() + ' ch' : 'vazio';
+    badge.className = 'phase-char-badge' + (len > 0 ? ' has-content' : '');
+  }
+  updatePromptCharCount();
+  markDirty();
+}
+
+/**
+ * Re-render only the media grid for a given phase after save/delete.
+ */
+function refreshPhaseMedia(allMedia) {
+  PROMPT_PHASES.forEach(p => {
+    const grid = document.getElementById(`phase-media-${p.id}`);
+    if (grid) {
+      const items = getPhaseMedia(p.id, allMedia);
+      grid.innerHTML = renderPhaseMediaGrid(p.id, items);
+      // Update label count
+      const label = grid.previousElementSibling;
+      if (label) {
+        const span = label.querySelector('span');
+        if (span) span.innerHTML = `<i class="ph ph-image" style="margin-right:4px"></i>MIDIAS — ${escHtml(p.label)} (${items.length})`;
+      }
+    }
+  });
+  // Outros
+  const outrosGrid = document.getElementById('phase-media-__outros__');
+  if (outrosGrid) {
+    const items = getPhaseMedia('__outros__', allMedia);
+    outrosGrid.innerHTML = renderPhaseMediaGrid('__outros__', items);
+    const label = outrosGrid.previousElementSibling;
+    if (label) {
+      const span = label.querySelector('span');
+      if (span) span.innerHTML = `<i class="ph ph-image" style="margin-right:4px"></i>MIDIAS SEM FASE (${items.length})`;
+    }
+    // Show/hide outros card
+    const outrosCard = document.getElementById('phase-card-__outros__');
+    if (outrosCard) outrosCard.style.display = items.length ? '' : 'none';
+  }
 }
 
 function togglePromptHistory() {
@@ -1862,7 +2307,9 @@ function renderPromptHistory(history) {
 }
 
 function renderMediaGrid(media) {
+  // Legacy flat grid (kept for backward compatibility; element removed in favor of phase accordion)
   const grid = document.getElementById('ap-media-grid');
+  if (!grid) return;
   if (!media || !media.length) {
     grid.innerHTML = '<div style="font-size:9px;color:var(--text-d)">Nenhuma midia vinculada</div>';
     return;
@@ -1893,7 +2340,8 @@ function resetPromptToDefault() {
   if (!currentAgentData) return;
   const def = currentAgentData.defaultPrompt || '';
   if (!def) { showToast('Prompt padrao nao disponivel', 'warn'); return; }
-  document.getElementById('ap-prompt').value = def;
+  const phases = parsePromptToPhases(def);
+  renderPhaseAccordion(phases, currentAgentData.media || []);
   updatePromptCharCount();
   markDirty();
   showToast('Prompt restaurado ao padrao (salve para aplicar)', 'info');
@@ -1908,8 +2356,8 @@ async function saveAgentAll() {
   try {
     const promises = [];
 
-    // Save prompt
-    const promptText = document.getElementById('ap-prompt').value;
+    // Save prompt — join all phase textareas back into a single string
+    const promptText = joinPhasesToPrompt(collectPhasesFromUI());
     promises.push(apiFetch(`/api/os/admin/prompts/${currentAgentId}`, {
       method: 'PUT',
       body: JSON.stringify({ prompt: promptText }),
@@ -1967,13 +2415,14 @@ function cancelAgentChanges() {
   selectAgent(currentAgentId);
 }
 
-function openAddMediaModal() {
+function openAddMediaModal(phaseId) {
   document.getElementById('media-modal-title').textContent = 'ADICIONAR MIDIA';
   document.getElementById('media-edit-id').value = '';
   document.getElementById('media-url').value = '';
   document.getElementById('media-type').value = 'image';
   document.getElementById('media-label').value = '';
-  document.getElementById('media-tags').value = '';
+  // Pre-fill tag with phase id if provided
+  document.getElementById('media-tags').value = (phaseId && phaseId !== '__outros__') ? phaseId : '';
   document.getElementById('media-modal').style.display = '';
 }
 
@@ -2022,10 +2471,10 @@ async function saveMedia() {
     }
     closeMediaModal();
     showToast('Midia salva!', 'success');
-    // Reload media
+    // Reload media and refresh all phase media grids
     const mediaRes = await apiFetch(`/api/os/admin/media/${currentAgentId}`).catch(() => null);
     currentAgentData.media = mediaRes?.media || [];
-    renderMediaGrid(currentAgentData.media);
+    refreshPhaseMedia(currentAgentData.media);
   } catch (err) {
     showToast('Erro: ' + err.message, 'error');
   }
@@ -2038,7 +2487,7 @@ async function deleteMedia(mediaId) {
     showToast('Midia removida', 'info');
     const mediaRes = await apiFetch(`/api/os/admin/media/${currentAgentId}`).catch(() => null);
     currentAgentData.media = mediaRes?.media || [];
-    renderMediaGrid(currentAgentData.media);
+    refreshPhaseMedia(currentAgentData.media);
   } catch (err) {
     showToast('Erro: ' + err.message, 'error');
   }
@@ -2078,12 +2527,21 @@ async function simulateAgent() {
 async function rollbackPrompt(index) {
   if (!currentAgentId || !confirm('Restaurar esta versao do prompt?')) return;
   try {
-    await apiFetch(`/api/os/admin/prompts/${currentAgentId}/rollback`, {
+    const res = await apiFetch(`/api/os/admin/prompts/${currentAgentId}/rollback`, {
       method: 'POST',
       body: JSON.stringify({ index }),
     });
-    showToast('Versao restaurada!', 'success');
-    await selectAgent(currentAgentId);
+    // If the API returns the restored prompt text, use it directly
+    if (res && res.prompt) {
+      const phases = parsePromptToPhases(res.prompt);
+      renderPhaseAccordion(phases, currentAgentData?.media || []);
+      updatePromptCharCount();
+      markDirty();
+      showToast('Versao restaurada! Salve para aplicar.', 'success');
+    } else {
+      showToast('Versao restaurada!', 'success');
+      await selectAgent(currentAgentId);
+    }
   } catch (err) {
     showToast('Erro: ' + err.message, 'error');
   }
@@ -2092,9 +2550,9 @@ async function rollbackPrompt(index) {
 const TUTORIAL_STEPS = [
   { target: '#agents-sidebar', title: 'AGENTES', text: 'Selecione um agente na lista para ver e editar todas as configuracoes.' },
   { target: '#ap-provider', title: 'MODELO', text: 'Escolha o provider, modelo de IA, temperatura e tokens maximos.' },
-  { target: '#ap-prompt', title: 'PROMPT', text: 'Edite o system prompt do agente. Use --- para separar bolhas no WhatsApp.' },
-  { target: '#ap-media-grid', title: 'MIDIAS', text: 'Adicione videos, audios e imagens que o agente pode enviar nas conversas.' },
-  { target: '#btn-save-all', title: 'SALVAR', text: 'Clique em Salvar Tudo para aplicar todas as alteracoes de uma vez.' },
+  { target: '#ap-phase-accordion', title: 'PROMPT POR FASE', text: 'O prompt e dividido em fases. Expanda cada fase para editar o conteudo e gerenciar midias associadas.' },
+  { target: '#phase-card-core', title: 'CORE — PERSONALIDADE', text: 'Define a identidade base do agente: tom, regras e proibicoes globais.' },
+  { target: '#btn-save-all', title: 'SALVAR', text: 'Clique em Salvar Tudo para aplicar todas as alteracoes de uma vez. As fases serao unidas automaticamente.' },
 ];
 let tutorialStep = 0;
 
