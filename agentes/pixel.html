@@ -97,12 +97,15 @@ background:rgba(255,255,255,0.03);color:var(--text-m);transition:all 0.2s;letter
 .ctrl-btn.stop:hover{background:#EF444415}
 
 /* Sound toggle */
-.sound-btn{position:absolute;top:12px;right:240px;z-index:20;width:32px;height:32px;
+.sound-btn,.mode-btn{position:absolute;top:12px;z-index:20;width:32px;height:32px;
 background:rgba(255,255,255,0.04);border:1px solid var(--glass-b);border-radius:6px;
 color:var(--text-m);display:flex;align-items:center;justify-content:center;cursor:pointer;
-font-size:14px;transition:all 0.2s}
-.sound-btn:hover{color:var(--text);background:rgba(255,255,255,0.08)}
+font-size:14px;transition:all 0.2s;font-family:'Press Start 2P',monospace}
+.sound-btn{right:240px}
+.mode-btn{right:278px}
+.sound-btn:hover,.mode-btn:hover{color:var(--text);background:rgba(255,255,255,0.08)}
 .sound-btn.collapsed-adj{right:20px}
+.mode-btn.collapsed-adj{right:58px}
 
 /* Classic dashboard link */
 .classic-link{position:fixed;bottom:14px;right:20px;z-index:20;font-size:8px;color:var(--text-d);
@@ -155,6 +158,7 @@ border-radius:6px 6px 0 0;border:1px solid var(--glass-b);border-bottom:none}
 <a href="/agentes/" class="hud classic-link">Dashboard Classico &rarr;</a>
 
 <!-- Sound -->
+<button class="mode-btn" id="mode-btn" title="Modo Claro/Escuro">&#9728;&#65039;</button>
 <button class="sound-btn" id="sound-btn" title="Som">
  <i class="ph ph-speaker-slash"></i>
 </button>
@@ -211,6 +215,7 @@ let soundEnabled = false;
 let audioCtx = null;
 let apiConnected = false;
 let dayProgress = 0;
+let lightMode = localStorage.getItem('pixelLightMode') === 'true';
 
 // Agent runtime state
 const agentStates = {};
@@ -313,12 +318,13 @@ function drawFloor() {
   dayProgress = (dayProgress + 0.0001) % 1;
   const nightFactor = Math.sin(dayProgress * Math.PI * 2) * 0.15;
 
-  // Floor tiles
+  // Floor tiles - brighter in light mode
   const tileSize = 8;
+  const baseLight = lightMode ? 12 : 0; // boost for light mode
   for (let ty = 0; ty < officeH; ty += tileSize) {
     for (let tx = 0; tx < officeW; tx += tileSize) {
       const checker = ((tx / tileSize) + (ty / tileSize)) % 2 === 0;
-      const base = checker ? 22 : 20;
+      const base = (checker ? 22 : 20) + baseLight;
       const v = base - nightFactor * 40;
       ctx.fillStyle = `rgb(${v},${v+1},${v+3})`;
       px(tx, ty, tileSize, tileSize);
@@ -326,28 +332,54 @@ function drawFloor() {
   }
 }
 
+const ROOM_COLORS = {
+  ceo:     {r:234,g:179,b:8},
+  control: {r:6,g:182,b:212},
+  main:    {r:59,g:130,b:246},
+  server:  {r:239,g:68,b:68},
+  break_:  {r:34,g:197,b:94}
+};
+const ROOM_SUBLABELS = {
+  ceo: 'Estrategia & Diretivas',
+  control: 'Monitoramento',
+  main: 'Vendas & Marketing',
+  server: 'Infra & DevOps',
+  break_: 'Criativo & Reports'
+};
+
 function drawRooms() {
+  const fillOp = lightMode ? 0.15 : 0.08;
+  const borderOp = lightMode ? 0.4 : 0.25;
+  const labelOp = lightMode ? 0.7 : 0.5;
+  const subOp = lightMode ? 0.45 : 0.3;
+
   ctx.lineWidth = 1;
   for (const [key, r] of Object.entries(ROOMS)) {
-    // Room wall
-    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    const rc = ROOM_COLORS[key] || {r:255,g:255,b:255};
+
+    // Room border
+    ctx.strokeStyle = `rgba(${rc.r},${rc.g},${rc.b},${borderOp})`;
     pxRect(r.x, r.y, r.w, r.h);
 
     // Room fill
-    ctx.fillStyle = key === 'ceo' ? 'rgba(234,179,8,0.02)' :
-                    key === 'control' ? 'rgba(6,182,212,0.02)' :
-                    key === 'server' ? 'rgba(239,68,68,0.02)' :
-                    key === 'break_' ? 'rgba(34,197,94,0.02)' :
-                    'rgba(255,255,255,0.01)';
+    ctx.fillStyle = `rgba(${rc.r},${rc.g},${rc.b},${fillOp})`;
     px(r.x+1, r.y+1, r.w-2, r.h-2);
 
-    // Room label
+    // Room label - bigger, brighter
     const sx = Math.floor(offsetX + (r.x + r.w/2) * SCALE);
-    const sy = Math.floor(offsetY + r.y * SCALE) - 4;
-    ctx.fillStyle = 'rgba(255,255,255,0.15)';
-    ctx.font = `${Math.max(9, SCALE * 3.5)}px 'Press Start 2P'`;
+    const sy = Math.floor(offsetY + r.y * SCALE) - 6;
+    ctx.fillStyle = `rgba(255,255,255,${labelOp})`;
+    ctx.font = `${Math.max(10, SCALE * 4.2)}px 'Press Start 2P'`;
     ctx.textAlign = 'center';
     ctx.fillText(r.label, sx, sy);
+
+    // Room sublabel
+    const subLabel = ROOM_SUBLABELS[key];
+    if (subLabel) {
+      ctx.fillStyle = `rgba(${rc.r},${rc.g},${rc.b},${subOp})`;
+      ctx.font = `${Math.max(7, SCALE * 2.5)}px 'Press Start 2P'`;
+      ctx.fillText(subLabel, sx, sy + Math.max(10, SCALE * 4));
+    }
   }
   ctx.textAlign = 'left';
 }
@@ -698,14 +730,20 @@ function drawAgent(agent, state) {
     }
   }
 
-  // Name tag
-  if (isSelected || state.state === 'talking') {
+  // Name tag - ALWAYS visible
+  {
     const sx = Math.floor(offsetX + x * SCALE);
     const sy = Math.floor(offsetY + (y + 9) * SCALE);
-    ctx.fillStyle = col + 'cc';
+    const nameAlpha = isSelected ? 'ff' : 'bb';
+    ctx.fillStyle = col + nameAlpha;
     ctx.font = `${Math.max(8, SCALE * 3)}px 'Press Start 2P'`;
     ctx.textAlign = 'center';
     ctx.fillText(agent.name, sx, sy);
+    // Role text below name
+    const roleY = sy + Math.max(9, SCALE * 3.2);
+    ctx.fillStyle = isSelected ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.3)';
+    ctx.font = `${Math.max(6, SCALE * 2)}px 'Press Start 2P'`;
+    ctx.fillText(agent.role, sx, roleY);
     ctx.textAlign = 'left';
   }
 }
@@ -1046,6 +1084,22 @@ document.getElementById('panel-toggle').addEventListener('click', () => {
   const btn = document.getElementById('panel-toggle');
   btn.textContent = panel.classList.contains('collapsed') ? '>' : '<';
   document.getElementById('sound-btn').classList.toggle('collapsed-adj', panel.classList.contains('collapsed'));
+});
+
+// ===== MODE TOGGLE =====
+document.getElementById('mode-btn').addEventListener('click', () => {
+  lightMode = !lightMode;
+  localStorage.setItem('pixelLightMode', lightMode);
+  document.getElementById('mode-btn').textContent = lightMode ? '\u{1F319}' : '\u2600\uFE0F';
+});
+// Sync mode button label on load
+if (lightMode) document.getElementById('mode-btn').textContent = '\u{1F319}';
+
+// Handle collapsed adjustment for mode btn
+const origPanelToggle = document.getElementById('panel-toggle');
+origPanelToggle.addEventListener('click', () => {
+  const panel = document.getElementById('right-panel');
+  document.getElementById('mode-btn').classList.toggle('collapsed-adj', panel.classList.contains('collapsed'));
 });
 
 // ===== CLOCK =====
@@ -1484,8 +1538,8 @@ canvas.addEventListener('click', (e) => {
 function render() {
   tick++;
 
-  // Clear
-  ctx.fillStyle = '#0F1115';
+  // Clear - lighter bg in light mode
+  ctx.fillStyle = lightMode ? '#1A1D24' : '#0F1115';
   ctx.fillRect(0, 0, W, H);
 
   // Subtle vignette
