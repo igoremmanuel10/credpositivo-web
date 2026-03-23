@@ -274,9 +274,19 @@
                 const sColor = statusColors[order.status] || { bg: 'rgba(255,165,0,0.1)', color: '#ffa500' };
                 const date = new Date(order.created_at).toLocaleDateString('pt-BR');
 
-                // Download button for completed diagnosticos
+                // Action buttons based on service type
                 let downloadBtn = '';
-                if (order.diagnostico_id && order.diagnostico_status === 'completed') {
+                const svcLower = (order.service || '').toLowerCase();
+                if (svcLower.includes('rating') && order.status !== 'pending' && order.status !== 'rejected' && order.status !== 'error') {
+                    downloadBtn = `
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border-glass);">
+                            <a href="/dash/rating-form?order=${order.id}"
+                               class="btn btn-primary"
+                               style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-size: 13px; text-decoration: none;">
+                                <i class="ph ph-clipboard-text"></i> Preencher Formulario Rating
+                            </a>
+                        </div>`;
+                } else if (order.diagnostico_id && order.diagnostico_status === 'completed') {
                     downloadBtn = `
                         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--color-border-glass);">
                             <a href="/api/diagnostico/${order.diagnostico_id}"

@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulário Rating Bancário - CredPositivo Premium">
+    <title>CredPositivo Premium | Rating Bancário</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../v2-assets/styles/layout.css">
+
+    <style>
+        /* --- Sidebar Logo --- */
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .sidebar-logo img {
+            height: 36px;
+            width: auto;
+        }
+
+        /* --- Step Indicator --- */
+        .step-indicator-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 36px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .step-indicator-wrap::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .step-indicator-wrap::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .step-indicator-wrap::-webkit-scrollbar-thumb {
+            background: var(--color-border-glass);
+            border-radius: 4px;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            min-width: 64px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border-glass);
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .step-circle:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .step-item.active .step-circle {
+            border-color: var(--color-primary);
+            background: var(--color-primary-dim);
+            color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .step-item.completed .step-circle {
+            border-color: var(--color-success);
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--color-success);
+        }
+
+        .step-label {
+            font-size: 10px;
+            color: var(--color-text-muted);
+            text-align: center;
+            white-space: nowrap;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .step-item.active .step-label {
+            color: var(--color-primary);
+        }
+
+        .step-item.completed .step-label {
+            color: var(--color-success);
+        }
+
+        .step-connector {
+            flex: 1;
+            height: 2px;
+            background: var(--color-border-glass);
+            min-width: 20px;
+            max-width: 48px;
+            margin-bottom: 22px;
+            transition: background 0.3s ease;
+        }
+
+        .step-connector.done {
+            background: var(--color-success);
+        }
+
+        /* --- Form Panels --- */
+        .form-panel {
+            display: none;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-header {
+            margin-bottom: 28px;
+        }
+
+        .step-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .step-header p {
+            font-size: 14px;
+            color: var(--color-text-muted);
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--color-primary-dim);
+            color: var(--color-primary);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        /* --- File Upload Zone --- */
+        .upload-zone {
+            border: 2px dashed var(--color-border-glass);
+            border-radius: 14px;
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .upload-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .upload-zone-icon {
+            font-size: 32px;
+            color: var(--color-text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .upload-zone-label {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+
+        .upload-zone-hint {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            opacity: 0.6;
+        }
+
+        .upload-status {
+            margin-top: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .upload-status.success {
+            color: var(--color-success);
+        }
+
+        .upload-status.uploading {
+            color: var(--color-primary);
+        }
+
+        .upload-status.error {
+            color: var(--color-danger);
+        }
+
+        .upload-field-group {
+            margin-bottom: 20px;
+        }
+
+        .upload-field-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        /* --- Navigation Buttons --- */
+        .form-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--color-border-glass);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-btn);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-next {
+            min-width: 160px;
+        }
+
+        /* --- Summary Table (Step 7) --- */
+        .summary-section {
+            margin-bottom: 28px;
+        }
+
+        .summary-section-title {
+            font-size: 13px;
+            color: var(--color-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .summary-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .summary-item-label {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .summary-item-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .summary-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* --- Checkbox Terms --- */
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px;
+            background: rgba(59, 130, 246, 0.04);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .terms-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            margin-top: 1px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .terms-check label {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-bottom: 0;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .terms-check label strong {
+            color: #fff;
+        }
+
+        /* --- Loading & States --- */
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--color-bg-body);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 16px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--color-border-glass);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-state.visible {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .success-icon-wrap {
+            width: 80px;
+            height: 80px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid var(--color-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+            color: var(--color-success);
+        }
+
+        .already-submitted {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .already-submitted.visible {
+            display: block;
+        }
+
+        /* --- Toast --- */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+            max-width: 360px;
+        }
+
+        .toast.success {
+            background: rgba(34, 197, 94, 0.9);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .toast.error {
+            background: rgba(239, 68, 68, 0.9);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .toast.info {
+            background: rgba(59, 130, 246, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* --- Saving Indicator --- */
+        .saving-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        .saving-indicator.visible {
+            display: flex;
+        }
+
+        .saving-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* --- Progress Bar --- */
+        .progress-bar-wrap {
+            height: 4px;
+            background: var(--color-border-glass);
+            border-radius: 4px;
+            margin-bottom: 36px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary), #60A5FA);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        /* --- Mobile Nav --- */
+        .mobile-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 92%;
+                max-width: 420px;
+                background: rgba(20, 20, 20, 0.85);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 50px;
+                padding: 10px 20px;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 1000;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            .mobile-nav-item {
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 24px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                text-decoration: none;
+            }
+
+            .mobile-nav-item span {
+                font-size: 10px;
+                font-weight: 500;
+            }
+
+            .mobile-nav-item.active {
+                color: var(--color-primary);
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-nav {
+                flex-direction: column-reverse;
+            }
+
+            .form-nav .btn-secondary,
+            .form-nav .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .step-label {
+                display: none;
+            }
+
+            .step-item {
+                min-width: 44px;
+            }
+        }
+
+        /* Override glass-card hover for the main form card */
+        .form-card {
+            transition: none;
+        }
+
+        .form-card:hover {
+            transform: none;
+        }
+
+        select option {
+            background: #1a1d23;
+            color: #fff;
+        }
+
+        /* Required asterisk */
+        .required-asterisk {
+            color: #EF4444;
+            margin-left: 2px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-divider {
+            border: none;
+            border-top: 1px solid var(--color-border-glass);
+            margin: 20px 0;
+        }
+
+        .upload-zone.has-file {
+            border-color: var(--color-success);
+            background: rgba(34, 197, 94, 0.04);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="spinner"></div>
+        <p style="color: var(--color-text-muted); font-size: 14px;">Carregando formulário...</p>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/dash/" class="sidebar-logo">
+            <img src="../v2-assets/assets/images/logo.webp" alt="CredPositivo">
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/dash/" class="nav-link"><i class="ph ph-squares-four"></i> Visão Geral</a></li>
+                <li><a href="/dash/servicos" class="nav-link active"><i class="ph ph-file-text"></i> Meus Serviços</a></li>
+                <li><a href="/dash/loja" class="nav-link"><i class="ph ph-storefront"></i> Loja</a></li>
+            </ul>
+
+            <div class="nav-title"
+                style="margin-top: 30px; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;">
+                EVOLUÇÃO</div>
+            <ul>
+                <li><a href="/dash/jornada/" class="nav-link"><i class="ph ph-rocket-launch"></i> Jornada Premium</a></li>
+            </ul>
+
+            <div class="nav-title"
+                style="margin-top: 30px; font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 0 20px;">
+                SISTEMA</div>
+            <ul>
+                <li><a href="/dash/suporte" class="nav-link"><i class="ph ph-headset"></i> Suporte</a></li>
+                <li><a href="/dash/configuracoes" class="nav-link"><i class="ph ph-gear"></i> Configurações</a></li>
+                <li><a href="#" class="nav-link" onclick="doLogout()"><i class="ph ph-sign-out"></i> Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+
+        <!-- Top Bar -->
+        <header class="top-bar"
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                <i class="ph ph-list"></i>
+            </button>
+            <div class="greeting">
+                <h1>Rating <span style="color: var(--color-primary);">Bancário</span></h1>
+                <p style="color: var(--color-text-muted); font-size: 14px;">Preencha todas as etapas para concluir seu
+                    processo.</p>
+            </div>
+            <div class="user-actions" style="display: flex; align-items: center; gap: 16px;">
+                <div class="saving-indicator" id="savingIndicator">
+                    <div class="saving-dot"></div>
+                    <span>Salvando...</span>
+                </div>
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid var(--color-primary);">
+                    <img id="userAvatar" src="https://ui-avatars.com/api/?name=C&background=181B21&color=fff"
+                        alt="Perfil" style="width: 100%; height: 100%;">
+                </div>
+            </div>
+        </header>
+
+        <!-- Already Submitted State -->
+        <div class="glass-card form-card" id="alreadySubmitted" style="display: none;">
+            <div style="text-align: center; padding: 40px 20px;">
+                <div
+                    style="width: 80px; height: 80px; background: rgba(34,197,94,0.15); border: 2px solid var(--color-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px; color: var(--color-success);">
+                    <i class="ph ph-check-circle"></i>
+                </div>
+                <h2 style="font-size: 24px; color: #fff; margin-bottom: 12px;">Formulário já enviado</h2>
+                <p style="color: var(--color-text-muted); max-width: 440px; margin: 0 auto 28px; line-height: 1.6;">
+                    Seu formulário de Rating Bancário foi preenchido e enviado com sucesso. Nossa equipe está analisando
+                    as informações.
+                </p>
+                <a href="/dash/servicos" class="btn btn-primary"
+                    style="display: inline-flex; gap: 8px; text-decoration: none;">
+                    <i class="ph ph-arrow-left"></i> Voltar para Serviços
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Wrapper -->
+        <div id="formWrapper">
+
+            <!-- Step Indicators -->
+            <div class="step-indicator-wrap" id="stepIndicator">
+                <!-- Generated by JS -->
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="progressBar" style="width: 14.28%;"></div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="glass-card form-card" style="max-width: 900px; margin: 0 auto;">
+
+                <!-- Success State (Step 7 submitted) -->
+                <div id="successState" style="display: none; text-align: center; padding: 60px 20px;">
+                    <div
+                        style="width: 80px; height: 80px; background: rgba(34,197,94,0.15); border: 2px solid var(--color-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px; color: var(--color-success);">
+                        <i class="ph ph-check-circle"></i>
+                    </div>
+                    <h2 style="font-size: 26px; color: #fff; margin-bottom: 12px;">Formulário enviado com sucesso!</h2>
+                    <p style="color: var(--color-text-muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.7;">
+                        Recebemos todas as suas informações. Nossa equipe de especialistas irá analisar seu perfil e
+                        entrará em contato em breve com seu Rating Bancário completo.
+                    </p>
+                    <div
+                        style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
+                        <a href="/dash/servicos" class="btn btn-primary"
+                            style="display: inline-flex; gap: 8px; text-decoration: none;">
+                            <i class="ph ph-arrow-left"></i> Meus Serviços
+                        </a>
+                        <a href="/dash/suporte" class="btn btn-secondary"
+                            style="display: inline-flex; gap: 8px; text-decoration: none;">
+                            <i class="ph ph-headset"></i> Falar com Suporte
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Step 1: Dados Pessoais -->
+                <div class="form-panel" id="panel-1">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-user"></i> Etapa 1 de 7</span>
+                        <h2>Dados Pessoais</h2>
+                        <p>Informe seus dados pessoais completos para o processo de Rating Bancário.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo <span class="required-asterisk">*</span></label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpf">CPF <span class="required-asterisk">*</span></label>
+                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="data_nascimento">Data de Nascimento</label>
+                            <input type="date" id="data_nascimento" name="data_nascimento">
+                        </div>
+                        <div class="form-group">
+                            <label for="estado_civil">Estado Civil</label>
+                            <select id="estado_civil" name="estado_civil">
+                                <option value="">Selecione...</option>
+                                <option value="solteiro">Solteiro(a)</option>
+                                <option value="casado">Casado(a)</option>
+                                <option value="divorciado">Divorciado(a)</option>
+                                <option value="viuvo">Viúvo(a)</option>
+                                <option value="uniao_estavel">União Estável</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="escolaridade">Escolaridade</label>
+                            <select id="escolaridade" name="escolaridade">
+                                <option value="">Selecione...</option>
+                                <option value="fundamental">Ensino Fundamental</option>
+                                <option value="medio">Ensino Médio</option>
+                                <option value="superior_incompleto">Superior Incompleto</option>
+                                <option value="superior_completo">Superior Completo</option>
+                                <option value="pos_graduacao">Pós-graduação</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nome_mae">Nome da Mãe</label>
+                            <input type="text" id="nome_mae" name="nome_mae" placeholder="Nome completo da mãe">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome_pai">Nome do Pai</label>
+                        <input type="text" id="nome_pai" name="nome_pai" placeholder="Nome completo do pai">
+                    </div>
+
+                    <div class="form-nav">
+                        <div></div>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(1)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Endereço e Contato -->
+                <div class="form-panel" id="panel-2">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-map-pin"></i> Etapa 2 de 7</span>
+                        <h2>Contato e Endereço</h2>
+                        <p>Informe seu endereço residencial e dados de contato.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="email">E-mail <span class="required-asterisk">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="celular">Celular / WhatsApp <span class="required-asterisk">*</span></label>
+                            <input type="tel" id="celular" name="celular" placeholder="(00) 00000-0000" maxlength="15"
+                                required>
+                        </div>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="cep">CEP</label>
+                            <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9">
+                        </div>
+                        <div class="form-group">
+                            <label for="numero">Número</label>
+                            <input type="text" id="numero" name="numero" placeholder="Nº">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, Avenida...">
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="complemento">Complemento</label>
+                            <input type="text" id="complemento" name="complemento" placeholder="Apto, Bloco...">
+                        </div>
+                        <div class="form-group">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" id="bairro" name="bairro" placeholder="Bairro">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" name="cidade" placeholder="Cidade">
+                        </div>
+                        <div class="form-group">
+                            <label for="uf">UF</label>
+                            <select id="uf" name="uf">
+                                <option value="">UF</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(2)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(2)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Financeiro -->
+                <div class="form-panel" id="panel-3">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-currency-dollar"></i> Etapa 3 de 7</span>
+                        <h2>Informações Financeiras</h2>
+                        <p>Dados sobre sua renda, ocupação e situação financeira.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="ocupacao">Ocupação / Cargo</label>
+                            <input type="text" id="ocupacao" name="ocupacao" placeholder="Ex: Engenheiro, Empresário...">
+                        </div>
+                        <div class="form-group">
+                            <label for="renda_mensal">Renda Mensal</label>
+                            <input type="text" id="renda_mensal" name="renda_mensal" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="outras_rendas">Outras Rendas</label>
+                            <input type="text" id="outras_rendas" name="outras_rendas" placeholder="R$ 0,00">
+                        </div>
+                        <div class="form-group">
+                            <label for="cnpj">CNPJ da Empresa (se aplicável)</label>
+                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="faturamento">Faturamento Médio</label>
+                        <input type="text" id="faturamento" name="faturamento" placeholder="R$ 0,00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ref_bancarias">Referências Bancárias</label>
+                        <textarea id="ref_bancarias" name="ref_bancarias" rows="3"
+                            placeholder="Liste seus bancos de relacionamento, tempo de conta, produtos contratados..."></textarea>
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(3)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(3)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Bancário -->
+                <div class="form-panel" id="panel-4">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-bank"></i> Etapa 4 de 7</span>
+                        <h2>Dados Bancários</h2>
+                        <p>Informações sobre suas contas e produtos bancários.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="banco_principal">Banco Principal</label>
+                            <input type="text" id="banco_principal" name="banco_principal"
+                                placeholder="Ex: Itaú, Bradesco, Nubank...">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_conta">Tipo de Conta</label>
+                            <select id="tipo_conta" name="tipo_conta">
+                                <option value="">Selecione...</option>
+                                <option value="corrente">Corrente</option>
+                                <option value="poupanca">Poupança</option>
+                                <option value="salario">Salário</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="agencia">Agência</label>
+                            <input type="text" id="agencia" name="agencia" placeholder="0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="conta">Conta</label>
+                            <input type="text" id="conta" name="conta" placeholder="00000-0">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="tempo_conta">Tempo de Conta (anos)</label>
+                            <input type="text" id="tempo_conta" name="tempo_conta" placeholder="Ex: 5 anos">
+                        </div>
+                        <div class="form-group">
+                            <label for="limite_credito">Limite de Crédito Atual</label>
+                            <input type="text" id="limite_credito" name="limite_credito" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cartoes">Cartões de Crédito</label>
+                        <textarea id="cartoes" name="cartoes" rows="3"
+                            placeholder="Descreva seus cartões, bandeiras e limites de cada um..."></textarea>
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(4)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(4)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Patrimonial -->
+                <div class="form-panel" id="panel-5">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-buildings"></i> Etapa 5 de 7</span>
+                        <h2>Patrimônio e Dívidas</h2>
+                        <p>Informe seus bens, investimentos e compromissos financeiros atuais.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imoveis">Imóveis</label>
+                        <textarea id="imoveis" name="imoveis" rows="3"
+                            placeholder="Descreva seus imóveis com endereço e valor estimado..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="veiculos">Veículos</label>
+                        <textarea id="veiculos" name="veiculos" rows="3"
+                            placeholder="Modelo, ano e valor estimado de cada veículo..."></textarea>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="investimentos">Investimentos</label>
+                            <textarea id="investimentos" name="investimentos" rows="3"
+                                placeholder="Tipo (CDB, Ações, FII...) e valor aproximado..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dividas">Dívidas Atuais</label>
+                            <textarea id="dividas" name="dividas" rows="3"
+                                placeholder="Credores e valores das dívidas em aberto..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="score_serasa">Score Serasa / SPC Atual</label>
+                        <input type="text" id="score_serasa" name="score_serasa"
+                            placeholder="Ex: 720 pontos (Serasa)">
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(5)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(5)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Documentos -->
+                <div class="form-panel" id="panel-6">
+                    <div class="step-header">
+                        <span class="step-badge"><i class="ph ph-folder-open"></i> Etapa 6 de 7</span>
+                        <h2>Documentos</h2>
+                        <p>Envie os documentos necessários para análise do seu Rating Bancário.</p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="upload-field-group">
+                            <span class="upload-field-label">RG ou CNH (frente e verso)</span>
+                            <div class="upload-zone" id="zone-rg_cnh" onclick="triggerUpload('rg_cnh')">
+                                <input type="file" id="file-rg_cnh" accept="image/*,.pdf" style="display:none;"
+                                    onchange="handleFileSelect(this, 'rg_cnh')">
+                                <i class="ph ph-identification-card upload-zone-icon"></i>
+                                <p class="upload-zone-label">Clique ou arraste o arquivo</p>
+                                <p class="upload-zone-hint">JPG, PNG ou PDF — máx. 10MB</p>
+                                <div class="upload-status" id="status-rg_cnh"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-field-group">
+                            <span class="upload-field-label">Comprovante de Renda</span>
+                            <div class="upload-zone" id="zone-comp_renda" onclick="triggerUpload('comp_renda')">
+                                <input type="file" id="file-comp_renda" accept="image/*,.pdf" style="display:none;"
+                                    onchange="handleFileSelect(this, 'comp_renda')">
+                                <i class="ph ph-money upload-zone-icon"></i>
+                                <p class="upload-zone-label">Clique ou arraste o arquivo</p>
+                                <p class="upload-zone-hint">Holerite, decore IR, etc. — máx. 10MB</p>
+                                <div class="upload-status" id="status-comp_renda"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-field-group">
+                            <span class="upload-field-label">Comprovante de Endereço</span>
+                            <div class="upload-zone" id="zone-comp_endereco"
+                                onclick="triggerUpload('comp_endereco')">
+                                <input type="file" id="file-comp_endereco" accept="image/*,.pdf"
+                                    style="display:none;" onchange="handleFileSelect(this, 'comp_endereco')">
+                                <i class="ph ph-house upload-zone-icon"></i>
+                                <p class="upload-zone-label">Clique ou arraste o arquivo</p>
+                                <p class="upload-zone-hint">Conta de luz, água ou telefone — máx. 10MB</p>
+                                <div class="upload-status" id="status-comp_endereco"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-field-group">
+                            <span class="upload-field-label">Extrato Bancário (últimos 3 meses)</span>
+                            <div class="upload-zone" id="zone-extrato_bancario"
+                                onclick="triggerUpload('extrato_bancario')">
+                                <input type="file" id="file-extrato_bancario" accept="image/*,.pdf"
+                                    style="display:none;"
+                                    onchange="handleFileSelect(this, 'extrato_bancario')">
+                                <i class="ph ph-receipt upload-zone-icon"></i>
+                                <p class="upload-zone-label">Clique ou arraste o arquivo</p>
+                                <p class="upload-zone-hint">PDF do extrato bancário — máx. 10MB</p>
+                                <div class="upload-status" id="status-extrato_bancario"></div>
+                            </div>
+                        </div>
+
+                        <div class="upload-field-group" style="grid-column: 1 / -1;">
+                            <span class="upload-field-label">Selfie com Documento</span>
+                            <div class="upload-zone" id="zone-selfie_doc" onclick="triggerUpload('selfie_doc')">
+                                <input type="file" id="file-selfie_doc" accept="image/*" style="display:none;"
+                                    onchange="handleFileSelect(this, 'selfie_doc')">
+                                <i class="ph ph-camera upload-zone-icon"></i>
+                                <p class="upload-zone-label">Clique ou arraste o arquivo</p>
+                                <p class="upload-zone-hint">Foto segurando seu documento de identificação — máx.
+                                    10MB</p>
+                                <div class="upload-status" id="status-selfie_doc"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 8px;">
+                        <label for="obs">Observações Adicionais</label>
+                        <textarea id="obs" name="obs" rows="4"
+                            placeholder="Alguma informação adicional que deseja comunicar à equipe de análise..."></textarea>
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(6)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" onclick="nextStep(6)">
+                            Próximo <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Confirmação -->
+                <div class="form-panel" id="panel-7">
+                    <div class="step-header">
+                        <span class="step-badge"
+                            style="background: rgba(34,197,94,0.15); color: var(--color-success); border-color: rgba(34,197,94,0.2);"><i
+                                class="ph ph-check-circle"></i> Etapa 7 de 7</span>
+                        <h2>Confirmação</h2>
+                        <p>Revise as informações preenchidas antes de enviar.</p>
+                    </div>
+
+                    <!-- Summary -->
+                    <div id="summaryContent">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="terms-check">
+                        <input type="checkbox" id="termos" name="termos">
+                        <label for="termos">
+                            <strong>Declaro que as informações prestadas são verdadeiras</strong> e estou ciente de
+                            que a falsidade das declarações pode acarretar em responsabilidade legal. Autorizo a
+                            CredPositivo a utilizar os dados fornecidos exclusivamente para fins de análise do Rating
+                            Bancário.
+                        </label>
+                    </div>
+
+                    <div class="form-nav">
+                        <button class="btn btn-secondary" onclick="prevStep(7)">
+                            <i class="ph ph-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn btn-primary btn-next" id="submitBtn" onclick="submitForm()"
+                            style="background: var(--color-success); box-shadow: 0 0 20px rgba(34,197,94,0.4);">
+                            <i class="ph ph-paper-plane-tilt"></i> Enviar Formulário
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /form-card -->
+        </div>
+        <!-- /formWrapper -->
+
+    </main>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav">
+        <a href="/dash/" class="mobile-nav-item"><i class="ph ph-house"></i><span>Home</span></a>
+        <a href="/dash/jornada/" class="mobile-nav-item"><i class="ph ph-rocket-launch"></i><span>Jornada</span></a>
+        <a href="/dash/loja" class="mobile-nav-item"><i class="ph ph-storefront"></i><span>Loja</span></a>
+        <a href="/dash/servicos" class="mobile-nav-item active"><i class="ph ph-file-text"></i><span>Servi&#231;os</span></a>
+        <a href="/dash/configuracoes" class="mobile-nav-item"><i class="ph ph-user-circle"></i><span>Perfil</span></a>
+    </nav>
+
+    <script src="../v2-assets/scripts/app.js"></script>
+    <script>
+        // =====================================================================
+        // CONFIG
+        // =====================================================================
+        const STEPS = [
+            { label: 'Pessoal', icon: 'ph-user' },
+            { label: 'Endereço', icon: 'ph-map-pin' },
+            { label: 'Financeiro', icon: 'ph-currency-dollar' },
+            { label: 'Bancário', icon: 'ph-bank' },
+            { label: 'Patrimônio', icon: 'ph-buildings' },
+            { label: 'Documentos', icon: 'ph-folder-open' },
+            { label: 'Confirmar', icon: 'ph-check-circle' },
+        ];
+
+        const STEP_FIELDS = {
+            1: ['nome', 'cpf', 'data_nascimento', 'estado_civil', 'escolaridade', 'nome_mae', 'nome_pai'],
+            2: ['email', 'celular', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'uf'],
+            3: ['ocupacao', 'renda_mensal', 'outras_rendas', 'ref_bancarias', 'cnpj', 'faturamento'],
+            4: ['banco_principal', 'agencia', 'conta', 'tipo_conta', 'tempo_conta', 'limite_credito', 'cartoes'],
+            5: ['imoveis', 'veiculos', 'investimentos', 'dividas', 'score_serasa'],
+            6: ['obs'],
+            7: ['termos'],
+        };
+
+        const STEP_LABELS = {
+            nome: 'Nome Completo',
+            cpf: 'CPF',
+            data_nascimento: 'Data de Nascimento',
+            estado_civil: 'Estado Civil',
+            escolaridade: 'Escolaridade',
+            nome_mae: 'Nome da Mãe',
+            nome_pai: 'Nome do Pai',
+            email: 'E-mail',
+            celular: 'Celular / WhatsApp',
+            cep: 'CEP',
+            endereco: 'Endereço',
+            numero: 'Número',
+            complemento: 'Complemento',
+            bairro: 'Bairro',
+            cidade: 'Cidade',
+            uf: 'UF',
+            ocupacao: 'Ocupação / Cargo',
+            renda_mensal: 'Renda Mensal',
+            outras_rendas: 'Outras Rendas',
+            ref_bancarias: 'Referências Bancárias',
+            cnpj: 'CNPJ da Empresa',
+            faturamento: 'Faturamento Médio',
+            banco_principal: 'Banco Principal',
+            agencia: 'Agência',
+            conta: 'Conta',
+            tipo_conta: 'Tipo de Conta',
+            tempo_conta: 'Tempo de Conta',
+            limite_credito: 'Limite de Crédito Atual',
+            cartoes: 'Cartões de Crédito',
+            imoveis: 'Imóveis',
+            veiculos: 'Veículos',
+            investimentos: 'Investimentos',
+            dividas: 'Dívidas Atuais',
+            score_serasa: 'Score Serasa/SPC',
+            obs: 'Observações Adicionais',
+        };
+
+        const SECTION_NAMES = {
+            1: 'Dados Pessoais',
+            2: 'Contato e Endereço',
+            3: 'Informações Financeiras',
+            4: 'Dados Bancários',
+            5: 'Patrimônio e Dívidas',
+            6: 'Documentos e Obs.',
+        };
+
+        // =====================================================================
+        // STATE
+        // =====================================================================
+        let currentStep = 1;
+        let completedSteps = new Set();
+        let formData = {};
+        let orderId = null;
+        let uploadedFiles = {};
+
+        // =====================================================================
+        // INIT
+        // =====================================================================
+        (async function init() {
+            const params = new URLSearchParams(window.location.search);
+            orderId = params.get('order');
+
+            if (!orderId) {
+                hideLoader();
+                showToast('Pedido não identificado. Verifique o link.', 'error');
+                document.getElementById('formWrapper').innerHTML = `
+                    <div class="glass-card form-card" style="text-align:center;padding:60px 20px;">
+                        <i class="ph ph-warning" style="font-size:48px;color:var(--color-warning);display:block;margin-bottom:16px;"></i>
+                        <h2 style="color:#fff;margin-bottom:10px;">Pedido não encontrado</h2>
+                        <p style="color:var(--color-text-muted);margin-bottom:24px;">Acesse este formulário através da página Meus Serviços.</p>
+                        <a href="/dash/servicos" class="btn btn-primary" style="display:inline-flex;gap:8px;text-decoration:none;"><i class="ph ph-arrow-left"></i> Meus Serviços</a>
+                    </div>`;
+                return;
+            }
+
+            // Load session
+            const sessao = JSON.parse(localStorage.getItem('credpositivo_sessao') || 'null');
+            if (sessao && sessao.nome) {
+                document.getElementById('userAvatar').src =
+                    'https://ui-avatars.com/api/?name=' + encodeURIComponent(sessao.nome) + '&background=181B21&color=fff';
+            }
+
+            // Build step indicators
+            buildStepIndicator();
+
+            // Load form data from API
+            try {
+                const res = await fetch('/api/rating-form/' + orderId);
+                if (res.ok) {
+                    const json = await res.json();
+                    if (json.success && json.form) {
+                        formData = json.form.data || {};
+
+                        // Mark completed steps
+                        const savedStep = parseInt(json.form.current_step) || 1;
+                        for (let i = 1; i < savedStep; i++) completedSteps.add(i);
+
+                        if (json.form.completed) {
+                            showAlreadySubmitted();
+                            hideLoader();
+                            return;
+                        }
+
+                        currentStep = savedStep > 7 ? 7 : savedStep;
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not load form data:', e);
+            }
+
+            // Pre-fill from session if step 1 is empty
+            if (sessao) {
+                if (!formData.nome && sessao.nome) formData.nome = sessao.nome;
+                if (!formData.cpf && sessao.cpf) formData.cpf = sessao.cpf;
+                if (!formData.email && sessao.email) formData.email = sessao.email;
+                if (!formData.celular && sessao.telefone) formData.celular = sessao.telefone;
+            }
+
+            populateAllFields();
+            goToStep(currentStep, false);
+            hideLoader();
+        })();
+
+        // =====================================================================
+        // STEP INDICATOR
+        // =====================================================================
+        function buildStepIndicator() {
+            const wrap = document.getElementById('stepIndicator');
+            wrap.innerHTML = '';
+            STEPS.forEach((step, idx) => {
+                const num = idx + 1;
+
+                const item = document.createElement('div');
+                item.className = 'step-item';
+                item.id = 'step-item-' + num;
+                item.innerHTML = `
+                    <div class="step-circle" id="step-circle-${num}" onclick="clickStep(${num})">
+                        <i class="ph ${step.icon}" style="font-size:16px;"></i>
+                    </div>
+                    <span class="step-label">${step.label}</span>`;
+                wrap.appendChild(item);
+
+                if (idx < STEPS.length - 1) {
+                    const conn = document.createElement('div');
+                    conn.className = 'step-connector';
+                    conn.id = 'connector-' + num;
+                    wrap.appendChild(conn);
+                }
+            });
+        }
+
+        function updateStepIndicator() {
+            STEPS.forEach((_, idx) => {
+                const num = idx + 1;
+                const item = document.getElementById('step-item-' + num);
+                const circle = document.getElementById('step-circle-' + num);
+                const connector = document.getElementById('connector-' + num);
+
+                item.classList.remove('active', 'completed');
+                if (num === currentStep) {
+                    item.classList.add('active');
+                } else if (completedSteps.has(num)) {
+                    item.classList.add('completed');
+                    circle.innerHTML = '<i class="ph ph-check" style="font-size:16px;"></i>';
+                } else {
+                    circle.innerHTML = `<i class="ph ${STEPS[idx].icon}" style="font-size:16px;"></i>`;
+                }
+
+                if (connector && completedSteps.has(num)) {
+                    connector.classList.add('done');
+                } else if (connector) {
+                    connector.classList.remove('done');
+                }
+            });
+
+            // Progress bar
+            const pct = (currentStep / 7) * 100;
+            document.getElementById('progressBar').style.width = pct + '%';
+        }
+
+        function clickStep(num) {
+            if (num === currentStep) return;
+            if (num < currentStep || completedSteps.has(num - 1) || num === 1) {
+                goToStep(num, false);
+            }
+        }
+
+        // =====================================================================
+        // NAVIGATION
+        // =====================================================================
+        function goToStep(step, animate) {
+            document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+            const panel = document.getElementById('panel-' + step);
+            if (panel) {
+                panel.classList.add('active');
+                if (step === 7) buildSummary();
+            }
+            currentStep = step;
+            updateStepIndicator();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function nextStep(step) {
+            if (!validateStep(step)) return;
+
+            const btn = document.querySelector(`#panel-${step} .btn-next`);
+            if (btn) setLoading(btn, true);
+
+            collectFieldsForStep(step);
+            const saved = await saveStep(step);
+
+            if (btn) setLoading(btn, false);
+
+            if (saved) {
+                completedSteps.add(step);
+                goToStep(step + 1, true);
+            }
+        }
+
+        function prevStep(step) {
+            if (step > 1) goToStep(step - 1, false);
+        }
+
+        // =====================================================================
+        // VALIDATION
+        // =====================================================================
+        function validateStep(step) {
+            clearErrors();
+            let valid = true;
+
+            if (step === 1) {
+                if (!getVal('nome')) { markError('nome', 'Nome completo é obrigatório.'); valid = false; }
+                const cpfVal = getVal('cpf').replace(/\D/g, '');
+                if (!cpfVal || cpfVal.length !== 11) { markError('cpf', 'CPF inválido.'); valid = false; }
+            }
+
+            if (step === 2) {
+                const emailVal = getVal('email');
+                if (!emailVal || !emailVal.includes('@')) { markError('email', 'E-mail inválido.'); valid = false; }
+                const celVal = getVal('celular').replace(/\D/g, '');
+                if (!celVal || celVal.length < 10) { markError('celular', 'Celular inválido.'); valid = false; }
+            }
+
+            if (step === 7) {
+                if (!document.getElementById('termos').checked) {
+                    showToast('Você precisa aceitar os termos para enviar o formulário.', 'error');
+                    valid = false;
+                }
+            }
+
+            return valid;
+        }
+
+        function markError(fieldId, msg) {
+            const el = document.getElementById(fieldId);
+            if (!el) return;
+            el.style.borderColor = 'var(--color-danger)';
+            el.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+            let err = document.createElement('span');
+            err.className = 'field-error';
+            err.style.cssText = 'font-size:12px;color:var(--color-danger);display:block;margin-top:4px;';
+            err.textContent = msg;
+            el.parentNode.appendChild(err);
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.field-error').forEach(e => e.remove());
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.style.borderColor = '';
+                el.style.boxShadow = '';
+            });
+        }
+
+        // =====================================================================
+        // DATA COLLECTION
+        // =====================================================================
+        function getVal(id) {
+            const el = document.getElementById(id);
+            if (!el) return '';
+            return el.value.trim();
+        }
+
+        function collectFieldsForStep(step) {
+            const fields = STEP_FIELDS[step] || [];
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el && el.type !== 'checkbox') {
+                    formData[field] = el.value.trim();
+                }
+            });
+        }
+
+        function populateAllFields() {
+            Object.keys(formData).forEach(key => {
+                const el = document.getElementById(key);
+                if (el && el.type !== 'checkbox' && el.type !== 'file') {
+                    el.value = formData[key] || '';
+                    // Re-apply masks visually
+                    if (key === 'cpf') el.value = formatCPF(formData[key] || '');
+                    if (key === 'celular') el.value = formatPhone(formData[key] || '');
+                    if (key === 'cep') el.value = formatCEP(formData[key] || '');
+                    if (key === 'cnpj') el.value = formatCNPJ(formData[key] || '');
+                }
+            });
+        }
+
+        // =====================================================================
+        // API CALLS
+        // =====================================================================
+        async function saveStep(step) {
+            showSaving();
+            try {
+                const body = {};
+                const fields = STEP_FIELDS[step] || [];
+                fields.forEach(f => {
+                    if (f !== 'termos') body[f] = formData[f] || getVal(f);
+                });
+
+                const res = await fetch(`/api/rating-form/${orderId}/step/${step}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+
+                hideSaving();
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    showToast(err.message || 'Erro ao salvar. Tente novamente.', 'error');
+                    return false;
+                }
+
+                return true;
+            } catch (e) {
+                hideSaving();
+                showToast('Erro de conexão. Verifique sua internet.', 'error');
+                return false;
+            }
+        }
+
+        async function submitForm() {
+            if (!document.getElementById('termos').checked) {
+                showToast('Aceite os termos para enviar o formulário.', 'error');
+                return;
+            }
+
+            collectFieldsForStep(7);
+            formData['termos'] = true;
+
+            const btn = document.getElementById('submitBtn');
+            setLoading(btn, true);
+
+            const saved = await saveStep(7);
+
+            setLoading(btn, false);
+
+            if (saved) {
+                completedSteps.add(7);
+                updateStepIndicator();
+                document.getElementById('panel-7').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+                document.getElementById('successState').style.animation = 'fadeInUp 0.5s ease';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // =====================================================================
+        // FILE UPLOADS
+        // =====================================================================
+        function triggerUpload(fieldName) {
+            const input = document.getElementById('file-' + fieldName);
+            if (input) input.click();
+        }
+
+        async function handleFileSelect(input, fieldName) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('Arquivo muito grande. Máximo 10MB.', 'error');
+                return;
+            }
+
+            const statusEl = document.getElementById('status-' + fieldName);
+            const zone = document.getElementById('zone-' + fieldName);
+
+            statusEl.className = 'upload-status uploading';
+            statusEl.innerHTML = '<i class="ph ph-spinner" style="animation:spin 0.8s linear infinite;display:inline-block;"></i> Enviando...';
+
+            try {
+                const fd = new FormData();
+                fd.append('file', file);
+                fd.append('field_name', fieldName);
+
+                const res = await fetch(`/api/rating-form/${orderId}/upload`, {
+                    method: 'POST',
+                    body: fd,
+                });
+
+                if (res.ok) {
+                    uploadedFiles[fieldName] = file.name;
+                    zone.classList.add('has-file');
+                    statusEl.className = 'upload-status success';
+                    statusEl.innerHTML = `<i class="ph ph-check-circle"></i> ${truncateFilename(file.name)}`;
+                    showToast('Arquivo enviado com sucesso.', 'success');
+                } else {
+                    const err = await res.json().catch(() => ({}));
+                    statusEl.className = 'upload-status error';
+                    statusEl.innerHTML = `<i class="ph ph-warning-circle"></i> Falha no envio`;
+                    showToast(err.message || 'Erro ao enviar arquivo.', 'error');
+                }
+            } catch (e) {
+                statusEl.className = 'upload-status error';
+                statusEl.innerHTML = `<i class="ph ph-warning-circle"></i> Erro de conexão`;
+                showToast('Erro de conexão ao enviar arquivo.', 'error');
+            }
+        }
+
+        // Setup drag-and-drop for upload zones
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.upload-zone').forEach(zone => {
+                const fieldName = zone.id.replace('zone-', '');
+
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('dragover');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('dragover');
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('dragover');
+                    const file = e.dataTransfer.files[0];
+                    if (file) {
+                        const input = document.getElementById('file-' + fieldName);
+                        const dt = new DataTransfer();
+                        dt.items.add(file);
+                        input.files = dt.files;
+                        handleFileSelect(input, fieldName);
+                    }
+                });
+            });
+        });
+
+        function truncateFilename(name) {
+            if (name.length <= 28) return name;
+            const ext = name.slice(name.lastIndexOf('.'));
+            return name.slice(0, 22) + '...' + ext;
+        }
+
+        // =====================================================================
+        // SUMMARY (Step 7)
+        // =====================================================================
+        function buildSummary() {
+            const container = document.getElementById('summaryContent');
+            container.innerHTML = '';
+
+            // Collect latest data from DOM before building summary
+            for (let s = 1; s <= 6; s++) collectFieldsForStep(s);
+
+            for (let s = 1; s <= 6; s++) {
+                const fields = STEP_FIELDS[s].filter(f => f !== 'obs');
+                const hasData = fields.some(f => formData[f]);
+
+                const section = document.createElement('div');
+                section.className = 'summary-section';
+
+                const icons = ['ph-user', 'ph-map-pin', 'ph-currency-dollar', 'ph-bank', 'ph-buildings', 'ph-folder-open'];
+                section.innerHTML = `<div class="summary-section-title"><i class="ph ${icons[s - 1]}"></i> ${SECTION_NAMES[s]}</div>`;
+
+                const grid = document.createElement('div');
+                grid.className = 'summary-grid';
+
+                // For step 6, show uploaded files instead of obs
+                if (s === 6) {
+                    const fileFields = {
+                        rg_cnh: 'RG ou CNH',
+                        comp_renda: 'Comp. de Renda',
+                        comp_endereco: 'Comp. de Endereço',
+                        extrato_bancario: 'Extrato Bancário',
+                        selfie_doc: 'Selfie com Doc.',
+                    };
+                    Object.entries(fileFields).forEach(([key, label]) => {
+                        const val = uploadedFiles[key] ? uploadedFiles[key] : '—';
+                        const item = document.createElement('div');
+                        item.className = 'summary-item';
+                        item.innerHTML = `<div class="summary-item-label">${label}</div><div class="summary-item-value" style="${uploadedFiles[key] ? 'color: var(--color-success);' : ''}">${val}</div>`;
+                        grid.appendChild(item);
+                    });
+                    // obs
+                    if (formData.obs) {
+                        const item = document.createElement('div');
+                        item.className = 'summary-item full-width';
+                        item.innerHTML = `<div class="summary-item-label">Observações</div><div class="summary-item-value">${formData.obs}</div>`;
+                        grid.appendChild(item);
+                    }
+                } else {
+                    fields.forEach(field => {
+                        const val = formData[field] || '—';
+                        const isTextarea = ['ref_bancarias', 'cartoes', 'imoveis', 'veiculos', 'investimentos', 'dividas'].includes(field);
+                        const item = document.createElement('div');
+                        item.className = 'summary-item' + (isTextarea ? ' full-width' : '');
+                        const display = val.length > 80 ? val.slice(0, 80) + '...' : val;
+                        item.innerHTML = `<div class="summary-item-label">${STEP_LABELS[field] || field}</div><div class="summary-item-value">${display}</div>`;
+                        grid.appendChild(item);
+                    });
+                }
+
+                section.appendChild(grid);
+                container.appendChild(section);
+
+                // Divider between sections (except last)
+                if (s < 6) {
+                    const hr = document.createElement('hr');
+                    hr.className = 'form-divider';
+                    container.appendChild(hr);
+                }
+            }
+        }
+
+        // =====================================================================
+        // UI HELPERS
+        // =====================================================================
+        function showAlreadySubmitted() {
+            document.getElementById('formWrapper').style.display = 'none';
+            document.getElementById('alreadySubmitted').style.display = 'block';
+        }
+
+        function hideLoader() {
+            const loader = document.getElementById('pageLoader');
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.3s';
+            setTimeout(() => loader.style.display = 'none', 300);
+        }
+
+        function showSaving() {
+            document.getElementById('savingIndicator').classList.add('visible');
+        }
+
+        function hideSaving() {
+            document.getElementById('savingIndicator').classList.remove('visible');
+        }
+
+        function setLoading(btn, loading) {
+            if (!btn) return;
+            if (loading) {
+                btn.dataset.originalHtml = btn.innerHTML;
+                btn.innerHTML = '<span class="spinner" style="width:18px;height:18px;border-width:2px;"></span>';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = btn.dataset.originalHtml || btn.innerHTML;
+                btn.disabled = false;
+            }
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const icons = { success: 'ph-check-circle', error: 'ph-warning-circle', info: 'ph-info' };
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="ph ${icons[type] || 'ph-info'}"></i><span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('aside.sidebar');
+            sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? '' : 'translateX(0px)';
+        }
+
+        function doLogout() {
+            localStorage.removeItem('credpositivo_sessao');
+            window.location.href = '/login';
+        }
+
+        // =====================================================================
+        // INPUT MASKS
+        // =====================================================================
+        function formatCPF(v) {
+            v = v.replace(/\D/g, '').slice(0, 11);
+            if (v.length > 9) return v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+            if (v.length > 6) return v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+            if (v.length > 3) return v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+            return v;
+        }
+
+        function formatPhone(v) {
+            v = v.replace(/\D/g, '').slice(0, 11);
+            if (v.length === 11) return v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            if (v.length >= 10) return v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+            if (v.length >= 6) return v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            if (v.length >= 2) return v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+            return v;
+        }
+
+        function formatCEP(v) {
+            v = v.replace(/\D/g, '').slice(0, 8);
+            if (v.length > 5) return v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+            return v;
+        }
+
+        function formatCNPJ(v) {
+            v = v.replace(/\D/g, '').slice(0, 14);
+            if (v.length > 12) return v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
+            if (v.length > 8) return v.replace(/(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
+            if (v.length > 5) return v.replace(/(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
+            if (v.length > 2) return v.replace(/(\d{2})(\d{1,3})/, '$1.$2');
+            return v;
+        }
+
+        function formatCurrency(v) {
+            let nums = v.replace(/\D/g, '');
+            if (!nums) return '';
+            nums = (parseInt(nums, 10) / 100).toFixed(2);
+            return 'R$ ' + nums.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        // Attach masks on input events
+        document.getElementById('cpf').addEventListener('input', function () {
+            this.value = formatCPF(this.value);
+        });
+
+        document.getElementById('celular').addEventListener('input', function () {
+            this.value = formatPhone(this.value);
+        });
+
+        document.getElementById('cep').addEventListener('input', function () {
+            this.value = formatCEP(this.value);
+            if (this.value.replace(/\D/g, '').length === 8) fetchCEP(this.value);
+        });
+
+        document.getElementById('cnpj').addEventListener('input', function () {
+            this.value = formatCNPJ(this.value);
+        });
+
+        // Currency masks
+        ['renda_mensal', 'outras_rendas', 'faturamento', 'limite_credito'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', function () {
+                    const cursor = this.selectionStart;
+                    this.value = formatCurrency(this.value);
+                });
+            }
+        });
+
+        // =====================================================================
+        // CEP AUTO-FILL
+        // =====================================================================
+        async function fetchCEP(cep) {
+            const raw = cep.replace(/\D/g, '');
+            if (raw.length !== 8) return;
+
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${raw}/json/`);
+                const data = await res.json();
+
+                if (data.erro) {
+                    showToast('CEP não encontrado.', 'error');
+                    return;
+                }
+
+                if (data.logradouro) document.getElementById('endereco').value = data.logradouro;
+                if (data.bairro) document.getElementById('bairro').value = data.bairro;
+                if (data.localidade) document.getElementById('cidade').value = data.localidade;
+                if (data.uf) document.getElementById('uf').value = data.uf;
+
+                // Update formData
+                if (data.logradouro) formData.endereco = data.logradouro;
+                if (data.bairro) formData.bairro = data.bairro;
+                if (data.localidade) formData.cidade = data.localidade;
+                if (data.uf) formData.uf = data.uf;
+
+                document.getElementById('numero').focus();
+                showToast('Endereço preenchido automaticamente.', 'success');
+            } catch (e) {
+                // silently fail
+            }
+        }
+    </script>
+</body>
+
+</html>
