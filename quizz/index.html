@@ -6,814 +6,634 @@
   <title>Diagnóstico de Crédito | CredPositivo</title>
   <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.bunny.net" />
-  <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700,800,900&display=swap" rel="stylesheet" />
 
-  <!-- ─── Meta Pixel ─────────────────────────────────────────── -->
+  <!-- ── Meta Pixel ──────────────────────────────────────────────── -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-    // fbp / fbc cookies (cross-domain)
     (function(){
-      function getCookie(n){var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:null;}
-      if(!getCookie('_fbp')){
-        var v='fb.1.'+Date.now()+'.'+(Math.random()*2147483648|0);
-        document.cookie='_fbp='+v+';max-age=7776000;path=/;domain=.credpositivo.com';
-      }
-      var url=new URL(location.href);
-      var fbclid=url.searchParams.get('fbclid');
-      if(fbclid&&!getCookie('_fbc')){
-        var fbc='fb.1.'+Date.now()+'.'+fbclid;
-        document.cookie='_fbc='+fbc+';max-age=7776000;path=/;domain=.credpositivo.com';
-      }
+      function gc(n){var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:null;}
+      if(!gc('_fbp')){var v='fb.1.'+Date.now()+'.'+(Math.random()*2147483648|0);document.cookie='_fbp='+v+';max-age=7776000;path=/;domain=.credpositivo.com';}
+      var fbclid=new URLSearchParams(location.search).get('fbclid');
+      if(fbclid&&!gc('_fbc')){document.cookie='_fbc=fb.1.'+Date.now()+'.'+fbclid+';max-age=7776000;path=/;domain=.credpositivo.com';}
     })();
-
-    fbq('init', '3814071692219923');
-    fbq('track', 'PageView');
+    fbq('init','3814071692219923');
+    fbq('track','PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=3814071692219923&ev=PageView&noscript=1"/></noscript>
-  <!-- ─────────────────────────────────────────────────────────── -->
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3814071692219923&ev=PageView&noscript=1"/></noscript>
+  <!-- ─────────────────────────────────────────────────────────────── -->
 
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{
       min-height:100%;
-      font-family:'Inter',system-ui,sans-serif;
-      background:#f3f4f6;
-      color:#111827;
+      font-family:'Poppins',ui-sans-serif,system-ui,sans-serif;
+      background:#f8fafc;
+      color:#020617;
       -webkit-font-smoothing:antialiased;
     }
 
-    /* ── Wrapper ── */
-    .page{display:none;min-height:100vh;flex-direction:column;align-items:center;padding:0 0 48px}
-    .page.active{display:flex}
+    /* ── Screen ── */
+    .screen{display:none;min-height:100vh;flex-direction:column;align-items:center}
+    .screen.active{display:flex}
 
-    .container{width:100%;max-width:420px;padding:0 16px}
-
-    /* ── Progress bar ── */
-    .prog-wrap{width:100%;max-width:420px;padding:20px 16px 0}
-    .prog-bar{height:6px;background:#e5e7eb;border-radius:99px;overflow:hidden}
-    .prog-fill{height:100%;background:#16a34a;border-radius:99px;transition:width .5s ease}
-    .prog-label{font-size:12px;color:#6b7280;margin-bottom:6px;text-align:center}
-
-    /* ── Card ── */
-    .card{
-      background:#fff;
-      border-radius:12px;
-      box-shadow:0 1px 3px rgba(0,0,0,.1);
-      overflow:hidden;
-      width:100%;
-      animation:fadeIn .35s ease both;
+    /* ══════════════════════════════
+       LANDING
+    ══════════════════════════════ */
+    .landing{
+      width:100%;min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:32px 20px 40px;
+      background:#000 url('https://cdn.xquiz.co/images/58f5a8b1-367d-44dd-a69c-dc87b0cce788') center center/cover no-repeat;
+      position:relative;
     }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .landing::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.7) 100%);
+    }
+    .landing-inner{position:relative;z-index:1;width:100%;max-width:420px;text-align:center}
 
-    .card-body{padding:24px 20px}
-    .card-title{font-size:22px;font-weight:800;text-align:center;margin-bottom:8px;line-height:1.25;color:#111827}
-    .card-sub{font-size:14px;text-align:center;color:#6b7280;margin-bottom:20px;line-height:1.5}
+    .land-eyebrow{
+      font-size:13px;font-weight:700;
+      color:#fff;opacity:.85;
+      letter-spacing:.06em;text-transform:uppercase;
+      margin-bottom:12px;
+    }
+    .land-title{
+      font-size:clamp(26px,7vw,34px);
+      font-weight:900;
+      color:#fff;
+      line-height:1.15;
+      margin-bottom:16px;
+    }
+    .land-title span{color:#c7e7ff}
 
-    /* ── Quiz options ── */
-    .options{display:flex;flex-direction:column;gap:10px}
+    .land-sub{
+      font-size:14px;color:rgba(255,255,255,.8);
+      line-height:1.55;margin-bottom:20px;
+    }
 
-    .opt{
+    /* Video thumbnail */
+    .land-video{
+      width:100%;border-radius:14px;overflow:hidden;
+      margin-bottom:20px;
+      box-shadow:0 8px 32px rgba(0,0,0,.5);
+      position:relative;
+    }
+    .land-video iframe{
+      display:block;width:100%;aspect-ratio:16/9;border:none;
+    }
+
+    .land-checks{
+      display:flex;flex-direction:column;gap:10px;
+      margin-bottom:24px;text-align:left;
+    }
+    .land-check{
+      display:flex;align-items:center;gap:10px;
+      font-size:14px;font-weight:500;color:#fff;
+    }
+    .land-check-icon{font-size:16px;flex-shrink:0}
+
+    .land-btn{
+      display:block;width:100%;
+      padding:18px 20px;
+      background:#000;
+      background-image:linear-gradient(to right bottom, rgba(12,108,157,.75), rgba(12,108,157,.95));
+      color:#fff;
+      font-size:16px;font-weight:800;font-family:'Poppins',sans-serif;
+      border:none;border-radius:12px;cursor:pointer;
+      text-align:center;letter-spacing:.02em;
+      box-shadow:0 4px 20px rgba(12,108,157,.5);
+      transition:opacity .15s,transform .15s;
+    }
+    .land-btn:hover{opacity:.93;transform:translateY(-1px)}
+
+    /* ══════════════════════════════
+       QUIZ PAGES
+    ══════════════════════════════ */
+    .qwrap{
+      width:100%;max-width:420px;
+      padding:28px 20px 40px;
+      display:flex;flex-direction:column;
+      animation:fadeUp .3s ease both;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    .q-title{
+      font-size:22px;font-weight:800;
+      line-height:1.25;text-align:center;
+      color:#020617;margin-bottom:6px;
+    }
+    .q-sub{
+      font-size:14px;color:#64748b;text-align:center;
+      line-height:1.5;margin-bottom:22px;
+    }
+
+    /* Option cards */
+    .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+
+    .opt-card{
       width:100%;
-      border:none;
-      border-radius:10px;
-      padding:14px 16px;
-      cursor:pointer;
-      text-align:left;
-      font-family:inherit;
-      font-size:14px;
-      font-weight:600;
-      line-height:1.35;
-      transition:all .15s;
       background:#c7e7ff;
-      color:#111827;
-      display:flex;align-items:center;gap:12px;
-    }
-    .opt:hover{filter:brightness(.95);transform:scale(.99)}
-    .opt.opt-neg{background:#d6d6d6}
-    .opt-icon{font-size:20px;flex-shrink:0}
-
-    /* ── CTA options (step 1) ── */
-    .opt-yes{
-      background:#fff;
-      border:2px solid #008f1d;
-      color:#008f1d;
-      font-size:14px;
-      font-weight:800;
-      text-align:center;
-      justify-content:center;
-      padding:18px;
+      border:1px solid #c2c2c2;
       border-radius:10px;
-    }
-    .opt-no{
-      background:#fff;
-      border:2px solid #d01111;
-      color:#d01111;
-      font-size:13px;
-      font-weight:700;
-      text-align:center;
-      justify-content:center;
-      padding:14px;
-      border-radius:10px;
-    }
-
-    /* ── Form fields ── */
-    .field-wrap{margin-bottom:14px}
-    .field-wrap label{display:block;font-size:12px;font-weight:600;color:#6b7280;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-    .field-wrap input{
-      width:100%;padding:13px 14px;
-      border:1.5px solid #e5e7eb;border-radius:8px;
-      font-size:15px;font-family:inherit;color:#111827;
-      outline:none;transition:border .2s;
-      background:#fff;
-    }
-    .field-wrap input:focus{border-color:#16a34a}
-    .field-wrap input.err{border-color:#dc2626}
-
-    /* ── Buttons ── */
-    .btn-green{
-      display:block;width:100%;padding:16px;
-      background:#16a34a;color:#fff;
-      border:none;border-radius:10px;
-      font-size:16px;font-weight:800;font-family:inherit;
+      padding:16px 18px;
+      font-size:15px;font-weight:500;font-family:'Poppins',sans-serif;
+      color:#020617;
       cursor:pointer;text-align:center;
-      box-shadow:0 4px 12px rgba(22,163,74,.3);
+      box-shadow:0 2px 8px rgba(100,116,139,.15);
       transition:all .15s;
+      line-height:1.35;
     }
-    .btn-green:hover{background:#15803d;transform:translateY(-1px)}
+    .opt-card:hover{background:#b3daff;transform:scale(.99)}
+    .opt-card:active{transform:scale(.97)}
 
-    /* ── Video embed ── */
-    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin-bottom:20px}
-    .video-wrap iframe,.video-wrap div{position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px}
+    /* Progress bar */
+    .prog-wrap{margin-bottom:20px}
+    .prog-track{
+      width:100%;height:14px;
+      background:#f1f5f9;
+      border-radius:99px;
+      overflow:hidden;
+    }
+    .prog-fill{
+      height:100%;background:#111111;
+      border-radius:99px;
+      transition:width .5s ease;
+    }
 
-    /* ── Warning box ── */
-    .warn{background:#fef3c7;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 14px;font-size:13px;color:#92400e;margin-bottom:16px;line-height:1.5}
+    /* Hint text */
+    .hint{
+      font-size:13px;font-style:italic;
+      color:#64748b;text-align:center;
+      line-height:1.5;margin-top:4px;
+    }
 
-    /* ── Image ── */
-    .full-img{width:100%;border-radius:10px;margin-bottom:16px;display:block}
+    /* ══════════════════════════════
+       FORM
+    ══════════════════════════════ */
+    .form-title{
+      font-size:24px;font-weight:800;
+      text-align:center;margin-bottom:6px;
+      line-height:1.2;
+    }
+    .form-sub{font-size:14px;color:#64748b;text-align:center;margin-bottom:24px}
 
-    /* ── Checklist ── */
-    .checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
-    .checklist li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;list-style:none}
-    .checklist li::before{content:"✅";flex-shrink:0}
+    .input-wrap{position:relative;margin-bottom:8px}
+    .input-wrap svg{
+      position:absolute;left:14px;top:50%;transform:translateY(-50%);
+      color:#94a3b8;pointer-events:none;
+      width:18px;height:18px;flex-shrink:0;
+    }
+    .input-wrap input{
+      width:100%;
+      padding:15px 14px 15px 42px;
+      background:#f8fafc;
+      border:1.5px solid #e2e8f0;
+      border-radius:10px;
+      font-size:15px;font-family:'Poppins',sans-serif;
+      color:#020617;outline:none;
+      transition:border .2s;
+    }
+    .input-wrap input:focus{border-color:#0c6c9d;background:#fff}
+    .input-wrap input.err{border-color:#dc2626}
+    .field-error{font-size:12px;color:#dc2626;margin-bottom:10px;padding-left:4px}
 
-    /* ── Result / Score ── */
-    .score-wrap{text-align:center;padding:16px 0 24px}
-    .score-circle{
-      width:120px;height:120px;border-radius:50%;
-      border:6px solid #16a34a;background:#f0fdf4;
+    .cont-btn{
+      display:block;width:100%;
+      padding:17px 20px;
+      background:#0c6c9d;
+      color:#fff;font-size:16px;font-weight:700;font-family:'Poppins',sans-serif;
+      border:none;border-radius:12px;cursor:pointer;text-align:center;
+      box-shadow:0 4px 16px rgba(12,108,157,.35);
+      transition:background .15s,transform .15s;
+      margin-top:8px;
+    }
+    .cont-btn:hover{background:#0a5a85;transform:translateY(-1px)}
+
+    /* ══════════════════════════════
+       LOADING
+    ══════════════════════════════ */
+    .loading-wrap{
+      width:100%;max-width:420px;
+      padding:48px 20px;
+      text-align:center;
+    }
+    .loading-prog-track{
+      width:100%;height:14px;
+      background:#f1f5f9;border-radius:99px;overflow:hidden;
+      margin-bottom:28px;
+    }
+    .loading-prog-fill{
+      height:100%;background:#111;border-radius:99px;
+      width:0%;transition:width .3s ease;
+    }
+    .loading-pct{
+      font-size:13px;color:#64748b;text-align:right;
+      margin-bottom:8px;font-weight:600;
+    }
+    .loading-title{font-size:24px;font-weight:800;margin-bottom:8px}
+    .loading-sub{font-size:14px;color:#64748b}
+
+    /* ══════════════════════════════
+       RESULT
+    ══════════════════════════════ */
+    .result-wrap{
+      width:100%;max-width:420px;
+      padding:28px 20px 48px;
+    }
+
+    .result-card{
+      background:#fff;
+      border-radius:14px;
+      border:1px solid #e2e8f0;
+      box-shadow:0 2px 12px rgba(0,0,0,.08);
+      padding:24px 20px;
+      margin-bottom:16px;
+    }
+
+    .result-score-ring{
+      width:120px;height:120px;
+      border-radius:50%;
+      border:5px solid #0c6c9d;
+      background:#eff6ff;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       margin:0 auto 16px;
     }
-    .score-pct{font-size:32px;font-weight:900;color:#16a34a;line-height:1}
-    .score-txt{font-size:11px;color:#6b7280;margin-top:2px;letter-spacing:.04em}
+    .result-pct{font-size:32px;font-weight:900;color:#0c6c9d;line-height:1}
+    .result-pct-lbl{font-size:11px;color:#64748b;margin-top:2px;letter-spacing:.04em;text-align:center}
 
-    /* ── Pricing card ── */
-    .price-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px}
-    .price-label{font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-    .price-val{font-size:36px;font-weight:900;color:#16a34a}
-    .price-strike{font-size:13px;color:#94a3b8;text-decoration:line-through;margin-bottom:2px}
+    .result-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:8px;line-height:1.3}
+    .result-sub{font-size:14px;color:#64748b;text-align:center;line-height:1.55;margin-bottom:20px}
 
-    .btn-checkout{
+    .result-checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .result-checklist li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-size:14px;line-height:1.4;
+    }
+    .result-checklist li::before{content:"✅";flex-shrink:0}
+
+    .price-label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-bottom:4px}
+    .price-strike{font-size:13px;color:#94a3b8;text-decoration:line-through;text-align:center;margin-bottom:2px}
+    .price-val{font-size:38px;font-weight:900;color:#0c6c9d;text-align:center;line-height:1;margin-bottom:4px}
+    .price-note{font-size:12px;color:#94a3b8;text-align:center;margin-bottom:20px}
+
+    .checkout-btn{
       display:block;width:100%;padding:18px;
-      background:linear-gradient(135deg,#16a34a,#22c55e);
-      color:#fff;border:none;border-radius:10px;
-      font-size:17px;font-weight:800;font-family:inherit;
-      cursor:pointer;text-align:center;text-decoration:none;
-      box-shadow:0 4px 20px rgba(22,163,74,.4);
+      background:#0c6c9d;color:#fff;
+      font-size:16px;font-weight:800;font-family:'Poppins',sans-serif;
+      border:none;border-radius:12px;cursor:pointer;
+      text-align:center;text-decoration:none;
+      box-shadow:0 4px 20px rgba(12,108,157,.4);
       animation:glow 2s infinite;
+      transition:transform .15s;
     }
-    @keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(22,163,74,.4)}50%{box-shadow:0 4px 28px rgba(22,163,74,.65)}}
+    .checkout-btn:hover{transform:translateY(-2px)}
+    @keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(12,108,157,.4)}50%{box-shadow:0 4px 28px rgba(12,108,157,.65)}}
 
-    .guarantee{font-size:12px;color:#6b7280;text-align:center;margin-top:10px}
+    .guarantee{font-size:12px;color:#94a3b8;text-align:center;margin-top:10px;line-height:1.5}
 
-    /* ── Loading ── */
-    .loading-inner{text-align:center;padding:60px 20px}
-    .spinner{width:52px;height:52px;border:4px solid #d1fae5;border-top-color:#16a34a;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 20px}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .loading-title{font-size:20px;font-weight:800;margin-bottom:6px}
-    .loading-sub{font-size:14px;color:#6b7280}
-
-    /* ── Testimonials ── */
-    .testi-grid{display:flex;flex-direction:column;gap:16px;margin-bottom:20px}
-
-    /* ── Top header ── */
-    .top-bar{
-      width:100%;background:#fff;
-      padding:14px 20px;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 1px 3px rgba(0,0,0,.08);
-      margin-bottom:20px;
-    }
-    .top-bar img{height:32px}
-    .top-bar-text{font-size:16px;font-weight:800;color:#16a34a}
-
-    .divider{height:1px;background:#e5e7eb;margin:16px 0}
-
-    .tag{display:inline-block;background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+    /* Video on result */
+    .video-wrap{width:100%;border-radius:10px;overflow:hidden;margin-bottom:4px}
+    .video-wrap iframe{display:block;width:100%;aspect-ratio:16/9;border:none}
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 0 — VSL (Video Sales Letter)
-══════════════════════════════════════════════════════════ -->
-<div class="page active" id="pg-0">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="container">
-    <div class="card">
-      <div class="card-body">
-        <div style="text-align:center;margin-bottom:16px">
-          <span class="tag">🔍 Diagnóstico Gratuito</span>
-          <h1 class="card-title">Seu diagnóstico está<br/>quase pronto</h1>
-          <p class="card-sub">Assista o vídeo abaixo antes de continuar</p>
-        </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 0 — LANDING
+══════════════════════════════════════════════════════ -->
+<div class="screen active" id="sc-0">
+  <div class="landing">
+    <div class="landing-inner">
 
-        <!-- ConvertAI / PandaVideo player -->
-        <div id="vid0" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin-bottom:20px;background:#000">
-          <iframe
-            src="https://player-vz-a428cc0b-6bf.tv.pandavideo.com.br/embed/?v=b8cf6b0b-4454-4409-a2e6-436f79eb74a9&autoplay=1&muted=0"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px"
-            allowfullscreen allow="autoplay">
-          </iframe>
-        </div>
+      <p class="land-eyebrow">DESCUBRA EM 2 MINUTOS:</p>
+      <h1 class="land-title">O que está bloqueando<br/><span>seu crédito hoje</span></h1>
+      <p class="land-sub">Análise gratuita baseada no seu perfil.<br/>Pré-diagnóstico instantâneo.</p>
 
-        <button class="btn-green" onclick="goTo('pg-1')">
-          FAZER MEU DIAGNÓSTICO GRÁTIS →
-        </button>
-        <p style="font-size:12px;color:#6b7280;text-align:center;margin-top:10px">⏱️ Leva apenas 2 minutos</p>
+      <!-- ConvertAI VSL -->
+      <div class="land-video">
+        <iframe
+          src="https://player-vz-a428cc0b-6bf.tv.pandavideo.com.br/embed/?v=b8cf6b0b-4454-4409-a2e6-436f79eb74a9"
+          allow="autoplay" allowfullscreen>
+        </iframe>
       </div>
+
+      <div class="land-checks">
+        <div class="land-check"><span class="land-check-icon">✅</span><span>97% foram aprovadas seguindo o diagnóstico</span></div>
+        <div class="land-check"><span class="land-check-icon">✅</span><span>Resultado personalizado em 2 minutos</span></div>
+      </div>
+
+      <button class="land-btn" onclick="goTo('sc-1');trackFB('ViewContent',{content_name:'Quiz Started'})">
+        COMEÇAR ANÁLISE GRATUITA
+      </button>
+
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 1 — FORM
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-1">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">40% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <div style="text-align:center;margin-bottom:20px">
-          <span class="tag">📋 Seus dados</span>
-          <h2 class="card-title" style="font-size:20px">Preencha com seus dados</h2>
-          <p class="card-sub">Para gerar o diagnóstico personalizado</p>
-        </div>
-        <div class="field-wrap">
-          <label>Nome completo</label>
-          <input type="text" id="f-nome" placeholder="Digite seu nome aqui" autocomplete="name" />
-        </div>
-        <div class="field-wrap">
-          <label>Telefone (WhatsApp)</label>
-          <input type="tel" id="f-tel" placeholder="Digite seu telefone aqui" autocomplete="tel" inputmode="tel" />
-        </div>
-        <div class="field-wrap">
-          <label>E-mail</label>
-          <input type="email" id="f-email" placeholder="Digite seu e-mail aqui" autocomplete="email" />
-        </div>
-        <div class="field-wrap">
-          <label>CNPJ</label>
-          <input type="text" id="f-cnpj" placeholder="Digite seu CNPJ aqui" inputmode="numeric" maxlength="18" />
-        </div>
-        <div class="field-wrap">
-          <label>CPF</label>
-          <input type="text" id="f-cpf" placeholder="Digite seu CPF aqui" inputmode="numeric" maxlength="14" />
-        </div>
-        <button class="btn-green" onclick="submitForm()">
-          CONTINUAR COM DIAGNÓSTICO →
-        </button>
-        <p style="font-size:11px;color:#9ca3af;text-align:center;margin-top:10px">🔒 Seus dados são protegidos e não serão compartilhados</p>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 1 — Q1: OBJETIVO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-1">
+  <div class="qwrap">
+    <h2 class="q-title">Qual é o seu objetivo principal agora?</h2>
+    <div class="opts">
+      <button class="opt-card" onclick="pick(1,'cartao')">Conseguir um cartão de crédito com limite alto</button>
+      <button class="opt-card" onclick="pick(1,'casa')">Financiar minha casa própria</button>
+      <button class="opt-card" onclick="pick(1,'carro')">Financiar meu carro</button>
+      <button class="opt-card" onclick="pick(1,'credito_pessoal')">Conseguir crédito pessoal ou empréstimo</button>
     </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:14%"></div></div>
+    </div>
+    <p class="hint">💡 Vamos personalizar seu diagnóstico baseado no seu objetivo</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 2 — AVISO TÉCNICO
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-2">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">60% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <div style="text-align:center;margin-bottom:16px">
-          <span class="tag">⚠️ Atenção</span>
-          <h2 class="card-title" style="font-size:20px">Encontramos dados para analisar no CNPJ: <span id="show-cnpj" style="color:#16a34a"></span></h2>
-        </div>
-        <div class="warn">
-          <strong>⚠️ Aviso importante:</strong> identificamos que seu CNPJ pode ter pendências que bloqueiam aprovação de crédito. Responda as perguntas abaixo para gerar o relatório completo.
-        </div>
-        <div class="checklist">
-          <li>Consulta seu rating no Sistema Banco Central</li>
-          <li>Calcula potencial real de captação</li>
-          <li>Verifica pendências CNPJ e CPF</li>
-          <li>Identifica bloqueios invisíveis no seu perfil</li>
-        </div>
-        <button class="btn-green" onclick="goTo('pg-3')">
-          ENTENDIDO, CONTINUAR →
-        </button>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 2 — Q2: NEGADO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-2">
+  <div class="qwrap">
+    <h2 class="q-title">Você já tentou conseguir crédito e foi negado nos últimos 6 meses?</h2>
+    <div class="opts">
+      <button class="opt-card" onclick="pick(2,'negado_varias',-20)">Sim, fui negado várias vezes (e não entendo por quê)</button>
+      <button class="opt-card" onclick="pick(2,'negado_uma',-10)">Sim, fui negado uma vez (e fiquei sem saber o motivo)</button>
+      <button class="opt-card" onclick="pick(2,'nao_tentou',-5)">Não tentei ainda (com medo de ser negado)</button>
+      <button class="opt-card" onclick="pick(2,'nao_sabe',0)">Não sei se seria aprovado</button>
     </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:28%"></div></div>
+    </div>
+    <p class="hint">⚠️ Cada tentativa negada PIORA seu score, você precisa saber ANTES de tentar</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 3 — PROTESTOS / DÍVIDAS
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-3">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">65% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:65%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Seu CNPJ ou CPF tem protestos ou dívidas em aberto?</h2>
-        <p class="card-sub" style="margin-bottom:20px">72% das dívidas podem ser removidas ou negociadas</p>
-        <div class="options" id="opts-3">
-          <button class="opt" onclick="pick(3,'nao_sei')"><span class="opt-icon">🤷</span>Não sei/nunca consultei</button>
-          <button class="opt" onclick="pick(3,'limpo')"><span class="opt-icon">✅</span>Não, cadastro limpo</button>
-          <button class="opt opt-neg" onclick="pick(3,'tem_protestos')"><span class="opt-icon">🚫</span>Sim, tenho protestos/dívidas</button>
-          <button class="opt" onclick="pick(3,'regularizou')"><span class="opt-icon">🔄</span>Tive no passado mas já regularizei</button>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 3 — Q3: RATING BANCÁRIO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-3">
+  <div class="qwrap">
+    <h2 class="q-title">Você sabe o que é rating bancário?</h2>
+    <p class="q-sub">É diferente do score, é a classificação de A a E que os bancos usam</p>
+    <div class="opts">
+      <button class="opt-card" onclick="pick(3,'nao_sabe',-20)">Não sei o que é isso</button>
+      <button class="opt-card" onclick="pick(3,'ouviu',-10)">Já ouvi falar mas não sei como funciona</button>
+      <button class="opt-card" onclick="pick(3,'sabe_nunca',-5)">Sei o que é mas nunca consultei o meu</button>
+      <button class="opt-card" onclick="pick(3,'sabe_consultou',0)">Sei o que é e já consultei</button>
     </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:44%"></div></div>
+    </div>
+    <p class="hint">💡 91% das pessoas não sabem que os bancos consultam seu RATING antes do score!</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 4 — ECF
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-4">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">70% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:70%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Sua empresa entregou a ECF (Escrituração Contábil Fiscal) em dia?</h2>
-        <div class="warn" style="margin-top:12px">
-          ⚠️ <strong>CRÍTICO:</strong> ECF atrasada ou incorreta <strong>BLOQUEIA aprovação em 90% das linhas de crédito</strong>
-        </div>
-        <div class="options" id="opts-4">
-          <button class="opt" onclick="pick(4,'sim_em_dia')"><span class="opt-icon">✅</span>Sim, entregamos em dia</button>
-          <button class="opt opt-neg" onclick="pick(4,'sim_atraso')"><span class="opt-icon">⏰</span>Sim, mas com atrasos</button>
-          <button class="opt opt-neg" onclick="pick(4,'nao_sei')"><span class="opt-icon">❓</span>Não sei se entregamos</button>
-          <button class="opt opt-neg" onclick="pick(4,'nao_sabe_ecf')"><span class="opt-icon">🤷</span>Não sei o que é ECF</button>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 4 — Q4: SCR
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-4">
+  <div class="qwrap">
+    <h2 class="q-title">Você já consultou seu SCR (Sistema de Informações de Crédito do Banco Central)?</h2>
+    <div class="opts">
+      <button class="opt-card" onclick="pick(4,'nao_sabe',-20)">Não sei o que é isso</button>
+      <button class="opt-card" onclick="pick(4,'sabe_nunca',-10)">Sei o que é, mas nunca consultei</button>
+      <button class="opt-card" onclick="pick(4,'consultou_limpo',0)">Já consultei e está limpo</button>
+      <button class="opt-card" onclick="pick(4,'consultou_pendencias',-25)">Já consultei e tem pendências</button>
     </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:60%"></div></div>
+    </div>
+    <p class="hint">⚠️ CRÍTICO: O SCR guarda TODAS as suas operações de crédito dos últimos 5 anos, os bancos consultam isso ANTES de aprovar!</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 5 — SCR
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-5">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">75% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Você conhece o SCR (Sistema de Informações de Crédito do Banco Central)?</h2>
-        <p class="card-sub">78% dos empresários nunca consultaram o próprio SCR</p>
-        <div class="options" id="opts-5">
-          <button class="opt" onclick="pick(5,'sim_limpo')"><span class="opt-icon">✅</span>Sim, conheço meu SCR e está limpo</button>
-          <button class="opt opt-neg" onclick="pick(5,'sim_restricao')"><span class="opt-icon">⚠️</span>Sim, conheço e tenho algumas restrições</button>
-          <button class="opt opt-neg" onclick="pick(5,'ouviu_falar')"><span class="opt-icon">👂</span>Já ouvi falar mas nunca consultei</button>
-          <button class="opt opt-neg" onclick="pick(5,'nao_sabe')"><span class="opt-icon">❓</span>Não sei o que é SCR</button>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 5 — FORM CPF
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-5">
+  <div class="qwrap">
+    <h2 class="form-title">Seu diagnóstico está quase pronto.</h2>
+    <p class="form-sub">Preencha com seus dados</p>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:78%"></div></div>
     </div>
+    <div style="height:20px"></div>
+    <div class="input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input type="text" id="f-cpf" placeholder="Digite seu CPF aqui" inputmode="numeric" maxlength="14" />
+    </div>
+    <div class="field-error" id="err-cpf" style="display:none">campo obrigatório</div>
+    <button class="cont-btn" onclick="submitCPF()">Continuar com diagnóstico</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 6 — FUNCIONÁRIOS
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-6">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">80% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Quantos funcionários CLT sua empresa tem?</h2>
-        <div class="options" id="opts-6">
-          <button class="opt" onclick="pick(6,'nenhum')"><span class="opt-icon">👤</span>Nenhum (só sócios)</button>
-          <button class="opt" onclick="pick(6,'1_5')"><span class="opt-icon">👥</span>1 a 5 funcionários</button>
-          <button class="opt" onclick="pick(6,'6_10')"><span class="opt-icon">👥</span>6 a 10 funcionários</button>
-          <button class="opt" onclick="pick(6,'11_20')"><span class="opt-icon">🏢</span>11 a 20 funcionários</button>
-          <button class="opt" onclick="pick(6,'21_50')"><span class="opt-icon">🏬</span>21 a 50 funcionários</button>
-          <button class="opt" onclick="pick(6,'mais_50')"><span class="opt-icon">🏭</span>Mais de 50 funcionários</button>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 6 — LOADING
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-6">
+  <div class="loading-wrap">
+    <div class="loading-pct" id="load-pct-label">0%</div>
+    <div class="loading-prog-track">
+      <div class="loading-prog-fill" id="load-fill"></div>
     </div>
+    <h2 class="loading-title">Analisando...</h2>
+    <p class="loading-sub">Estamos analisando suas respostas...</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 7 — FATURAMENTO
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-7">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">85% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:85%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Qual é o faturamento médio mensal da sua empresa?</h2>
-        <div class="options" id="opts-7">
-          <button class="opt" onclick="pick(7,'ate_10k')"><span class="opt-icon">💵</span>Até R$ 10 mil/mês</button>
-          <button class="opt" onclick="pick(7,'10_30k')"><span class="opt-icon">💵</span>R$ 10 mil a R$ 30 mil/mês</button>
-          <button class="opt" onclick="pick(7,'30_80k')"><span class="opt-icon">💴</span>R$ 30 mil a R$ 80 mil/mês</button>
-          <button class="opt" onclick="pick(7,'80_200k')"><span class="opt-icon">💶</span>R$ 80 mil a R$ 200 mil/mês</button>
-          <button class="opt" onclick="pick(7,'200_400k')"><span class="opt-icon">💷</span>R$ 200 mil a R$ 400 mil/mês</button>
-          <button class="opt" onclick="pick(7,'mais_400k')"><span class="opt-icon">🏆</span>Mais de R$ 400 mil/mês</button>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 7 — FORM NOME / TEL / EMAIL
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-7">
+  <div class="qwrap">
+    <h2 class="form-title">Seu diagnóstico está quase pronto.</h2>
+    <p class="form-sub">Preencha com seus dados</p>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:89%"></div></div>
     </div>
+    <div style="height:20px"></div>
+    <div class="input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input type="text" id="f-nome" placeholder="Digite seu nome aqui" autocomplete="name" />
+    </div>
+    <div class="field-error" id="err-nome" style="display:none">campo obrigatório</div>
+    <div class="input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input type="tel" id="f-tel" placeholder="Digite seu telefone aqui" autocomplete="tel" inputmode="tel" />
+    </div>
+    <div class="field-error" id="err-tel" style="display:none">campo obrigatório</div>
+    <div class="input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input type="email" id="f-email" placeholder="Digite seu e-mail aqui" autocomplete="email" />
+    </div>
+    <div class="field-error" id="err-email" style="display:none">campo obrigatório</div>
+    <button class="cont-btn" onclick="submitLead()">Continuar com diagnóstico</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 8 — URGÊNCIA
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-8">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">88% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:88%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Em quanto tempo você precisa do crédito?</h2>
-        <div class="options" id="opts-8">
-          <button class="opt" onclick="pick(8,'urgente')"><span class="opt-icon">🔥</span>URGENTE — até 30 dias</button>
-          <button class="opt" onclick="pick(8,'1_3m')"><span class="opt-icon">📅</span>1 a 3 meses</button>
-          <button class="opt" onclick="pick(8,'mais_3m')"><span class="opt-icon">🗓️</span>Mais de 3 meses</button>
-          <button class="opt" onclick="pick(8,'pesquisando')"><span class="opt-icon">🔍</span>Só estou pesquisando</button>
-        </div>
+<!-- ══════════════════════════════════════════════════════
+     TELA 8 — RESULTADO FINAL
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-8">
+  <div class="result-wrap">
+
+    <div class="result-card" style="text-align:center">
+      <div class="result-score-ring">
+        <div class="result-pct" id="res-pct">58%</div>
+        <div class="result-pct-lbl">NÍVEL DE<br/>APROVAÇÃO</div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 9 — NEGATIVAÇÕES CPF
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-9">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">90% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:90%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">O CPF do sócio principal tem negativações?</h2>
-        <div class="options" id="opts-9">
-          <button class="opt" onclick="pick(9,'nao_sei')"><span class="opt-icon">🤷</span>Não sei/nunca consultei</button>
-          <button class="opt" onclick="pick(9,'limpo_negado')"><span class="opt-icon">✅</span>Não, cadastro limpo (mesmo assim fui negado)</button>
-          <button class="opt opt-neg" onclick="pick(9,'tem_neg')"><span class="opt-icon">🚫</span>Sim, tenho negativações ativas</button>
-          <button class="opt" onclick="pick(9,'regularizou')"><span class="opt-icon">🔄</span>Tive no passado mas já regularizei</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 10 — SCORE
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-10">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">94% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:94%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">Você sabe qual é o seu score de crédito?</h2>
-        <div class="options" id="opts-10">
-          <button class="opt" onclick="pick(10,'nao_sei')"><span class="opt-icon">❓</span>Não sei/nunca consultei</button>
-          <button class="opt" onclick="pick(10,'acima_700')"><span class="opt-icon">🟢</span>Sim, está acima de 700 (bom)</button>
-          <button class="opt opt-neg" onclick="pick(10,'300_700')"><span class="opt-icon">🟡</span>Sim, está entre 300 e 700 (médio)</button>
-          <button class="opt opt-neg" onclick="pick(10,'abaixo_300')"><span class="opt-icon">🔴</span>Sim, está abaixo de 300 (ruim)</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 11 — LOADING
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-11">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="container" style="margin-top:40px">
-    <div class="card">
-      <div class="loading-inner">
-        <div class="spinner"></div>
-        <div class="loading-title">Analisando...</div>
-        <div class="loading-sub">Estamos analisando suas respostas e gerando seu diagnóstico personalizado</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 12 — RESULTADO
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-12">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="prog-wrap">
-    <div class="prog-label">100% concluído</div>
-    <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
-  </div>
-  <div class="container" style="margin-top:20px">
-
-    <!-- Score -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-body">
-        <div class="score-wrap">
-          <div class="score-circle">
-            <div class="score-pct" id="result-pct">58%</div>
-            <div class="score-txt">NÍVEL DE APROVAÇÃO</div>
-          </div>
-          <h2 class="card-title" style="font-size:18px">O CPF: <span id="result-cpf" style="color:#16a34a"></span> tem potencial para acessar linhas de crédito acima de <strong>R$100 mil</strong></h2>
-          <p class="card-sub">Com as correções certas, sua aprovação pode aumentar significativamente.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA confirmation -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-body">
-        <h2 class="card-title" style="font-size:18px;margin-bottom:16px">Antes de liberar o diagnóstico completo, preciso confirmar:</h2>
-        <div class="options">
-          <button class="opt-yes" style="width:100%;border:none;cursor:pointer;font-family:inherit" onclick="goTo('pg-13')">
-            ✅ SIM, QUERO O DIAGNÓSTICO COMPLETO
-          </button>
-          <button class="opt-no" style="width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:10px;padding:12px;border-radius:10px;background:#fff;border:2px solid #d01111;color:#d01111;font-weight:700;font-size:13px" onclick="goTo('pg-13')">
-            PREFIRO TENTAR SOZINHO E TER O CRÉDITO NEGADO
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     PAGE 13 — RESULTADO FINAL + CHECKOUT
-══════════════════════════════════════════════════════════ -->
-<div class="page" id="pg-13">
-  <div class="top-bar"><span class="top-bar-text">CredPositivo</span></div>
-  <div class="container" style="margin-top:20px">
-
-    <!-- Título -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-body" style="text-align:center">
-        <span class="tag">📊 Diagnóstico Concluído</span>
-        <h2 class="card-title" style="margin-top:8px">Esses são alguns clientes que conseguiram o crédito depois do diagnóstico</h2>
-      </div>
+      <h2 class="result-title">O CPF <span id="res-cpf" style="color:#0c6c9d"></span> tem potencial para acessar linhas de crédito acima de R$100 mil</h2>
+      <p class="result-sub">Com as correções certas, sua aprovação pode aumentar significativamente</p>
     </div>
 
     <!-- Vídeo depoimento -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-body">
-        <div class="video-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/OVlWtf5G30g?autoplay=0&rel=0"
-            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
+    <div class="result-card">
+      <p style="font-size:14px;font-weight:700;text-align:center;margin-bottom:14px">Veja quem já conseguiu crédito com o diagnóstico:</p>
+      <div class="video-wrap">
+        <iframe
+          src="https://player-vz-a428cc0b-6bf.tv.pandavideo.com.br/embed/?v=9b573fb4-11ac-4d7b-ba80-cc18abcae481"
+          allow="autoplay" allowfullscreen>
+        </iframe>
       </div>
     </div>
 
-    <!-- Checklist de benefícios -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-body">
-        <h3 style="font-size:17px;font-weight:800;margin-bottom:14px;text-align:center">O que está incluído no relatório completo:</h3>
-        <ul class="checklist">
-          <li>Consulta seu rating no Sistema Banco Central</li>
-          <li>Calcula potencial real de captação</li>
-          <li>Verifica pendências CNPJ e CPF</li>
-          <li>Identifica bloqueios invisíveis no seu perfil</li>
-          <li>Plano de ação personalizado para aprovação de crédito</li>
-          <li>Estratégias para aumentar o score em até 90 dias</li>
-        </ul>
-        <div class="divider"></div>
-        <div class="price-card">
-          <div class="price-label">Por apenas</div>
-          <div class="price-strike">De R$ 297,00</div>
-          <div class="price-val">R$ 97,00</div>
-          <div style="font-size:13px;color:#6b7280;margin-top:4px">de investimento em crédito</div>
-        </div>
-        <a class="btn-checkout" href="https://app.monetizze.com.br/checkout/DLF374307" target="_blank" id="checkout-link" onclick="trackCheckout()">
-          SOLICITAR MEU DIAGNÓSTICO COMPLETO →
-        </a>
-        <p class="guarantee">🛡️ Relatório completo do seu CNPJ/CPF.<br/>Se não valer, devolvemos 100% em até 7 dias.</p>
-      </div>
+    <!-- Checkout -->
+    <div class="result-card">
+      <ul class="result-checklist">
+        <li>Consulta seu rating no Sistema Banco Central</li>
+        <li>Calcula potencial real de captação</li>
+        <li>Verifica pendências CNPJ e CPF</li>
+        <li>Identifica bloqueios invisíveis no seu perfil</li>
+        <li>Plano de ação personalizado para aprovação</li>
+      </ul>
+      <p class="price-label">Por apenas</p>
+      <p class="price-strike">De R$ 297,00</p>
+      <p class="price-val">R$ 97,00</p>
+      <p class="price-note">de investimento em crédito</p>
+      <a class="checkout-btn" id="checkout-link" href="https://app.monetizze.com.br/checkout/DLF374307" target="_blank" onclick="trackCheckout()">
+        Solicitar meu diagnóstico
+      </a>
+      <p class="guarantee">Relatório completo do seu CPF. Se não valer, devolvemos 100% em até 7 dias.</p>
     </div>
 
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════════ -->
 <script>
-// ── State ──────────────────────────────────────────────────
-const state = {
-  nome: '', tel: '', email: '', cnpj: '', cpf: '',
-  answers: {}, score: 0
-};
+// ── State ───────────────────────────────────────────────────────
+const S = { cpf:'', nome:'', tel:'', email:'', score:0, answers:{} };
 
-// ── Score weights ──────────────────────────────────────────
-const scoreMap = {
-  3: { nao_sei:-15, limpo:0, tem_protestos:-30, regularizou:-5 },
-  4: { sim_em_dia:0, sim_atraso:-20, nao_sei:-20, nao_sabe_ecf:-25 },
-  5: { sim_limpo:0, sim_restricao:-15, ouviu_falar:-10, nao_sabe:-20 },
-  6: { nenhum:-5, '1_5':0, '6_10':0, '11_20':5, '21_50':10, mais_50:15 },
-  7: { ate_10k:-5, '10_30k':0, '30_80k':5, '80_200k':10, '200_400k':15, mais_400k:20 },
-  8: { urgente:0, '1_3m':0, mais_3m:0, pesquisando:0 },
-  9: { nao_sei:-15, limpo_negado:-5, tem_neg:-25, regularizou:-5 },
-  10: { nao_sei:-15, acima_700:5, '300_700':-10, abaixo_300:-25 }
-};
-
-// ── Navigation ─────────────────────────────────────────────
+// ── Navigate ────────────────────────────────────────────────────
 function goTo(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── Quiz pick ──────────────────────────────────────────────
-function pick(step, value) {
-  const weights = scoreMap[step] || {};
-  state.answers['q'+step] = value;
-  state.score += (weights[value] || 0);
-
-  const nextMap = {3:'pg-4', 4:'pg-5', 5:'pg-6', 6:'pg-7', 7:'pg-8', 8:'pg-9', 9:'pg-10', 10:'pg-11'};
-  if (nextMap[step]) {
-    if (nextMap[step] === 'pg-11') {
-      goTo('pg-11');
-      startLoading();
-    } else {
-      goTo(nextMap[step]);
-    }
-  }
+// ── Quiz answer ─────────────────────────────────────────────────
+function pick(q, val, weight) {
+  S.answers['q'+q] = val;
+  if(weight) S.score += weight;
+  const next = {1:'sc-2',2:'sc-3',3:'sc-4',4:'sc-5'};
+  if(next[q]) goTo(next[q]);
 }
 
-// ── Form submit ────────────────────────────────────────────
-function submitForm() {
+// ── CPF form ─────────────────────────────────────────────────────
+function submitCPF() {
+  const cpf = document.getElementById('f-cpf').value.trim();
+  const err = document.getElementById('err-cpf');
+  if(!cpf) { err.style.display='block'; document.getElementById('f-cpf').classList.add('err'); return; }
+  err.style.display='none';
+  S.cpf = cpf;
+  startLoading();
+}
+
+// ── Loading ──────────────────────────────────────────────────────
+function startLoading() {
+  goTo('sc-6');
+  const fill = document.getElementById('load-fill');
+  const lbl  = document.getElementById('load-pct-label');
+  let pct = 0;
+  const iv = setInterval(() => {
+    pct = Math.min(pct + (Math.random() * 4 + 1), 89);
+    fill.style.width = pct.toFixed(0) + '%';
+    lbl.textContent  = pct.toFixed(0) + '%';
+    if(pct >= 89) { clearInterval(iv); setTimeout(() => goTo('sc-7'), 600); }
+  }, 150);
+}
+
+// ── Lead form ────────────────────────────────────────────────────
+function submitLead() {
   const nome  = document.getElementById('f-nome').value.trim();
   const tel   = document.getElementById('f-tel').value.trim();
   const email = document.getElementById('f-email').value.trim();
-  const cnpj  = document.getElementById('f-cnpj').value.trim();
-  const cpf   = document.getElementById('f-cpf').value.trim();
 
   let ok = true;
-  [['f-nome',nome],['f-tel',tel],['f-email',email],['f-cnpj',cnpj],['f-cpf',cpf]].forEach(([id,v]) => {
-    document.getElementById(id).classList.toggle('err', !v);
-    if (!v) ok = false;
+  [['f-nome','err-nome',nome],['f-tel','err-tel',tel],['f-email','err-email',email]].forEach(([fid,eid,v]) => {
+    const valid = v && (fid!=='f-email' || v.includes('@'));
+    document.getElementById(fid).classList.toggle('err',!valid);
+    document.getElementById(eid).style.display = valid?'none':'block';
+    if(!valid) ok=false;
   });
-  if (!email.includes('@')) { document.getElementById('f-email').classList.add('err'); ok = false; }
-  if (!ok) return;
+  if(!ok) return;
 
-  state.nome = nome; state.tel = tel; state.email = email;
-  state.cnpj = cnpj; state.cpf = cpf;
+  S.nome=nome; S.tel=tel; S.email=email;
 
-  // Show CNPJ on next page
-  document.getElementById('show-cnpj').textContent = cnpj;
+  // Pixel Lead
+  trackFB('Lead',{content_name:'Quiz Lead',value:97,currency:'BRL'});
 
-  // Pixel — Lead
-  fbTrack('Lead', { content_name: 'Quiz Form', value: 97, currency: 'BRL' });
+  // Send to backend
+  const level = S.score<=-35?'critical':S.score<=-15?'attention':'preventive';
+  fetch('/api/quiz-lead',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      nome, whatsapp:tel.replace(/\D/g,''), email,
+      score:S.score, level, cpf:S.cpf,
+      source:'quiz_credpositivo',
+      url:location.href, utm:getUTM(),
+      timestamp:new Date().toISOString()
+    })
+  }).catch(()=>{});
 
-  goTo('pg-2');
+  // Show result
+  const base = 58, pct = Math.max(22, Math.min(92, base + Math.round(S.score * .5)));
+  document.getElementById('res-pct').textContent = pct+'%';
+  document.getElementById('res-cpf').textContent = S.cpf;
+
+  // UTM on checkout
+  const u = buildUTM();
+  if(u) document.getElementById('checkout-link').href = 'https://app.monetizze.com.br/checkout/DLF374307'+u;
+
+  goTo('sc-8');
+  trackFB('ViewContent',{content_name:'Quiz Result',value:97,currency:'BRL'});
 }
 
-// ── Loading (8s) ───────────────────────────────────────────
-function startLoading() {
-  setTimeout(() => {
-    // Calculate score display
-    const base = 58;
-    const bonus = Math.max(-20, Math.min(20, state.score * .4));
-    const pct = Math.round(Math.max(20, Math.min(92, base + bonus)));
-    document.getElementById('result-pct').textContent = pct + '%';
-    document.getElementById('result-cpf').textContent = state.cpf || '---';
+// ── Tracking ──────────────────────────────────────────────────────
+function trackFB(ev,p){try{if(typeof fbq==='function')fbq('track',ev,p||{});}catch(e){}}
+function trackCheckout(){trackFB('InitiateCheckout',{value:97,currency:'BRL'});}
 
-    // Send to backend (non-blocking)
-    sendLead();
+// ── UTM ───────────────────────────────────────────────────────────
+function getUTM(){const p=new URLSearchParams(location.search);return{source:p.get('utm_source')||'',medium:p.get('utm_medium')||'',campaign:p.get('utm_campaign')||''};}
+function buildUTM(){const u=getUTM();const parts=Object.entries(u).filter(([,v])=>v).map(([k,v])=>`utm_${k}=${encodeURIComponent(v)}`);return parts.length?'?'+parts.join('&'):'';}
 
-    goTo('pg-12');
-  }, 8000);
-}
-
-// ── Backend ────────────────────────────────────────────────
-async function sendLead() {
-  const level = state.score <= -40 ? 'critical' : state.score <= -15 ? 'attention' : 'preventive';
-  try {
-    await fetch('/api/quiz-lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: state.nome,
-        whatsapp: state.tel.replace(/\D/g,''),
-        email: state.email,
-        score: state.score,
-        level,
-        situacao: state.answers.q3 || null,
-        valor: state.answers.q7 || null,
-        urgencia: state.answers.q8 || null,
-        cnpj: state.cnpj,
-        cpf: state.cpf,
-        source: 'quiz_credpositivo',
-        url: location.href,
-        utm: getUTM(),
-        timestamp: new Date().toISOString()
-      })
-    });
-  } catch(e) {}
-}
-
-// ── Tracking ───────────────────────────────────────────────
-function fbTrack(ev, params) {
-  try { if(typeof fbq==='function') fbq('track', ev, params||{}); } catch(e){}
-}
-function trackCheckout() {
-  fbTrack('InitiateCheckout', { value:97, currency:'BRL' });
-  // Add UTM to checkout link
-  const el = document.getElementById('checkout-link');
-  const utmStr = buildUTM();
-  if (el && utmStr) el.href = 'https://app.monetizze.com.br/checkout/DLF374307' + utmStr;
-}
-
-// ── UTM ────────────────────────────────────────────────────
-function getUTM() {
-  const p = new URLSearchParams(location.search);
-  return { source:p.get('utm_source')||'', medium:p.get('utm_medium')||'', campaign:p.get('utm_campaign')||'' };
-}
-function buildUTM() {
-  const u = getUTM();
-  const parts = Object.entries(u).filter(([,v])=>v).map(([k,v])=>`utm_${k}=${encodeURIComponent(v)}`);
-  return parts.length ? '?'+parts.join('&') : '';
-}
-
-// ── Phone mask ─────────────────────────────────────────────
-document.getElementById('f-tel').addEventListener('input', function() {
-  let v = this.value.replace(/\D/g,'').slice(0,11);
-  if(v.length>7)      this.value='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
-  else if(v.length>2) this.value='('+v.slice(0,2)+') '+v.slice(2);
-  else if(v.length>0) this.value='('+v;
+// ── Masks ─────────────────────────────────────────────────────────
+document.getElementById('f-cpf').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'').slice(0,11);
+  v=v.replace(/^(\d{3})(\d)/,'$1.$2').replace(/^(\d{3}\.\d{3})(\d)/,'$1.$2').replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/,'$1-$2');
+  this.value=v;
 });
-
-// ── CNPJ mask ──────────────────────────────────────────────
-document.getElementById('f-cnpj').addEventListener('input', function() {
-  let v = this.value.replace(/\D/g,'').slice(0,14);
-  v = v.replace(/^(\d{2})(\d)/,'$1.$2')
-       .replace(/^(\d{2}\.\d{3})(\d)/,'$1.$2')
-       .replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/,'$1/$2')
-       .replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d)/,'$1-$2');
-  this.value = v;
-});
-
-// ── CPF mask ───────────────────────────────────────────────
-document.getElementById('f-cpf').addEventListener('input', function() {
-  let v = this.value.replace(/\D/g,'').slice(0,11);
-  v = v.replace(/^(\d{3})(\d)/,'$1.$2')
-       .replace(/^(\d{3}\.\d{3})(\d)/,'$1.$2')
-       .replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/,'$1-$2');
-  this.value = v;
+document.getElementById('f-tel').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>7)this.value='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if(v.length>2)this.value='('+v.slice(0,2)+') '+v.slice(2);
+  else if(v.length>0)this.value='('+v;
 });
 </script>
 
