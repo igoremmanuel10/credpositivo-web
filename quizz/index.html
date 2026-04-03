@@ -736,7 +736,7 @@
       <p class="price-label" style="margin-top:16px">Diagnóstico de crédito</p>
       <p class="price-label">Por apenas</p>
       <p class="price-val">R$ 67,00</p>
-      <a class="checkout-btn" href="https://app.monetizze.com.br/checkout/DLF374307" target="_blank" onclick="trackCheckout()">
+      <a class="checkout-btn" href="https://app.monetizze.com.br/checkout/DNF374954" target="_blank" onclick="trackCheckout()">
         Solicitar meu diagnóstico
       </a>
     </div>
@@ -781,7 +781,7 @@
       <p class="price-strike">De R$ 297,00</p>
       <p class="price-val">R$ 97,00</p>
       <p class="price-note">de investimento em crédito</p>
-      <a class="checkout-btn" id="checkout-link" href="https://app.monetizze.com.br/checkout/DLF374307" target="_blank" onclick="trackCheckout()">
+      <a class="checkout-btn" id="checkout-link" href="https://app.monetizze.com.br/checkout/DNF374954" target="_blank" onclick="trackCheckout()">
         Solicitar meu diagnóstico
       </a>
       <p class="guarantee">Relatório completo do seu CPF. Se não valer, devolvemos 100% em até 7 dias.</p>
@@ -901,7 +901,7 @@ function showPotencial() {
 function goToVSL() {
   trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
   const u = buildUTM();
-  const base = 'https://app.monetizze.com.br/checkout/DLF374307';
+  const base = 'https://app.monetizze.com.br/checkout/DNF374954';
   document.querySelectorAll('.checkout-btn').forEach(el => {
     el.href = base + (u || '');
   });
@@ -914,7 +914,7 @@ function goToResult(wantsYes) {
     trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
   }
   const u = buildUTM();
-  const base = 'https://app.monetizze.com.br/checkout/DLF374307';
+  const base = 'https://app.monetizze.com.br/checkout/DNF374954';
   document.querySelectorAll('.checkout-btn').forEach(el => {
     el.href = base + (u || '');
   });
