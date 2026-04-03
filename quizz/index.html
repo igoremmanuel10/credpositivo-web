@@ -8,6 +8,18 @@
   <link rel="preconnect" href="https://fonts.bunny.net" />
   <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700,800,900&display=swap" rel="stylesheet" />
 
+  <!-- Hotjar Tracking Code for Credpositivo Quizz -->
+  <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:6682975,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+
   <!-- ── Meta Pixel ──────────────────────────────────────────────── -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -25,9 +37,9 @@
     fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3814071692219923&ev=PageView&noscript=1"/></noscript>
-  <!-- ─────────────────────────────────────────────────────────────── -->
 
   <style>
+    /* ── Reset & Base ── */
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{
       min-height:100%;
@@ -56,57 +68,20 @@
       background:linear-gradient(to bottom, rgba(0,0,0,.45) 0%, rgba(0,0,0,.7) 100%);
     }
     .landing-inner{position:relative;z-index:1;width:100%;max-width:420px;text-align:center}
-
-    .land-eyebrow{
-      font-size:13px;font-weight:700;
-      color:#fff;opacity:.85;
-      letter-spacing:.06em;text-transform:uppercase;
-      margin-bottom:12px;
-    }
-    .land-title{
-      font-size:clamp(26px,7vw,34px);
-      font-weight:900;
-      color:#fff;
-      line-height:1.15;
-      margin-bottom:16px;
-    }
+    .land-eyebrow{font-size:13px;font-weight:700;color:#fff;opacity:.85;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+    .land-title{font-size:clamp(26px,7vw,34px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;}
     .land-title span{color:#c7e7ff}
-
-    .land-sub{
-      font-size:14px;color:rgba(255,255,255,.8);
-      line-height:1.55;margin-bottom:20px;
-    }
-
-    /* Video thumbnail */
-    .land-video{
-      width:100%;border-radius:14px;overflow:hidden;
-      margin-bottom:20px;
-      box-shadow:0 8px 32px rgba(0,0,0,.5);
-      position:relative;
-    }
-    .land-video iframe{
-      display:block;width:100%;aspect-ratio:16/9;border:none;
-    }
-
-    .land-checks{
-      display:flex;flex-direction:column;gap:10px;
-      margin-bottom:24px;text-align:left;
-    }
-    .land-check{
-      display:flex;align-items:center;gap:10px;
-      font-size:14px;font-weight:500;color:#fff;
-    }
+    .land-sub{font-size:14px;color:rgba(255,255,255,.8);line-height:1.55;margin-bottom:20px;}
+    .land-video{width:100%;border-radius:14px;overflow:hidden;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+    .land-video iframe{display:block;width:100%;aspect-ratio:16/9;border:none;}
+    .land-checks{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;text-align:left;}
+    .land-check{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:#fff;}
     .land-check-icon{font-size:16px;flex-shrink:0}
-
     .land-btn{
-      display:block;width:100%;
-      padding:18px 20px;
-      background:#000;
-      background-image:linear-gradient(to right bottom, rgba(12,108,157,.75), rgba(12,108,157,.95));
-      color:#fff;
-      font-size:16px;font-weight:800;font-family:'Poppins',sans-serif;
-      border:none;border-radius:12px;cursor:pointer;
-      text-align:center;letter-spacing:.02em;
+      display:block;width:100%;padding:18px 20px;
+      background-image:linear-gradient(to right bottom,rgba(12,108,157,.75),rgba(12,108,157,.95));
+      color:#fff;font-size:16px;font-weight:800;font-family:'Poppins',sans-serif;
+      border:none;border-radius:12px;cursor:pointer;text-align:center;letter-spacing:.02em;
       box-shadow:0 4px 20px rgba(12,108,157,.5);
       transition:opacity .15s,transform .15s;
     }
@@ -116,172 +91,198 @@
        QUIZ PAGES
     ══════════════════════════════ */
     .qwrap{
-      width:100%;max-width:420px;
-      padding:28px 20px 40px;
+      width:100%;max-width:420px;padding:28px 20px 40px;
       display:flex;flex-direction:column;
       animation:fadeUp .3s ease both;
     }
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .q-title{
-      font-size:22px;font-weight:800;
-      line-height:1.25;text-align:center;
-      color:#020617;margin-bottom:6px;
-    }
-    .q-sub{
-      font-size:14px;color:#64748b;text-align:center;
-      line-height:1.5;margin-bottom:22px;
-    }
+    .q-title{font-size:22px;font-weight:800;line-height:1.25;text-align:center;color:#020617;margin-bottom:6px;}
+    .q-sub{font-size:14px;color:#64748b;text-align:center;line-height:1.5;margin-bottom:22px;}
 
     /* Option cards */
     .opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
-
     .opt-card{
-      width:100%;
-      background:#c7e7ff;
-      border:1px solid #c2c2c2;
-      border-radius:10px;
+      width:100%;background:#c7e7ff;
+      border:1px solid #c2c2c2;border-radius:10px;
       padding:16px 18px;
       font-size:15px;font-weight:500;font-family:'Poppins',sans-serif;
-      color:#020617;
-      cursor:pointer;text-align:center;
+      color:#020617;cursor:pointer;text-align:left;
       box-shadow:0 2px 8px rgba(100,116,139,.15);
-      transition:all .15s;
-      line-height:1.35;
+      transition:all .15s;line-height:1.35;
+      display:flex;align-items:center;gap:12px;
     }
     .opt-card:hover{background:#b3daff;transform:scale(.99)}
     .opt-card:active{transform:scale(.97)}
+    .opt-emoji{font-size:22px;flex-shrink:0}
 
     /* Progress bar */
     .prog-wrap{margin-bottom:20px}
-    .prog-track{
-      width:100%;height:14px;
-      background:#f1f5f9;
-      border-radius:99px;
-      overflow:hidden;
-    }
-    .prog-fill{
-      height:100%;background:#111111;
-      border-radius:99px;
-      transition:width .5s ease;
-    }
+    .prog-track{width:100%;height:14px;background:#f1f5f9;border-radius:99px;overflow:hidden;}
+    .prog-fill{height:100%;background:#111111;border-radius:99px;transition:width .5s ease;}
 
-    /* Hint text */
-    .hint{
-      font-size:13px;font-style:italic;
-      color:#64748b;text-align:center;
-      line-height:1.5;margin-top:4px;
-    }
+    /* Hints */
+    .hint{font-size:13px;font-style:italic;color:#64748b;text-align:center;line-height:1.5;margin-top:6px;}
+    .hint-alert{font-size:13px;font-weight:600;color:#dc2626;text-align:center;line-height:1.5;margin-top:6px;}
+    .hint-warn{font-size:13px;font-weight:600;color:#d97706;text-align:center;line-height:1.5;margin-top:6px;}
 
     /* ══════════════════════════════
-       FORM
+       FORMS
     ══════════════════════════════ */
-    .form-title{
-      font-size:24px;font-weight:800;
-      text-align:center;margin-bottom:6px;
-      line-height:1.2;
-    }
+    .form-title{font-size:24px;font-weight:800;text-align:center;margin-bottom:6px;line-height:1.2;}
     .form-sub{font-size:14px;color:#64748b;text-align:center;margin-bottom:24px}
-
     .input-wrap{position:relative;margin-bottom:8px}
-    .input-wrap svg{
-      position:absolute;left:14px;top:50%;transform:translateY(-50%);
-      color:#94a3b8;pointer-events:none;
-      width:18px;height:18px;flex-shrink:0;
-    }
+    .input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;pointer-events:none;width:18px;height:18px;}
     .input-wrap input{
-      width:100%;
-      padding:15px 14px 15px 42px;
-      background:#f8fafc;
-      border:1.5px solid #e2e8f0;
-      border-radius:10px;
-      font-size:15px;font-family:'Poppins',sans-serif;
-      color:#020617;outline:none;
+      width:100%;padding:15px 14px 15px 42px;
+      background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;
+      font-size:15px;font-family:'Poppins',sans-serif;color:#020617;outline:none;
       transition:border .2s;
     }
     .input-wrap input:focus{border-color:#0c6c9d;background:#fff}
     .input-wrap input.err{border-color:#dc2626}
     .field-error{font-size:12px;color:#dc2626;margin-bottom:10px;padding-left:4px}
-
     .cont-btn{
-      display:block;width:100%;
-      padding:17px 20px;
-      background:#0c6c9d;
-      color:#fff;font-size:16px;font-weight:700;font-family:'Poppins',sans-serif;
+      display:block;width:100%;padding:17px 20px;
+      background:#0c6c9d;color:#fff;
+      font-size:16px;font-weight:700;font-family:'Poppins',sans-serif;
       border:none;border-radius:12px;cursor:pointer;text-align:center;
       box-shadow:0 4px 16px rgba(12,108,157,.35);
-      transition:background .15s,transform .15s;
-      margin-top:8px;
+      transition:background .15s,transform .15s;margin-top:8px;
     }
     .cont-btn:hover{background:#0a5a85;transform:translateY(-1px)}
 
     /* ══════════════════════════════
+       AVISO TELA
+    ══════════════════════════════ */
+    .warn-card{
+      width:100%;max-width:420px;padding:32px 20px 40px;
+      display:flex;flex-direction:column;align-items:center;text-align:center;
+      animation:fadeUp .3s ease both;
+    }
+    .warn-icon{font-size:64px;margin-bottom:16px;line-height:1}
+    .warn-title{font-size:22px;font-weight:900;color:#020617;margin-bottom:8px;line-height:1.25}
+    .warn-sub{font-size:16px;font-weight:700;color:#0c6c9d;margin-bottom:14px}
+    .warn-text{font-size:14px;color:#64748b;line-height:1.6;margin-bottom:24px}
+    .warn-stat{
+      background:#fef9c3;border:1px solid #fde047;border-radius:10px;
+      padding:14px 20px;font-size:14px;font-weight:600;color:#713f12;
+      margin-bottom:28px;width:100%;
+    }
+
+    /* ══════════════════════════════
        LOADING
     ══════════════════════════════ */
-    .loading-wrap{
-      width:100%;max-width:420px;
-      padding:48px 20px;
-      text-align:center;
+    .loading-wrap{width:100%;max-width:420px;padding:48px 20px;text-align:center;}
+    .spinner{
+      width:64px;height:64px;margin:0 auto 32px;
+      border:7px solid #e2e8f0;border-top-color:#0c6c9d;
+      border-radius:50%;animation:spin 1s linear infinite;
     }
-    .loading-prog-track{
-      width:100%;height:14px;
-      background:#f1f5f9;border-radius:99px;overflow:hidden;
-      margin-bottom:28px;
-    }
-    .loading-prog-fill{
-      height:100%;background:#111;border-radius:99px;
-      width:0%;transition:width .3s ease;
-    }
-    .loading-pct{
-      font-size:13px;color:#64748b;text-align:right;
-      margin-bottom:8px;font-weight:600;
-    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-pct{font-size:13px;color:#64748b;text-align:right;margin-bottom:8px;font-weight:600;}
+    .loading-prog-track{width:100%;height:14px;background:#f1f5f9;border-radius:99px;overflow:hidden;margin-bottom:28px;}
+    .loading-prog-fill{height:100%;background:#111;border-radius:99px;width:0%;transition:width .3s ease;}
     .loading-title{font-size:24px;font-weight:800;margin-bottom:8px}
-    .loading-sub{font-size:14px;color:#64748b}
+    .loading-sub{font-size:14px;color:#64748b;margin-bottom:28px}
+    .loading-steps{display:flex;flex-direction:column;gap:12px;text-align:left;}
+    .loading-step{font-size:13px;color:#cbd5e1;font-weight:600;transition:color .4s;}
+    .loading-step.active{color:#0c6c9d}
+    .loading-step.done{color:#16a34a}
+
+    /* ══════════════════════════════
+       POTENCIAL
+    ══════════════════════════════ */
+    .pot-wrap{width:100%;max-width:420px;padding:28px 20px 48px;animation:fadeUp .3s ease both;}
+    .pot-card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:28px 20px;margin-bottom:16px;}
+    .pot-title{font-size:22px;font-weight:900;text-align:center;margin-bottom:20px;line-height:1.3;color:#020617}
+    .pot-title span{color:#0c6c9d}
+    .pot-gauge-lbl{font-size:12px;font-weight:700;color:#64748b;text-align:center;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;}
+    .pot-gauge-wrap{position:relative;margin-bottom:8px;}
+    .pot-gauge-track{width:100%;height:28px;background:#e2e8f0;border-radius:99px;overflow:visible;position:relative;}
+    .pot-gauge-fill{height:100%;background:linear-gradient(90deg,#0c6c9d,#00b30c);border-radius:99px;position:relative;transition:width 1s ease;}
+    .pot-gauge-thumb{
+      position:absolute;right:-14px;top:50%;transform:translateY(-50%);
+      width:28px;height:28px;border-radius:50%;
+      background:#fff;border:3px solid #0c6c9d;
+      box-shadow:0 2px 8px rgba(0,0,0,.2);
+      display:flex;align-items:center;justify-content:center;
+      font-size:10px;font-weight:800;color:#0c6c9d;
+    }
+    .pot-gauge-labels{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;font-weight:600;margin-top:6px;padding:0 2px;}
+    .pot-pct-big{font-size:48px;font-weight:900;color:#0c6c9d;text-align:center;line-height:1;margin:16px 0 8px;}
+    .pot-sub{font-size:14px;color:#64748b;text-align:center;line-height:1.6;margin-bottom:16px}
+    .pot-alert{font-size:14px;font-weight:700;color:#dc2626;text-align:center;margin-bottom:20px;line-height:1.5;}
+    .pot-btn{
+      display:block;width:100%;padding:18px;
+      background:#00b30c;color:#fff;
+      font-size:16px;font-weight:800;font-family:'Poppins',sans-serif;
+      border:none;border-radius:12px;cursor:pointer;text-align:center;
+      box-shadow:0 4px 20px rgba(0,179,12,.4);
+      animation:glowGreen 2s infinite;transition:transform .15s;
+    }
+    .pot-btn:hover{transform:translateY(-2px)}
+    @keyframes glowGreen{0%,100%{box-shadow:0 4px 20px rgba(0,179,12,.4)}50%{box-shadow:0 4px 28px rgba(0,179,12,.65)}}
+
+    /* ══════════════════════════════
+       GERENTE DE CRÉDITO
+    ══════════════════════════════ */
+    .ger-wrap{width:100%;max-width:420px;padding:28px 20px 48px;animation:fadeUp .3s ease both;}
+    .ger-title{font-size:20px;font-weight:800;text-align:center;color:#020617;margin-bottom:6px;line-height:1.3}
+    .ger-sub{font-size:13px;color:#64748b;text-align:center;margin-bottom:20px;line-height:1.5}
+    .ger-lead{font-size:16px;font-weight:800;text-align:center;color:#020617;margin-bottom:20px}
+    .ger-section{margin-bottom:18px;}
+    .ger-img{width:100%;border-radius:10px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.1);}
+    .ger-section-title{
+      font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+      color:#0c6c9d;margin-bottom:10px;padding:6px 12px;
+      background:#eff6ff;border-radius:6px;display:inline-block;
+    }
+    .ger-checklist{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .ger-checklist li{display:flex;align-items:flex-start;gap:8px;font-size:14px;line-height:1.4;color:#334155;}
+    .ger-checklist li::before{content:"✅";flex-shrink:0;font-size:13px;margin-top:1px}
+    .price-box{
+      background:#eff6ff;border:2px solid #0c6c9d;border-radius:12px;
+      padding:18px 20px;text-align:center;margin:20px 0;
+    }
+    .price-box-icon{font-size:28px;margin-bottom:6px}
+    .price-box-label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+    .price-box-strike{font-size:13px;color:#94a3b8;text-decoration:line-through;margin-bottom:4px}
+    .price-box-val{font-size:36px;font-weight:900;color:#0c6c9d;line-height:1}
+    .price-box-note{font-size:12px;color:#94a3b8;margin-top:4px}
+    .decision-grid{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+    .decision-yes{
+      display:block;width:100%;padding:18px;
+      background:#dcfce7;border:2px solid #16a34a;border-radius:10px;
+      cursor:pointer;font-size:14px;font-weight:700;font-family:'Poppins',sans-serif;
+      color:#15803d;text-align:center;transition:all .15s;line-height:1.35;
+    }
+    .decision-yes:hover{background:#bbf7d0;transform:scale(.99)}
+    .decision-no{
+      display:block;width:100%;padding:18px;
+      background:#fee2e2;border:2px solid #dc2626;border-radius:10px;
+      cursor:pointer;font-size:14px;font-weight:700;font-family:'Poppins',sans-serif;
+      color:#b91c1c;text-align:center;transition:all .15s;line-height:1.35;
+    }
+    .decision-no:hover{background:#fecaca;transform:scale(.99)}
 
     /* ══════════════════════════════
        RESULT
     ══════════════════════════════ */
-    .result-wrap{
-      width:100%;max-width:420px;
-      padding:28px 20px 48px;
-    }
-
-    .result-card{
-      background:#fff;
-      border-radius:14px;
-      border:1px solid #e2e8f0;
-      box-shadow:0 2px 12px rgba(0,0,0,.08);
-      padding:24px 20px;
-      margin-bottom:16px;
-    }
-
-    .result-score-ring{
-      width:120px;height:120px;
-      border-radius:50%;
-      border:5px solid #0c6c9d;
-      background:#eff6ff;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      margin:0 auto 16px;
-    }
+    .result-wrap{width:100%;max-width:420px;padding:28px 20px 48px;}
+    .result-card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px 20px;margin-bottom:16px;}
+    .result-score-ring{width:120px;height:120px;border-radius:50%;border:5px solid #0c6c9d;background:#eff6ff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;}
     .result-pct{font-size:32px;font-weight:900;color:#0c6c9d;line-height:1}
     .result-pct-lbl{font-size:11px;color:#64748b;margin-top:2px;letter-spacing:.04em;text-align:center}
-
     .result-title{font-size:20px;font-weight:800;text-align:center;margin-bottom:8px;line-height:1.3}
     .result-sub{font-size:14px;color:#64748b;text-align:center;line-height:1.55;margin-bottom:20px}
-
     .result-checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
-    .result-checklist li{
-      display:flex;align-items:flex-start;gap:10px;
-      font-size:14px;line-height:1.4;
-    }
+    .result-checklist li{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.4;}
     .result-checklist li::before{content:"✅";flex-shrink:0}
-
     .price-label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-bottom:4px}
     .price-strike{font-size:13px;color:#94a3b8;text-decoration:line-through;text-align:center;margin-bottom:2px}
     .price-val{font-size:38px;font-weight:900;color:#0c6c9d;text-align:center;line-height:1;margin-bottom:4px}
     .price-note{font-size:12px;color:#94a3b8;text-align:center;margin-bottom:20px}
-
     .checkout-btn{
       display:block;width:100%;padding:18px;
       background:#0c6c9d;color:#fff;
@@ -289,17 +290,41 @@
       border:none;border-radius:12px;cursor:pointer;
       text-align:center;text-decoration:none;
       box-shadow:0 4px 20px rgba(12,108,157,.4);
-      animation:glow 2s infinite;
-      transition:transform .15s;
+      animation:glow 2s infinite;transition:transform .15s;
     }
     .checkout-btn:hover{transform:translateY(-2px)}
     @keyframes glow{0%,100%{box-shadow:0 4px 20px rgba(12,108,157,.4)}50%{box-shadow:0 4px 28px rgba(12,108,157,.65)}}
-
     .guarantee{font-size:12px;color:#94a3b8;text-align:center;margin-top:10px;line-height:1.5}
-
-    /* Video on result */
     .video-wrap{width:100%;border-radius:10px;overflow:hidden;margin-bottom:4px}
     .video-wrap iframe{display:block;width:100%;aspect-ratio:16/9;border:none}
+
+    /* ══════════════════════════════
+       VSL SCREEN
+    ══════════════════════════════ */
+    .vsl-wrap{width:100%;max-width:420px;padding:28px 20px 48px;animation:fadeUp .3s ease both;}
+    .vsl-title{font-size:20px;font-weight:900;text-align:center;color:#020617;margin-bottom:6px;line-height:1.3}
+    .vsl-title span{color:#0c6c9d}
+    .vsl-sub{font-size:13px;color:#64748b;text-align:center;margin-bottom:16px;line-height:1.5}
+    .vsl-video{width:100%;max-width:360px;margin:0 auto 20px;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+    .vsl-video iframe{display:block;width:100%;aspect-ratio:9/16;border:none;}
+
+    /* Testimonial screenshots */
+    .testimonials-title{font-size:14px;font-weight:700;text-align:center;margin:16px 0 12px;color:#020617;}
+    .testimonials-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+    .testimonial-img{width:100%;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1);}
+    .testimonial-placeholder{
+      width:100%;aspect-ratio:591/1029;
+      background:#f1f5f9;border:2px dashed #cbd5e1;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;color:#94a3b8;font-weight:600;
+    }
+
+    /* Guarantee bar */
+    .guarantee-bar{
+      background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;
+      padding:12px 16px;text-align:center;margin-bottom:16px;
+      font-size:13px;font-weight:600;color:#15803d;
+    }
   </style>
 </head>
 <body>
@@ -310,28 +335,16 @@
 <div class="screen active" id="sc-0">
   <div class="landing">
     <div class="landing-inner">
-
       <p class="land-eyebrow">DESCUBRA EM 2 MINUTOS:</p>
       <h1 class="land-title">O que está bloqueando<br/><span>seu crédito hoje</span></h1>
       <p class="land-sub">Análise gratuita baseada no seu perfil.<br/>Pré-diagnóstico instantâneo.</p>
-
-      <!-- ConvertAI VSL -->
-      <div class="land-video">
-        <iframe
-          src="https://player-vz-a428cc0b-6bf.tv.pandavideo.com.br/embed/?v=b8cf6b0b-4454-4409-a2e6-436f79eb74a9"
-          allow="autoplay" allowfullscreen>
-        </iframe>
-      </div>
-
       <div class="land-checks">
         <div class="land-check"><span class="land-check-icon">✅</span><span>97% foram aprovadas seguindo o diagnóstico</span></div>
         <div class="land-check"><span class="land-check-icon">✅</span><span>Resultado personalizado em 2 minutos</span></div>
       </div>
-
-      <button class="land-btn" onclick="goTo('sc-1');trackFB('ViewContent',{content_name:'Quiz Started'})">
+      <button class="land-btn" onclick="S.quizStartTime=Date.now();goTo('sc-1');trackFB('ViewContent',{content_name:'Quiz Started'})">
         COMEÇAR ANÁLISE GRATUITA
       </button>
-
     </div>
   </div>
 </div>
@@ -341,92 +354,74 @@
 ══════════════════════════════════════════════════════ -->
 <div class="screen" id="sc-1">
   <div class="qwrap">
-    <h2 class="q-title">Qual é o seu objetivo principal agora?</h2>
-    <div class="opts">
-      <button class="opt-card" onclick="pick(1,'cartao')">Conseguir um cartão de crédito com limite alto</button>
-      <button class="opt-card" onclick="pick(1,'casa')">Financiar minha casa própria</button>
-      <button class="opt-card" onclick="pick(1,'carro')">Financiar meu carro</button>
-      <button class="opt-card" onclick="pick(1,'credito_pessoal')">Conseguir crédito pessoal ou empréstimo</button>
-    </div>
     <div class="prog-wrap">
       <div class="prog-track"><div class="prog-fill" style="width:14%"></div></div>
+    </div>
+    <h2 class="q-title">Qual é o seu objetivo principal agora?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(1,'cartao','sc-2')"><span class="opt-emoji">😊</span>Conseguir um cartão de crédito com limite alto</button>
+      <button class="opt-card" onclick="pick(1,'casa','sc-2')"><span class="opt-emoji">😊</span>Financiar minha casa própria</button>
+      <button class="opt-card" onclick="pick(1,'carro','sc-2')"><span class="opt-emoji">😁</span>Financiar meu carro</button>
+      <button class="opt-card" onclick="pick(1,'credito_pessoal','sc-2')"><span class="opt-emoji">😁</span>Conseguir crédito pessoal ou empréstimo</button>
     </div>
     <p class="hint">💡 Vamos personalizar seu diagnóstico baseado no seu objetivo</p>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     TELA 2 — Q2: NEGADO
+     TELA 2 — Q2: JÁ FOI NEGADO
 ══════════════════════════════════════════════════════ -->
 <div class="screen" id="sc-2">
   <div class="qwrap">
-    <h2 class="q-title">Você já tentou conseguir crédito e foi negado nos últimos 6 meses?</h2>
-    <div class="opts">
-      <button class="opt-card" onclick="pick(2,'negado_varias',-20)">Sim, fui negado várias vezes (e não entendo por quê)</button>
-      <button class="opt-card" onclick="pick(2,'negado_uma',-10)">Sim, fui negado uma vez (e fiquei sem saber o motivo)</button>
-      <button class="opt-card" onclick="pick(2,'nao_tentou',-5)">Não tentei ainda (com medo de ser negado)</button>
-      <button class="opt-card" onclick="pick(2,'nao_sabe',0)">Não sei se seria aprovado</button>
-    </div>
     <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" style="width:28%"></div></div>
+      <div class="prog-track"><div class="prog-fill" style="width:25%"></div></div>
     </div>
-    <p class="hint">⚠️ Cada tentativa negada PIORA seu score, você precisa saber ANTES de tentar</p>
+    <h2 class="q-title">Você já tentou conseguir crédito e foi negado nos últimos 6 meses?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(2,'negado_varias','sc-3',-20)"><span class="opt-emoji">😁</span>Sim, fui negado várias vezes (e não entendo por quê)</button>
+      <button class="opt-card" onclick="pick(2,'negado_uma','sc-3',-10)"><span class="opt-emoji">😁</span>Sim, fui negado uma vez (e fiquei sem saber o motivo)</button>
+      <button class="opt-card" onclick="pick(2,'nao_tentou','sc-3',-5)"><span class="opt-emoji">😊</span>Não tentei ainda (com medo de ser negado)</button>
+      <button class="opt-card" onclick="pick(2,'nao_sabe','sc-3',0)"><span class="opt-emoji">😊</span>Não sei se seria aprovado</button>
+    </div>
+    <p class="hint-alert">⚠️ Cada tentativa negada PIORA seu score, você precisa saber ANTES de tentar</p>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     TELA 3 — Q3: RATING BANCÁRIO
+     TELA 3 — Q3: RENDA / FATURAMENTO
 ══════════════════════════════════════════════════════ -->
 <div class="screen" id="sc-3">
   <div class="qwrap">
-    <h2 class="q-title">Você sabe o que é rating bancário?</h2>
-    <p class="q-sub">É diferente do score, é a classificação de A a E que os bancos usam</p>
-    <div class="opts">
-      <button class="opt-card" onclick="pick(3,'nao_sabe',-20)">Não sei o que é isso</button>
-      <button class="opt-card" onclick="pick(3,'ouviu',-10)">Já ouvi falar mas não sei como funciona</button>
-      <button class="opt-card" onclick="pick(3,'sabe_nunca',-5)">Sei o que é mas nunca consultei o meu</button>
-      <button class="opt-card" onclick="pick(3,'sabe_consultou',0)">Sei o que é e já consultei</button>
-    </div>
     <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" style="width:44%"></div></div>
+      <div class="prog-track"><div class="prog-fill" style="width:33%"></div></div>
     </div>
-    <p class="hint">💡 91% das pessoas não sabem que os bancos consultam seu RATING antes do score!</p>
+    <h2 class="q-title">Qual é a sua renda mensal aproximada?</h2>
+    <p class="q-sub">Essa informação define o valor máximo que você pode captar</p>
+    <div class="opts" style="margin-top:10px">
+      <button class="opt-card" onclick="pick(3,'ate3k','sc-cpf',-10)"><span class="opt-emoji">😊</span>Até R$ 3.000/mês</button>
+      <button class="opt-card" onclick="pick(3,'3a6k','sc-cpf',-5)"><span class="opt-emoji">😊</span>R$ 3.000 a R$ 6.000/mês</button>
+      <button class="opt-card" onclick="pick(3,'6a15k','sc-cpf',0)"><span class="opt-emoji">😁</span>R$ 6.000 a R$ 15.000/mês</button>
+      <button class="opt-card" onclick="pick(3,'15a30k','sc-cpf',0)"><span class="opt-emoji">😁</span>R$ 15.000 a R$ 30.000/mês</button>
+      <button class="opt-card" onclick="pick(3,'30kplus','sc-cpf',5)"><span class="opt-emoji">😁</span>Acima de R$ 30.000/mês</button>
+    </div>
+    <p class="hint">✅ Essa informação define o valor máximo que você pode captar</p>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     TELA 4 — Q4: SCR
+     TELA CPF — FORM CPF
 ══════════════════════════════════════════════════════ -->
-<div class="screen" id="sc-4">
-  <div class="qwrap">
-    <h2 class="q-title">Você já consultou seu SCR (Sistema de Informações de Crédito do Banco Central)?</h2>
-    <div class="opts">
-      <button class="opt-card" onclick="pick(4,'nao_sabe',-20)">Não sei o que é isso</button>
-      <button class="opt-card" onclick="pick(4,'sabe_nunca',-10)">Sei o que é, mas nunca consultei</button>
-      <button class="opt-card" onclick="pick(4,'consultou_limpo',0)">Já consultei e está limpo</button>
-      <button class="opt-card" onclick="pick(4,'consultou_pendencias',-25)">Já consultei e tem pendências</button>
-    </div>
-    <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" style="width:60%"></div></div>
-    </div>
-    <p class="hint">⚠️ CRÍTICO: O SCR guarda TODAS as suas operações de crédito dos últimos 5 anos, os bancos consultam isso ANTES de aprovar!</p>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     TELA 5 — FORM CPF
-══════════════════════════════════════════════════════ -->
-<div class="screen" id="sc-5">
+<div class="screen" id="sc-cpf">
   <div class="qwrap">
     <h2 class="form-title">Seu diagnóstico está quase pronto.</h2>
-    <p class="form-sub">Preencha com seus dados</p>
+    <p class="form-sub">Preencha com seu CPF</p>
     <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" style="width:78%"></div></div>
+      <div class="prog-track"><div class="prog-fill" style="width:40%"></div></div>
     </div>
     <div style="height:20px"></div>
     <div class="input-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <input type="text" id="f-cpf" placeholder="Digite seu CPF aqui" inputmode="numeric" maxlength="14" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <input type="text" id="f-cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14" />
     </div>
     <div class="field-error" id="err-cpf" style="display:none">campo obrigatório</div>
     <button class="cont-btn" onclick="submitCPF()">Continuar com diagnóstico</button>
@@ -434,28 +429,14 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     TELA 6 — LOADING
+     TELA DADOS — FORM NOME / TEL / EMAIL
 ══════════════════════════════════════════════════════ -->
-<div class="screen" id="sc-6">
-  <div class="loading-wrap">
-    <div class="loading-pct" id="load-pct-label">0%</div>
-    <div class="loading-prog-track">
-      <div class="loading-prog-fill" id="load-fill"></div>
-    </div>
-    <h2 class="loading-title">Analisando...</h2>
-    <p class="loading-sub">Estamos analisando suas respostas...</p>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════
-     TELA 7 — FORM NOME / TEL / EMAIL
-══════════════════════════════════════════════════════ -->
-<div class="screen" id="sc-7">
+<div class="screen" id="sc-dados">
   <div class="qwrap">
     <h2 class="form-title">Seu diagnóstico está quase pronto.</h2>
     <p class="form-sub">Preencha com seus dados</p>
     <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" style="width:89%"></div></div>
+      <div class="prog-track"><div class="prog-fill" style="width:45%"></div></div>
     </div>
     <div style="height:20px"></div>
     <div class="input-wrap">
@@ -464,23 +445,309 @@
     </div>
     <div class="field-error" id="err-nome" style="display:none">campo obrigatório</div>
     <div class="input-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <input type="tel" id="f-tel" placeholder="Digite seu telefone aqui" autocomplete="tel" inputmode="tel" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92V19a2 2 0 0 1-2 2A19 19 0 0 1 3 4a2 2 0 0 1 2-2h2.09a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91A16 16 0 0 0 14.09 16l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <input type="tel" id="f-tel" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="tel" />
     </div>
     <div class="field-error" id="err-tel" style="display:none">campo obrigatório</div>
     <div class="input-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <input type="email" id="f-email" placeholder="Digite seu e-mail aqui" autocomplete="email" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email" />
     </div>
     <div class="field-error" id="err-email" style="display:none">campo obrigatório</div>
-    <button class="cont-btn" onclick="submitLead()">Continuar com diagnóstico</button>
+    <button class="cont-btn" onclick="submitDados()">Continuar com diagnóstico</button>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
-     TELA 8 — RESULTADO FINAL
+     TELA WARN — AVISO: PERGUNTAS TÉCNICAS
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-warn">
+  <div class="warn-card">
+    <div class="prog-wrap" style="width:100%;max-width:420px;margin-bottom:24px">
+      <div class="prog-track"><div class="prog-fill" style="width:55%"></div></div>
+    </div>
+    <div class="warn-icon">⚠️</div>
+    <h2 class="warn-title" id="warn-name-title">As próximas perguntas são mais técnicas!</h2>
+    <p class="warn-sub">NÃO SE PREOCUPE se não souber responder!</p>
+    <p class="warn-text">A maioria das pessoas não sabe essas respostas — e exatamente por isso acabam tendo o crédito negado. O diagnóstico vai identificar o que precisa ser ajustado.</p>
+    <div class="warn-stat">📊 87% dos solicitantes não sabem essas respostas e são reprovados por isso</div>
+    <button class="cont-btn" style="width:100%;max-width:420px" onclick="goTo('sc-4')">Entendido, vou continuar</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 4 — Q4: RATING BANCÁRIO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-4">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:62%"></div></div>
+    </div>
+    <h2 class="q-title">Você sabe o que é rating bancário?</h2>
+    <p class="q-sub">É diferente do score — é a classificação de A a E que os bancos usam internamente</p>
+    <div class="opts" style="margin-top:10px">
+      <button class="opt-card" onclick="pick(4,'nao_sabe','sc-5',-20)"><span class="opt-emoji">😁</span>Não sei o que é isso</button>
+      <button class="opt-card" onclick="pick(4,'ouviu','sc-5',-10)"><span class="opt-emoji">😁</span>Já ouvi falar mas não sei como funciona</button>
+      <button class="opt-card" onclick="pick(4,'sabe_nunca','sc-5',-5)"><span class="opt-emoji">😊</span>Sei o que é mas nunca consultei o meu</button>
+      <button class="opt-card" onclick="pick(4,'sabe_consultou','sc-5',0)"><span class="opt-emoji">😊</span>Sei o que é e já consultei</button>
+    </div>
+    <p class="hint">💡 91% das pessoas não sabem que os bancos consultam o RATING antes do score!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 5 — Q5: SCR
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-5">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:68%"></div></div>
+    </div>
+    <h2 class="q-title">Você sabe qual é o seu SCR? (Sistema de Informações de Crédito do Banco Central)</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(5,'sim_limpo','sc-6',0)"><span class="opt-emoji">😊</span>Sim, conheço e está limpo</button>
+      <button class="opt-card" onclick="pick(5,'sim_restricoes','sc-6',-25)"><span class="opt-emoji">😁</span>Sim, conheço e tenho restrições</button>
+      <button class="opt-card" onclick="pick(5,'ouviu_nunca','sc-6',-10)"><span class="opt-emoji">😁</span>Já ouvi mas nunca consultei</button>
+      <button class="opt-card" onclick="pick(5,'nao_sabe','sc-6',-20)"><span class="opt-emoji">😁</span>Não sei o que é SCR</button>
+    </div>
+    <p class="hint-alert">⚠️ CRÍTICO: O SCR guarda TODAS as suas operações de crédito dos últimos 5 anos — os bancos consultam isso ANTES de aprovar!</p>
+    <p class="hint" style="margin-top:8px">💡 78% dos solicitantes nunca consultaram o próprio SCR!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 6 — Q6: SCORE SERASA
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-6">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:74%"></div></div>
+    </div>
+    <h2 class="q-title">Você sabe seu score de crédito atual?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(6,'nao_sabe','sc-7',-5)"><span class="opt-emoji">😁</span>Não sei / nunca consultei</button>
+      <button class="opt-card" onclick="pick(6,'acima700','sc-7',0)"><span class="opt-emoji">😊</span>Sim, está acima de 700 (bom)</button>
+      <button class="opt-card" onclick="pick(6,'entre300e700','sc-7',-10)"><span class="opt-emoji">😁</span>Sim, está entre 300 e 700 (médio)</button>
+      <button class="opt-card" onclick="pick(6,'abaixo300','sc-7',-20)"><span class="opt-emoji">😁</span>Sim, está abaixo de 300 (ruim)</button>
+    </div>
+    <p class="hint-warn">💡 ATENÇÃO: Score alto NÃO garante aprovação se o RATING/SCR estiver ruim!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 7 — Q7: NEGATIVAÇÕES CPF
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-7">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:80%"></div></div>
+    </div>
+    <h2 class="q-title">Seu CPF tem negativações ou dívidas ativas registradas?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(7,'nao_sabe','sc-8',-5)"><span class="opt-emoji">😁</span>Não sei / nunca consultei</button>
+      <button class="opt-card" onclick="pick(7,'nao_limpo','sc-8',0)"><span class="opt-emoji">😊</span>Não, cadastro limpo (mas mesmo assim fui negado)</button>
+      <button class="opt-card" onclick="pick(7,'sim_negativado','sc-8',-25)"><span class="opt-emoji">😁</span>Sim, tenho negativações ativas</button>
+      <button class="opt-card" onclick="pick(7,'regularizei','sc-8',-10)"><span class="opt-emoji">😁</span>Tive no passado mas já regularizei</button>
+    </div>
+    <p class="hint">💡 78% das dívidas podem ser renegociadas com até 90% de desconto — ou até eliminadas!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 8 — Q8: PROTESTOS / CARTÓRIO
 ══════════════════════════════════════════════════════ -->
 <div class="screen" id="sc-8">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:87%"></div></div>
+    </div>
+    <h2 class="q-title">Você tem protestos ou dívidas ativas em cartório registrados no seu nome?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(8,'nao_sabe','sc-9',-5)"><span class="opt-emoji">😁</span>Não sei / nunca consultei</button>
+      <button class="opt-card" onclick="pick(8,'nao_limpo','sc-9',0)"><span class="opt-emoji">😊</span>Não, cadastro limpo</button>
+      <button class="opt-card" onclick="pick(8,'sim_protestos','sc-9',-20)"><span class="opt-emoji">😁</span>Sim, tenho protestos / dívidas</button>
+      <button class="opt-card" onclick="pick(8,'regularizei','sc-9',-8)"><span class="opt-emoji">😁</span>Tive no passado mas já regularizei</button>
+    </div>
+    <p class="hint">💡 72% das dívidas podem ser removidas ou negociadas</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA 9 — Q9: URGÊNCIA / TEMPO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-9">
+  <div class="qwrap">
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" style="width:94%"></div></div>
+    </div>
+    <h2 class="q-title">Quanto tempo você tem para resolver sua situação de crédito?</h2>
+    <div class="opts" style="margin-top:20px">
+      <button class="opt-card" onclick="pick(9,'urgente','__load__',-5)"><span class="opt-emoji">😁</span>URGENTE — preciso resolver em até 30 dias</button>
+      <button class="opt-card" onclick="pick(9,'1a3meses','__load__',0)"><span class="opt-emoji">😊</span>Tenho de 1 a 3 meses</button>
+      <button class="opt-card" onclick="pick(9,'mais3meses','__load__',0)"><span class="opt-emoji">😁</span>Posso esperar mais de 3 meses</button>
+      <button class="opt-card" onclick="pick(9,'pesquisando','__load__',-5)"><span class="opt-emoji">😁</span>Só estou pesquisando, sem pressa</button>
+    </div>
+    <p class="hint-alert">⚠️ Quanto mais você espera, mais difícil fica. Pendências se acumulam e o rating piora.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA LOAD — LOADING (8s)
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-load">
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+    <div class="loading-pct" id="load-pct-label">0%</div>
+    <div class="loading-prog-track">
+      <div class="loading-prog-fill" id="load-fill"></div>
+    </div>
+    <h2 class="loading-title">Analisando...</h2>
+    <p class="loading-sub">Estamos analisando suas respostas...</p>
+    <div class="loading-steps">
+      <p class="loading-step" id="lstep-1">○ Verificando histórico de crédito...</p>
+      <p class="loading-step" id="lstep-2">○ Consultando dados do SCR...</p>
+      <p class="loading-step" id="lstep-3">○ Calculando potencial de aprovação...</p>
+      <p class="loading-step" id="lstep-4">○ Gerando diagnóstico personalizado...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA POT — POTENCIAL DE CRÉDITO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-pot">
+  <div class="pot-wrap">
+    <div class="pot-card">
+      <h2 class="pot-title">O CPF: <span id="pot-cpf"></span> tem potencial para acessar linhas de crédito acima de <span>R$100 mil</span></h2>
+
+      <p class="pot-gauge-lbl">Nível de aprovação no crédito</p>
+      <div class="pot-gauge-wrap">
+        <div class="pot-gauge-track">
+          <div class="pot-gauge-fill" id="pot-gauge-fill" style="width:58%">
+            <div class="pot-gauge-thumb" id="pot-gauge-thumb">58%</div>
+          </div>
+        </div>
+        <div class="pot-gauge-labels">
+          <span>0</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
+      </div>
+
+      <p class="pot-sub">Você só precisa de alguns ajustes antes de solicitar crédito ao banco ou um cartão de crédito</p>
+      <p class="pot-alert">Clique no botão abaixo e veja oque precisa ser feito</p>
+      <button class="pot-btn" onclick="goTo('sc-ger');trackFB('ViewContent',{content_name:'Potencial Visto'})">
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA GER — GERENTE DE CRÉDITO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-ger">
+  <div class="ger-wrap">
+    <h2 class="ger-title">Como você viu no seu pré-diagnóstico...</h2>
+    <p class="ger-sub">Seu CPF <b>TEM potencial</b> para conseguir crédito.</p>
+    <p style="font-size:14px;color:#334155;line-height:1.6;margin-bottom:8px">Mas existem <b>3 ajustes</b> que você precisa fazer antes.</p>
+    <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:8px">A maioria das pessoas pula essa parte e vai direto tentar...</p>
+    <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:8px">E é por isso que <b>78% são negadas mesmo tendo potencial.</b></p>
+    <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:4px">Reserve 2 minutos para entender esses 3 ajustes.</p>
+    <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:20px">Pode ser a diferença entre ser aprovado ou negado de novo.</p>
+
+    <p class="ger-lead">Se você tivesse um gerente de crédito que:</p>
+
+    <div class="ger-section">
+      <div class="ger-section-title">FAZ UMA ANÁLISE TÉCNICA:</div>
+      <img class="ger-img" src="https://cdn.xquiz.co/images/8a17bb13-7416-41dc-bfc0-1e74b3084c57" alt="Análise técnica" />
+      <ul class="ger-checklist">
+        <li>Consulta seu rating no Sistema Banco Central</li>
+        <li>Calcula potencial real de crédito (mín/máx)</li>
+        <li>Verifica pendências CPF (protestos, dívidas, restrições)</li>
+      </ul>
+    </div>
+
+    <div class="ger-section">
+      <div class="ger-section-title">ENTREGA UMA ESTRATÉGIA PERSONALIZADA:</div>
+      <img class="ger-img" src="https://cdn.xquiz.co/images/42109333-ffcb-4c00-8721-48d805738196" alt="Estratégia personalizada" />
+      <ul class="ger-checklist">
+        <li>Identifica linhas de crédito disponíveis</li>
+        <li>Ranqueia bancos por compatibilidade com seu perfil</li>
+        <li>Traça o melhor caminho para aprovação</li>
+      </ul>
+    </div>
+
+    <div class="ger-section">
+      <div class="ger-section-title">DAR TODO SUPORTE CONSULTIVO:</div>
+      <ul class="ger-checklist" style="margin-top:12px">
+        <li>Apresenta diagnóstico detalhado por escrito</li>
+        <li>Explica cada número do seu relatório ao vivo</li>
+        <li>Responde todas as suas dúvidas</li>
+        <li>Orienta os próximos passos com clareza</li>
+      </ul>
+    </div>
+
+    <div class="price-box">
+      <div class="price-box-icon">💰</div>
+      <div class="price-box-label">Diagnóstico de crédito</div>
+      <div class="price-box-label" style="margin-top:6px">Por apenas</div>
+      <div class="price-box-val">R$ 67,00</div>
+    </div>
+
+    <div class="decision-grid">
+      <button class="decision-yes" onclick="goToVSL()">😊 SIM, QUERO O DIAGNÓSTICO COMPLETO</button>
+      <button class="decision-no" onclick="trackFB('CustomEvent',{content_name:'Quiz Abandono Gerente'});goToResult(false)">😁 PREFIRO TENTAR SOZINHO E TER O CRÉDITO NEGADO</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA VSL — 3 COISAS + DEPOIMENTOS
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-vsl">
+  <div class="vsl-wrap">
+
+    <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px 20px;margin-bottom:16px;">
+      <h2 class="vsl-title">Você precisa saber dessas <span>3 coisas</span> antes de solicitar crédito</h2>
+      <div class="vsl-video">
+        <iframe
+          src="https://www.youtube.com/embed/OVlWtf5G30g?rel=0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px 20px;margin-bottom:16px;">
+      <p class="testimonials-title">Esses são alguns clientes que conseguiram ter acesso a crédito depois do diagnóstico</p>
+      <div class="testimonials-grid">
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/78fefcec-a595-47dd-9592-ef461d3eaecf" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/62cca517-831e-4026-9849-bfb97c3f1573" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/f25e1c19-71c4-41c6-be0a-ce206b62fc5e" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/38ebe08a-4f8f-4e15-b351-26ad6614c8fc" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/f12e2b3a-8113-4831-a407-cc52c21a9ef6" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/53687deb-e3e1-4be1-9758-b04e8faba45e" alt="Depoimento cliente" />
+        <img class="testimonial-img" src="https://cdn.xquiz.co/images/b38ab59b-05c7-4702-a285-2899a0e023fa" alt="Depoimento cliente" />
+      </div>
+
+      <div class="guarantee-bar">🛡️ Você recebe o relatório completo do seu CPF. Se achar que não valeu cada centavo, devolvemos 100% do seu dinheiro em até 7 dias.</div>
+
+      <p class="price-label" style="margin-top:16px">Diagnóstico de crédito</p>
+      <p class="price-label">Por apenas</p>
+      <p class="price-val">R$ 67,00</p>
+      <a class="checkout-btn" href="https://app.monetizze.com.br/checkout/DLF374307" target="_blank" onclick="trackCheckout()">
+        Solicitar meu diagnóstico
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TELA RESULT — RESULTADO FINAL
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="sc-result">
   <div class="result-wrap">
 
     <div class="result-card" style="text-align:center">
@@ -492,7 +759,6 @@
       <p class="result-sub">Com as correções certas, sua aprovação pode aumentar significativamente</p>
     </div>
 
-    <!-- Vídeo depoimento -->
     <div class="result-card">
       <p style="font-size:14px;font-weight:700;text-align:center;margin-bottom:14px">Veja quem já conseguiu crédito com o diagnóstico:</p>
       <div class="video-wrap">
@@ -503,12 +769,11 @@
       </div>
     </div>
 
-    <!-- Checkout -->
     <div class="result-card">
       <ul class="result-checklist">
         <li>Consulta seu rating no Sistema Banco Central</li>
         <li>Calcula potencial real de captação</li>
-        <li>Verifica pendências CNPJ e CPF</li>
+        <li>Verifica pendências de CPF</li>
         <li>Identifica bloqueios invisíveis no seu perfil</li>
         <li>Plano de ação personalizado para aprovação</li>
       </ul>
@@ -527,7 +792,7 @@
 
 <script>
 // ── State ───────────────────────────────────────────────────────
-const S = { cpf:'', nome:'', tel:'', email:'', score:0, answers:{} };
+const S = { cpf:'', nome:'', tel:'', email:'', score:0, answers:{}, quizStartTime:null, chegouResultado:false };
 
 // ── Navigate ────────────────────────────────────────────────────
 function goTo(id) {
@@ -536,40 +801,30 @@ function goTo(id) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── Quiz answer ─────────────────────────────────────────────────
-function pick(q, val, weight) {
+// ── Quiz pick ─────────────────────────────────────────────────
+function pick(q, val, next, weight) {
   S.answers['q'+q] = val;
-  if(weight) S.score += weight;
-  const next = {1:'sc-2',2:'sc-3',3:'sc-4',4:'sc-5'};
-  if(next[q]) goTo(next[q]);
+  if(typeof weight === 'number') S.score += weight;
+  if(next === '__load__') { startLoading(); return; }
+  if(next) goTo(next);
 }
 
-// ── CPF form ─────────────────────────────────────────────────────
+// ── CPF form ─────────────────────────────────────────────────
 function submitCPF() {
   const cpf = document.getElementById('f-cpf').value.trim();
-  const err = document.getElementById('err-cpf');
-  if(!cpf) { err.style.display='block'; document.getElementById('f-cpf').classList.add('err'); return; }
+  const err  = document.getElementById('err-cpf');
+  if(!cpf) {
+    err.style.display='block';
+    document.getElementById('f-cpf').classList.add('err');
+    return;
+  }
   err.style.display='none';
   S.cpf = cpf;
-  startLoading();
+  goTo('sc-dados');
 }
 
-// ── Loading ──────────────────────────────────────────────────────
-function startLoading() {
-  goTo('sc-6');
-  const fill = document.getElementById('load-fill');
-  const lbl  = document.getElementById('load-pct-label');
-  let pct = 0;
-  const iv = setInterval(() => {
-    pct = Math.min(pct + (Math.random() * 4 + 1), 89);
-    fill.style.width = pct.toFixed(0) + '%';
-    lbl.textContent  = pct.toFixed(0) + '%';
-    if(pct >= 89) { clearInterval(iv); setTimeout(() => goTo('sc-7'), 600); }
-  }, 150);
-}
-
-// ── Lead form ────────────────────────────────────────────────────
-function submitLead() {
+// ── Dados form ────────────────────────────────────────────────
+function submitDados() {
   const nome  = document.getElementById('f-nome').value.trim();
   const tel   = document.getElementById('f-tel').value.trim();
   const email = document.getElementById('f-email').value.trim();
@@ -579,61 +834,144 @@ function submitLead() {
     const valid = v && (fid!=='f-email' || v.includes('@'));
     document.getElementById(fid).classList.toggle('err',!valid);
     document.getElementById(eid).style.display = valid?'none':'block';
-    if(!valid) ok=false;
+    if(!valid) ok = false;
   });
   if(!ok) return;
 
   S.nome=nome; S.tel=tel; S.email=email;
 
-  // Pixel Lead
-  trackFB('Lead',{content_name:'Quiz Lead',value:97,currency:'BRL'});
+  // Personaliza aviso com primeiro nome
+  const firstName = nome.split(' ')[0];
+  document.getElementById('warn-name-title').textContent = firstName + ', as próximas perguntas são mais técnicas!';
 
-  // Send to backend
+  // Lead parcial (captura mesmo se abandonar)
+  trackFB('Lead',{content_name:'Quiz Lead',value:67,currency:'BRL'});
+  sendLead(false);
+
+  goTo('sc-warn');
+}
+
+// ── Loading 8s ────────────────────────────────────────────────
+function startLoading() {
+  goTo('sc-load');
+  const fill  = document.getElementById('load-fill');
+  const lbl   = document.getElementById('load-pct-label');
+  const steps = [
+    {id:'lstep-1', delay:800},
+    {id:'lstep-2', delay:2400},
+    {id:'lstep-3', delay:4600},
+    {id:'lstep-4', delay:6400},
+  ];
+  steps.forEach(s => setTimeout(() => {
+    document.getElementById(s.id).classList.add('done');
+  }, s.delay));
+
+  let pct = 0;
+  const iv = setInterval(() => {
+    pct = Math.min(pct + (Math.random()*2+.5), 95);
+    fill.style.width = pct.toFixed(0)+'%';
+    lbl.textContent  = pct.toFixed(0)+'%';
+    if(pct >= 95) {
+      clearInterval(iv);
+      fill.style.width='100%';
+      lbl.textContent='100%';
+      setTimeout(() => showPotencial(), 700);
+    }
+  }, 85);
+}
+
+// ── Show potencial ────────────────────────────────────────────
+function showPotencial() {
+  const base = 58;
+  const pct  = Math.max(22, Math.min(92, base + Math.round(S.score * .5)));
+  document.getElementById('pot-cpf').textContent  = S.cpf;
+  document.getElementById('res-pct').textContent  = pct+'%';
+  document.getElementById('res-cpf').textContent  = S.cpf;
+  goTo('sc-pot');
+  // Anima o gauge após render
+  setTimeout(() => {
+    const fill  = document.getElementById('pot-gauge-fill');
+    const thumb = document.getElementById('pot-gauge-thumb');
+    if(fill) fill.style.width = pct+'%';
+    if(thumb) thumb.textContent = pct+'%';
+  }, 100);
+}
+
+// ── Go to VSL (clicou SIM no gerente) ─────────────────────────
+function goToVSL() {
+  trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
+  const u = buildUTM();
+  const base = 'https://app.monetizze.com.br/checkout/DLF374307';
+  document.querySelectorAll('.checkout-btn').forEach(el => {
+    el.href = base + (u || '');
+  });
+  goTo('sc-vsl');
+}
+
+// ── Go to result ──────────────────────────────────────────────
+function goToResult(wantsYes) {
+  if(wantsYes) {
+    trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
+  }
+  const u = buildUTM();
+  const base = 'https://app.monetizze.com.br/checkout/DLF374307';
+  document.querySelectorAll('.checkout-btn').forEach(el => {
+    el.href = base + (u || '');
+  });
+  S.chegouResultado = true;
+  goTo('sc-result');
+  trackFB('ViewContent',{content_name:'Quiz Result',value:97,currency:'BRL'});
+}
+
+// ── Send lead to backend ──────────────────────────────────────
+function sendLead(isFinal) {
   const level = S.score<=-35?'critical':S.score<=-15?'attention':'preventive';
+  const tempoQuiz = S.quizStartTime ? Math.round((Date.now()-S.quizStartTime)/1000) : null;
   fetch('/api/quiz-lead',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
-      nome, whatsapp:tel.replace(/\D/g,''), email,
+      nome:S.nome, whatsapp:S.tel.replace(/\D/g,''), email:S.email,
       score:S.score, level, cpf:S.cpf,
-      source:'quiz_credpositivo',
+      source:'quiz_credpositivo', is_final:isFinal,
+      tempo_quiz:tempoQuiz, chegou_resultado:S.chegouResultado,
       url:location.href, utm:getUTM(),
       timestamp:new Date().toISOString()
     })
   }).catch(()=>{});
-
-  // Show result
-  const base = 58, pct = Math.max(22, Math.min(92, base + Math.round(S.score * .5)));
-  document.getElementById('res-pct').textContent = pct+'%';
-  document.getElementById('res-cpf').textContent = S.cpf;
-
-  // UTM on checkout
-  const u = buildUTM();
-  if(u) document.getElementById('checkout-link').href = 'https://app.monetizze.com.br/checkout/DLF374307'+u;
-
-  goTo('sc-8');
-  trackFB('ViewContent',{content_name:'Quiz Result',value:97,currency:'BRL'});
 }
 
-// ── Tracking ──────────────────────────────────────────────────────
+// ── Tracking ──────────────────────────────────────────────────
 function trackFB(ev,p){try{if(typeof fbq==='function')fbq('track',ev,p||{});}catch(e){}}
-function trackCheckout(){trackFB('InitiateCheckout',{value:97,currency:'BRL'});}
+function trackCheckout(){
+  trackFB('InitiateCheckout',{value:67,currency:'BRL'});
+  sendLead(true);
+}
 
-// ── UTM ───────────────────────────────────────────────────────────
-function getUTM(){const p=new URLSearchParams(location.search);return{source:p.get('utm_source')||'',medium:p.get('utm_medium')||'',campaign:p.get('utm_campaign')||''};}
-function buildUTM(){const u=getUTM();const parts=Object.entries(u).filter(([,v])=>v).map(([k,v])=>`utm_${k}=${encodeURIComponent(v)}`);return parts.length?'?'+parts.join('&'):'';}
+// ── UTM ───────────────────────────────────────────────────────
+function getUTM(){
+  const p=new URLSearchParams(location.search);
+  return{source:p.get('utm_source')||'',medium:p.get('utm_medium')||'',campaign:p.get('utm_campaign')||''};
+}
+function buildUTM(){
+  const u=getUTM();
+  const parts=Object.entries(u).filter(([,v])=>v).map(([k,v])=>`utm_${k}=${encodeURIComponent(v)}`);
+  return parts.length?'?'+parts.join('&'):'';
+}
 
-// ── Masks ─────────────────────────────────────────────────────────
+// ── Masks ─────────────────────────────────────────────────────
 document.getElementById('f-cpf').addEventListener('input',function(){
   let v=this.value.replace(/\D/g,'').slice(0,11);
-  v=v.replace(/^(\d{3})(\d)/,'$1.$2').replace(/^(\d{3}\.\d{3})(\d)/,'$1.$2').replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/,'$1-$2');
+  v=v.replace(/^(\d{3})(\d)/,'$1.$2')
+     .replace(/^(\d{3}\.\d{3})(\d)/,'$1.$2')
+     .replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/,'$1-$2');
   this.value=v;
 });
 document.getElementById('f-tel').addEventListener('input',function(){
   let v=this.value.replace(/\D/g,'').slice(0,11);
-  if(v.length>7)this.value='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
-  else if(v.length>2)this.value='('+v.slice(0,2)+') '+v.slice(2);
-  else if(v.length>0)this.value='('+v;
+  if(v.length>7) this.value='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if(v.length>2) this.value='('+v.slice(0,2)+') '+v.slice(2);
+  else if(v.length>0) this.value='('+v;
 });
 </script>
 
