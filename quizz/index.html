@@ -307,6 +307,13 @@
     .vsl-sub{font-size:13px;color:#64748b;text-align:center;margin-bottom:16px;line-height:1.5}
     .vsl-video{width:100%;max-width:360px;margin:0 auto 20px;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
     .vsl-video iframe{display:block;width:100%;aspect-ratio:9/16;border:none;}
+    .yt-facade{position:relative;width:100%;aspect-ratio:9/16;cursor:pointer;border-radius:12px;overflow:hidden;background:#000;}
+    .yt-facade img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+    .yt-facade:hover img{transform:scale(1.02);}
+    .yt-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+    .yt-play svg{width:72px;height:72px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));transition:transform .2s;}
+    .yt-facade:hover .yt-play svg{transform:scale(1.1);}
+    .yt-facade iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 
     /* Testimonial screenshots */
     .testimonials-title{font-size:14px;font-weight:700;text-align:center;margin:16px 0 12px;color:#020617;}
@@ -711,12 +718,15 @@
     <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px 20px;margin-bottom:16px;">
       <h2 class="vsl-title">Você precisa saber dessas <span>3 coisas</span> antes de solicitar crédito</h2>
       <div class="vsl-video">
-        <iframe
-          src="https://www.youtube.com/embed/OVlWtf5G30g?rel=0&vq=hd1080&modestbranding=1"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="eager">
-        </iframe>
+        <div class="yt-facade" id="yt-facade" onclick="loadYT()">
+          <img src="https://img.youtube.com/vi/OVlWtf5G30g/maxresdefault.jpg" alt="Vídeo diagnóstico de crédito"/>
+          <div class="yt-play">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M66.5 7.7c-.8-2.9-3-5.2-5.9-6C55.8 0 34 0 34 0S12.2 0 7.4 1.7c-2.9.8-5.1 3.1-5.9 6C0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.2 5.9 6C12.2 48 34 48 34 48s21.8 0 26.6-1.7c2.9-.8 5.1-3.1 5.9-6C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="red"/>
+              <path d="M27 34l18-10-18-10v20z" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -940,6 +950,19 @@ function sendLead(isFinal) {
       timestamp:new Date().toISOString()
     })
   }).catch(()=>{});
+}
+
+// ── YouTube facade (carrega iframe só ao clicar) ──────────────
+function loadYT() {
+  const el = document.getElementById('yt-facade');
+  if (!el || el.dataset.loaded) return;
+  el.dataset.loaded = '1';
+  const iframe = document.createElement('iframe');
+  iframe.src = 'https://www.youtube.com/embed/OVlWtf5G30g?rel=0&autoplay=1&vq=hd1080&modestbranding=1';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  el.innerHTML = '';
+  el.appendChild(iframe);
 }
 
 // ── Tracking ──────────────────────────────────────────────────
