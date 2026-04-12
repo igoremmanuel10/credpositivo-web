@@ -231,11 +231,12 @@
               <th>Viu resultado</th>
               <th>Checkout</th>
               <th>Email</th>
+              <th>Disparo</th>
               <th>Horário</th>
             </tr>
           </thead>
           <tbody id="leads-body">
-            <tr class="loading-row"><td colspan="10"><span class="spinner"></span>Carregando…</td></tr>
+            <tr class="loading-row"><td colspan="11"><span class="spinner"></span>Carregando…</td></tr>
           </tbody>
         </table>
       </div>
@@ -382,7 +383,7 @@ function waLink(l) {
     : 'Preventivo — você está num bom caminho';
 
   const msg =
-    `Oi ${firstName}, tudo bem? Aqui é o Pedro da CredPositivo.\n\n` +
+    `Oi ${firstName}, tudo bem? Aqui é o Igor da CredPositivo.\n\n` +
     `Vi que você fez nosso diagnóstico de crédito e seu resultado foi: *${nivelMsg}*.\n\n` +
     `Queria entender melhor sua situação e ver como a gente pode te ajudar a destravar seu crédito. Tem 2 minutinhos?`;
 
@@ -395,7 +396,7 @@ function renderTable(leads) {
   document.getElementById('tbl-count').textContent = ` — ${leads.length} registro${leads.length !== 1 ? 's' : ''}`;
 
   if (!leads.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty">Nenhum lead encontrado.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="11" class="empty">Nenhum lead encontrado.</td></tr>';
     return;
   }
 
@@ -437,9 +438,46 @@ function renderTable(leads) {
       <td>${l.chegou_resultado ? '<span class="check-yes">✓</span>' : '<span class="check-no">—</span>'}</td>
       <td>${l.is_final ? '<span class="check-yes">✓</span>' : '<span class="check-no">—</span>'}</td>
       <td>${l.funnel_enqueued ? '<span class="check-yes">✓</span>' : '<span class="check-no">—</span>'}</td>
+      <td>${renderDispatchCell(l)}</td>
       <td class="time-cell">${hora}</td>
     </tr>`;
   }).join('');
+}
+
+// ── Dispatch status cell (novo | enviando | enviado | respondeu | erro | parado | optout | invalido) ──
+const DISPATCH_STYLE = {
+  novo:      { label: 'Novo',       bg: '#eff6ff', fg: '#1e40af' },
+  enviando:  { label: 'Enviando…',  bg: '#fef3c7', fg: '#92400e' },
+  enviado:   { label: 'Enviado',    bg: '#ecfdf5', fg: '#065f46' },
+  respondeu: { label: 'Respondeu',  bg: '#dcfce7', fg: '#14532d' },
+  erro:      { label: 'Erro',       bg: '#fee2e2', fg: '#991b1b' },
+  parado:    { label: 'Pausado',    bg: '#f3f4f6', fg: '#374151' },
+  optout:    { label: 'Opt-out',    bg: '#fee2e2', fg: '#7f1d1d' },
+  invalido:  { label: 'Inválido',   bg: '#f3f4f6', fg: '#6b7280' },
+};
+function renderDispatchCell(l) {
+  const s = l.wa_dispatch_status || 'novo';
+  const st = DISPATCH_STYLE[s] || { label: s, bg: '#f3f4f6', fg: '#374151' };
+  const id = l.id;
+  let action = '';
+  if (s === 'novo') {
+    action = `<button class="btn-wa" style="background:#fef2f2;color:#991b1b" onclick="setDispatchStatus(${id},'parado')">pausar</button>`;
+  } else if (s === 'parado' || s === 'erro') {
+    action = `<button class="btn-wa" style="background:#ecfdf5;color:#065f46" onclick="setDispatchStatus(${id},'novo')">retomar</button>`;
+  }
+  const badge = `<span style="display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;background:${st.bg};color:${st.fg}">${st.label}</span>`;
+  return `<div style="display:flex;align-items:center;gap:6px">${badge}${action}</div>`;
+}
+async function setDispatchStatus(id, status) {
+  try {
+    const r = await fetch(`${API}/api/quiz-leads/${id}/dispatch-status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+      body: JSON.stringify({ status }),
+    });
+    if (!r.ok) { alert('Falha ao atualizar status'); return; }
+    loadData();
+  } catch (e) { alert('Erro: ' + e.message); }
 }
 
 // ── Helpers ───────────────────────────────────────────────────
