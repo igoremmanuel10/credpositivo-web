@@ -699,7 +699,7 @@
       <div class="price-box-icon">💰</div>
       <div class="price-box-label">Diagnóstico de crédito</div>
       <div class="price-box-label" style="margin-top:6px">Por apenas</div>
-      <div class="price-box-val">R$ 67,00</div>
+      <div class="price-box-val">R$ 97,00</div>
     </div>
 
     <div class="decision-grid">
@@ -746,8 +746,8 @@
 
       <p class="price-label" style="margin-top:16px">Diagnóstico de crédito</p>
       <p class="price-label">Por apenas</p>
-      <p class="price-val">R$ 67,00</p>
-      <a class="checkout-btn" href="https://app.monetizze.com.br/checkout/DNF374954" target="_blank" onclick="trackCheckout()">
+      <p class="price-val">R$ 97,00</p>
+      <a class="checkout-btn" href="https://pay.monetizze.com.br/KCV457934" target="_blank" onclick="trackCheckout()">
         Solicitar meu diagnóstico
       </a>
     </div>
@@ -792,7 +792,7 @@
       <p class="price-strike">De R$ 297,00</p>
       <p class="price-val">R$ 97,00</p>
       <p class="price-note">de investimento em crédito</p>
-      <a class="checkout-btn" id="checkout-link" href="https://app.monetizze.com.br/checkout/DNF374954" target="_blank" onclick="trackCheckout()">
+      <a class="checkout-btn" id="checkout-link" href="https://pay.monetizze.com.br/KCV457934" target="_blank" onclick="trackCheckout()">
         Solicitar meu diagnóstico
       </a>
       <p class="guarantee">Relatório completo do seu CPF. Se não valer, devolvemos 100% em até 7 dias.</p>
@@ -856,7 +856,7 @@ function submitDados() {
   document.getElementById('warn-name-title').textContent = firstName + ', as próximas perguntas são mais técnicas!';
 
   // Lead parcial (captura mesmo se abandonar)
-  trackFB('Lead',{content_name:'Quiz Lead',value:67,currency:'BRL'});
+  trackFB('Lead',{content_name:'Quiz Lead',value:97,currency:'BRL'});
   sendLead(false);
 
   goTo('sc-warn');
@@ -910,9 +910,9 @@ function showPotencial() {
 
 // ── Go to VSL (clicou SIM no gerente) ─────────────────────────
 function goToVSL() {
-  trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
+  trackFB('AddToCart',{value:97,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
   const u = buildUTM();
-  const base = 'https://app.monetizze.com.br/checkout/DNF374954';
+  const base = 'https://pay.monetizze.com.br/KCV457934';
   document.querySelectorAll('.checkout-btn').forEach(el => {
     el.href = base + (u || '');
   });
@@ -922,10 +922,10 @@ function goToVSL() {
 // ── Go to result ──────────────────────────────────────────────
 function goToResult(wantsYes) {
   if(wantsYes) {
-    trackFB('AddToCart',{value:67,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
+    trackFB('AddToCart',{value:97,currency:'BRL',content_name:'Diagnóstico CredPositivo'});
   }
   const u = buildUTM();
-  const base = 'https://app.monetizze.com.br/checkout/DNF374954';
+  const base = 'https://pay.monetizze.com.br/KCV457934';
   document.querySelectorAll('.checkout-btn').forEach(el => {
     el.href = base + (u || '');
   });
@@ -968,7 +968,7 @@ function loadYT() {
 // ── Tracking ──────────────────────────────────────────────────
 function trackFB(ev,p){try{if(typeof fbq==='function')fbq('track',ev,p||{});}catch(e){}}
 function trackCheckout(){
-  trackFB('InitiateCheckout',{value:67,currency:'BRL'});
+  trackFB('InitiateCheckout',{value:97,currency:'BRL'});
   sendLead(true);
 }
 
