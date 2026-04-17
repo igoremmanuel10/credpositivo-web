@@ -868,7 +868,8 @@
 
             async function fetchAndSaveDoc(doc) {
                 const sep = doc.url.includes('?') ? '&' : '?';
-                const res = await fetch(doc.url + sep + 'download=1', { credentials: 'include' });
+                const url = doc.url + sep + 'download=1&_t=' + Date.now();
+                const res = await fetch(url, { credentials: 'include', cache: 'no-store' });
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 const blob = await res.blob();
                 const blobUrl = URL.createObjectURL(blob);
@@ -889,11 +890,58 @@
                 catch (err) { console.error('Download falhou:', err); alert('Erro ao baixar: ' + err.message); }
             }
 
+            async function loadJSZip() {
+                if (window.JSZip) return window.JSZip;
+                await new Promise((resolve, reject) => {
+                    const s = document.createElement('script');
+                    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                    s.onload = resolve;
+                    s.onerror = () => reject(new Error('JSZip load failed'));
+                    document.head.appendChild(s);
+                });
+                return window.JSZip;
+            }
+
             window.downloadAllDocs = async function() {
                 const docs = window._currentDocs || [];
-                for (const doc of docs) {
-                    try { await fetchAndSaveDoc(doc); }
-                    catch (err) { console.error('Falhou ' + doc.nome + ':', err); }
+                if (docs.length === 0) return;
+                const btn = event && event.currentTarget;
+                const origHTML = btn ? btn.innerHTML : '';
+                try {
+                    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="ph ph-spinner"></i> Baixando...'; }
+                    const JSZip = await loadJSZip();
+                    const zip = new JSZip();
+                    const usedNames = new Set();
+                    await Promise.all(docs.map(async (doc) => {
+                        const sep = doc.url.includes('?') ? '&' : '?';
+                        const url = doc.url + sep + 'download=1&_t=' + Date.now();
+                        const res = await fetch(url, { credentials: 'include', cache: 'no-store' });
+                        if (!res.ok) throw new Error(doc.nome + ': HTTP ' + res.status);
+                        const blob = await res.blob();
+                        let name = doc.nome || 'arquivo';
+                        let i = 1;
+                        while (usedNames.has(name)) {
+                            const dot = name.lastIndexOf('.');
+                            name = dot > 0 ? name.slice(0, dot) + '_' + i + name.slice(dot) : name + '_' + i;
+                            i++;
+                        }
+                        usedNames.add(name);
+                        zip.file(name, blob);
+                    }));
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+                    const blobUrl = URL.createObjectURL(zipBlob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = 'documentos.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                } catch (err) {
+                    console.error('Erro ao baixar todos:', err);
+                    alert('Erro ao baixar: ' + err.message);
+                } finally {
+                    if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
                 }
             }
 
