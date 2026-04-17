@@ -851,7 +851,7 @@
                         html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + doc.nome + '</div>';
                         html += '<div style="font-size:11px;color:var(--color-text-muted);">' + doc.tipo + ' | ' + sizeStr + ' | ' + dateStr + '</div></div>';
                         html += '<a href="' + doc.url + '" target="_blank" style="color:#60A5FA;font-size:20px;"><i class="ph ph-eye"></i></a>';
-                        html += '<a href="' + doc.url + '" download style="color:#22C55E;font-size:20px;"><i class="ph ph-download-simple"></i></a>';
+                        html += '<a href="#" onclick="downloadOneDoc(' + i + ');return false;" style="color:#22C55E;font-size:20px;"><i class="ph ph-download-simple"></i></a>';
                         html += '</div>';
                     });
 
@@ -866,19 +866,35 @@
                 }
             }
 
-            window.downloadAllDocs = function() {
+            async function fetchAndSaveDoc(doc) {
+                const sep = doc.url.includes('?') ? '&' : '?';
+                const res = await fetch(doc.url + sep + 'download=1', { credentials: 'include' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const blob = await res.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = doc.nome;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+            }
+
+            window.downloadOneDoc = async function(i) {
                 const docs = window._currentDocs || [];
-                docs.forEach((doc, i) => {
-                    setTimeout(() => {
-                        const a = document.createElement('a');
-                        a.href = doc.url;
-                        a.download = doc.nome;
-                        a.target = '_blank';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    }, i * 500);
-                });
+                const doc = docs[i];
+                if (!doc) return;
+                try { await fetchAndSaveDoc(doc); }
+                catch (err) { console.error('Download falhou:', err); alert('Erro ao baixar: ' + err.message); }
+            }
+
+            window.downloadAllDocs = async function() {
+                const docs = window._currentDocs || [];
+                for (const doc of docs) {
+                    try { await fetchAndSaveDoc(doc); }
+                    catch (err) { console.error('Falhou ' + doc.nome + ':', err); }
+                }
             }
 
             window.uploadDiagnostico = async function(orderId) {
